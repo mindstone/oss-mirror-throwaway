@@ -1,0 +1,367 @@
+.dialogContent {
+  display: flex;
+  flex-direction: column;
+  max-height: 88vh;
+  overflow: visible;
+}
+
+.header {
+  gap: 10px;
+}
+
+.title {
+  font-size: 1.05rem;
+  line-height: 1.35;
+}
+
+.headerMeta {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  flex-wrap: wrap;
+}
+
+.sourceBadge {
+  display: inline-flex;
+  align-items: center;
+  max-width: 260px;
+  padding: 3px 10px;
+  border-radius: 999px;
+  border: 1px solid rgba(99, 102, 241, 0.28);
+  background: rgba(99, 102, 241, 0.12);
+  color: rgba(199, 210, 254, 0.98);
+  font-size: 0.72rem;
+  font-weight: 600;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.sourceBadgeButton {
+  cursor: pointer;
+  transition: background 0.15s ease, border-color 0.15s ease;
+}
+
+.sourceBadgeButton:hover {
+  background: rgba(99, 102, 241, 0.18);
+  border-color: rgba(129, 140, 248, 0.45);
+}
+
+.timestamp {
+  font-size: 0.75rem;
+  color: rgba(148, 163, 184, 0.75);
+}
+
+.tagsRow {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 4px;
+  min-height: 24px;
+}
+
+.tagPill {
+  display: inline-flex;
+  align-items: center;
+  gap: 3px;
+  font-size: 0.7rem;
+  color: rgba(148, 163, 184, 0.9);
+  background: rgba(148, 163, 184, 0.12);
+  border-radius: 4px;
+  padding: 2px 8px;
+  font-weight: 500;
+  white-space: nowrap;
+}
+
+.tagRemoveButton {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  border: none;
+  background: transparent;
+  color: rgba(148, 163, 184, 0.5);
+  cursor: pointer;
+  font-size: 0.85rem;
+  line-height: 1;
+  padding: 0 1px;
+  transition: color 0.15s ease;
+}
+
+.tagRemoveButton:hover {
+  color: rgba(248, 113, 113, 0.9);
+}
+
+.tagInput {
+  border: none;
+  background: transparent;
+  color: rgba(248, 250, 255, 0.95);
+  font-size: 0.7rem;
+  outline: none;
+  min-width: 60px;
+  max-width: 120px;
+  padding: 2px 4px;
+}
+
+.tagInput::placeholder {
+  color: rgba(148, 163, 184, 0.4);
+}
+
+.body {
+  flex: 1;
+  min-height: 0;
+  margin-top: 14px;
+  overflow-y: auto;
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+  padding-right: 2px;
+}
+
+.section {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.sectionTitle {
+  margin: 0;
+  font-size: 0.76rem;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+  font-weight: 700;
+  color: rgba(148, 163, 184, 0.78);
+}
+
+.markdownContent :global(.markdown-body) {
+  font-size: 0.92rem;
+  line-height: 1.55;
+  color: rgba(241, 245, 249, 0.96);
+}
+
+.markdownContent :global(.markdown-body) p {
+  margin: 0 0 0.5em;
+  color: inherit;
+}
+
+.markdownContent :global(.markdown-body) p:last-child {
+  margin-bottom: 0;
+}
+
+.markdownContent :global(.markdown-body) li {
+  color: rgba(241, 245, 249, 0.92);
+}
+
+.markdownContent :global(.markdown-body) strong {
+  color: rgba(248, 250, 255, 0.98);
+}
+
+.clarifyingQuestion {
+  padding: 10px 12px;
+  border-radius: 10px;
+  background: rgba(99, 102, 241, 0.1);
+  border: 1px solid rgba(99, 102, 241, 0.2);
+}
+
+.draftContent {
+  margin: 0;
+  padding: 12px;
+  border-radius: 10px;
+  border: 1px solid rgba(148, 163, 184, 0.2);
+  background: rgba(15, 23, 42, 0.42);
+  overflow-y: auto;
+  max-height: 260px;
+}
+
+.draftContent :global(.markdown-body) {
+  font-size: 0.9rem;
+  line-height: 1.55;
+  color: rgba(226, 232, 240, 0.95);
+}
+
+.draftContent :global(.markdown-body) p {
+  margin: 0 0 0.5em;
+  color: inherit;
+}
+
+.draftContent :global(.markdown-body) p:last-child {
+  margin-bottom: 0;
+}
+
+.draftContent :global(.markdown-body) li {
+  color: rgba(226, 232, 240, 0.9);
+}
+
+.references {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
+.referenceChip {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 5px 10px;
+  border-radius: 999px;
+  border: none;
+  font-size: 0.76rem;
+  line-height: 1;
+  font-weight: 500;
+  max-width: 300px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.referenceChipWorkspace {
+  background: rgba(34, 197, 94, 0.14);
+  color: #86efac;
+}
+
+.referenceChipUrl {
+  background: rgba(59, 130, 246, 0.14);
+  color: #93c5fd;
+}
+
+button.referenceChip {
+  cursor: pointer;
+  transition: filter 0.15s ease;
+}
+
+button.referenceChip:hover {
+  filter: brightness(1.1);
+}
+
+.referenceChipDisabled {
+  opacity: 0.7;
+}
+
+.composerSection {
+  position: relative;
+  margin-top: 12px;
+  padding-top: 14px;
+  border-top: 1px solid rgba(148, 163, 184, 0.16);
+}
+
+.composerRow {
+  display: flex;
+  align-items: flex-end;
+  gap: 8px;
+}
+
+.composerActions {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.secondaryActions {
+  display: flex;
+  align-items: center;
+  gap: 2px;
+  margin-right: 4px;
+  padding-right: 8px;
+  border-right: 1px solid rgba(148, 163, 184, 0.16);
+}
+
+.spinner {
+  animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+  from {
+    transform: rotate(0deg);
+  }
+
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+:global(body.light) .sourceBadge {
+  background: color-mix(in srgb, var(--color-primary) 10%, transparent);
+  border-color: color-mix(in srgb, var(--color-primary) 26%, transparent);
+  color: var(--color-primary);
+}
+
+:global(body.light) .sourceBadgeButton:hover {
+  background: color-mix(in srgb, var(--color-primary) 14%, transparent);
+}
+
+:global(body.light) .tagPill {
+  color: var(--color-muted-foreground);
+  background: var(--color-muted);
+}
+
+:global(body.light) .tagRemoveButton {
+  color: var(--color-muted-foreground);
+}
+
+:global(body.light) .tagRemoveButton:hover {
+  color: #EF4444;
+}
+
+:global(body.light) .tagInput {
+  color: var(--color-foreground);
+}
+
+:global(body.light) .tagInput::placeholder {
+  color: var(--color-muted-foreground);
+}
+
+:global(body.light) .timestamp {
+  color: var(--color-muted-foreground);
+}
+
+:global(body.light) .sectionTitle {
+  color: var(--color-muted-foreground);
+}
+
+:global(body.light) .markdownContent :global(.markdown-body) {
+  color: var(--color-foreground);
+}
+
+:global(body.light) .markdownContent :global(.markdown-body) li {
+  color: var(--color-foreground);
+}
+
+:global(body.light) .markdownContent :global(.markdown-body) strong {
+  color: var(--color-foreground);
+}
+
+:global(body.light) .clarifyingQuestion {
+  background: color-mix(in srgb, var(--color-primary) 6%, white);
+  border-color: color-mix(in srgb, var(--color-primary) 18%, transparent);
+}
+
+:global(body.light) .draftContent {
+  background: rgba(255, 255, 255, 0.88);
+  border-color: var(--color-border);
+}
+
+:global(body.light) .draftContent :global(.markdown-body) {
+  color: var(--color-foreground);
+}
+
+:global(body.light) .draftContent :global(.markdown-body) li {
+  color: var(--color-foreground);
+}
+
+:global(body.light) .referenceChipWorkspace {
+  background: rgba(34, 197, 94, 0.12);
+  color: #166534;
+}
+
+:global(body.light) .referenceChipUrl {
+  background: rgba(59, 130, 246, 0.12);
+  color: #1d4ed8;
+}
+
+:global(body.light) .composerSection {
+  border-top-color: var(--color-border);
+}
+
+:global(body.light) .secondaryActions {
+  border-right-color: var(--color-border);
+}
+

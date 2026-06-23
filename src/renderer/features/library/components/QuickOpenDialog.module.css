@@ -1,0 +1,215 @@
+.content {
+  padding: 0;
+  overflow: hidden;
+}
+
+.searchWrapper {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 16px;
+  border-bottom: 1px solid var(--color-border);
+}
+
+.searchIcon {
+  flex-shrink: 0;
+  color: var(--color-muted-foreground);
+}
+
+.searchInput {
+  flex: 1;
+  border: none !important;
+  background: transparent !important;
+  font-size: 1rem;
+  color: var(--color-foreground);
+  outline: none;
+  box-shadow: none !important;
+}
+
+.searchInput:focus {
+  border-color: transparent !important;
+  box-shadow: none !important;
+}
+
+.searchInput::placeholder {
+  color: var(--color-muted-foreground);
+}
+
+.shortcut {
+  flex-shrink: 0;
+  padding: 2px 6px;
+  font-size: 0.75rem;
+  font-family: inherit;
+  background: var(--color-muted);
+  color: var(--color-muted-foreground);
+  border-radius: 4px;
+  border: 1px solid var(--color-border);
+}
+
+/* Filter tabs (All / Skills / Memory) */
+.filterTabs {
+  display: flex;
+  gap: 6px;
+  padding: 0 16px 12px;
+}
+
+.filterTab {
+  padding: 5px 12px;
+  background: transparent;
+  border: 1px solid var(--color-border);
+  border-radius: 16px;
+  color: var(--color-muted-foreground);
+  font-size: 0.75rem;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.15s ease;
+}
+
+.filterTab:hover {
+  border-color: var(--color-ring);
+  color: var(--color-foreground);
+}
+
+.filterTabActive {
+  background: var(--color-accent);
+  border-color: var(--color-ring);
+  color: var(--color-foreground);
+}
+
+.resultsList {
+  list-style: none;
+  margin: 0;
+  padding: 8px;
+  max-height: 400px;
+  overflow-y: auto;
+}
+
+.emptyState {
+  padding: 32px 16px;
+  text-align: center;
+  color: var(--color-muted-foreground);
+  font-size: 0.875rem;
+}
+
+.emptyStateHint {
+  display: block;
+  margin-top: 8px;
+  font-size: 0.75rem;
+  color: var(--color-muted-foreground);
+}
+
+.resultsTruncationHint {
+  padding: 8px 12px 4px;
+  font-size: 0.75rem;
+  color: var(--color-muted-foreground);
+}
+
+.sectionHeader {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  padding: 6px 12px 4px;
+  font-size: 0.7rem;
+  font-weight: 600;
+  color: var(--color-muted-foreground);
+  text-transform: uppercase;
+  letter-spacing: 0.03em;
+}
+
+.sectionHeaderWithGap {
+  margin-top: 12px;
+  padding-top: 12px;
+  border-top: 1px solid var(--color-border);
+}
+
+.clearButton {
+  flex-shrink: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 20px;
+  height: 20px;
+  padding: 0;
+  background: var(--color-muted);
+  border: none;
+  border-radius: 50%;
+  color: var(--color-muted-foreground);
+  cursor: pointer;
+  transition: all 0.15s ease;
+}
+
+.clearButton:hover {
+  background: var(--color-accent);
+  color: var(--color-foreground);
+}
+
+.resultItem {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 10px 12px;
+  border-radius: 6px;
+  cursor: pointer;
+  transition: background 0.1s ease;
+}
+
+.resultItem:hover {
+  background: var(--color-accent);
+}
+
+.resultItemSelected {
+  background: var(--color-accent);
+}
+
+.resultIcon {
+  flex-shrink: 0;
+  color: var(--color-muted-foreground);
+}
+
+.resultName {
+  flex-shrink: 0;
+  font-weight: 500;
+  color: var(--color-foreground);
+}
+
+.resultName mark {
+  background: rgba(139, 92, 246, 0.3);
+  color: inherit;
+  border-radius: 2px;
+  padding: 0 1px;
+}
+
+.resultPath {
+  flex: 1;
+  font-size: 0.8rem;
+  color: var(--color-muted-foreground);
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  text-align: right;
+}
+
+.footer {
+  display: flex;
+  gap: 16px;
+  padding: 10px 16px;
+  border-top: 1px solid var(--color-border);
+  background: var(--color-muted);
+}
+
+.footerHint {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  font-size: 0.75rem;
+  color: var(--color-muted-foreground);
+}
+
+.footerHint kbd {
+  padding: 2px 5px;
+  font-size: 0.7rem;
+  font-family: inherit;
+  background: var(--color-background);
+  border-radius: 3px;
+  border: 1px solid var(--color-border);
+}

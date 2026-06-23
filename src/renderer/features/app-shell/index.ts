@@ -1,0 +1,1 @@
+export { SurfaceErrorBoundary } from './components';

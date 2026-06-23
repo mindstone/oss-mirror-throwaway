@@ -1,0 +1,94 @@
+.container {
+  margin-top: var(--space-3, 12px);
+}
+
+.row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-2);
+  align-items: flex-start;
+}
+
+.rowLarge {
+  gap: var(--space-3);
+}
+
+.singleRow {
+  flex-wrap: nowrap;
+  max-width: 100%;
+}
+
+.rowItem {
+  display: flex;
+}
+
+.grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(120px, 1fr));
+  gap: var(--space-2);
+}
+
+.gridItem {
+  display: flex;
+  align-items: stretch;
+  justify-content: stretch;
+}
+
+.gridItem > :is(button, [role='button']) {
+  width: 100%;
+  height: 100%;
+}
+
+.moreTile {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  min-width: 120px;
+  height: 120px;
+  aspect-ratio: 1;
+  margin: 0;
+  padding: var(--space-2);
+  border: 1px dashed var(--color-border-soft);
+  border-radius: var(--radius-md);
+  background: color-mix(in srgb, var(--color-card) 82%, transparent);
+  color: var(--color-text-primary);
+  cursor: pointer;
+  transition:
+    background var(--motion-duration-fast) var(--motion-ease-out),
+    transform var(--motion-duration-fast) var(--motion-ease-out);
+}
+
+.moreTile:hover {
+  background: color-mix(in srgb, var(--color-card) 92%, transparent);
+  transform: translateY(-1px);
+}
+
+.moreTile:focus-visible {
+  outline: 2px solid color-mix(in srgb, var(--color-brand-indigo) 52%, transparent);
+  outline-offset: 2px;
+}
+
+.moreLabel {
+  font-size: 1.25rem;
+  font-weight: 600;
+  line-height: 1;
+}
+
+.moreSubLabel {
+  margin-top: var(--space-1, 4px);
+  font-size: 0.75rem;
+  color: var(--color-text-secondary);
+}
+
+@media (max-width: 600px) {
+  .grid {
+    grid-template-columns: repeat(auto-fill, minmax(96px, 1fr));
+  }
+
+  .moreTile {
+    min-width: 96px;
+    height: 96px;
+  }
+}

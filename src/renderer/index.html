@@ -1,0 +1,370 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Mindstone Rebel</title>
+    <link rel="stylesheet" href="./styles/index.css" />
+    <style>
+      /* Initial loading shell - shown before React mounts */
+      .app-loading {
+        position: fixed;
+        inset: 0;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        padding: 24px 32px;
+        overflow-y: auto;
+        background: var(--color-background, #0f0f11);
+        z-index: 9999;
+        opacity: 1;
+        transition: opacity 0.3s ease-out;
+      }
+      .app-loading.hidden {
+        opacity: 0;
+        pointer-events: none;
+      }
+      .app-loading-shell {
+        position: relative;
+        width: min(980px, 100%);
+        margin: 0 auto;
+        display: flex;
+        flex-direction: column;
+        gap: 16px;
+      }
+      .app-loading-line {
+        border-radius: 10px;
+        background: linear-gradient(
+          90deg,
+          rgba(148, 163, 184, 0.06) 0%,
+          rgba(148, 163, 184, 0.12) 52%,
+          rgba(148, 163, 184, 0.06) 100%
+        );
+        background-size: 180% 100%;
+        animation: app-loading-shimmer 4.2s ease-in-out infinite;
+      }
+      .app-loading-chrome {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: 12px;
+        padding: 8px 10px;
+        border-radius: 12px;
+        background: rgba(148, 163, 184, 0.04);
+      }
+      .app-loading-chrome-left,
+      .app-loading-chrome-right {
+        display: flex;
+        align-items: center;
+        gap: 8px;
+      }
+      .app-loading-brand-mark {
+        width: 16px;
+        height: 16px;
+        border-radius: 8px;
+      }
+      .app-loading-brand-label {
+        width: 110px;
+        height: 10px;
+      }
+      .app-loading-chrome-action {
+        width: 24px;
+        height: 24px;
+        border-radius: 8px;
+      }
+      .app-loading-tabs {
+        display: flex;
+        align-items: center;
+        gap: 8px;
+        padding: 6px 8px 2px;
+      }
+      .app-loading-tab {
+        width: 78px;
+        height: 22px;
+        border-radius: 999px;
+      }
+      .app-loading-tab-active {
+        width: 64px;
+      }
+      .app-loading-header {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        gap: 10px;
+        margin-top: 2px;
+      }
+      .app-loading-title {
+        width: clamp(240px, 38vw, 420px);
+        height: 26px;
+      }
+      .app-loading-subtitle {
+        width: clamp(280px, 44vw, 520px);
+        height: 12px;
+      }
+      .app-loading-card {
+        border-radius: 20px;
+        background: rgba(148, 163, 184, 0.045);
+      }
+      .app-loading-hero {
+        padding: 18px;
+        display: flex;
+        flex-direction: column;
+        gap: 12px;
+      }
+      .app-loading-input {
+        height: 50px;
+        border-radius: 14px;
+      }
+      .app-loading-pills {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 8px;
+      }
+      .app-loading-pill {
+        width: 124px;
+        height: 20px;
+        border-radius: 999px;
+      }
+      .app-loading-content {
+        display: grid;
+        grid-template-columns: 3fr 2fr;
+        gap: 18px;
+        min-height: 280px;
+      }
+      .app-loading-section {
+        padding: 16px;
+        display: flex;
+        flex-direction: column;
+        gap: 10px;
+      }
+      .app-loading-section-title {
+        width: 38%;
+        height: 14px;
+      }
+      .app-loading-list-item {
+        display: flex;
+        align-items: flex-start;
+        gap: 10px;
+        padding: 10px 10px 9px;
+        border-radius: 12px;
+        background: rgba(148, 163, 184, 0.04);
+      }
+      .app-loading-list-badge {
+        width: 20px;
+        height: 20px;
+        border-radius: 8px;
+        flex-shrink: 0;
+      }
+      .app-loading-list-body {
+        flex: 1;
+        display: flex;
+        flex-direction: column;
+        gap: 7px;
+      }
+      .app-loading-line-long {
+        width: 92%;
+        height: 10px;
+      }
+      .app-loading-line-medium {
+        width: 74%;
+        height: 10px;
+      }
+      .app-loading-line-short {
+        width: 62%;
+        height: 10px;
+      }
+      .app-loading-tip {
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        width: min(560px, calc(100% - 48px));
+        padding: 20px 24px;
+        border-radius: 24px;
+        background:
+          radial-gradient(circle at top, rgba(99, 102, 241, 0.06) 0%, transparent 48%),
+          linear-gradient(180deg, rgba(19, 25, 40, 0.94) 0%, rgba(15, 20, 32, 0.82) 100%);
+        box-shadow:
+          0 12px 28px rgba(0, 0, 0, 0.26),
+          0 0 0 1px rgba(255, 255, 255, 0.02);
+        /* blur-budget-exempt: boot splash renders before the renderer attaches data-active-work, so it cannot inherit the active-work budget; literal blur is intentional. */
+        backdrop-filter: blur(12px);
+        -webkit-backdrop-filter: blur(12px);
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        gap: 12px;
+        text-align: center;
+        pointer-events: none;
+        overflow: hidden;
+      }
+      .app-loading-tip::before,
+      .app-loading-tip::after {
+        content: '';
+        position: absolute;
+        border-radius: 999px;
+        filter: blur(36px);
+        opacity: 0.2;
+        pointer-events: none;
+      }
+      .app-loading-tip::before {
+        top: -56px;
+        left: -24px;
+        width: 144px;
+        height: 144px;
+        background: rgba(14, 165, 233, 0.12);
+      }
+      .app-loading-tip::after {
+        right: -36px;
+        bottom: -72px;
+        width: 180px;
+        height: 180px;
+        background: rgba(99, 102, 241, 0.12);
+      }
+      .app-loading-tip-eyebrow {
+        position: relative;
+        z-index: 1;
+        display: inline-flex;
+        align-items: center;
+        gap: 8px;
+        padding: 5px 10px;
+        border-radius: 999px;
+        background: rgba(99, 102, 241, 0.07);
+        box-shadow: 0 6px 16px rgba(15, 23, 42, 0.12);
+        color: rgba(203, 213, 225, 0.78);
+      }
+      .app-loading-tip-icon {
+        width: 14px;
+        height: 14px;
+        opacity: 0.72;
+        flex-shrink: 0;
+      }
+      .app-loading-tip-label {
+        font-size: 10px;
+        font-weight: 600;
+        line-height: 1;
+        letter-spacing: 0.12em;
+        text-transform: uppercase;
+      }
+      .app-loading-tip-text {
+        position: relative;
+        z-index: 1;
+        max-width: 42ch;
+        font-size: 14px;
+        line-height: 1.55;
+        font-weight: 450;
+        color: rgba(203, 213, 225, 0.82);
+      }
+      @keyframes app-loading-shimmer {
+        0% { background-position: 150% 0; }
+        100% { background-position: -150% 0; }
+      }
+      .app-loading-visually-hidden {
+        position: absolute !important;
+        width: 1px;
+        height: 1px;
+        padding: 0;
+        margin: -1px;
+        overflow: hidden;
+        clip: rect(0, 0, 0, 0);
+        white-space: nowrap;
+        border: 0;
+      }
+      @media (max-width: 900px) {
+        .app-loading {
+          padding: 20px 16px;
+        }
+        .app-loading-content {
+          grid-template-columns: 1fr;
+        }
+        .app-loading-tip {
+          width: min(420px, calc(100% - 32px));
+          padding: 16px;
+        }
+      }
+      @media (prefers-reduced-motion: reduce) {
+        .app-loading-line {
+          animation: none;
+        }
+      }
+    </style>
+  </head>
+  <body class="dark">
+    <div id="app-loading" class="app-loading" role="status" aria-live="polite" aria-busy="true">
+      <span class="app-loading-visually-hidden">Loading homepage</span>
+      <div class="app-loading-shell" aria-hidden="true">
+        <div class="app-loading-tip">
+          <div class="app-loading-tip-eyebrow">
+            <svg class="app-loading-tip-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+              <path d="M9.937 15.5A2 2 0 0 0 8.5 14.063l-6.135-1.582a.5.5 0 0 1 0-.962L8.5 9.937A2 2 0 0 0 9.937 8.5l1.582-6.135a.5.5 0 0 1 .962 0L14.063 8.5A2 2 0 0 0 15.5 9.937l6.135 1.582a.5.5 0 0 1 0 .962L15.5 14.063A2 2 0 0 0 14.063 15.5l-1.582 6.135a.5.5 0 0 1-.962 0z"></path>
+            </svg>
+            <span class="app-loading-tip-label">Did you know?</span>
+          </div>
+          <div class="app-loading-tip-text">Question cards now have a &quot;Show details&quot; field for extra context.</div>
+        </div>
+        <div class="app-loading-chrome">
+          <div class="app-loading-chrome-left">
+            <div class="app-loading-line app-loading-brand-mark"></div>
+            <div class="app-loading-line app-loading-brand-label"></div>
+          </div>
+          <div class="app-loading-chrome-right">
+            <div class="app-loading-line app-loading-chrome-action"></div>
+            <div class="app-loading-line app-loading-chrome-action"></div>
+            <div class="app-loading-line app-loading-chrome-action"></div>
+          </div>
+        </div>
+        <div class="app-loading-tabs">
+          <div class="app-loading-line app-loading-tab app-loading-tab-active"></div>
+          <div class="app-loading-line app-loading-tab"></div>
+          <div class="app-loading-line app-loading-tab"></div>
+          <div class="app-loading-line app-loading-tab"></div>
+        </div>
+        <div class="app-loading-header">
+          <div class="app-loading-line app-loading-title"></div>
+          <div class="app-loading-line app-loading-subtitle"></div>
+        </div>
+        <div class="app-loading-card app-loading-hero">
+          <div class="app-loading-line app-loading-input"></div>
+          <div class="app-loading-pills">
+            <div class="app-loading-line app-loading-pill"></div>
+            <div class="app-loading-line app-loading-pill"></div>
+            <div class="app-loading-line app-loading-pill"></div>
+          </div>
+        </div>
+        <div class="app-loading-content">
+          <div class="app-loading-card app-loading-section">
+            <div class="app-loading-line app-loading-section-title"></div>
+            <div class="app-loading-list-item">
+              <div class="app-loading-line app-loading-list-badge"></div>
+              <div class="app-loading-list-body">
+                <div class="app-loading-line app-loading-line-long"></div>
+                <div class="app-loading-line app-loading-line-medium"></div>
+              </div>
+            </div>
+            <div class="app-loading-list-item">
+              <div class="app-loading-line app-loading-list-badge"></div>
+              <div class="app-loading-list-body">
+                <div class="app-loading-line app-loading-line-long"></div>
+                <div class="app-loading-line app-loading-line-short"></div>
+              </div>
+            </div>
+            <div class="app-loading-list-item">
+              <div class="app-loading-line app-loading-list-badge"></div>
+              <div class="app-loading-list-body">
+                <div class="app-loading-line app-loading-line-medium"></div>
+                <div class="app-loading-line app-loading-line-short"></div>
+              </div>
+            </div>
+          </div>
+          <div class="app-loading-card app-loading-section">
+            <div class="app-loading-line app-loading-section-title"></div>
+            <div class="app-loading-line app-loading-line-long"></div>
+            <div class="app-loading-line app-loading-line-medium"></div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div id="root"></div>
+    <script type="module" src="./main.tsx"></script>
+  </body>
+</html>

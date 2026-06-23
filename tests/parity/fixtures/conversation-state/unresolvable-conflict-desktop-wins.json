@@ -1,0 +1,57 @@
+{
+  "name": "unresolvable-conflict-desktop-wins",
+  "input": [
+    {
+      "id": "u8",
+      "turnId": "t8",
+      "role": "user",
+      "text": "Confirm this title update.",
+      "createdAt": 8001
+    },
+    {
+      "id": "a8",
+      "turnId": "t8",
+      "role": "assistant",
+      "text": "Comparing edit candidates...",
+      "createdAt": 8002
+    },
+    {
+      "id": "r8",
+      "turnId": "t8",
+      "role": "result",
+      "text": "Desktop value selected.",
+      "createdAt": 8003
+    }
+  ],
+  "expected": {
+    "visibleIds": ["u8", "r8"],
+    "messagesByTurnIds": {
+      "t8": ["u8", "a8", "r8"]
+    },
+    "activeTurnId": null,
+    "isBusy": false
+  },
+  "tiebreaker": {
+    "scenario": "unresolvable-conflict-desktop-wins",
+    "writes": [
+      {
+        "surface": "desktop",
+        "field": "title",
+        "value": "A",
+        "changedAt": 1700000000000
+      },
+      {
+        "surface": "mobile",
+        "field": "title",
+        "value": "B",
+        "changedAt": 1700000000050
+      }
+    ],
+    "now": 1700000000050,
+    "expected": {
+      "winnerSurface": "desktop",
+      "winnerValue": "A",
+      "reason": "within-race-window"
+    }
+  }
+}

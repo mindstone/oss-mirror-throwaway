@@ -1,0 +1,17 @@
+.physical-recording-indicator {
+  display: flex;
+  align-items: center;
+  gap: var(--space-1);
+  padding: 0 var(--space-2);
+  font-size: 0.7rem;
+  color: var(--color-muted-foreground);
+  opacity: 0.7;
+}
+
+.physical-recording-indicator__icon {
+  color: var(--color-success);
+}
+
+.physical-recording-indicator__battery {
+  font-variant-numeric: tabular-nums;
+}

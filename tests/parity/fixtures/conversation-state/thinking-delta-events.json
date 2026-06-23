@@ -1,0 +1,34 @@
+{
+  "name": "thinking-delta-events",
+  "input": [
+    {
+      "id": "u15",
+      "turnId": "t15",
+      "role": "user",
+      "text": "Walk me through your reasoning.",
+      "createdAt": 15001
+    },
+    {
+      "id": "a15-thinking",
+      "turnId": "t15",
+      "role": "assistant",
+      "text": "Thinking through candidate approaches...",
+      "createdAt": 15002
+    },
+    {
+      "id": "a15-final",
+      "turnId": "t15",
+      "role": "assistant",
+      "text": "Best approach selected.",
+      "createdAt": 15003
+    }
+  ],
+  "expected": {
+    "visibleIds": ["u15", "a15-final"],
+    "messagesByTurnIds": {
+      "t15": ["u15", "a15-thinking", "a15-final"]
+    },
+    "activeTurnId": "t15",
+    "isBusy": true
+  }
+}

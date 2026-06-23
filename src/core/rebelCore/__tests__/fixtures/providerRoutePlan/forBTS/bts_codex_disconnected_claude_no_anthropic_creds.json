@@ -1,0 +1,27 @@
+{
+  "description": "BTS Codex active disconnected with Anthropic-native model but no Anthropic credentials returns missing Anthropic credentials",
+  "input": {
+    "codexConnectivity": "disconnected",
+    "model": "claude-haiku-4-5",
+    "settings": {
+      "activeProvider": "codex",
+      "models": {
+        "apiKey": null,
+        "authMethod": "api-key",
+        "model": "claude-sonnet-4-6",
+        "oauthToken": null
+      },
+      "localModel": {
+        "activeProfileId": null,
+        "profiles": []
+      },
+      "openRouter": {
+        "enabled": false,
+        "oauthToken": null,
+        "selectedModel": "anthropic/claude-sonnet-4.6"
+      },
+      "providerKeys": {}
+    }
+  },
+  "name": "bts_codex_disconnected_claude_no_anthropic_creds"
+}

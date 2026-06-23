@@ -1,0 +1,73 @@
+%%{init: {'theme': 'base', 'themeVariables': { 'primaryColor': '#ECECFF', 'primaryBorderColor': '#9370DB'}}}%%
+flowchart TB
+    subgraph User["User"]
+        UA["Send Message"]
+    end
+
+    subgraph Indexing["Indexing Flow - background"]
+        FW[/"startWatching()"/]
+        Q["indexFile()<br/>needsReindexing()<br/>mtime cache"]
+        CH["chunkText()<br/>2000 char chunks<br/>200 char overlap"]
+        EMB1["generateEmbedding()<br/>all-MiniLM-L6-v2<br/>384 dimensions"]
+    end
+
+    subgraph Storage["LanceDB"]
+        DB[("Vector Index<br/>path mtime chunks<br/>384-dim vectors")]
+    end
+
+    subgraph Search["Search Flow"]
+        QR["refineSearchQuery()<br/>claude-haiku<br/>intent + terms"]
+        EMB2["generateEmbedding()<br/>all-MiniLM-L6-v2"]
+        VS["semanticSearch()<br/>cosine similarity<br/>threshold 0.25"]
+        FMT["Format Results<br/>Top 5 files<br/>Snippets + scores"]
+    end
+
+    subgraph Agent["Agent Turn"]
+        CTX["Enhanced Prompt<br/>Workspace Files +<br/>User Request"]
+        LLM["Claude Sonnet"]
+        TOOL["semantic_search tool<br/>SDK MCP Server<br/>mid-turn search"]
+    end
+
+    %% Indexing flow
+    FW -->|discover files| Q
+    Q -->|process| CH
+    CH -->|chunks| EMB1
+    EMB1 -->|vectors| DB
+
+    %% Pre-turn automatic search (Path A)
+    UA -->|"query<br/>(pre-turn)"| QR
+    QR -->|refined query| EMB2
+    EMB2 -->|query vector| VS
+    DB -->|similarity search| VS
+    VS -->|top matches| FMT
+    FMT -->|"inject<br/>(automatic)"| CTX
+    CTX --> LLM
+
+    %% Mid-turn explicit tool call (Path B - NEW)
+    LLM -->|"tool call<br/>(explicit)"| TOOL
+    TOOL -->|"direct call"| VS
+    TOOL -.->|"results"| LLM
+
+    %% Styling
+    style User fill:#e1d5f7,stroke:#9673d3,stroke-width:2px
+    style UA fill:#d8bfd8,stroke:#9673d3
+    
+    style Indexing fill:#fff3cd,stroke:#d4a106,stroke-width:2px
+    style FW fill:#ffeeba,stroke:#d4a106
+    style Q fill:#ffeeba,stroke:#d4a106
+    style CH fill:#ffeeba,stroke:#d4a106
+    style EMB1 fill:#bee5eb,stroke:#0c5460
+    
+    style Storage fill:#fff3cd,stroke:#d4a106,stroke-width:2px
+    style DB fill:#ffc107,stroke:#d4a106,stroke-width:2px
+    
+    style Search fill:#d1ecf1,stroke:#0c5460,stroke-width:2px
+    style QR fill:#c3e6cb,stroke:#155724
+    style EMB2 fill:#bee5eb,stroke:#0c5460
+    style VS fill:#bee5eb,stroke:#0c5460
+    style FMT fill:#bee5eb,stroke:#0c5460
+    
+    style Agent fill:#d4edda,stroke:#155724,stroke-width:2px
+    style CTX fill:#c3e6cb,stroke:#155724
+    style LLM fill:#c3e6cb,stroke:#155724
+    style TOOL fill:#f8d7da,stroke:#721c24,stroke-width:2px

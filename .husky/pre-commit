@@ -1,0 +1,121 @@
+# Merge integrity guard: detect "ours"-style merge commits that drop incoming changes
+# See: docs-private/postmortems/260330_merge_drop_concurrent_session_race_postmortem.md
+if git rev-parse -q --verify MERGE_HEAD > /dev/null 2>&1; then
+  theirs_count=$(git diff --name-only HEAD MERGE_HEAD 2>/dev/null | wc -l | tr -d ' ')
+  staged_count=$(git diff --cached --name-only HEAD 2>/dev/null | wc -l | tr -d ' ')
+
+  if [ "$theirs_count" -gt 5 ]; then
+    # Ratio check: if staged changes are < 10% of incoming, almost certainly a bad merge
+    ratio=0
+    if [ "$staged_count" -gt 0 ]; then
+      ratio=$((staged_count * 100 / theirs_count))
+    fi
+
+    if [ "$ratio" -lt 10 ]; then
+      echo ""
+      echo "⚠️  MERGE INTEGRITY WARNING"
+      echo "═══════════════════════════════════════════════════════════════"
+      echo "  MERGE_HEAD has $theirs_count incoming file changes,"
+      echo "  but only $staged_count files differ from HEAD ($ratio%)."
+      echo ""
+      echo "  This looks like an 'ours'-style merge that drops incoming changes."
+      echo "  Two previous incidents dropped 87 and 362 files this way."
+      echo ""
+      echo "  To proceed anyway:  git commit --no-verify"
+      echo "  To abort the merge: git merge --abort"
+      echo "  Safe merge path:    npx tsx scripts/git-safe-sync.ts"
+      echo "═══════════════════════════════════════════════════════════════"
+      echo ""
+      exit 1
+    fi
+  fi
+fi
+
+# ─────────────────────────────────────────────────────────────────────────────
+# Secret scanning (TruffleHog) — verified-only mode
+# Replaces Droid Shield with low-FP verification-based detection.
+# See: docs/project/SECRET_SCANNING.md
+# ─────────────────────────────────────────────────────────────────────────────
+if [ "${SKIP_TRUFFLEHOG:-0}" = "1" ]; then
+  echo "⚠️  SKIP_TRUFFLEHOG=1 — bypassing secret scan (use only in emergencies)"
+else
+  if ! command -v trufflehog >/dev/null 2>&1; then
+    echo ""
+    echo "❌ TRUFFLEHOG NOT INSTALLED"
+    echo "═══════════════════════════════════════════════════════════════"
+    echo "  Secret scanning is mandatory before every commit."
+    echo ""
+    echo "  Install:"
+    echo "    macOS:   brew install trufflehog"
+    echo "    Linux:   curl -sSfL https://raw.githubusercontent.com/trufflesecurity/trufflehog/main/scripts/install.sh | sh -s -- -b /usr/local/bin"
+    echo "    Windows: see docs/project/SECRET_SCANNING.md"
+    echo ""
+    echo "  Bypass (emergency only): SKIP_TRUFFLEHOG=1 git commit ..."
+    echo "  Full guide:              docs/project/SECRET_SCANNING.md"
+    echo "═══════════════════════════════════════════════════════════════"
+    echo ""
+    exit 1
+  fi
+
+  # Materialize the staged blob of each changed file into a temp dir, then
+  # scan that. We must scan the INDEX (what git will commit), not the working
+  # tree, because they can diverge (partial staging via `git add -p`, edits
+  # after stage, etc.) — scanning the working tree creates false negatives
+  # (secret staged then deleted from worktree slips through) and false
+  # positives (unstaged edits blocking a clean commit).
+  #
+  # --diff-filter=ACMR catches Added/Copied/Modified/Renamed (skip Deleted —
+  # nothing to scan). Submodule pointer changes (mode 160000) are skipped —
+  # they have their own commit flow inside the submodule.
+  #
+  # --results=verified makes trufflehog attempt a live auth against each
+  # candidate. Only credentials that actually work block the commit —
+  # AI-generated placeholder keys (sk-fake-*, AKIAIOSFODNN7EXAMPLE, etc.)
+  # never verify and never block.
+  staged_files=$(git diff --cached --name-only --diff-filter=ACMR)
+  if [ -n "$staged_files" ]; then
+    tmpdir=$(mktemp -d 2>/dev/null || mktemp -d -t trufflehog-staged) || {
+      echo "❌ Could not create temp dir for staged-blob secret scan."
+      exit 1
+    }
+    # Cleanup on any exit path
+    trap 'rm -rf "$tmpdir"' EXIT INT TERM
+
+    scan_count=0
+    # IFS=newline so paths containing spaces survive the for-loop split.
+    # We do not support paths containing newline characters; this is
+    # consistent with the rest of our git tooling.
+    OLD_IFS="$IFS"
+    IFS='
+'
+    for file in $staged_files; do
+      mode=$(git ls-files --stage -- "$file" 2>/dev/null | awk 'NR==1 {print $1}')
+      # Skip gitlinks (submodule pointer entries)
+      if [ "$mode" = "160000" ]; then
+        continue
+      fi
+      dst="$tmpdir/$file"
+      dst_dir=$(dirname "$dst")
+      mkdir -p "$dst_dir" || continue
+      if git show ":$file" > "$dst" 2>/dev/null; then
+        scan_count=$((scan_count + 1))
+      fi
+    done
+    IFS="$OLD_IFS"
+
+    if [ "$scan_count" -gt 0 ]; then
+      if ! trufflehog filesystem "$tmpdir" --results=verified --fail --no-update; then
+        echo ""
+        echo "❌ TruffleHog detected verified secrets in your staged changes."
+        echo "   Review the findings above. The credential is currently LIVE."
+        echo "   Steps:"
+        echo "     1. Revoke/rotate the credential at the provider"
+        echo "     2. Remove it from your working tree (use env vars)"
+        echo "     3. Re-commit"
+        echo "   Emergency bypass: SKIP_TRUFFLEHOG=1 git commit ..."
+        echo "   See docs/project/SECRET_SCANNING.md"
+        exit 1
+      fi
+    fi
+  fi
+fi

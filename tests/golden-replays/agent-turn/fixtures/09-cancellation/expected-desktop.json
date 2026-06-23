@@ -1,0 +1,61 @@
+{
+  "fixture": "09-cancellation",
+  "steps": [
+    {
+      "index": 0,
+      "eventType": "turn_started",
+      "state": {
+        "messages": [],
+        "activeTurnId": "turn-1",
+        "isBusy": true,
+        "lastError": null,
+        "runtime": {
+          "activeTurnId": "turn-1",
+          "terminated": false
+        }
+      }
+    },
+    {
+      "index": 1,
+      "eventType": "answer_phase_started",
+      "state": {
+        "messages": [],
+        "activeTurnId": "turn-1",
+        "isBusy": true,
+        "lastError": null,
+        "runtime": {
+          "activeTurnId": "turn-1",
+          "terminated": false
+        }
+      }
+    },
+    {
+      "index": 2,
+      "eventType": "assistant_delta",
+      "state": {
+        "messages": [],
+        "activeTurnId": "turn-1",
+        "isBusy": true,
+        "lastError": null,
+        "runtime": {
+          "activeTurnId": "turn-1",
+          "terminated": false
+        }
+      }
+    },
+    {
+      "index": 3,
+      "eventType": "error",
+      "state": {
+        "messages": [],
+        "activeTurnId": null,
+        "isBusy": false,
+        "lastError": "Stopped",
+        "runtime": {
+          "activeTurnId": null,
+          "terminated": true
+        }
+      }
+    }
+  ]
+}

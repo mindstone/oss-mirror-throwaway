@@ -1,0 +1,8 @@
+name: Workflow Checkout Depth Reusable Caller
+
+on:
+  push:
+
+jobs:
+  validate:
+    uses: ./.github/workflows/reusable-callee-offending.yml

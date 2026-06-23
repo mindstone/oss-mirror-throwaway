@@ -1,0 +1,39 @@
+{
+  "description": "OpenRouter connection profile with explicit provider key uses profile-api-key path",
+  "input": {
+    "model": "profile:or-byok-profile",
+    "settings": {
+      "activeProvider": "anthropic",
+      "models": {
+        "apiKey": "sk-ant-test",
+        "authMethod": "api-key",
+        "model": "claude-sonnet-4-6",
+        "oauthToken": null
+      },
+      "localModel": {
+        "activeProfileId": null,
+        "profiles": [
+          {
+            "createdAt": 0,
+            "id": "or-byok-profile",
+            "model": "anthropic/claude-sonnet-4.6",
+            "name": "OR BYOK Profile",
+            "profileSource": "connection",
+            "providerType": "openrouter",
+            "serverUrl": "https://openrouter.ai/api/v1"
+          }
+        ]
+      },
+      "openRouter": {
+        "enabled": true,
+        "oauthToken": "or-token",
+        "selectedModel": "anthropic/claude-sonnet-4.6"
+      },
+      "providerKeys": {
+        "openrouter": "sk-or-provider-key"
+      }
+    },
+    "codexConnectivity": "unknown"
+  },
+  "name": "or_connection_profile_provider_key_byok"
+}

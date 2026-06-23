@@ -1,0 +1,18 @@
+# Backward-compat test: same as registry-exclude.yaml but omits
+# exclude_paths entirely. Must behave identically to pre-exclude_paths
+# script behavior (entry fires on any src/core/**/*.ts change including
+# constants.ts).
+version: 1
+boundaries:
+  - id: test-no-exclude
+    category: test
+    description: Test entry without exclude_paths (backward-compat).
+    spec_doc: docs/project/BOUNDARY_REGISTRY.md
+    match:
+      paths:
+        - src/core/**/*.ts
+      identifiers:
+        - TEST_BACKWARD_COMPAT_IDENTIFIER_QWUX
+    rationale: Test-only entry. Backward-compat snapshot.
+    postmortems:
+      - 260420_nano_banana_workspace_path_propagation_postmortem.md

@@ -1,0 +1,108 @@
+flowchart TB
+  %% Mindstone Rebel — Detailed flow for Klavis setup and individual tool authentication
+  %% Policy: Manual-only verification (no background polling). Auth links fetched in parallel (no cap).
+  %% Scope: Focuses on two onboarding steps only.
+
+  %% =========================
+  %% Step — Klavis Setup
+  %% =========================
+  subgraph S5["Step — Klavis Setup"]
+    S5A["Open Klavis sign‑up page"]:::action
+    S5B["Paste Klavis MCP JSON into field"]:::ui
+    S5C{"JSON valid?"}:::decision
+    S5E["Invalid JSON — show inline error<br/>Disable Continue"]:::error
+    S5F["Continue clicked"]:::action
+    S5G["Persist klavis.json → userData/mcp/klavis.json<br/>Update settings.mcpConfigFile"]:::system
+    S5H["Klavis configured"]:::ok
+
+    S5A --> S5B --> S5C
+    S5C -->|No| S5E
+    S5C -->|Yes| S5F --> S5G --> S5H
+  end
+
+  %% =========================
+  %% Step — Tool Authentication
+  %% =========================
+  subgraph S6["Step — Tool Authentication"]
+    S6X["On step entry"]:::system
+    S6Y["Generate auth links in parallel (no cap)<br/>(email, calendar, chat)"]:::system
+    S6Z["Update cards with per‑tool authUrl"]:::ui
+
+    %% Email (required)
+    subgraph T_email["Email (required)"]
+      Te0["Connect → open authUrl"]:::action
+      Te1["User authorizes in browser"]:::external
+      Te2["“I've done it”"]:::ui
+      Te3["Verifying… (spinner)"]:::system
+      Te4{"Authenticated?"}:::decision
+      Te5["Connected ✓"]:::ok
+      Te6["Not yet — show hint/retry"]:::warn
+      Te7["Check again"]:::ui
+
+      Te0 --> Te1 --> Te2 --> Te3 --> Te4
+      Te4 -->|Yes| Te5
+      Te4 -->|No| Te6 --> Te7 --> Te3
+    end
+
+    %% Calendar (optional)
+    subgraph T_cal["Calendar (optional)"]
+      Tc0["Connect → open authUrl"]:::action
+      Tc1["User authorizes"]:::external
+      Tc2["“I've done it”"]:::ui
+      Tc3["Verifying… (spinner)"]:::system
+      Tc4{"Authenticated?"}:::decision
+      Tc5["Connected ✓"]:::ok
+      Tc6["Not yet — hint/retry"]:::warn
+      Tc7["Check again"]:::ui
+
+      Tc0 --> Tc1 --> Tc2 --> Tc3 --> Tc4
+      Tc4 -->|Yes| Tc5
+      Tc4 -->|No| Tc6 --> Tc7 --> Tc3
+    end
+
+    %% Chat (optional: Slack/Teams)
+    subgraph T_chat["Chat (optional: Slack/Teams)"]
+      TchS["Pick provider: Slack or Teams"]:::ui
+      Tch0["Connect → open authUrl"]:::action
+      Tch1["User authorizes"]:::external
+      Tch2["“I've done it”"]:::ui
+      Tch3["Verifying… (spinner)"]:::system
+      Tch4{"Authenticated?"}:::decision
+      Tch5["Connected ✓"]:::ok
+      Tch6["Not yet — hint/retry"]:::warn
+      Tch7["Check again"]:::ui
+
+      TchS --> Tch0 --> Tch1 --> Tch2 --> Tch3 --> Tch4
+      Tch4 -->|Yes| Tch5
+      Tch4 -->|No| Tch6 --> Tch7 --> Tch3
+    end
+
+    %% Gating for Continue (email required)
+    S6C{"Email connected?"}:::decision
+    S6Ok["Enable Continue"]:::ok
+    S6Block["Disable Continue<br/>Tooltip: “Connect your email”"]:::warn
+
+    S6X --> S6Y --> S6Z
+    S6Z --> T_email
+    S6Z --> T_cal
+    S6Z --> T_chat
+    T_email --> S6C
+    S6C -->|Yes| S6Ok
+    S6C -->|No| S6Block
+  end
+
+  %% =========================
+  %% Styling
+  %% =========================
+  classDef action fill:#cfe8ff,stroke:#1b4f72,color:#111,stroke-width:1px;
+  classDef ui fill:#ECECFF,stroke:#9370DB,color:#111,stroke-width:1px;
+  classDef system fill:#d7f7d2,stroke:#3a8f3a,color:#111,stroke-width:1px;
+  classDef decision fill:#0f172a,stroke:#94a3b8,color:#e2e8f0,stroke-width:1px;
+  classDef ok fill:#c7f9cc,stroke:#2d6a4f,color:#111,stroke-width:1px;
+  classDef error fill:#7f1d1d,stroke:#dc2626,color:#fecaca,stroke-width:1px;
+  classDef warn fill:#fff1c1,stroke:#b08900,color:#111,stroke-width:1px;
+  classDef external fill:#fafafa,stroke:#999,color:#111,stroke-width:1px;
+
+  %% End of file
+
+

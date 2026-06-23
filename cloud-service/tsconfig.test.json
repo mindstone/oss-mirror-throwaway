@@ -1,0 +1,9 @@
+{
+  "extends": "./tsconfig.json",
+  "compilerOptions": {
+    "types": ["vitest/globals", "node"]
+  },
+  "files": ["../packages/shared/src/diff-ambient.d.ts", "src/globals.d.ts"],
+  "include": ["src/**/__tests__/**/*", "src/**/*.test.ts", "src/**/*.spec.ts"],
+  "exclude": []
+}

@@ -1,0 +1,57 @@
+{
+  "name": "cli-surface",
+  "input": [
+    {
+      "id": "u-cli",
+      "turnId": "t-cli",
+      "role": "user",
+      "text": "Draft the launch summary.",
+      "createdAt": 11001
+    },
+    {
+      "id": "a-cli",
+      "turnId": "t-cli",
+      "role": "assistant",
+      "text": "Working on the launch summary...",
+      "createdAt": 11002
+    },
+    {
+      "id": "r-cli",
+      "turnId": "t-cli",
+      "role": "result",
+      "text": "Launch summary ready.",
+      "createdAt": 11003
+    }
+  ],
+  "expected": {
+    "visibleIds": ["u-cli", "r-cli"],
+    "messagesByTurnIds": {
+      "t-cli": ["u-cli", "a-cli", "r-cli"]
+    },
+    "activeTurnId": null,
+    "isBusy": false
+  },
+  "tiebreaker": {
+    "scenario": "cli-surface",
+    "writes": [
+      {
+        "surface": "desktop",
+        "field": "title",
+        "value": "desktop-title",
+        "changedAt": 1700000001000
+      },
+      {
+        "surface": "cli",
+        "field": "title",
+        "value": "cli-title",
+        "changedAt": 1700000001050
+      }
+    ],
+    "now": 1700000001050,
+    "expected": {
+      "winnerSurface": "desktop",
+      "winnerValue": "desktop-title",
+      "reason": "within-race-window"
+    }
+  }
+}

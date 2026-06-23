@@ -1,0 +1,77 @@
+{
+  "fixture": "01-simple-turn",
+  "steps": [
+    {
+      "index": 0,
+      "eventType": "turn_started",
+      "state": {
+        "messages": [],
+        "activeTurnId": "turn-1",
+        "isBusy": true,
+        "lastError": null,
+        "runtime": {
+          "activeTurnId": "turn-1",
+          "terminated": false
+        }
+      }
+    },
+    {
+      "index": 1,
+      "eventType": "status",
+      "state": {
+        "messages": [],
+        "activeTurnId": "turn-1",
+        "isBusy": true,
+        "lastError": null,
+        "runtime": {
+          "activeTurnId": "turn-1",
+          "terminated": false
+        }
+      }
+    },
+    {
+      "index": 2,
+      "eventType": "assistant",
+      "state": {
+        "messages": [
+          {
+            "turnId": "turn-1",
+            "role": "assistant",
+            "text": "Hello",
+            "isWarning": false,
+            "isHidden": false
+          }
+        ],
+        "activeTurnId": "turn-1",
+        "isBusy": true,
+        "lastError": null,
+        "runtime": {
+          "activeTurnId": "turn-1",
+          "terminated": false
+        }
+      }
+    },
+    {
+      "index": 3,
+      "eventType": "result",
+      "state": {
+        "messages": [
+          {
+            "turnId": "turn-1",
+            "role": "result",
+            "text": "Hello",
+            "isWarning": false,
+            "isHidden": false
+          }
+        ],
+        "activeTurnId": null,
+        "isBusy": false,
+        "lastError": null,
+        "runtime": {
+          "activeTurnId": null,
+          "terminated": true
+        }
+      }
+    }
+  ]
+}

@@ -1,0 +1,29 @@
+{
+  "commits": [
+    {
+      "hash": "eeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee",
+      "subject": "chore(build): Refreshed app icon assets",
+      "body": ""
+    },
+    {
+      "hash": "ffffffffffffffffffffffffffffffffffffffff",
+      "subject": "refactor(agent): Split prompt helper into dedicated module",
+      "body": ""
+    },
+    {
+      "hash": "1212121212121212121212121212121212121212",
+      "subject": "test(settings): Added coverage for provider toggles",
+      "body": ""
+    },
+    {
+      "hash": "3434343434343434343434343434343434343434",
+      "subject": "build(ci): Adjusted macOS signing cache path",
+      "body": ""
+    },
+    {
+      "hash": "5656565656565656565656565656565656565656",
+      "subject": "docs(project): Added release troubleshooting note",
+      "body": ""
+    }
+  ]
+}

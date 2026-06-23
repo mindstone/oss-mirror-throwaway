@@ -1,0 +1,83 @@
+{
+  "fixture": "15-ws-replay-seq-gap",
+  "steps": [
+    {
+      "index": 0,
+      "eventType": "turn_started",
+      "state": {
+        "messages": [],
+        "activeTurnId": "turn-1",
+        "isBusy": true,
+        "lastError": null,
+        "runtime": {
+          "activeTurnId": "turn-1",
+          "terminated": false
+        }
+      }
+    },
+    {
+      "index": 1,
+      "eventType": "status",
+      "state": {
+        "messages": [],
+        "activeTurnId": "turn-1",
+        "isBusy": true,
+        "lastError": null,
+        "runtime": {
+          "activeTurnId": "turn-1",
+          "terminated": false
+        }
+      }
+    },
+    {
+      "index": 2,
+      "eventType": "answer_phase_started",
+      "state": {
+        "messages": [],
+        "activeTurnId": "turn-1",
+        "isBusy": true,
+        "lastError": null,
+        "runtime": {
+          "activeTurnId": "turn-1",
+          "terminated": false
+        }
+      }
+    },
+    {
+      "index": 3,
+      "eventType": "assistant_delta",
+      "state": {
+        "messages": [],
+        "activeTurnId": "turn-1",
+        "isBusy": true,
+        "lastError": null,
+        "runtime": {
+          "activeTurnId": "turn-1",
+          "terminated": false
+        }
+      }
+    },
+    {
+      "index": 4,
+      "eventType": "result",
+      "state": {
+        "messages": [
+          {
+            "turnId": "turn-1",
+            "role": "result",
+            "text": "A",
+            "isWarning": false,
+            "isHidden": false
+          }
+        ],
+        "activeTurnId": null,
+        "isBusy": false,
+        "lastError": null,
+        "runtime": {
+          "activeTurnId": null,
+          "terminated": true
+        }
+      }
+    }
+  ]
+}

@@ -1,0 +1,414 @@
+/* ═══════════════════════════════════════════════════════════════════════════
+   InteractionStrip - Unified input bar with mic inside input and session controls
+   ═══════════════════════════════════════════════════════════════════════════ */
+
+/* ─────────────────────────────────────────────────────────────────────────────
+   Main Container
+   ───────────────────────────────────────────────────────────────────────────── */
+.recorderStrip {
+  grid-column: 2 / -1;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  padding: 12px 32px 16px;
+  background: transparent;
+  border-radius: 0 0 var(--shell-radius) 0;
+}
+
+.body {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+  flex-wrap: wrap;
+}
+
+.main {
+  flex: 1 1 auto;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  min-width: 320px;
+  max-width: calc(756px + 240px + 120px);
+  margin: 0 auto;
+  width: 100%;
+}
+
+.mainWithOverride {
+  align-items: flex-end;
+}
+
+.inputContainerOverride {
+  padding-bottom: 4px;
+}
+
+/* ─────────────────────────────────────────────────────────────────────────────
+   Mic Button Wrapper - positions mic button outside input on left
+   ───────────────────────────────────────────────────────────────────────────── */
+.micButtonWrapper {
+  position: relative;
+  flex-shrink: 0;
+}
+
+.composerColumn {
+  flex: 1 1 360px;
+  min-width: 280px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  position: relative;
+  gap: 0;
+}
+
+.topAccessorySlot {
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: calc(100% - 1px);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 6px;
+  z-index: 1;
+}
+
+/* ─────────────────────────────────────────────────────────────────────────────
+   Input Container - unified input field
+   ───────────────────────────────────────────────────────────────────────────── */
+.inputContainer {
+  width: 100%;
+  min-height: 46px;
+  display: flex;
+  align-items: flex-end;
+  gap: 5px;
+  padding: 5px;
+  position: relative;
+  /* Input field styling - more opaque for performance (no blur) */
+  border-radius: 14px;
+  border: 1px solid rgba(148, 163, 184, 0.22);
+  background: rgba(13, 17, 28, 0.88);
+  box-shadow: 0 4px 12px rgba(2, 6, 23, 0.15);
+  transition: border-color 0.15s ease, box-shadow 0.15s ease, background 0.15s ease;
+}
+
+.inputContainer:focus-within {
+  border-color: rgba(99, 102, 241, 0.35);
+  box-shadow: 0 0 0 2px rgba(99, 102, 241, 0.15), 0 4px 12px rgba(2, 6, 23, 0.15);
+}
+
+.panel {
+  flex: 1;
+  min-width: 0;
+}
+
+/*
+ * Note: chrome of the composer's input field (border / background / focus ring) is owned by
+ * `.inputContainer` above when the composer is rendered with `chromeMode="embedded"`.
+ * The composer's own shell stays transparent in that mode, which avoids the nested-box regression
+ * we hit when both layers tried to draw the visible input.
+ */
+
+/* ─────────────────────────────────────────────────────────────────────────────
+   Mic Button - Same height as input container (46px)
+   ───────────────────────────────────────────────────────────────────────────── */
+.micButton {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 46px;
+  height: 46px;
+  border: none;
+  border-radius: 14px;
+  background: linear-gradient(
+    135deg,
+    rgba(180, 160, 220, 1) 0%,
+    rgba(200, 180, 240, 0.95) 30%,
+    rgba(160, 200, 230, 1) 60%,
+    rgba(220, 180, 200, 0.95) 100%
+  );
+  color: rgba(55, 48, 107, 0.9);
+  cursor: pointer;
+  transition: transform 0.15s ease, box-shadow 0.15s ease, filter 0.15s ease;
+  flex-shrink: 0;
+  box-shadow: 0 2px 6px rgba(139, 92, 246, 0.2);
+}
+
+.micButton:hover {
+  filter: brightness(1.08);
+  box-shadow: 0 2px 8px rgba(139, 92, 246, 0.3);
+}
+
+.micButton:active {
+  transform: scale(0.95);
+}
+
+.micButton:focus-visible {
+  outline: 2px solid rgba(99, 102, 241, 0.6);
+  outline-offset: 2px;
+}
+
+.micButton:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+/* Recording state - red background with audio level glow (no pulse animation) */
+.micButtonRecording {
+  background: linear-gradient(135deg, #ef4444 0%, #dc2626 100%);
+  color: rgba(255, 255, 255, 0.95);
+  /* White/cyan glow that scales with audio level */
+  box-shadow:
+    0 0 calc(8px + var(--audio-level, 0) * 40px) rgba(255, 255, 255, calc(0.3 + var(--audio-level, 0) * 0.7)),
+    0 0 calc(4px + var(--audio-level, 0) * 20px) rgba(147, 197, 253, calc(0.2 + var(--audio-level, 0) * 0.6));
+  /* Scale slightly with audio for extra feedback */
+  transform: scale(calc(1 + var(--audio-level, 0) * 0.1));
+}
+
+/* Processing state */
+.micButtonProcessing {
+  background: rgba(148, 163, 184, 0.3);
+  color: rgba(148, 163, 184, 0.8);
+  box-shadow: none;
+}
+
+/* Disabled state */
+.micButtonDisabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+  background: rgba(148, 163, 184, 0.25);
+  color: rgba(148, 163, 184, 0.7);
+  box-shadow: none;
+}
+
+.micButtonDisabled:hover {
+  filter: none;
+  box-shadow: none;
+}
+
+/* ─────────────────────────────────────────────────────────────────────────────
+   Session Controls - Ghost icon buttons with divider
+   ───────────────────────────────────────────────────────────────────────────── */
+.sessionControls {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  flex-shrink: 0;
+  margin-left: 2px;
+}
+
+/* Icon button - matches Send/mic button height (36px) */
+.iconButton {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 36px;
+  height: 36px;
+  border: 1px solid rgba(148, 163, 184, 0.15);
+  border-radius: 10px;
+  background: transparent;
+  color: rgba(148, 163, 184, 0.6);
+  cursor: pointer;
+  transition: all 0.15s ease;
+  flex-shrink: 0;
+}
+
+.iconButton:hover:not(:disabled) {
+  color: rgba(248, 250, 255, 0.95);
+  background: rgba(79, 70, 229, 0.1);
+  border-color: rgba(139, 92, 246, 0.3);
+}
+
+.iconButton:active:not(:disabled) {
+  transform: scale(0.96);
+}
+
+.iconButton:focus-visible {
+  outline: 2px solid rgba(99, 102, 241, 0.6);
+  outline-offset: 2px;
+}
+
+.iconButton:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+/* Active state for toggles */
+.iconButtonActive {
+  color: rgba(139, 92, 246, 0.9);
+  border-color: rgba(139, 92, 246, 0.3);
+  background: rgba(139, 92, 246, 0.08);
+}
+
+.iconButtonActive:hover:not(:disabled) {
+  color: rgba(139, 92, 246, 1);
+  background: rgba(139, 92, 246, 0.12);
+  border-color: rgba(139, 92, 246, 0.4);
+}
+
+.iconButtonDisabled {
+  opacity: 0.4;
+  cursor: not-allowed;
+}
+
+.iconButtonDisabled:hover {
+  background: transparent;
+  border-color: rgba(148, 163, 184, 0.15);
+  color: rgba(148, 163, 184, 0.6);
+}
+
+/* ─────────────────────────────────────────────────────────────────────────────
+   Council Review Button - compact text+icon action in session controls
+   ───────────────────────────────────────────────────────────────────────────── */
+.councilReviewButton {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  height: 28px;
+  padding: 0 10px;
+  border: 1px solid rgba(139, 92, 246, 0.25);
+  border-radius: 8px;
+  background: rgba(139, 92, 246, 0.06);
+  color: rgba(139, 92, 246, 0.85);
+  font-size: 12px;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.15s ease;
+  flex-shrink: 0;
+  white-space: nowrap;
+}
+
+.councilReviewButton:hover {
+  background: rgba(139, 92, 246, 0.12);
+  border-color: rgba(139, 92, 246, 0.4);
+  color: rgba(139, 92, 246, 1);
+}
+
+.councilReviewButton:active {
+  transform: scale(0.96);
+}
+
+.councilReviewButton:focus-visible {
+  outline: 2px solid rgba(99, 102, 241, 0.6);
+  outline-offset: 2px;
+}
+
+/* ─────────────────────────────────────────────────────────────────────────────
+   Light Mode Overrides
+   ───────────────────────────────────────────────────────────────────────────── */
+
+:global(body.light) .recorderStrip {
+  background: transparent;
+}
+
+:global(body.light) .inputContainer {
+  border-color: rgba(148, 163, 184, 0.25);
+  background: rgba(255, 255, 255, 0.92);
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.04);
+}
+
+:global(body.light) .inputContainer:focus-within {
+  border-color: rgba(139, 92, 246, 0.3);
+  box-shadow: 
+    0 0 0 2px rgba(139, 92, 246, 0.12),
+    0 2px 8px rgba(0, 0, 0, 0.04);
+}
+
+:global(body.light) .micButton {
+  box-shadow: 0 2px 6px rgba(139, 92, 246, 0.2);
+}
+
+:global(body.light) .micButton:hover {
+  box-shadow: 0 2px 8px rgba(139, 92, 246, 0.25);
+}
+
+:global(body.light) .micButtonRecording {
+  box-shadow:
+    0 4px 12px rgba(239, 68, 68, 0.4),
+    0 2px 6px rgba(0, 0, 0, 0.1),
+    /* Audio level indicator glow */
+    0 0 calc(var(--audio-level, 0) * 40px) rgba(239, 68, 68, calc(0.3 + var(--audio-level, 0) * 0.5)),
+    0 0 calc(var(--audio-level, 0) * 20px) rgba(251, 113, 133, calc(0.2 + var(--audio-level, 0) * 0.4));
+}
+
+:global(body.light) .iconButton {
+  border-color: rgba(148, 163, 184, 0.2);
+  color: var(--color-muted-foreground);
+}
+
+:global(body.light) .iconButton:hover:not(:disabled) {
+  color: var(--color-foreground);
+  background: rgba(139, 92, 246, 0.06);
+  border-color: rgba(139, 92, 246, 0.25);
+}
+
+:global(body.light) .iconButtonActive {
+  color: var(--color-primary);
+  border-color: rgba(139, 92, 246, 0.25);
+  background: rgba(139, 92, 246, 0.06);
+}
+
+:global(body.light) .iconButtonActive:hover:not(:disabled) {
+  background: rgba(139, 92, 246, 0.1);
+  border-color: rgba(139, 92, 246, 0.35);
+}
+
+:global(body.light) .councilReviewButton {
+  border-color: rgba(139, 92, 246, 0.2);
+  background: rgba(139, 92, 246, 0.04);
+  color: var(--color-primary);
+}
+
+:global(body.light) .councilReviewButton:hover {
+  background: rgba(139, 92, 246, 0.08);
+  border-color: rgba(139, 92, 246, 0.3);
+}
+
+
+
+/* ─────────────────────────────────────────────────────────────────────────────
+   Mic tooltip setup button — shown inside tooltip when voice setup is needed
+   ───────────────────────────────────────────────────────────────────────────── */
+.micTooltipText {
+  margin: 0 0 8px;
+}
+
+.micTooltipButton {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 4px;
+  width: 100%;
+  padding: 5px 8px;
+  border: 1px solid rgba(148, 163, 184, 0.15);
+  border-radius: 6px;
+  background: rgba(99, 102, 241, 0.08);
+  font-size: 0.7rem;
+  font-weight: 500;
+  color: rgba(148, 163, 184, 0.6);
+  cursor: pointer;
+  transition: all 0.15s ease;
+}
+
+.micTooltipButton:hover {
+  background: rgba(99, 102, 241, 0.18);
+  border-color: rgba(139, 92, 246, 0.3);
+  color: rgba(248, 250, 255, 0.9);
+}
+
+.micTooltipButton:active {
+  transform: scale(0.97);
+}
+
+:global(body.light) .micTooltipButton {
+  border-color: rgba(148, 163, 184, 0.2);
+  background: color-mix(in srgb, var(--color-primary) 6%, transparent);
+  color: var(--color-muted-foreground);
+}
+
+:global(body.light) .micTooltipButton:hover {
+  background: color-mix(in srgb, var(--color-primary) 12%, transparent);
+  border-color: rgba(139, 92, 246, 0.25);
+  color: var(--color-foreground);
+}
+
+

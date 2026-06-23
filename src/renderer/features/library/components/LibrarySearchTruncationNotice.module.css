@@ -1,0 +1,28 @@
+/*
+ * Layout for the enriched cloud-degraded notice: the message text, an inline
+ * info-tooltip trigger, and a "Manage in Settings" button live together inside
+ * the Notice body. At the narrow rail width (~320px, placement="embedded") the
+ * button must wrap below the text rather than crowd it — hence the flex-wrap
+ * row with the button allowed to break to its own line. See the Picker Decision
+ * in docs/plans/260622_library-reconnecting-tooltip/PLAN.md.
+ */
+.cloudDegradedBody {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: var(--space-1) var(--space-2);
+}
+
+/* The message + inline (i) trigger read as one phrase; keep them on a shared
+ * baseline and let only the button wrap away. */
+.messageWithTrigger {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-1);
+}
+
+/* Muted, subordinate info trigger — must not compete with the leading tone
+ * icon. Matches SettingRow's tooltipIcon muted treatment. */
+.infoTrigger {
+  color: var(--color-text-muted);
+}

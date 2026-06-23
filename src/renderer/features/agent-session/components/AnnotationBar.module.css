@@ -1,0 +1,43 @@
+.bar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  padding: 12px 20px;
+  background: color-mix(in srgb, var(--color-primary) 10%, transparent);
+  border: 1px solid color-mix(in srgb, var(--color-primary) 20%, transparent);
+  border-radius: 12px;
+}
+
+.info {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.icon {
+  color: var(--color-primary);
+  flex-shrink: 0;
+}
+
+.count {
+  font-size: 0.9rem;
+  font-weight: 500;
+  color: var(--color-foreground);
+}
+
+.actions {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.clearButton {
+  color: var(--color-muted-foreground);
+}
+
+.clearButton:hover {
+  color: var(--color-foreground);
+}
+
+

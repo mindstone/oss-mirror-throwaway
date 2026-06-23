@@ -1,0 +1,84 @@
+// Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
+
+exports[`cloudChannelPolicies > CLOUD_IPC_ALLOWLIST snapshot 1`] = `
+[
+  "agent:tool-safety-response",
+  "automations:delete",
+  "automations:upsert",
+  "diagnostics:get-recent-context",
+  "error:apply-resolution",
+  "feedback:conversation-dismiss",
+  "feedback:conversation-get",
+  "feedback:conversation-rate",
+  "inbox:add",
+  "inbox:delete",
+  "inbox:execute",
+  "inbox:mark-archived",
+  "inbox:record-execution",
+  "inbox:set-archived",
+  "inbox:set-dueBy",
+  "inbox:set-executing",
+  "inbox:set-quadrant",
+  "inbox:set-status",
+  "inbox:set-tags",
+  "memory:write-approval-response",
+  "safety-prompt:reset",
+  "safety-prompt:revert",
+  "safety-prompt:update",
+]
+`;
+
+exports[`cloudChannelPolicies > CLOUD_ROUTABLE_CHANNELS snapshot 1`] = `
+[
+  "agent:tool-safety-response",
+  "automations:delete",
+  "automations:upsert",
+  "codex:sync-tokens",
+  "diagnostics:get-recent-context",
+  "error:apply-resolution",
+  "feedback:conversation-dismiss",
+  "feedback:conversation-get",
+  "feedback:conversation-rate",
+  "inbox:add",
+  "inbox:delete",
+  "inbox:execute",
+  "inbox:mark-archived",
+  "inbox:record-execution",
+  "inbox:set-archived",
+  "inbox:set-dueBy",
+  "inbox:set-executing",
+  "inbox:set-quadrant",
+  "inbox:set-status",
+  "inbox:set-tags",
+  "memory:write-approval-response",
+  "safety-prompt:reset",
+  "safety-prompt:revert",
+  "safety-prompt:update",
+  "settings:update",
+]
+`;
+
+exports[`cloudChannelPolicies > DUAL_WRITE_CHANNELS snapshot 1`] = `
+[
+  "agent:tool-safety-response",
+  "automations:delete",
+  "automations:upsert",
+  "codex:sync-tokens",
+  "inbox:add",
+  "inbox:delete",
+  "inbox:execute",
+  "inbox:mark-archived",
+  "inbox:record-execution",
+  "inbox:set-archived",
+  "inbox:set-dueBy",
+  "inbox:set-executing",
+  "inbox:set-quadrant",
+  "inbox:set-status",
+  "inbox:set-tags",
+  "memory:write-approval-response",
+  "safety-prompt:reset",
+  "safety-prompt:revert",
+  "safety-prompt:update",
+  "settings:update",
+]
+`;

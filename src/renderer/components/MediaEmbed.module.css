@@ -1,0 +1,47 @@
+.container {
+  margin-top: 12px;
+  margin-bottom: 12px;
+  max-width: 640px;
+}
+
+.playerWrapper {
+  position: relative;
+  padding-top: 56.25%; /* 16:9 aspect ratio for video */
+  border-radius: 12px;
+  overflow: hidden;
+  background: rgba(15, 23, 42, 0.4);
+  border: 1px solid rgba(148, 163, 184, 0.2);
+}
+
+.audioWrapper {
+  position: relative;
+  height: 152px; /* Fixed height for audio players (Spotify, SoundCloud) */
+  border-radius: 12px;
+  overflow: hidden;
+  background: rgba(15, 23, 42, 0.4);
+  border: 1px solid rgba(148, 163, 184, 0.2);
+}
+
+.player {
+  position: absolute;
+  top: 0;
+  left: 0;
+}
+
+.fallbackLink {
+  display: inline-block;
+  color: rgba(96, 165, 250, 0.9);
+  text-decoration: none;
+  word-break: break-word;
+}
+
+.fallbackLink:hover {
+  text-decoration: underline;
+}
+
+/* Light mode adjustments */
+:global(body.light) .playerWrapper,
+:global(body.light) .audioWrapper {
+  background: rgba(241, 245, 249, 0.6);
+  border-color: rgba(148, 163, 184, 0.3);
+}

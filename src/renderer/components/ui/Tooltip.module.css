@@ -1,0 +1,56 @@
+.tooltip {
+  z-index: 9999;
+  width: max-content;
+  max-width: 320px;
+  padding: 6px 10px;
+  font-size: 0.75rem;
+  font-weight: 400;
+  line-height: 1.4;
+  color: #e2e8f0;
+  background: #1e293b;
+  border: 1px solid rgba(148, 163, 184, 0.12);
+  border-radius: var(--radius-md, 10px);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.25);
+  white-space: pre-line;
+  text-transform: none;
+  pointer-events: none;
+  word-break: break-word;
+}
+
+.tooltipInteractive {
+  pointer-events: auto;
+  overflow-wrap: anywhere;
+  opacity: 0;
+}
+
+/* Ensure nested elements inherit tooltip text color and reset spacing */
+.tooltip p,
+.tooltip span,
+.tooltip div,
+.tooltip code,
+.tooltip a {
+  color: inherit;
+  margin: 0;
+}
+
+.tooltip--positioned {
+  animation: tooltip-fade 150ms var(--motion-ease-out, cubic-bezier(0.16, 1, 0.3, 1)) forwards;
+}
+
+.arrow {
+  position: absolute;
+  width: 8px;
+  height: 8px;
+  background: #1e293b;
+  transform: rotate(45deg);
+}
+
+/* Use only opacity animation - transform would override floating-ui positioning */
+@keyframes tooltip-fade {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}

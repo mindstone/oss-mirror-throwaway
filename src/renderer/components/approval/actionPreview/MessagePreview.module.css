@@ -1,0 +1,75 @@
+.root {
+  display: grid;
+  gap: var(--space-4);
+}
+
+/* One quiet, sentence-case metadata line ("Private message to Kofo").
+   Lives on the message preview itself — no pills, no stacked uppercase labels. */
+.metaLine {
+  margin: 0;
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-1) var(--space-4);
+  font-size: calc(var(--font-size-base) * 0.84);
+  line-height: 1.5;
+}
+
+.metaItem {
+  display: inline-flex;
+  gap: var(--space-1);
+  min-width: 0;
+}
+
+.metaLabel {
+  color: var(--color-text-secondary);
+}
+
+.metaValue {
+  color: var(--color-text-primary);
+  word-break: break-word;
+}
+
+/* The sent message text. The single frame is owned by the parent body region,
+   so this is an unboxed grouping — no box-in-box. A hairline rule above keeps
+   the actual message visually distinct from the metadata line. */
+.messageFrame {
+  display: grid;
+  gap: var(--space-3);
+  padding-top: var(--space-4);
+  border-top: 1px solid var(--color-border-soft);
+}
+
+.messageContent {
+  display: grid;
+  gap: var(--space-2);
+}
+
+.subjectLine {
+  margin: 0;
+  font-size: calc(var(--font-size-base) * 0.88);
+  line-height: 1.5;
+  color: var(--color-text-primary);
+  word-break: break-word;
+}
+
+.subjectLabel {
+  color: var(--color-text-secondary);
+  font-weight: 600;
+}
+
+.bodyText {
+  margin: 0;
+  font-size: calc(var(--font-size-base) * 0.92);
+  line-height: 1.55;
+  color: var(--color-text-primary);
+  white-space: pre-wrap;
+  word-break: break-word;
+}
+
+.withheldCopy,
+.emptyCopy {
+  margin: 0;
+  font-size: calc(var(--font-size-base) * 0.88);
+  line-height: 1.45;
+  color: var(--color-text-secondary);
+}

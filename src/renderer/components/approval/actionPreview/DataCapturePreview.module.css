@@ -1,0 +1,88 @@
+.root {
+  display: grid;
+  gap: var(--space-3);
+}
+
+.metaSection {
+  display: grid;
+  gap: var(--space-2);
+}
+
+.metaRow {
+  margin: 0;
+  display: grid;
+  gap: var(--space-1);
+}
+
+.metaLabel {
+  font-size: var(--font-size-xs);
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--color-text-muted);
+  font-weight: 600;
+}
+
+.metaValue {
+  font-size: calc(var(--font-size-base) * 0.9);
+  color: var(--color-text-primary);
+  line-height: 1.45;
+  word-break: break-word;
+}
+
+.newBadge {
+  justify-self: start;
+}
+
+.withheldCopy {
+  margin: 0;
+  font-size: calc(var(--font-size-base) * 0.88);
+  line-height: 1.45;
+  color: var(--color-text-secondary);
+}
+
+.body {
+  display: grid;
+  gap: var(--space-3);
+}
+
+.summaryBlock {
+  display: grid;
+  gap: var(--space-2);
+}
+
+.bodyHeading {
+  margin: 0;
+  font-size: calc(var(--font-size-base) * 0.82);
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--color-text-muted);
+}
+
+.summaryText {
+  margin: 0;
+  font-size: calc(var(--font-size-base) * 0.92);
+  line-height: 1.55;
+  color: var(--color-text-primary);
+  white-space: pre-wrap;
+  word-break: break-word;
+}
+
+.excerptsBlock {
+  display: grid;
+  gap: var(--space-2);
+}
+
+.excerptsList {
+  margin: 0;
+  padding-left: var(--space-4);
+  display: grid;
+  gap: var(--space-2);
+}
+
+.excerptItem {
+  font-size: calc(var(--font-size-base) * 0.88);
+  line-height: 1.5;
+  color: var(--color-text-secondary);
+  white-space: pre-wrap;
+  word-break: break-word;
+}

@@ -1,0 +1,5 @@
+{"type":"turn_started","timestamp":1,"turnId":"turn-1"}
+{"type":"tool","timestamp":2,"stage":"start","toolName":"TodoWrite","detail":"{\"todos\":[{\"id\":\"todo-1\",\"content\":\"Legacy\",\"status\":\"in_progress\"}]}"}
+{"type":"tool","timestamp":3,"stage":"end","toolName":"TaskList","detail":"{\"tasks\":[{\"id\":\"task-1\",\"title\":\"Task task-1\",\"status\":\"pending\"}]}"}
+{"type":"tool","timestamp":4,"stage":"start","toolName":"TodoWrite","detail":"{\"todos\":[{\"id\":\"todo-2\",\"content\":\"Ignore\",\"status\":\"completed\"}]}"}
+{"type":"result","timestamp":5,"text":"Done"}

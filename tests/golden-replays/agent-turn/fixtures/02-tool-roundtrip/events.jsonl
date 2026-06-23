@@ -1,0 +1,5 @@
+{"type":"turn_started","timestamp":1,"turnId":"turn-1"}
+{"type":"tool","timestamp":2,"stage":"start","toolName":"Read","detail":"input","toolUseId":"tool-1"}
+{"type":"tool","timestamp":3,"stage":"end","toolName":"Read","detail":"output","toolUseId":"tool-1"}
+{"type":"assistant","timestamp":4,"text":"Done"}
+{"type":"result","timestamp":5,"text":"Done"}

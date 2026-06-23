@@ -1,0 +1,169 @@
+.dialogBody {
+  max-height: min(72vh, 760px);
+  overflow-y: auto;
+  padding-right: var(--space-2);
+}
+
+.intro {
+  margin: 0 0 var(--space-5);
+  color: var(--color-text-secondary);
+  font-size: 13px;
+  line-height: 1.65;
+}
+
+.platformInstructions {
+  display: grid;
+  gap: var(--space-3);
+  counter-reset: claude-max-step;
+}
+
+.instructionStep {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-2);
+  padding: var(--space-4) var(--space-4) var(--space-4) var(--space-10);
+  border: 1px solid var(--color-border);
+  border-left: 3px solid var(--color-primary);
+  border-radius: var(--radius-md);
+  background: var(--color-card);
+  color: var(--color-card-foreground);
+  counter-increment: claude-max-step;
+}
+
+.instructionStep::before {
+  content: counter(claude-max-step);
+  position: absolute;
+  top: var(--space-4);
+  left: var(--space-3);
+  width: 22px;
+  height: 22px;
+  border-radius: var(--radius-pill);
+  background: var(--color-primary);
+  color: var(--color-primary-foreground);
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 12px;
+  font-weight: 700;
+}
+
+.stepTitle {
+  margin: 0;
+  font-size: 14px;
+  line-height: 1.4;
+  color: var(--color-text-primary);
+}
+
+.stepBody {
+  display: grid;
+  gap: var(--space-2);
+  color: var(--color-text-secondary);
+  font-size: 13px;
+  line-height: 1.6;
+}
+
+.stepBody p {
+  margin: 0;
+}
+
+.stepBody ul {
+  margin: 0;
+  padding-left: var(--space-5);
+  display: grid;
+  gap: var(--space-1);
+}
+
+.stepBody a {
+  color: var(--color-primary);
+}
+
+.stepBody code {
+  font-family: var(--font-family-mono);
+  color: var(--color-text-primary);
+}
+
+.codeBlock {
+  margin: 0;
+  padding: var(--space-3);
+  border-radius: var(--radius-sm);
+  border: 1px solid var(--color-border);
+  background: var(--color-muted);
+  color: var(--color-foreground);
+  font-family: var(--font-family-mono);
+  font-size: 12px;
+  line-height: 1.45;
+  overflow-x: auto;
+}
+
+.callout {
+  margin: 0;
+  padding: var(--space-3);
+  border-radius: var(--radius-sm);
+  border: 1px solid var(--color-border);
+  border-left: 3px solid var(--color-primary);
+  background: var(--color-muted);
+  color: var(--color-text-primary);
+}
+
+.troubleshootingSection {
+  margin-top: var(--space-6);
+  padding-top: var(--space-4);
+  border-top: 1px solid var(--color-border);
+  display: grid;
+  gap: var(--space-3);
+}
+
+.warningCallout {
+  margin: 0;
+  padding: var(--space-3);
+  border-radius: var(--radius-sm);
+  border: 1px solid color-mix(in srgb, var(--color-warning) 35%, transparent);
+  background: color-mix(in srgb, var(--color-warning) 10%, transparent);
+  color: var(--color-text-primary);
+  font-size: 13px;
+  line-height: 1.55;
+}
+
+.troubleshootingSection h3 {
+  margin: 0;
+  font-size: 15px;
+  color: var(--color-text-primary);
+}
+
+.troubleshootingItem {
+  display: grid;
+  gap: var(--space-2);
+  padding: var(--space-3);
+  border-radius: var(--radius-md);
+  border: 1px solid var(--color-border);
+  background: var(--color-card);
+}
+
+.troubleshootingItem h4 {
+  margin: 0;
+  font-size: 13px;
+  color: var(--color-text-primary);
+}
+
+.troubleshootingItem p {
+  margin: 0;
+  color: var(--color-text-secondary);
+  font-size: 13px;
+  line-height: 1.55;
+}
+
+.troubleshootingItem ul {
+  margin: 0;
+  padding-left: var(--space-5);
+  display: grid;
+  gap: var(--space-1);
+  color: var(--color-text-secondary);
+  font-size: 13px;
+  line-height: 1.55;
+}
+
+.troubleshootingItem code {
+  font-family: var(--font-family-mono);
+  color: var(--color-text-primary);
+}

@@ -1,0 +1,38 @@
+.previewFrame {
+  width: 100%;
+  max-width: var(--preview-frame-max-width, 780px);
+  margin: 0 auto;
+  padding: var(--space-6);
+  display: grid;
+  gap: var(--space-4);
+}
+
+.themesGrid {
+  display: grid;
+  gap: var(--space-4);
+  padding: var(--space-6);
+}
+
+.themePanel {
+  padding: var(--space-4);
+  border-radius: var(--radius-xl);
+  background: var(--color-bg-page);
+}
+
+.counterExampleCard {
+  display: grid;
+  gap: var(--space-2);
+  padding: var(--space-3);
+  border: 1px solid var(--color-border-soft);
+  border-radius: var(--radius-md);
+  background: var(--color-surface-elevated);
+}
+
+.counterExampleTitle {
+  margin: 0;
+}
+
+.counterExampleCopy {
+  margin: 0;
+  color: var(--color-text-secondary);
+}

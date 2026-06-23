@@ -1,0 +1,82 @@
+/*
+ * Visual surface for the TipTap-powered prompt editor.
+ *
+ * The outer chrome (border / background / focus ring / chrome modes) lives on `.inputShell` in
+ * `AgentComposer.module.css` so the new editor and the legacy textarea share one input box. This
+ * file only owns:
+ *   - the typing surface itself (font, line-height, color, autoresize bounds)
+ *   - the in-flow chip baseline so a chip aligns with the surrounding text on the same line
+ *   - placeholder styling
+ *
+ * The editor is mounted inside `.contextInputRow` in `AgentComposer.module.css`, which already
+ * handles vertical padding for standalone vs embedded chrome. Do not duplicate padding here.
+ */
+
+.editorRoot {
+  display: block;
+  flex: 1 1 auto;
+  /* Match the textarea's `min-width: 0` flex behaviour so chips can shrink below intrinsic size. */
+  min-width: 0;
+}
+
+.editor {
+  outline: none;
+  font-size: 0.875rem;
+  color: rgba(248, 250, 255, 0.95);
+  line-height: 1.35;
+  min-height: 19px;
+  max-height: clamp(124px, 32vh, 360px);
+  overflow-y: auto;
+  /* Hide the scrollbar by default to mirror the textarea's `overflow-y: hidden` feel, but keep
+   * scroll capability when content exceeds max-height. We surface a thin scrollbar on hover only
+   * so the typing surface stays calm. */
+  scrollbar-width: thin;
+}
+
+.editor:focus {
+  outline: none;
+}
+
+.editor p {
+  margin: 0;
+}
+
+.editor > *:first-child {
+  margin-top: 0;
+}
+
+.editor > *:last-child {
+  margin-bottom: 0;
+}
+
+/*
+ * Inline chip baseline. The mention node renders inside a `<span data-mention-kind="...">` (via
+ * `NodeViewWrapper as="span"`); we nudge it up half a line so the chip sits visually centred with
+ * the surrounding text on the same line.
+ */
+.editor span[data-mention-kind] {
+  vertical-align: middle;
+  margin: 0 1px;
+}
+
+/* TipTap's Placeholder extension renders the placeholder via a CSS pseudo-element on the empty
+ * paragraph. Match the textarea's placeholder treatment so the empty-state visual is identical.
+ * Depending on extension config/version, TipTap may use either `is-editor-empty` or `is-empty`;
+ * support both so Home/Automations/session composer placeholders don't disappear. */
+.editor :global(p.is-editor-empty:first-child::before),
+.editor :global(p.is-empty:first-child::before) {
+  content: attr(data-placeholder);
+  color: rgba(203, 213, 225, 0.6);
+  pointer-events: none;
+  height: 0;
+  float: left;
+}
+
+:global(body.light) .editor {
+  color: var(--color-foreground);
+}
+
+:global(body.light) .editor :global(p.is-editor-empty:first-child::before),
+:global(body.light) .editor :global(p.is-empty:first-child::before) {
+  color: var(--color-muted-foreground);
+}

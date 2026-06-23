@@ -1,0 +1,10 @@
+{
+  "bundledMcps": [
+    "discourse",
+    "ibkr",
+    "profitsage",
+    "mixpanel"
+  ],
+  "alwaysUnbundled": [],
+  "microsoftDependents": []
+}

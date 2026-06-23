@@ -1,0 +1,32 @@
+# Confirm the app boots and reaches home with a valid pairing to the local cloud.
+#
+# Requires environment variables: CLOUD_URL_ENC, CLOUD_TOKEN (used only by the
+# fresh-install fallback below; the common path needs neither).
+#
+# PAIRING MODEL (read this before editing):
+#   Pairing is established by the HARNESS, not this flow. mobile/scripts/
+#   e2e-mobile.sh launches the app and delivers `rebel://e2e/pair?...` via
+#   `xcrun simctl openurl` against a FULLY-BOOTED app — the only reliable way to
+#   pair (a deep link fired before the JS bundle has hydrated races the loader
+#   and leaves the test-mode pair route stuck on its spinner). On the iOS
+#   simulator the resulting pairing lives in the Keychain, which `launchApp:
+#   clearState` does NOT clear — so once paired, the app restores to home on
+#   every subsequent launch. This flow asserts exactly that: a clean app-data
+#   launch still lands on home, i.e. pairing survived and the app is healthy.
+#
+#   The test-mode route is `rebel://e2e/pair` (mounted only when
+#   EXPO_PUBLIC_REBEL_E2E=1, see mobile/app/(e2e)/pair.tsx); it calls the real
+#   `pair()`. CLOUD_URL_ENC must be the *percent-encoded* cloud URL using the
+#   `localhost` host, NOT the `127.0.0.1` IPv4 literal — the cloud binds the IPv6
+#   wildcard and the simulator app's fetch to the IPv4 literal does not reach it.
+#   See docs/project/MOBILE_QA.md + e2e-mobile.sh.
+appId: com.mindstone.rebel.mobile
+---
+- launchApp:
+    clearState: true
+# Keychain pairing (established by the harness) survives clearState → home.
+# Generous timeout: a cold clearState launch reloads the JS bundle from scratch.
+- extendedWaitUntil:
+    visible:
+      id: "home-screen"
+    timeout: 60000

@@ -1,0 +1,403 @@
+/* TemporalGroupView — tab-based temporal sections for inbox cards */
+
+.container {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  flex: 1;
+  min-height: 0;
+  overflow-y: auto;
+}
+
+.container::-webkit-scrollbar {
+  width: 8px;
+  background: transparent;
+}
+
+.container::-webkit-scrollbar-track {
+  background: transparent;
+  margin: 4px 0;
+}
+
+.container::-webkit-scrollbar-thumb {
+  background: rgba(148, 163, 184, 0.15);
+  border-radius: 999px;
+  border: 2px solid transparent;
+  background-clip: padding-box;
+}
+
+.container::-webkit-scrollbar-thumb:hover {
+  background: rgba(148, 163, 184, 0.3);
+  border: 2px solid transparent;
+  background-clip: padding-box;
+}
+
+/* ── Card list ── */
+
+.cardList {
+  display: flex;
+  flex-direction: column;
+  gap: 18px;
+  max-width: 840px;
+  margin: 0 auto;
+  padding-top: 16px;
+  width: 100%;
+}
+
+/* Empty state within a tab */
+.tabEmpty {
+  font-size: 0.82rem;
+  color: rgba(148, 163, 184, 0.5);
+  font-style: italic;
+  padding: 24px 4px;
+  text-align: center;
+  max-width: 800px;
+  margin: 0 auto;
+  width: 100%;
+}
+
+/* Smart group sub-sections */
+.smartGroupHeader {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  padding: 3px 0 3px 8px;
+  cursor: pointer;
+  user-select: none;
+  border: none;
+  background: none;
+  width: 100%;
+  text-align: left;
+  border-radius: 6px;
+  transition: background 0.15s ease;
+}
+
+.smartGroupHeader:hover {
+  background: rgba(148, 163, 184, 0.06);
+}
+
+.smartGroupHeader:focus-visible {
+  outline: 2px solid rgba(99, 102, 241, 0.5);
+  outline-offset: 1px;
+  border-radius: 6px;
+}
+
+.smartGroupChevron {
+  color: rgba(148, 163, 184, 0.4);
+  transition: transform 150ms ease;
+  flex-shrink: 0;
+}
+
+.smartGroupChevronCollapsed {
+  transform: rotate(-90deg);
+}
+
+.smartGroupLabel {
+  font-size: 0.72rem;
+  font-weight: 500;
+  color: rgba(148, 163, 184, 0.7);
+  letter-spacing: 0.01em;
+}
+
+.smartGroupItems {
+  display: flex;
+  flex-direction: column;
+  gap: 18px;
+  padding-left: 12px;
+  max-width: 840px;
+  margin: 0 auto;
+  width: 100%;
+}
+
+/* ── Loading / Empty global states ── */
+
+.loadingState {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex: 1;
+  color: rgba(148, 163, 184, 0.7);
+  font-size: 0.9rem;
+  padding: 48px;
+}
+
+.emptyState {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  flex: 1;
+  min-height: 100%;
+  text-align: center;
+  animation: fadeInUp 500ms ease-out;
+}
+
+@keyframes fadeInUp {
+  from { opacity: 0; transform: translateY(16px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+.emptyStateIcon {
+  margin-bottom: 16px;
+  animation: pulse 3s ease-in-out infinite;
+}
+
+.emptyIconActive { color: #a78bfa; }
+.emptyIconArchived { color: var(--color-muted-foreground); }
+.emptyIconExecuted { color: #F97316; }
+
+:global(body.light) .emptyIconActive { color: #8b5cf6; }
+:global(body.light) .emptyIconArchived { color: var(--color-muted-foreground); }
+:global(body.light) .emptyIconExecuted { color: #ea580c; }
+
+@keyframes pulse {
+  0%, 100% { opacity: 1; transform: scale(1); }
+  50% { opacity: 0.8; transform: scale(1.05); }
+}
+
+.emptyStateTitle {
+  font-size: 1.25rem;
+  font-weight: 600;
+  color: rgba(248, 250, 255, 0.95);
+  margin: 0 0 8px;
+  letter-spacing: -0.01em;
+}
+
+.emptyStateMessage {
+  font-size: 0.9rem;
+  color: rgba(148, 163, 184, 0.75);
+  margin: 0;
+  max-width: 756px;
+  line-height: 1.6;
+}
+
+/* ── Onboarding CTA empty state ── */
+
+.emptyStateCta {
+  margin-top: 20px;
+  gap: 8px;
+}
+
+.emptyStateHints {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  margin-top: 20px;
+}
+
+.emptyStateHint {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 0.8rem;
+  color: rgba(148, 163, 184, 0.5);
+}
+
+/* ── Gathering / Skeleton loading state ── */
+
+.gatheringState {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  width: 100%;
+  max-width: 480px;
+  margin-top: 24px;
+}
+
+.skeletonCard {
+  border-radius: 12px;
+  border: 1px solid rgba(148, 163, 184, 0.1);
+  background: rgba(30, 41, 59, 0.2);
+  padding: 16px;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.skeletonCardFaded {
+  opacity: 0.35;
+}
+
+.skeletonHeader {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.skeletonLine {
+  height: 10px;
+  border-radius: 6px;
+  background: rgba(148, 163, 184, 0.1);
+  animation: skeletonShimmer 2.5s ease-in-out infinite;
+}
+
+.skeletonLineShort { width: 35%; }
+.skeletonLineMedium { width: 60%; }
+.skeletonLineLong { width: 85%; }
+.skeletonLineBadge { width: 60px; height: 18px; border-radius: 999px; }
+
+@keyframes skeletonShimmer {
+  0%, 100% { opacity: 0.3; }
+  50% { opacity: 0.7; }
+}
+
+/* ── Light mode overrides for new states ── */
+
+:global(body.light) .emptyStateHint {
+  color: var(--color-muted-foreground);
+}
+
+:global(body.light) .skeletonCard {
+  border-color: rgba(148, 163, 184, 0.12);
+  background: rgba(248, 250, 252, 0.4);
+}
+
+:global(body.light) .skeletonLine {
+  background: rgba(148, 163, 184, 0.12);
+}
+
+/* Executed list */
+.executedList {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  flex: 1;
+  overflow-y: auto;
+  max-width: 800px;
+  margin: 0 auto;
+  width: 100%;
+}
+
+.executedCard {
+  padding: 14px 16px;
+  border-radius: 14px;
+  border: 1px solid rgba(148, 163, 184, 0.15);
+  background: rgba(30, 41, 59, 0.4);
+  transition: all 0.15s ease;
+  content-visibility: auto;
+  contain-intrinsic-size: auto 70px;
+}
+
+.executedCard:hover {
+  border-color: rgba(139, 92, 246, 0.3);
+  background: rgba(30, 41, 59, 0.55);
+}
+
+.executedCardHeader {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 6px;
+}
+
+.executedCardTitle {
+  font-size: 0.88rem;
+  font-weight: 600;
+  color: var(--color-foreground);
+}
+
+.executedCardTime {
+  font-size: 0.72rem;
+  color: rgba(148, 163, 184, 0.6);
+  font-variant-numeric: tabular-nums;
+}
+
+.executedCardText {
+  font-size: 0.82rem;
+  color: rgba(148, 163, 184, 0.6);
+  margin: 0 0 10px;
+  line-height: 1.5;
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+
+.executedCardButton {
+  font-size: 0.78rem;
+  font-weight: 500;
+  color: rgba(139, 92, 246, 0.7);
+  background: transparent;
+  border: none;
+  padding: 0;
+  cursor: pointer;
+  transition: color 0.15s ease;
+}
+
+.executedCardButton:hover {
+  color: #a78bfa;
+}
+
+.noSearchResults {
+  font-size: 0.8rem;
+  color: rgba(148, 163, 184, 0.6);
+  font-style: italic;
+  padding: 4px 0;
+}
+
+/* ─────────────────────────────────────────────────────────────
+   Light Mode Overrides
+   ───────────────────────────────────────────────────────────── */
+
+:global(body.light) .tabEmpty {
+  color: var(--color-muted-foreground);
+}
+
+:global(body.light) .loadingState {
+  color: var(--color-muted-foreground);
+}
+
+:global(body.light) .emptyStateTitle {
+  color: var(--color-foreground);
+}
+
+:global(body.light) .emptyStateMessage {
+  color: var(--color-muted-foreground);
+}
+
+:global(body.light) .executedCard {
+  border-color: rgba(148, 163, 184, 0.2);
+  background: rgba(255, 255, 255, 0.8);
+}
+
+:global(body.light) .executedCard:hover {
+  background: white;
+  border-color: rgba(139, 92, 246, 0.3);
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.06);
+}
+
+:global(body.light) .executedCardTitle {
+  color: var(--color-foreground);
+}
+
+:global(body.light) .executedCardTime {
+  color: var(--color-muted-foreground);
+}
+
+:global(body.light) .executedCardText {
+  color: #64748b;
+}
+
+:global(body.light) .executedCardButton {
+  color: #7c3aed;
+}
+
+:global(body.light) .executedCardButton:hover {
+  color: #6d28d9;
+}
+
+:global(body.light) .noSearchResults {
+  color: var(--color-muted-foreground);
+}
+
+:global(body.light) .smartGroupHeader:hover {
+  background: rgba(148, 163, 184, 0.08);
+}
+
+:global(body.light) .smartGroupChevron {
+  color: var(--color-muted-foreground);
+}
+
+:global(body.light) .smartGroupLabel {
+  color: var(--color-muted-foreground);
+}

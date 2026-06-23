@@ -1,0 +1,4 @@
+{"type":"turn_started","timestamp":1,"turnId":"turn-1"}
+{"type":"status","timestamp":2,"message":"Working"}
+{"type":"assistant","timestamp":3,"text":"Hello"}
+{"type":"result","timestamp":4,"text":"Hello"}

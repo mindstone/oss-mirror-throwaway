@@ -1,0 +1,5 @@
+{"type":"turn_started","timestamp":1,"turnId":"turn-1"}
+{"type":"status","timestamp":2,"message":"Working","seq":1}
+{"type":"answer_phase_started","timestamp":3,"seq":2}
+{"type":"assistant_delta","timestamp":3,"text":"A","seq":3}
+{"type":"result","timestamp":4,"text":"A","seq":4}

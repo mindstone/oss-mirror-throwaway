@@ -1,0 +1,16 @@
+# Fail-closed test: exclude_paths must be an array when present.
+version: 1
+boundaries:
+  - id: test-invalid-exclude
+    category: test
+    description: Invalid exclude_paths type.
+    spec_doc: docs/project/BOUNDARY_REGISTRY.md
+    match:
+      paths:
+        - src/core/**/*.ts
+      exclude_paths: "not-an-array"
+      identifiers:
+        - X
+    rationale: Test-only entry. Schema-failure.
+    postmortems:
+      - 260420_nano_banana_workspace_path_propagation_postmortem.md

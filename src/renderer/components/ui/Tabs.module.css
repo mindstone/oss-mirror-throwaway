@@ -1,0 +1,120 @@
+.tabs {
+  display: flex;
+  flex-direction: column;
+}
+
+.list {
+  display: inline-flex;
+  align-items: stretch;
+  gap: var(--space-1, 4px);
+}
+
+.list--default {
+  background: var(--color-muted, #f1f5f9);
+  padding: var(--space-1, 4px);
+  border-radius: var(--radius-md, 10px);
+}
+
+.list--pills {
+  gap: var(--space-2, 8px);
+}
+
+.list--underline {
+  border-bottom: 1px solid var(--color-border, #e2e8f0);
+  padding-bottom: 0;
+  gap: 0;
+}
+
+.trigger {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  white-space: nowrap;
+  padding: var(--space-2, 8px) var(--space-4, 16px);
+  font-size: 0.875rem;
+  font-weight: 500;
+  border: none;
+  background: transparent;
+  color: var(--color-text-secondary, rgba(15, 23, 42, 0.6));
+  cursor: pointer;
+  border-radius: var(--radius-sm, 6px);
+  transition:
+    background var(--motion-duration-fast, 120ms) ease,
+    color var(--motion-duration-fast, 120ms) ease;
+}
+
+.trigger:hover {
+  color: var(--color-text-primary, #0f172a);
+}
+
+.trigger:focus-visible {
+  outline: 2px solid var(--color-ring, #a78bfa);
+  outline-offset: 2px;
+}
+
+.trigger:disabled {
+  pointer-events: none;
+  opacity: 0.5;
+}
+
+.trigger--active {
+  background: var(--color-background, #ffffff);
+  color: var(--color-text-primary, #0f172a);
+  box-shadow: var(--shadow-soft, 0 1px 3px rgba(15, 23, 42, 0.1));
+}
+
+/* Pills variant */
+.list--pills .trigger {
+  border-radius: var(--radius-pill, 999px);
+  padding: var(--space-2, 8px) var(--space-4, 16px);
+}
+
+.list--pills .trigger--active {
+  background: var(--color-primary, #8b5cf6);
+  color: var(--color-primary-foreground, #ffffff);
+  box-shadow: none;
+}
+
+/* Underline variant */
+.list--underline .trigger {
+  border-radius: 0;
+  padding: var(--space-3, 12px) var(--space-4, 16px);
+  position: relative;
+}
+
+.list--underline .trigger::after {
+  content: '';
+  position: absolute;
+  bottom: -1px;
+  left: 0;
+  right: 0;
+  height: 2px;
+  background: transparent;
+  transition: background var(--motion-duration-fast, 120ms) ease;
+}
+
+.list--underline .trigger--active {
+  background: transparent;
+  box-shadow: none;
+  color: var(--color-primary, #8b5cf6);
+}
+
+.list--underline .trigger--active::after {
+  background: var(--color-primary, #8b5cf6);
+}
+
+.content {
+  margin-top: var(--space-4, 16px);
+  animation: content-fade 200ms var(--motion-ease-out, cubic-bezier(0.16, 1, 0.3, 1));
+}
+
+@keyframes content-fade {
+  from {
+    opacity: 0;
+    transform: translateY(4px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}

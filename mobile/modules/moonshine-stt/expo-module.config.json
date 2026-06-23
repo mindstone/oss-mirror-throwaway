@@ -1,0 +1,9 @@
+{
+  "platforms": ["ios", "android"],
+  "ios": {
+    "modules": ["MoonshineSttModule"]
+  },
+  "android": {
+    "modules": ["expo.modules.moonshineStt.MoonshineSttModule"]
+  }
+}

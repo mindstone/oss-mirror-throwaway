@@ -1,0 +1,155 @@
+/* Document outline / table of contents – floating Google Docs style */
+
+.panel {
+  display: flex;
+  flex-direction: column;
+  flex-shrink: 0;
+  width: 220px;
+  min-width: 160px;
+  max-width: 260px;
+  min-height: 0;
+  overflow: hidden;
+  /* Floating: no border, no background — blends with surrounding area */
+  background: transparent;
+  border: none;
+  padding-top: 4px;
+}
+
+.header {
+  flex-shrink: 0;
+  padding: 6px 12px 4px;
+  /* No border — lightweight divider-free look */
+}
+
+.title {
+  font-size: 0.72rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  color: var(--color-muted-foreground);
+  opacity: 0.7;
+}
+
+.list {
+  flex: 1;
+  min-height: 0;
+  overflow-y: auto;
+  overflow-x: hidden;
+}
+
+.ul {
+  list-style: none;
+  margin: 0;
+  padding: 2px 4px 8px 4px;
+}
+
+.li {
+  margin: 0;
+  padding: 0;
+}
+
+.row {
+  display: flex;
+  align-items: center;
+  gap: 2px;
+  min-width: 0;
+}
+
+.chevron {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  width: 18px;
+  height: 22px;
+  padding: 0;
+  border: none;
+  background: transparent;
+  color: var(--color-muted-foreground);
+  opacity: 0.45;
+  border-radius: 4px;
+  cursor: pointer;
+  transition: color 0.15s ease, background 0.15s ease, opacity 0.15s ease;
+}
+
+.chevron:hover {
+  color: var(--color-foreground);
+  opacity: 0.9;
+}
+
+.chevronPlaceholder {
+  display: inline-block;
+  width: 18px;
+  flex-shrink: 0;
+}
+
+.item {
+  display: flex;
+  align-items: center;
+  gap: 0;
+  flex: 1;
+  min-width: 0;
+  padding: 3px 8px;
+  border: none;
+  background: transparent;
+  border-radius: 4px;
+  /* Lighter than document headings — subdued so outline feels secondary */
+  color: var(--color-muted-foreground);
+  opacity: 0.6;
+  font-size: 0.78rem;
+  font-family: inherit;
+  text-align: left;
+  cursor: pointer;
+  line-height: 1.4;
+  transition: background 0.12s ease, color 0.12s ease, opacity 0.12s ease;
+}
+
+.item:hover {
+  color: var(--color-foreground);
+  opacity: 0.9;
+  background: rgba(148, 163, 184, 0.08);
+}
+
+/* Active heading — subtle background highlight + slightly brighter text */
+.itemActive {
+  color: var(--color-primary);
+  opacity: 0.9;
+  background: color-mix(in srgb, var(--color-primary) 8%, transparent);
+  font-weight: 500;
+}
+
+.itemActive:hover {
+  color: var(--color-primary);
+  opacity: 1;
+  background: color-mix(in srgb, var(--color-primary) 12%, transparent);
+}
+
+.text {
+  flex: 1;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.empty {
+  flex: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 16px;
+}
+
+.empty p {
+  margin: 0;
+  font-size: 0.8125rem;
+  color: var(--color-muted-foreground);
+  opacity: 0.6;
+}
+
+/* ─── Light Mode ─── */
+/* Most styles now use CSS custom properties so light mode inherits
+   automatically. Only override where opacity or background alpha differs. */
+
+:global(body.light) .item:hover {
+  background: rgba(15, 23, 42, 0.04);
+}

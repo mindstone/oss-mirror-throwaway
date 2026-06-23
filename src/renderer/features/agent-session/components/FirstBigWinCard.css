@@ -1,0 +1,104 @@
+.first-big-win-card {
+  display: flex;
+  align-items: flex-start;
+  gap: 12px;
+  padding: 16px;
+  margin: 16px 0;
+  background: linear-gradient(135deg, rgba(79, 70, 229, 0.08) 0%, rgba(168, 85, 247, 0.08) 100%);
+  border: 1px solid rgba(79, 70, 229, 0.2);
+  border-radius: 12px;
+  animation: firstBigWinSlideIn 0.3s ease-out;
+}
+
+@keyframes firstBigWinSlideIn {
+  from {
+    opacity: 0;
+    transform: translateY(8px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.first-big-win-card__icon {
+  color: var(--color-primary);
+  flex-shrink: 0;
+  margin-top: 2px;
+}
+
+.first-big-win-card__content {
+  flex: 1;
+  min-width: 0;
+}
+
+.first-big-win-card__headline {
+  font-size: 15px;
+  font-weight: 600;
+  color: var(--color-text-primary);
+  margin: 0 0 4px;
+}
+
+.first-big-win-card__stat {
+  display: flex;
+  align-items: baseline;
+  gap: 4px;
+  margin: 0 0 8px;
+}
+
+.first-big-win-card__value {
+  font-size: 24px;
+  font-weight: 700;
+  color: var(--color-primary);
+  font-variant-numeric: tabular-nums;
+}
+
+.first-big-win-card__unit {
+  font-size: 14px;
+  font-weight: 500;
+  color: var(--color-text-secondary);
+}
+
+.first-big-win-card__label {
+  font-size: 13px;
+  color: var(--color-text-muted);
+  margin-left: 4px;
+}
+
+.first-big-win-card__quip {
+  font-size: 13px;
+  color: var(--color-text-muted);
+  font-style: italic;
+  margin: 0;
+}
+
+.first-big-win-card__dismiss {
+  flex-shrink: 0;
+  padding: 6px 12px;
+  font-size: 13px;
+  font-weight: 500;
+  color: var(--color-primary);
+  background: transparent;
+  border: 1px solid var(--color-primary);
+  border-radius: 6px;
+  cursor: pointer;
+  transition: background 0.15s;
+}
+
+.first-big-win-card__dismiss:hover {
+  background: rgba(79, 70, 229, 0.1);
+}
+
+/* ─────────────────────────────────────────────────────────────
+   Large Screen Grid Positioning
+   On large screens (1800px+), ConversationPane uses CSS Grid.
+   Place the card in the center content column so it doesn't
+   default to column 1 (left-aligned).
+   ───────────────────────────────────────────────────────────── */
+
+@media (min-width: 1800px) {
+  .first-big-win-card {
+    grid-column: 2;
+    justify-self: center;
+  }
+}

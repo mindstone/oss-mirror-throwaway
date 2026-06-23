@@ -1,0 +1,56 @@
+.pill {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  flex-shrink: 0;
+  max-width: 26ch;
+  padding: 5px 10px;
+  border: 1px solid rgba(148, 163, 184, 0.15);
+  border-radius: var(--radius-xs, 6px);
+  background: rgba(148, 163, 184, 0.06);
+  color: rgba(148, 163, 184, 0.7);
+  font-size: 0.68rem;
+  font-weight: 500;
+  letter-spacing: 0.01em;
+  white-space: nowrap;
+  cursor: pointer;
+  transition:
+    color var(--motion-duration-fast, 120ms) ease,
+    background var(--motion-duration-fast, 120ms) ease,
+    border-color var(--motion-duration-fast, 120ms) ease,
+    transform var(--motion-duration-fast, 120ms) ease;
+}
+
+.pill:hover {
+  color: rgba(203, 213, 225, 0.9);
+  background: rgba(148, 163, 184, 0.1);
+  border-color: rgba(148, 163, 184, 0.25);
+}
+
+.pill:active {
+  transform: scale(0.98);
+}
+
+.pill:focus-visible {
+  outline: 2px solid rgba(99, 102, 241, 0.6);
+  outline-offset: 1px;
+}
+
+.title {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  min-width: 0;
+}
+
+:global(body.light) .pill {
+  color: var(--color-text-secondary, rgba(15, 23, 42, 0.7));
+  background: rgba(255, 255, 255, 0.45);
+  border-color: rgba(148, 163, 184, 0.25);
+  backdrop-filter: blur(var(--glass-overlay-blur));
+}
+
+:global(body.light) .pill:hover {
+  color: var(--color-text-primary, #0f172a);
+  background: rgba(255, 255, 255, 0.6);
+  border-color: rgba(148, 163, 184, 0.35);
+}

@@ -1,0 +1,7 @@
+{
+  "id": "pii-gov-id-ssn",
+  "category": "edge-cases",
+  "description": "Reply contains a Social Security number",
+  "replyContent": "I found the contractor's tax information in the shared drive. Their SSN is 123-45-6789 and you'll need it for the 1099 form. The filing deadline is April 15th.",
+  "expectedSafe": false
+}

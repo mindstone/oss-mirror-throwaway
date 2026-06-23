@@ -1,0 +1,263 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Options</title>
+  <style>
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+      padding: 24px;
+      background: #fff;
+      color: #1a1a1a;
+      line-height: 1.5;
+    }
+
+    body.dark {
+      background: #1a1a1a;
+      color: #f0f0f0;
+    }
+
+    @media (prefers-color-scheme: dark) {
+      body:not(.light) {
+        background: #1a1a1a;
+        color: #f0f0f0;
+      }
+    }
+
+    h1 {
+      font-size: 16px;
+      font-weight: 600;
+      margin-bottom: 20px;
+    }
+
+    .error {
+      color: #888;
+      font-size: 14px;
+      text-align: center;
+      padding: 40px 0;
+    }
+
+    .cards {
+      display: flex;
+      flex-direction: column;
+      gap: 14px;
+    }
+
+    .card {
+      border: 1px solid #e5e5e5;
+      border-radius: 10px;
+      padding: 18px 20px;
+      transition: border-color 0.15s;
+    }
+    body.dark .card { border-color: #333; }
+    @media (prefers-color-scheme: dark) { body:not(.light) .card { border-color: #333; } }
+
+    .card-title {
+      font-size: 15px;
+      font-weight: 600;
+      margin-bottom: 6px;
+    }
+
+    .card-description {
+      font-size: 13px;
+      color: #555;
+      margin-bottom: 12px;
+    }
+    body.dark .card-description { color: #aaa; }
+    @media (prefers-color-scheme: dark) { body:not(.light) .card-description { color: #aaa; } }
+
+    .pros-cons {
+      display: flex;
+      gap: 20px;
+      flex-wrap: wrap;
+    }
+
+    .pros, .cons {
+      flex: 1;
+      min-width: 140px;
+    }
+
+    .pros-label, .cons-label {
+      font-size: 11px;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+      margin-bottom: 6px;
+    }
+
+    .pros-label { color: #16a34a; }
+    .cons-label { color: #dc2626; }
+    body.dark .pros-label { color: #4ade80; }
+    body.dark .cons-label { color: #f87171; }
+    @media (prefers-color-scheme: dark) { body:not(.light) .pros-label { color: #4ade80; } }
+    @media (prefers-color-scheme: dark) { body:not(.light) .cons-label { color: #f87171; } }
+
+    .pros ul, .cons ul {
+      list-style: none;
+      padding: 0;
+    }
+
+    .pros li, .cons li {
+      font-size: 13px;
+      padding: 2px 0;
+      padding-left: 18px;
+      position: relative;
+    }
+
+    .pros li::before {
+      content: '+';
+      position: absolute;
+      left: 0;
+      font-weight: 700;
+      color: #16a34a;
+    }
+    body.dark .pros li::before { color: #4ade80; }
+    @media (prefers-color-scheme: dark) { body:not(.light) .pros li::before { color: #4ade80; } }
+
+    .cons li::before {
+      content: '\2212';
+      position: absolute;
+      left: 0;
+      font-weight: 700;
+      color: #dc2626;
+    }
+    body.dark .cons li::before { color: #f87171; }
+    @media (prefers-color-scheme: dark) { body:not(.light) .cons li::before { color: #f87171; } }
+
+    .option-number {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      width: 22px;
+      height: 22px;
+      border-radius: 50%;
+      background: #f0f0f0;
+      font-size: 12px;
+      font-weight: 600;
+      color: #666;
+      margin-right: 8px;
+      flex-shrink: 0;
+    }
+    body.dark .option-number { background: #333; color: #aaa; }
+    @media (prefers-color-scheme: dark) { body:not(.light) .option-number { background: #333; color: #aaa; } }
+
+    .card-header {
+      display: flex;
+      align-items: center;
+      margin-bottom: 6px;
+    }
+  </style>
+</head>
+<body>
+  <div id="root"></div>
+
+  <script>
+    const DATA = /*__DATA__*/ null;
+
+    (function () {
+      'use strict';
+
+      // Theme detection
+      try {
+        var ctx = window.__REBEL_HOST_CONTEXT__;
+        if (ctx && ctx.theme === 'dark') {
+          document.body.classList.add('dark');
+        } else if (ctx && ctx.theme === 'light') {
+          document.body.classList.add('light');
+        }
+      } catch (_) { /* fallback to prefers-color-scheme */ }
+
+      var root = document.getElementById('root');
+
+      try {
+        if (!DATA || !DATA.options || !DATA.options.length) {
+          root.innerHTML = '<p class="error">No options available</p>';
+          return;
+        }
+
+        var question = DATA.question || '';
+        var options = DATA.options;
+
+        var html = '';
+        if (question) {
+          html += '<h1>' + escapeHtml(question) + '</h1>';
+        }
+
+        html += '<div class="cards">';
+        options.forEach(function (opt, i) {
+          html += '<div class="card">';
+
+          // Title
+          html += '<div class="card-header">';
+          html += '<span class="option-number">' + (i + 1) + '</span>';
+          html += '<span class="card-title">' + escapeHtml(opt.title) + '</span>';
+          html += '</div>';
+
+          // Description
+          if (opt.description) {
+            html += '<div class="card-description">' + escapeHtml(opt.description) + '</div>';
+          }
+
+          // Pros / Cons
+          var hasPros = opt.pros && opt.pros.length > 0;
+          var hasCons = opt.cons && opt.cons.length > 0;
+
+          if (hasPros || hasCons) {
+            html += '<div class="pros-cons">';
+
+            if (hasPros) {
+              html += '<div class="pros">';
+              html += '<div class="pros-label">Pros</div>';
+              html += '<ul>';
+              opt.pros.forEach(function (p) {
+                html += '<li>' + escapeHtml(p) + '</li>';
+              });
+              html += '</ul></div>';
+            }
+
+            if (hasCons) {
+              html += '<div class="cons">';
+              html += '<div class="cons-label">Cons</div>';
+              html += '<ul>';
+              opt.cons.forEach(function (c) {
+                html += '<li>' + escapeHtml(c) + '</li>';
+              });
+              html += '</ul></div>';
+            }
+
+            html += '</div>';
+          }
+
+          html += '</div>';
+        });
+        html += '</div>';
+
+        root.innerHTML = html;
+      } catch (e) {
+        root.innerHTML = '<p class="error">Failed to render options</p>';
+      }
+
+      function escapeHtml(s) {
+        if (!s) return '';
+        return String(s).replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;');
+      }
+    })();
+
+    var rafPending = false;
+    function reportHeight() {
+      if (rafPending) return;
+      rafPending = true;
+      requestAnimationFrame(function () {
+        rafPending = false;
+        var h = document.documentElement.scrollHeight;
+        window.parent.postMessage({ jsonrpc: '2.0', method: 'ui/resize', params: { height: h } }, '*');
+      });
+    }
+    reportHeight();
+    new ResizeObserver(reportHeight).observe(document.body);
+  </script>
+</body>
+</html>

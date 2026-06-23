@@ -1,0 +1,47 @@
+# Start a NEW conversation from home and send a message; assert the turn
+# completes against the deterministic mock agent (REBEL_MOCK_AGENT_TURNS=1).
+#
+# Entry: the redesigned home has no inline composer. The center tab-bar
+# affordances start a conversation — `tab-bar-mic-button` (voice, needs mic
+# permission) and `tab-bar-type-button` ("Type", text compose). The Type
+# button pushes /conversation/<newId>?compose=text. We use the typed path
+# because it's deterministic and needs no permission grant.
+#
+# Run: maestro test mobile/.maestro/new-conversation.yaml
+appId: com.mindstone.rebel.mobile
+---
+- launchApp
+- extendedWaitUntil:
+    visible:
+      id: "home-screen"
+    timeout: 30000
+# Open a fresh text-compose conversation from the center "Type" affordance.
+- tapOn:
+    id: "tab-bar-type-button"
+- extendedWaitUntil:
+    visible:
+      id: "conversation-screen"
+    timeout: 15000
+- extendedWaitUntil:
+    visible:
+      id: "conversation-input"
+    timeout: 15000
+# Type + send. The send button only renders once the composer is non-empty.
+- tapOn:
+    id: "conversation-input"
+- inputText: "Hello from Maestro"
+- hideKeyboard
+- extendedWaitUntil:
+    visible:
+      id: "conversation-send-button"
+    timeout: 10000
+- tapOn:
+    id: "conversation-send-button"
+# In mock mode the turn runs + completes deterministically; the finish-line
+# chip is the "turn done" signal. (We don't assert reply text — the mock
+# payload is an implementation detail; reaching the finish line proves the
+# full send → agent-turn → completion loop ran end to end.)
+- extendedWaitUntil:
+    visible:
+      id: "finish-line-chip"
+    timeout: 30000

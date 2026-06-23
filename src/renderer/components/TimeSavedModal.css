@@ -1,0 +1,399 @@
+.time-saved-modal {
+  max-width: 420px;
+}
+
+.time-saved-modal__tabs {
+  width: 100%;
+  margin-bottom: 8px;
+}
+
+.time-saved-modal__content {
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+  padding: 8px 0 16px;
+  opacity: 0;
+  transform: translateY(8px);
+  transition: opacity 0.3s ease-out, transform 0.3s ease-out;
+}
+
+.time-saved-modal__content--visible {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+.time-saved-modal__hero {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 4px;
+  padding: 36px 24px 32px;
+  background: linear-gradient(
+    135deg,
+    #4f46e5 0%,
+    #7c3aed 50%,
+    #a855f7 100%
+  );
+  border-radius: 16px;
+  position: relative;
+  overflow: hidden;
+}
+
+/* Subtle noise texture overlay for depth */
+.time-saved-modal__hero::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)'/%3E%3C/svg%3E");
+  opacity: 0.04;
+  pointer-events: none;
+}
+
+/* Soft glow at top */
+.time-saved-modal__hero::after {
+  content: '';
+  position: absolute;
+  top: -50%;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 200%;
+  height: 100%;
+  background: radial-gradient(
+    ellipse at center,
+    rgba(255, 255, 255, 0.15) 0%,
+    transparent 60%
+  );
+  pointer-events: none;
+}
+
+.time-saved-modal__eyebrow {
+  font-size: 13px;
+  font-weight: 500;
+  color: rgba(255, 255, 255, 0.8);
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  position: relative;
+  z-index: 1;
+}
+
+.time-saved-modal__value-group {
+  display: flex;
+  align-items: baseline;
+  gap: 10px;
+  position: relative;
+  z-index: 1;
+  margin: 8px 0 4px;
+}
+
+.time-saved-modal__value {
+  font-size: 64px;
+  font-weight: 700;
+  letter-spacing: -0.03em;
+  color: #ffffff;
+  font-variant-numeric: tabular-nums;
+  line-height: 1;
+  text-shadow: 0 2px 12px rgba(0, 0, 0, 0.15);
+}
+
+.time-saved-modal__value--phrase {
+  max-width: 100%;
+  font-size: 28px;
+  line-height: 1.08;
+  text-align: center;
+  white-space: normal;
+}
+
+.time-saved-modal__value--landed {
+  animation: valueLandingPulse 300ms ease-out;
+}
+
+@keyframes valueLandingPulse {
+  0% { transform: scale(1); }
+  50% { transform: scale(1.04); }
+  100% { transform: scale(1); }
+}
+
+.time-saved-modal__unit {
+  font-size: 22px;
+  font-weight: 500;
+  color: rgba(255, 255, 255, 0.9);
+  margin-bottom: 6px;
+}
+
+.time-saved-modal__label {
+  font-size: 14px;
+  color: rgba(255, 255, 255, 0.7);
+  text-align: center;
+  position: relative;
+  z-index: 1;
+}
+
+/* Contextual translation - the emotional anchor */
+.time-saved-modal__context {
+  font-size: 15px;
+  color: rgba(255, 255, 255, 0.95);
+  text-align: center;
+  margin: 16px 0 0;
+  line-height: 1.4;
+  font-weight: 500;
+  position: relative;
+  z-index: 1;
+}
+
+.time-saved-modal__stats {
+  display: flex;
+  justify-content: center;
+  gap: 32px;
+  padding: 0 16px;
+}
+
+.time-saved-modal__stat {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 4px;
+}
+
+.time-saved-modal__stat-value {
+  font-size: 18px;
+  font-weight: 600;
+  color: var(--color-text-primary);
+  font-variant-numeric: tabular-nums;
+}
+
+.time-saved-modal__stat-label {
+  font-size: 11px;
+  color: var(--color-text-muted);
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+}
+
+/* Quip - Rebel's personality */
+.time-saved-modal__quip {
+  font-size: 14px;
+  color: var(--color-text-muted);
+  text-align: center;
+  margin: 0;
+  font-style: italic;
+}
+
+/* All-time hero variant - warmer gradient to signify cumulative value */
+.time-saved-modal__hero--alltime {
+  background: linear-gradient(
+    135deg,
+    #6366f1 0%,
+    #8b5cf6 40%,
+    #a855f7 70%,
+    #c084fc 100%
+  );
+}
+
+.time-saved-modal__hero--error {
+  background: linear-gradient(135deg, #475569 0%, #64748b 50%, #94a3b8 100%);
+}
+
+/* Day-by-day chart */
+.time-saved-modal__days {
+  display: flex;
+  justify-content: center;
+  gap: 8px;
+  padding: 0 8px;
+}
+
+.time-saved-modal__day {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 6px;
+  min-width: 40px;
+  padding: 8px 4px;
+  border: none;
+  border-radius: 8px;
+  background: transparent;
+  cursor: default;
+  transition: background 0.15s ease;
+}
+
+.time-saved-modal__day--clickable {
+  cursor: pointer;
+}
+
+.time-saved-modal__day--clickable:hover {
+  background: var(--color-surface-hover, rgba(148, 163, 184, 0.1));
+}
+
+.time-saved-modal__day--selected {
+  background: var(--color-primary-muted, rgba(99, 102, 241, 0.15));
+}
+
+.time-saved-modal__day--selected:hover {
+  background: var(--color-primary-muted, rgba(99, 102, 241, 0.2));
+}
+
+.time-saved-modal__day:disabled {
+  opacity: 0.6;
+}
+
+.time-saved-modal__day-label {
+  font-size: 11px;
+  font-weight: 500;
+  color: var(--color-text-muted);
+  text-transform: uppercase;
+  letter-spacing: 0.02em;
+}
+
+.time-saved-modal__day--selected .time-saved-modal__day-label {
+  color: var(--color-primary);
+  font-weight: 600;
+}
+
+.time-saved-modal__day-dot {
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  background: var(--color-border);
+  transition: background 0.2s ease, transform 0.2s ease;
+}
+
+.time-saved-modal__day-dot--active {
+  background: var(--color-primary);
+  transform: scale(1.1);
+}
+
+.time-saved-modal__day--selected .time-saved-modal__day-dot--active {
+  transform: scale(1.3);
+  box-shadow: 0 0 0 3px var(--color-primary-muted, rgba(99, 102, 241, 0.3));
+}
+
+.time-saved-modal__day-value {
+  font-size: 11px;
+  font-weight: 500;
+  color: var(--color-text-secondary);
+  font-variant-numeric: tabular-nums;
+  min-height: 1em;
+}
+
+.time-saved-modal__day-value--empty {
+  visibility: hidden;
+}
+
+.time-saved-modal__day--selected .time-saved-modal__day-value {
+  color: var(--color-primary);
+  font-weight: 600;
+}
+
+/* Top Sessions section */
+.time-saved-modal__top-sessions {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.time-saved-modal__section-title {
+  font-size: 12px;
+  font-weight: 600;
+  color: var(--color-text-muted);
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  margin: 0;
+}
+
+.time-saved-modal__session-list {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.time-saved-modal__session-item {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 12px;
+  padding: 10px 12px;
+  background: var(--color-surface-secondary);
+  border: 1px solid var(--color-border);
+  border-radius: 8px;
+  cursor: pointer;
+  transition: background 0.15s ease, border-color 0.15s ease;
+  width: 100%;
+  text-align: left;
+}
+
+.time-saved-modal__session-item:hover:not(:disabled) {
+  background: var(--color-surface-hover);
+  border-color: var(--color-border-hover);
+}
+
+.time-saved-modal__session-item:disabled,
+.time-saved-modal__session-item--disabled {
+  cursor: default;
+  opacity: 0.6;
+}
+
+.time-saved-modal__session-title {
+  font-size: 13px;
+  font-weight: 500;
+  color: var(--color-text-primary);
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  flex: 1;
+  min-width: 0;
+}
+
+.time-saved-modal__session-item--disabled .time-saved-modal__session-title {
+  color: var(--color-text-muted);
+  font-style: italic;
+}
+
+.time-saved-modal__session-time {
+  font-size: 12px;
+  font-weight: 600;
+  color: var(--color-primary);
+  font-variant-numeric: tabular-nums;
+  white-space: nowrap;
+}
+
+/* Session tooltip (structured layout matching SessionTooltipContent) */
+.time-saved-modal__session-tooltip {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  max-width: 300px;
+  font-size: 12px;
+}
+.time-saved-modal__tooltip-title {
+  font-weight: 600;
+  color: inherit;
+  line-height: 1.3;
+}
+.time-saved-modal__tooltip-reasoning {
+  color: var(--color-text-muted);
+  line-height: 1.4;
+  font-size: 11px;
+}
+.time-saved-modal__tooltip-metadata {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 4px;
+  color: var(--color-text-muted);
+  font-size: 11px;
+  margin-top: 2px;
+}
+.time-saved-modal__tooltip-separator {
+  opacity: 0.5;
+}
+
+/* Empty/loading messages */
+.time-saved-modal__empty-message,
+.time-saved-modal__loading-message {
+  font-size: 13px;
+  color: var(--color-text-muted);
+  text-align: center;
+  padding: 16px;
+  margin: 0;
+}

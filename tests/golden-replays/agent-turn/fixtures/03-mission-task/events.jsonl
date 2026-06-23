@@ -1,0 +1,5 @@
+{"type":"turn_started","timestamp":1,"turnId":"turn-1"}
+{"type":"tool","timestamp":2,"stage":"start","toolName":"MissionSet","detail":"{\"goal\":\"Draft brief\"}"}
+{"type":"tool","timestamp":3,"stage":"end","toolName":"TaskList","detail":"{\"tasks\":[{\"id\":\"task-1\",\"title\":\"Task task-1\",\"status\":\"pending\"}]}"}
+{"type":"tool","timestamp":4,"stage":"end","toolName":"TaskCreate","detail":"{\"task\":{\"id\":\"task-2\",\"title\":\"Task task-2\",\"status\":\"pending\"},\"tasks\":[{\"id\":\"task-2\",\"title\":\"Task task-2\",\"status\":\"pending\"}]}"}
+{"type":"result","timestamp":5,"text":"Done"}

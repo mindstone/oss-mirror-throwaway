@@ -1,0 +1,63 @@
+.chip {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  box-sizing: border-box;
+  max-width: 180px;
+  height: 22px;
+  padding: 0 4px 0 7px;
+  border: 1px solid color-mix(in srgb, var(--color-muted-foreground) 22%, transparent);
+  border-radius: var(--radius-sm, 8px);
+  background: color-mix(in srgb, var(--color-muted-foreground) 8%, var(--color-card));
+  color: color-mix(in srgb, var(--color-foreground) 88%, var(--color-muted-foreground));
+  font-size: 0.68rem;
+  font-weight: 600;
+  line-height: 1;
+  white-space: nowrap;
+}
+
+.icon {
+  flex-shrink: 0;
+  color: currentColor;
+  opacity: 0.82;
+}
+
+.label {
+  min-width: 0;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.remove {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  width: 14px;
+  height: 14px;
+  margin-right: -1px;
+  padding: 0;
+  border: 0;
+  border-radius: var(--radius-pill, 999px);
+  background: transparent;
+  color: currentColor;
+  cursor: pointer;
+  opacity: 0.68;
+  transition: background var(--motion-duration-fast, 120ms) ease, opacity var(--motion-duration-fast, 120ms) ease;
+}
+
+.remove:hover {
+  background: color-mix(in srgb, currentColor 12%, transparent);
+  opacity: 1;
+}
+
+.remove:focus-visible {
+  outline: 2px solid var(--color-ring, currentColor);
+  outline-offset: 2px;
+}
+
+:global(body.light) .chip {
+  border-color: color-mix(in srgb, var(--color-muted-foreground) 20%, transparent);
+  background: color-mix(in srgb, var(--color-muted-foreground) 7%, var(--color-card));
+  color: color-mix(in srgb, var(--color-foreground) 90%, var(--color-muted-foreground));
+}

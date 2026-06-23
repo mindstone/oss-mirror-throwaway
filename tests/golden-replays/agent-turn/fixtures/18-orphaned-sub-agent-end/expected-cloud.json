@@ -1,0 +1,75 @@
+{
+  "fixture": "18-orphaned-sub-agent-end",
+  "steps": [
+    {
+      "index": 0,
+      "eventType": "turn_started",
+      "state": {
+        "isSending": false,
+        "streamingText": "",
+        "statusText": null,
+        "activeTurnId": "turn-1",
+        "completedSteps": [],
+        "missionContext": null,
+        "taskProgress": [],
+        "subAgentItems": [],
+        "error": null,
+        "hasMissionSet": false,
+        "touchedTaskIds": [],
+        "userQuestionEventsByTurn": {}
+      }
+    },
+    {
+      "index": 1,
+      "eventType": "tool",
+      "state": {
+        "isSending": false,
+        "streamingText": "",
+        "statusText": null,
+        "activeTurnId": "turn-1",
+        "completedSteps": [
+          {
+            "label": "Task",
+            "timestamp": 2000,
+            "toolName": "Task",
+            "detail": "No start",
+            "toolUseId": "missing"
+          }
+        ],
+        "missionContext": null,
+        "taskProgress": [],
+        "subAgentItems": [],
+        "error": null,
+        "hasMissionSet": false,
+        "touchedTaskIds": [],
+        "userQuestionEventsByTurn": {}
+      }
+    },
+    {
+      "index": 2,
+      "eventType": "result",
+      "state": {
+        "isSending": false,
+        "streamingText": "",
+        "statusText": null,
+        "activeTurnId": null,
+        "completedSteps": [
+          {
+            "label": "Task",
+            "timestamp": 2000,
+            "toolName": "Task",
+            "detail": "No start",
+            "toolUseId": "missing"
+          }
+        ],
+        "missionContext": null,
+        "taskProgress": [],
+        "subAgentItems": [],
+        "error": null,
+        "hasMissionSet": false,
+        "touchedTaskIds": [],
+        "userQuestionEventsByTurn": {}
+      }
+    }
+  ]
+}

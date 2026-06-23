@@ -1,0 +1,77 @@
+{
+  "fixture": "11-warning",
+  "steps": [
+    {
+      "index": 0,
+      "eventType": "turn_started",
+      "state": {
+        "isSending": false,
+        "streamingText": "",
+        "statusText": null,
+        "activeTurnId": "turn-1",
+        "completedSteps": [],
+        "missionContext": null,
+        "taskProgress": [],
+        "subAgentItems": [],
+        "error": null,
+        "hasMissionSet": false,
+        "touchedTaskIds": [],
+        "userQuestionEventsByTurn": {}
+      }
+    },
+    {
+      "index": 1,
+      "eventType": "warning",
+      "state": {
+        "isSending": false,
+        "streamingText": "",
+        "statusText": null,
+        "activeTurnId": "turn-1",
+        "completedSteps": [],
+        "missionContext": null,
+        "taskProgress": [],
+        "subAgentItems": [],
+        "error": null,
+        "hasMissionSet": false,
+        "touchedTaskIds": [],
+        "userQuestionEventsByTurn": {}
+      }
+    },
+    {
+      "index": 2,
+      "eventType": "assistant",
+      "state": {
+        "isSending": false,
+        "streamingText": "OK",
+        "statusText": null,
+        "activeTurnId": "turn-1",
+        "completedSteps": [],
+        "missionContext": null,
+        "taskProgress": [],
+        "subAgentItems": [],
+        "error": null,
+        "hasMissionSet": false,
+        "touchedTaskIds": [],
+        "userQuestionEventsByTurn": {}
+      }
+    },
+    {
+      "index": 3,
+      "eventType": "result",
+      "state": {
+        "isSending": false,
+        "streamingText": "OK",
+        "statusText": null,
+        "activeTurnId": null,
+        "completedSteps": [],
+        "missionContext": null,
+        "taskProgress": [],
+        "subAgentItems": [],
+        "error": null,
+        "hasMissionSet": false,
+        "touchedTaskIds": [],
+        "userQuestionEventsByTurn": {}
+      }
+    }
+  ]
+}

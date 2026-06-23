@@ -1,0 +1,32 @@
+{
+  "description": "Subagent fallback hint rate limit provider",
+  "input": {
+    "codexConnectivity": "connected",
+    "fallbackHint": {
+      "kind": "codex-rate-limit-provider",
+      "forceNonCodexTransport": true
+    },
+    "model": "gpt-5.5",
+    "routeScope": "fallback",
+    "settings": {
+      "activeProvider": "codex",
+      "models": {
+        "apiKey": "sk-ant-test",
+        "authMethod": "api-key",
+        "model": "claude-sonnet-4-6",
+        "oauthToken": null
+      },
+      "localModel": {
+        "activeProfileId": null,
+        "profiles": []
+      },
+      "openRouter": {
+        "enabled": false,
+        "oauthToken": null,
+        "selectedModel": "anthropic/claude-sonnet-4.6"
+      },
+      "providerKeys": {}
+    }
+  },
+  "name": "subagent_fallback_hint_rate_limit"
+}

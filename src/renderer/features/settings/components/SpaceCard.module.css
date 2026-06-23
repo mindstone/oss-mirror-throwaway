@@ -1,0 +1,516 @@
+/**
+ * SpaceCard styles
+ *
+ * Clean card layout with clear information hierarchy:
+ * - Row 1: Name + badges + actions
+ * - Row 2: Description (full text)
+ * - Row 3: Source path (for symlinks)
+ */
+
+/* ═══════════════════════════════════════════════════════════════
+   CARD CONTAINER
+   ═══════════════════════════════════════════════════════════════ */
+
+.card {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  padding: 12px 14px;
+  background: rgba(255, 255, 255, 0.02);
+  border: 1px solid rgba(148, 163, 184, 0.1);
+  border-radius: 10px;
+  transition: background 0.15s ease, border-color 0.15s ease;
+}
+
+.card:hover {
+  background: rgba(255, 255, 255, 0.04);
+  border-color: rgba(148, 163, 184, 0.15);
+}
+
+/* Chief-of-Staff uses same styling as other cards for visual consistency */
+
+/* ═══════════════════════════════════════════════════════════════
+   HEADER ROW - Name + Badges + Actions
+   ═══════════════════════════════════════════════════════════════ */
+
+.headerRow {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  min-height: 28px;
+}
+
+.name {
+  font-size: 0.9rem;
+  font-weight: 600;
+  color: rgba(248, 250, 255, 0.95);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  flex-shrink: 1;
+  min-width: 0;
+}
+
+/* ═══════════════════════════════════════════════════════════════
+   BADGES - Compact status indicators
+   ═══════════════════════════════════════════════════════════════ */
+
+.badges {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  flex-shrink: 0;
+}
+
+.badge {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 4px;
+  min-width: 24px;
+  height: 24px;
+  padding: 0 6px;
+  border: none;
+  border-radius: 6px;
+  background: rgba(148, 163, 184, 0.08);
+  color: rgba(148, 163, 184, 0.6);
+  font-size: 0.7rem;
+  font-weight: 500;
+  transition: background 0.15s ease, color 0.15s ease;
+}
+
+.badge:hover {
+  background: rgba(148, 163, 184, 0.12);
+  color: rgba(148, 163, 184, 0.8);
+}
+
+.badge img {
+  opacity: 0.7;
+}
+
+.badge:hover img {
+  opacity: 1;
+}
+
+.badgeLabel {
+  white-space: nowrap;
+}
+
+.organisationBadge {
+  height: 24px;
+  min-width: 24px;
+  padding: 0 6px;
+  border-radius: var(--radius-sm);
+  background: color-mix(in srgb, var(--color-text-secondary) 12%, transparent);
+  color: var(--color-text-secondary);
+  gap: 4px;
+}
+
+/* Button-reset wrapper that makes the OrganisationBadge a click-through into the
+   Edit Space wizard while preserving the muted Badge visual. Local treatment —
+   keeps the shared Badge component non-interactive. */
+.organisationBadgeButton {
+  appearance: none;
+  border: none;
+  background: none;
+  margin: 0;
+  padding: 0;
+  font: inherit;
+  display: inline-flex;
+  cursor: pointer;
+  border-radius: var(--radius-sm);
+  transition: transform 0.15s ease;
+}
+
+.organisationBadgeButton:hover {
+  transform: scale(1.02);
+}
+
+.organisationBadgeButton:focus-visible {
+  outline: 2px solid var(--color-ring, #a78bfa);
+  outline-offset: 2px;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .organisationBadgeButton {
+    transition: none;
+  }
+  .organisationBadgeButton:hover {
+    transform: none;
+  }
+}
+
+.badgeClickable {
+  cursor: pointer;
+}
+
+.badgeClickable:hover {
+  transform: scale(1.02);
+}
+
+/* Keyboard-focus ring for the clickable status/values badges, matching the
+   organisation edit button. These <button> badges previously had no
+   focus-visible affordance (DSR same-class sweep, 2026-06-08). */
+.badgeClickable:focus-visible {
+  outline: 2px solid var(--color-ring, #a78bfa);
+  outline-offset: 2px;
+}
+
+.badgeWarning {
+  background: rgba(245, 158, 11, 0.1);
+  color: rgba(245, 158, 11, 0.9);
+}
+
+.badgeWarning:hover {
+  background: rgba(245, 158, 11, 0.18);
+  color: rgba(245, 158, 11, 1);
+}
+
+.badgeSuccess {
+  background: rgba(34, 197, 94, 0.08);
+  color: rgba(34, 197, 94, 0.7);
+}
+
+.badgeSuccess:hover {
+  background: rgba(34, 197, 94, 0.12);
+  color: rgba(34, 197, 94, 0.9);
+}
+
+/* Cloud sync-status badge — info tone for "Reconnecting" (calmer than the amber
+   badgeWarning). Theme-aware via design tokens (no hard-coded rgba), so it adapts
+   to light/dark automatically. (Stage 8, 260619_cloud-symlink-indexing.)
+   TEXT uses the on-SURFACE text token (--color-text-primary), NOT the *-foreground
+   on-SOLID token (=#ffffff in both themes): the badge sits on the tinted *-surface
+   (≈ --color-card), which is white in light mode, so white-on-surface text would be
+   invisible / fail WCAG. The accent stays on the icon (--color-info-icon),
+   mirroring the canonical Notice component's token pairing. (DSR F3.) */
+.badgeInfo {
+  background: var(--color-info-surface);
+  color: var(--color-text-primary);
+}
+
+.badgeInfo:hover {
+  background: var(--color-info-surface-strong);
+  color: var(--color-text-primary);
+}
+
+.badgeInfo svg {
+  color: var(--color-info-icon);
+}
+
+/* ═══════════════════════════════════════════════════════════════
+   ACTIONS - Primary always visible, secondary on hover
+   ═══════════════════════════════════════════════════════════════ */
+
+.actions {
+  display: flex;
+  align-items: center;
+  gap: 2px;
+  flex-shrink: 0;
+  margin-left: auto;
+}
+
+.actionButton {
+  width: 28px;
+  height: 28px;
+  padding: 0 !important;
+  color: rgba(148, 163, 184, 0.5) !important;
+}
+
+.actionButton:hover {
+  color: rgba(248, 250, 255, 0.9) !important;
+  background: rgba(148, 163, 184, 0.1) !important;
+  transform: none;
+}
+
+/* Secondary actions - visible on hover */
+.secondaryActions {
+  display: flex;
+  align-items: center;
+  gap: 2px;
+  opacity: 0.4;
+  transition: opacity 0.15s ease;
+}
+
+.card:hover .secondaryActions {
+  opacity: 1;
+}
+
+/* ═══════════════════════════════════════════════════════════════
+   DESCRIPTION - Truncated to 2-3 lines
+   ═══════════════════════════════════════════════════════════════ */
+
+.descriptionWrapper {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.description {
+  margin: 0;
+  font-size: 0.8rem;
+  color: rgba(148, 163, 184, 0.7);
+  line-height: 1.4;
+  padding-left: 2px;
+  /* Truncate to 3 lines */
+  display: -webkit-box;
+  -webkit-line-clamp: 3;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+
+.readMore {
+  display: inline-flex;
+  align-items: center;
+  gap: 2px;
+  font-size: 0.72rem;
+  color: rgba(167, 139, 250, 0.8);
+  background: none;
+  border: none;
+  padding: 2px 4px 2px 2px;
+  margin: 0;
+  cursor: pointer;
+  transition: color 0.15s ease;
+  align-self: flex-start;
+}
+
+.readMore:hover {
+  color: rgba(167, 139, 250, 1);
+}
+
+/* ═══════════════════════════════════════════════════════════════
+   SOURCE PATH - For symlinked spaces
+   ═══════════════════════════════════════════════════════════════ */
+
+.sourcePath {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 0.72rem;
+  font-family: var(--font-mono, monospace);
+  color: rgba(148, 163, 184, 0.45);
+  padding-left: 2px;
+  margin-top: 6px;
+  overflow: hidden;
+}
+
+.sourcePath span {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.sourcePathIcon {
+  flex-shrink: 0;
+  opacity: 0.6;
+}
+
+/* ═══════════════════════════════════════════════════════════════
+   WARNING BANNER
+   ═══════════════════════════════════════════════════════════════ */
+
+.warning {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 8px 10px;
+  margin-top: 4px;
+  background: rgba(245, 158, 11, 0.06);
+  border: 1px solid rgba(245, 158, 11, 0.15);
+  border-radius: 6px;
+  font-size: 0.75rem;
+  color: rgba(245, 158, 11, 0.85);
+}
+
+.warning svg {
+  flex-shrink: 0;
+}
+
+.warning span {
+  flex: 1;
+}
+
+.warningAction {
+  flex-shrink: 0;
+  height: auto !important;
+  padding: 4px 8px !important;
+  font-size: 0.7rem !important;
+  color: rgba(167, 139, 250, 0.9) !important;
+}
+
+.warningAction:hover {
+  background: rgba(167, 139, 250, 0.1) !important;
+  color: rgba(167, 139, 250, 1) !important;
+}
+
+/* ═══════════════════════════════════════════════════════════════
+   CLOUD SYNC-STATUS BANNERS (Stage 8)
+   Token-based (no hard-coded rgba) so they're theme-aware automatically.
+   Info tone = "Reconnecting" (calm); warning tone = "Not found".
+   ═══════════════════════════════════════════════════════════════ */
+
+.syncBannerInfo,
+.syncBannerWarning {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 8px 10px;
+  margin-top: 4px;
+  border: 1px solid;
+  border-radius: 6px;
+  font-size: 0.75rem;
+}
+
+/* TEXT uses the on-SURFACE text token (--color-text-primary), NOT the *-foreground
+   on-SOLID token (=#ffffff in both themes): the banner sits on the tinted *-surface
+   (≈ --color-card), which is white in light mode, so white text would be invisible /
+   fail WCAG. The accent stays on the icon below (--color-*-icon), mirroring the
+   canonical Notice component's token pairing. (DSR F3.) */
+.syncBannerInfo {
+  background: var(--color-info-surface);
+  border-color: var(--color-info-border);
+  color: var(--color-text-primary);
+}
+
+.syncBannerWarning {
+  background: var(--color-warning-surface);
+  border-color: var(--color-warning-border);
+  color: var(--color-text-primary);
+}
+
+.syncBannerInfo svg,
+.syncBannerWarning svg {
+  flex-shrink: 0;
+}
+
+.syncBannerInfo svg {
+  color: var(--color-info-icon);
+}
+
+.syncBannerWarning svg {
+  color: var(--color-warning-icon);
+}
+
+.syncBannerInfo span,
+.syncBannerWarning span {
+  flex: 1;
+}
+
+/* ═══════════════════════════════════════════════════════════════
+   LIGHT MODE
+   ═══════════════════════════════════════════════════════════════ */
+
+:global(body.light) .card {
+  background: rgba(255, 255, 255, 0.6);
+  border-color: rgba(148, 163, 184, 0.12);
+}
+
+:global(body.light) .card:hover {
+  background: rgba(255, 255, 255, 0.8);
+  border-color: rgba(148, 163, 184, 0.18);
+}
+
+:global(body.light) .name {
+  color: var(--color-foreground);
+}
+
+:global(body.light) .description {
+  color: var(--color-muted-foreground);
+}
+
+:global(body.light) .badge {
+  background: rgba(148, 163, 184, 0.1);
+  color: rgba(100, 116, 139, 0.6);
+}
+
+:global(body.light) .badge:hover {
+  background: rgba(148, 163, 184, 0.15);
+  color: rgba(71, 85, 105, 0.85);
+}
+
+:global(body.light) .badgeWarning {
+  background: rgba(245, 158, 11, 0.08);
+  color: rgba(217, 119, 6, 0.9);
+}
+
+:global(body.light) .badgeWarning:hover {
+  background: rgba(245, 158, 11, 0.15);
+  color: rgba(180, 83, 9, 1);
+}
+
+:global(body.light) .badgeSuccess {
+  background: rgba(22, 163, 74, 0.08);
+  color: rgba(22, 163, 74, 0.75);
+}
+
+:global(body.light) .actionButton {
+  color: rgba(100, 116, 139, 0.5) !important;
+}
+
+:global(body.light) .actionButton:hover {
+  color: var(--color-foreground) !important;
+  background: rgba(148, 163, 184, 0.1) !important;
+}
+
+:global(body.light) .sourcePath {
+  color: rgba(100, 116, 139, 0.5);
+}
+
+:global(body.light) .warning {
+  background: rgba(245, 158, 11, 0.05);
+  border-color: rgba(245, 158, 11, 0.12);
+  color: rgba(180, 83, 9, 0.9);
+}
+
+:global(body.light) .warningAction {
+  color: rgba(99, 102, 241, 0.9) !important;
+}
+
+:global(body.light) .warningAction:hover {
+  background: rgba(99, 102, 241, 0.08) !important;
+  color: rgba(79, 70, 229, 1) !important;
+}
+
+:global(body.light) .readMore {
+  color: rgba(99, 102, 241, 0.8);
+}
+
+:global(body.light) .readMore:hover {
+  color: rgba(79, 70, 229, 1);
+}
+
+/* Goals/Values status indicator */
+.goalsIndicator {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  padding: 6px 10px;
+  background-color: rgba(99, 179, 237, 0.08);
+  border: 1px solid rgba(99, 179, 237, 0.2);
+  border-radius: 4px;
+  font-size: 12px;
+}
+
+.goalsIconNotSet {
+  flex-shrink: 0;
+  color: rgba(99, 179, 237, 0.7);
+}
+
+.goalsIconStale {
+  flex-shrink: 0;
+  color: var(--color-warning, #f59e0b);
+}
+
+.goalsIconCurrent {
+  flex-shrink: 0;
+  color: var(--color-success, #22c55e);
+}
+
+.goalsText {
+  color: var(--color-text-secondary);
+}
+
+.goalsTextCurrent {
+  color: var(--color-text-tertiary);
+  opacity: 0.8;
+}

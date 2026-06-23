@@ -1,0 +1,451 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Confirm</title>
+  <style>
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --rc-bg: #ffffff;
+      --rc-fg: #1a1a1a;
+      --rc-muted: #666666;
+      --rc-border: #d8d8d8;
+      --rc-subtle: #f7f7f7;
+      --rc-accent: #6366f1;
+      --rc-accent-contrast: #ffffff;
+      --rc-danger: #b42318;
+      --rc-danger-bg: #fff4f2;
+      --rc-focus: rgba(99, 102, 241, 0.28);
+      --rc-success: #166534;
+      --rc-success-bg: #f0fdf4;
+      --rc-warning: #92400e;
+      --rc-warning-bg: #fffbeb;
+      --rc-status-fs: 12px;
+      --rc-status-lh: 1.4;
+      --rc-status-pad: 8px;
+      --rc-status-gap: 12px;
+      --rc-status-button-gap: 8px;
+    }
+
+    body {
+      background: var(--rc-bg);
+      color: var(--rc-fg);
+      color-scheme: light dark;
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+      line-height: 1.5;
+      padding: 24px;
+    }
+
+    body.dark {
+      --rc-bg: #1a1a1a;
+      --rc-fg: #f0f0f0;
+      --rc-muted: #aaaaaa;
+      --rc-border: #3a3a3a;
+      --rc-subtle: #242424;
+      --rc-danger: #ffb4ab;
+      --rc-danger-bg: #3b1714;
+      --rc-focus: rgba(129, 140, 248, 0.35);
+      --rc-success: #86efac;
+      --rc-success-bg: #12351f;
+      --rc-warning: #fcd34d;
+      --rc-warning-bg: #392b11;
+    }
+
+    @media (prefers-color-scheme: dark) {
+      body:not(.light) {
+        --rc-bg: #1a1a1a;
+        --rc-fg: #f0f0f0;
+        --rc-muted: #aaaaaa;
+        --rc-border: #3a3a3a;
+        --rc-subtle: #242424;
+        --rc-danger: #ffb4ab;
+        --rc-danger-bg: #3b1714;
+        --rc-focus: rgba(129, 140, 248, 0.35);
+        --rc-success: #86efac;
+        --rc-success-bg: #12351f;
+        --rc-warning: #fcd34d;
+        --rc-warning-bg: #392b11;
+      }
+    }
+
+    h1 {
+      font-size: 18px;
+      font-weight: 650;
+      margin-bottom: 6px;
+    }
+
+    button {
+      border: 1px solid var(--rc-border);
+      border-radius: 8px;
+      cursor: pointer;
+      font: inherit;
+      padding: 9px 13px;
+    }
+
+    button:focus-visible {
+      border-color: var(--rc-accent);
+      box-shadow: 0 0 0 3px var(--rc-focus);
+      outline: none;
+    }
+
+    button:disabled {
+      cursor: not-allowed;
+      opacity: 0.62;
+    }
+
+    button.primary {
+      background: var(--rc-accent);
+      border-color: var(--rc-accent);
+      color: var(--rc-accent-contrast);
+      font-weight: 600;
+    }
+
+    button.primary:not(:disabled):hover {
+      filter: brightness(0.96);
+    }
+
+    button.secondary,
+    .link-button {
+      background: var(--rc-bg);
+      color: var(--rc-fg);
+    }
+
+    button.secondary:not(:disabled):hover,
+    .link-button:not(:disabled):hover {
+      background: var(--rc-subtle);
+    }
+
+    button.cancel {
+      background: transparent;
+      border-color: transparent;
+      color: var(--rc-muted);
+    }
+
+    button.cancel:not(:disabled):hover {
+      background: var(--rc-subtle);
+      color: var(--rc-fg);
+    }
+
+    button.destructive {
+      background: var(--rc-danger-bg);
+      border-color: var(--rc-danger);
+      color: var(--rc-danger);
+      font-weight: 600;
+    }
+
+    button.destructive:not(:disabled):hover {
+      filter: brightness(0.97);
+    }
+
+    .confirm-body {
+      color: var(--rc-muted);
+      font-size: 14px;
+      margin: 10px 0 18px;
+      max-height: clamp(120px, 40vh, 320px);
+      overflow-y: auto;
+      white-space: pre-wrap;
+    }
+
+    .actions {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+      margin-top: 14px;
+    }
+
+    .error-empty {
+      color: var(--rc-muted);
+      font-size: 14px;
+      padding: 40px 0;
+      text-align: center;
+    }
+
+    .alert-summary {
+      display: none;
+      border: 1px solid var(--rc-danger);
+      border-radius: 10px;
+      background: var(--rc-danger-bg);
+      color: var(--rc-danger);
+      margin-top: 12px;
+      padding: 12px 14px;
+      font-size: 13px;
+    }
+
+    .alert-summary[data-visible="true"] {
+      display: block;
+    }
+
+    .state-card {
+      background: var(--rc-subtle);
+      border: 1px solid var(--rc-border);
+      border-radius: 12px;
+      padding: 18px;
+    }
+
+    .state-card h2 {
+      font-size: 16px;
+      margin-bottom: 6px;
+    }
+
+    .state-card p {
+      color: var(--rc-muted);
+      font-size: 14px;
+      margin-bottom: 14px;
+    }
+
+    [data-rebel-canvas-status] {
+      border: 1px solid transparent;
+      border-radius: 8px;
+    }
+
+    [data-rebel-canvas-status-kind="success"] {
+      background: var(--rc-success-bg);
+      color: var(--rc-success);
+    }
+
+    [data-rebel-canvas-status-kind="permission_denied"],
+    [data-rebel-canvas-status-kind="warning"] {
+      background: var(--rc-warning-bg);
+      color: var(--rc-warning);
+    }
+
+    [data-rebel-canvas-status-kind="error"] {
+      background: var(--rc-danger-bg);
+      border-color: var(--rc-danger);
+      color: var(--rc-danger);
+    }
+  </style>
+</head>
+<body>
+  <div id="root"></div>
+
+  <script>
+    var DATA = /*__DATA__*/ null;
+
+    (function () {
+      'use strict';
+
+      try {
+        var ctx = window.__REBEL_HOST_CONTEXT__;
+        if (ctx && ctx.theme === 'dark') {
+          document.body.classList.add('dark');
+        } else if (ctx && ctx.theme === 'light') {
+          document.body.classList.add('light');
+        }
+      } catch (_) { /* fallback to prefers-color-scheme */ }
+
+      var BUTTON_PRESETS = {
+        'yes-no': [
+          { actionId: 'yes', label: 'Yes', intent: 'primary' },
+          { actionId: 'no', label: 'No', intent: 'secondary' }
+        ],
+        'yes-no-cancel': [
+          { actionId: 'yes', label: 'Yes', intent: 'primary' },
+          { actionId: 'no', label: 'No', intent: 'secondary' },
+          { actionId: 'cancel', label: 'Cancel', intent: 'cancel' }
+        ],
+        'approve-reject': [
+          { actionId: 'approve', label: 'Approve', intent: 'primary' },
+          { actionId: 'reject', label: 'Reject', intent: 'destructive' }
+        ],
+        'continue-cancel': [
+          { actionId: 'continue', label: 'Continue', intent: 'primary' },
+          { actionId: 'cancel', label: 'Cancel', intent: 'cancel' }
+        ]
+      };
+
+      var root = document.getElementById('root');
+      var definition = DATA && DATA.definition ? DATA.definition : DATA;
+      var submitInFlight = false;
+      var buttons = [];
+
+      if (!definition || !definition.title || !definition.actionId) {
+        root.innerHTML = '<p class="error-empty">No confirmation available</p>';
+        notifyReady();
+        return;
+      }
+
+      renderEditing();
+      notifyReady();
+
+      function notifyReady() {
+        var run = function () {
+          if (window.__rebelCanvas) {
+            window.__rebelCanvas.bindActionElements(document.body);
+            window.__rebelCanvas.ready();
+          }
+        };
+        if (document.readyState === 'loading') {
+          document.addEventListener('DOMContentLoaded', run, { once: true });
+        } else {
+          setTimeout(run, 0);
+        }
+      }
+
+      function renderEditing() {
+        root.textContent = '';
+        submitInFlight = false;
+        buttons = [];
+
+        var heading = document.createElement('h1');
+        heading.textContent = definition.title || 'Confirm';
+        root.appendChild(heading);
+
+        if (definition.body) {
+          var body = document.createElement('div');
+          body.id = 'confirm-body';
+          body.className = 'confirm-body';
+          body.textContent = definition.body;
+          root.appendChild(body);
+        }
+
+        var alert = document.createElement('div');
+        alert.id = 'confirm-error-summary';
+        alert.className = 'alert-summary';
+        alert.setAttribute('role', 'alert');
+        alert.setAttribute('aria-live', 'assertive');
+        root.appendChild(alert);
+
+        var actions = document.createElement('div');
+        actions.className = 'actions';
+        getButtons().forEach(function (buttonDefinition, index) {
+          var button = document.createElement('button');
+          button.type = 'button';
+          button.className = intentClass(buttonDefinition.intent);
+          button.textContent = buttonDefinition.label;
+          button.dataset.actionId = buttonDefinition.actionId || '';
+          button.dataset.intent = buttonDefinition.intent || 'secondary';
+          if (definition.body) button.setAttribute('aria-describedby', 'confirm-body');
+          button.addEventListener('click', function (event) {
+            if (buttonDefinition.intent === 'cancel') {
+              handleCancel();
+              return;
+            }
+            handleSubmitChoice(event, buttonDefinition, button);
+          });
+          actions.appendChild(button);
+          buttons.push(button);
+          if (index === 0) {
+            button.focus();
+            setTimeout(function () { button.focus(); }, 0);
+          }
+        });
+        root.appendChild(actions);
+      }
+
+      function getButtons() {
+        if (definition.buttonSet === 'custom') return definition.customButtons || [];
+        return BUTTON_PRESETS[definition.buttonSet || 'yes-no'] || BUTTON_PRESETS['yes-no'];
+      }
+
+      function intentClass(intent) {
+        if (intent === 'primary' || intent === 'destructive' || intent === 'cancel') return intent;
+        return 'secondary';
+      }
+
+      async function handleSubmitChoice(event, buttonDefinition, sourceElement) {
+        if (submitInFlight) return;
+        if (!window.__rebelCanvas || typeof window.__rebelCanvas.submit !== 'function') {
+          renderFormLevelError('Action submits work only inside Rebel.');
+          return;
+        }
+        var choiceLabel = buttonDefinition.label || buttonDefinition.actionId;
+        var choice = buttonDefinition.actionId || choiceLabel;
+        setSubmitBusy(true);
+        try {
+          var result = await window.__rebelCanvas.submit(
+            event,
+            definition.actionId,
+            'Submitted: ' + choiceLabel,
+            { choice: choice, choiceLabel: choiceLabel },
+            { sourceElement: sourceElement, onRequestStateChange: setSubmitBusy }
+          );
+          if (result && result.success === false) {
+            if (result.rejected === 'cleared' || result.rejected === 'cancelled') return;
+            renderFormLevelError(result.message || (result.error && result.error.message) || 'Confirmation could not be sent. Try again.');
+            return;
+          }
+          renderSubmitted(choiceLabel);
+        } catch (error) {
+          renderFormLevelError(error && error.message ? error.message : 'Confirmation could not be sent. Try again.');
+        } finally {
+          setSubmitBusy(false);
+        }
+      }
+
+      function handleCancel() {
+        markCancelled();
+        clearPendingRetry();
+        renderDismissed();
+      }
+
+      function setSubmitBusy(isBusy) {
+        submitInFlight = isBusy;
+        buttons.forEach(function (button) {
+          button.disabled = isBusy;
+          button.setAttribute('aria-busy', isBusy ? 'true' : 'false');
+        });
+      }
+
+      function renderFormLevelError(message) {
+        var alert = document.getElementById('confirm-error-summary');
+        if (!alert) return;
+        alert.textContent = message;
+        alert.dataset.visible = 'true';
+      }
+
+      function renderSubmitted(choice) {
+        renderStateCard('Submitted: ' + choice, 'Sent to the agent. You can reopen it if you need to choose again.', function () {
+          clearPendingRetry();
+          renderEditing();
+        });
+      }
+
+      function renderDismissed() {
+        renderStateCard('Dismissed', 'Nothing sent.', function () {
+          clearPendingRetry();
+          renderEditing();
+        });
+      }
+
+      function renderStateCard(title, body, reopenHandler) {
+        root.textContent = '';
+        var card = document.createElement('section');
+        card.className = 'state-card';
+        card.tabIndex = -1;
+        card.setAttribute('role', 'status');
+        card.setAttribute('aria-live', 'polite');
+        var heading = document.createElement('h2');
+        heading.textContent = title;
+        var paragraph = document.createElement('p');
+        paragraph.textContent = body;
+        var reopen = document.createElement('button');
+        reopen.type = 'button';
+        reopen.className = 'link-button';
+        reopen.textContent = 'Reopen';
+        reopen.addEventListener('click', reopenHandler);
+        card.appendChild(heading);
+        card.appendChild(paragraph);
+        card.appendChild(reopen);
+        root.appendChild(card);
+        card.focus();
+        setTimeout(function () { card.focus(); }, 0);
+      }
+
+      function clearPendingRetry() {
+        if (window.__rebelCanvas && typeof window.__rebelCanvas.clearPendingRetry === 'function') {
+          window.__rebelCanvas.clearPendingRetry(definition.actionId);
+        }
+      }
+
+      function markCancelled() {
+        if (window.__rebelCanvas && typeof window.__rebelCanvas.markCancelled === 'function') {
+          window.__rebelCanvas.markCancelled(definition.actionId);
+        }
+      }
+    })();
+  </script>
+</body>
+</html>

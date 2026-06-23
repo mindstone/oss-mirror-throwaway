@@ -1,0 +1,22 @@
+{
+  "compilerOptions": {
+    "strict": true,
+    "noFallthroughCasesInSwitch": true,
+    "module": "ESNext",
+    "target": "ES2022",
+    "moduleResolution": "Bundler",
+    "newLine": "lf",
+    "resolveJsonModule": true,
+    "isolatedModules": true,
+    "allowSyntheticDefaultImports": true,
+    "esModuleInterop": true,
+    "forceConsistentCasingInFileNames": true,
+    "skipLibCheck": true,
+    "paths": {
+      "@rebel/cloud-client": ["./cloud-client/src"],
+      "@rebel/cloud-client/*": ["./cloud-client/src/*"],
+      "@rebel/shared": ["./packages/shared/src"],
+      "@rebel/shared/*": ["./packages/shared/src/*"]
+    }
+  }
+}

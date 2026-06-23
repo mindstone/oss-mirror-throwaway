@@ -1,0 +1,35 @@
+{
+  "name": "tombstone-applied",
+  "input": [
+    {
+      "id": "u5",
+      "turnId": "t5",
+      "role": "user",
+      "text": "This message was tombstoned.",
+      "createdAt": 5001,
+      "deletedAt": 5999
+    },
+    {
+      "id": "a5",
+      "turnId": "t5",
+      "role": "assistant",
+      "text": "Interim response.",
+      "createdAt": 5002
+    },
+    {
+      "id": "r5",
+      "turnId": "t5",
+      "role": "result",
+      "text": "Final response.",
+      "createdAt": 5003
+    }
+  ],
+  "expected": {
+    "visibleIds": ["r5"],
+    "messagesByTurnIds": {
+      "t5": ["a5", "r5"]
+    },
+    "activeTurnId": null,
+    "isBusy": false
+  }
+}

@@ -1,0 +1,7 @@
+{
+  "name": "04_hardbreak-mid-paragraph",
+  "description": "Mixed line-break shapes: 'line one\\nline two\\n\\nnew paragraph'. In the Rebel composer's wire format every '\\n' is a paragraph separator (markdownToDoc splits on '\\n'); the doubled '\\n\\n' produces an empty paragraph between content paragraphs. Exercises serialisation parity for stacked breaks.",
+  "input": "line one\nline two\n\nnew paragraph",
+  "expectedSanitised": "line one\nline two\n\nnew paragraph",
+  "expectedDocShape": ""
+}

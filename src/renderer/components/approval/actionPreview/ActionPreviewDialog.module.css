@@ -1,0 +1,52 @@
+.dialogContent {
+  max-height: 82vh;
+  display: flex;
+  flex-direction: column;
+  padding: var(--space-6);
+}
+
+.dialogHeader {
+  padding: 0;
+}
+
+.settingsLink {
+  margin: 0;
+  padding: 0;
+  border: 0;
+  background: transparent;
+  color: var(--color-text-secondary);
+  font: inherit;
+  cursor: pointer;
+  text-decoration: none;
+  text-underline-offset: 2px;
+}
+
+.settingsLink:hover {
+  color: var(--color-text-primary);
+  text-decoration: underline;
+}
+
+.settingsLink:focus-visible {
+  outline: 2px solid color-mix(in srgb, var(--color-brand-indigo) 42%, transparent);
+  outline-offset: 2px;
+  border-radius: var(--radius-xs);
+}
+
+.dialogBody {
+  margin-top: var(--space-4);
+  padding: 0;
+  overflow-y: auto;
+}
+
+.dialogFooter {
+  margin-top: var(--space-4);
+  padding-top: var(--space-3);
+  border-top: 1px solid var(--color-border-soft);
+  display: flex;
+  align-items: center;
+  gap: var(--space-2);
+}
+
+.footerSpacer {
+  flex: 1;
+}

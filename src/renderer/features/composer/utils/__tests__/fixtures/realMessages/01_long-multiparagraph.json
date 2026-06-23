@@ -1,0 +1,7 @@
+{
+  "name": "01_long-multiparagraph",
+  "description": "Long multi-paragraph plain-text draft (~500 chars) covering the realistic 'three-priorities email body' shape — exercises paragraph joining, no chips, no NBSP. Synthesized; no PII.",
+  "input": "Quarterly review prep. We are doubling down on three priorities this quarter and dropping two from last quarter that did not earn their keep.\n\nFirst priority: ship the cross-platform desktop client. Engineering says feature parity is two sprints out, design is in final-pixel mode, and QA has a regression suite ready. Confirm the launch window before next Tuesday.\n\nSecond: rework onboarding. New users hit the empty state too fast and bounce.\n\nThird: refresh sales enablement. The deck is dated and our champions deserve better artillery.",
+  "expectedSanitised": "Quarterly review prep. We are doubling down on three priorities this quarter and dropping two from last quarter that did not earn their keep.\n\nFirst priority: ship the cross-platform desktop client. Engineering says feature parity is two sprints out, design is in final-pixel mode, and QA has a regression suite ready. Confirm the launch window before next Tuesday.\n\nSecond: rework onboarding. New users hit the empty state too fast and bounce.\n\nThird: refresh sales enablement. The deck is dated and our champions deserve better artillery.",
+  "expectedDocShape": ""
+}

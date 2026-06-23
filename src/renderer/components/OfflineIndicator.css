@@ -1,0 +1,49 @@
+/* Offline indicator — header icon button with a calm pulse-dot badge.
+ * Reuses the CloudSyncIndicator idiom (header-icon-button + 8px badge + pulse)
+ * but is a distinct job (device connectivity, not cloud reachability).
+ *
+ * Token discipline: CloudSyncIndicator hard-codes its badge colours (a
+ * pre-existing token gap flagged by chief-designer). This component instead
+ * uses --color-warning, the calm amber status token — offline is a calm,
+ * transient state, NOT an error, so we deliberately avoid the cloud indicator's
+ * alarming red. This matches the banner's amber register and the "calm over
+ * exciting" brand rule. */
+
+.offline-indicator {
+  position: relative;
+  opacity: 0.8;
+  color: var(--color-warning) !important;
+}
+
+.offline-indicator:hover {
+  opacity: 1;
+}
+
+/* Badge dot — positioned like the cloud-sync / notification-bell badge. */
+.offline-indicator__badge {
+  position: absolute;
+  top: 4px;
+  right: 4px;
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background-color: var(--color-warning);
+  /* Ring matches the page background so the dot reads as a discrete pip.
+   * Mirrors CloudSyncIndicator's badge border treatment (which hard-codes the
+   * same colour — we use the token instead). */
+  border: 1.5px solid var(--color-background);
+  animation: offline-indicator-pulse 3s ease-in-out infinite;
+}
+
+@keyframes offline-indicator-pulse {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0.4; }
+}
+
+/* A constantly-pulsing dot is exactly what reduced-motion users opt out of —
+ * hold it steady (still visible, just not animated). */
+@media (prefers-reduced-motion: reduce) {
+  .offline-indicator__badge {
+    animation: none;
+  }
+}

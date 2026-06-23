@@ -1,0 +1,138 @@
+.container {
+  max-width: 85%;
+  align-self: flex-start;
+  background: var(--color-surface);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-lg);
+  padding: 10px 14px;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.headlineRow {
+  display: flex;
+  align-items: center;
+  gap: var(--space-sm);
+}
+
+.pulseDot {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: var(--color-accent);
+  animation: pulse 1.2s ease-in-out infinite;
+  flex-shrink: 0;
+}
+
+.headline {
+  font-size: 0.8125rem;
+  line-height: 1.35;
+  color: var(--color-text-secondary);
+  font-style: italic;
+  margin: 0;
+}
+
+.stepsSection {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.toggleButton {
+  background: none;
+  border: none;
+  color: var(--color-text-tertiary);
+  font-size: 0.75rem;
+  font-style: italic;
+  font-family: var(--font-sans);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--space-sm);
+  padding: 0;
+  cursor: pointer;
+}
+
+.toggleButton:hover {
+  color: var(--color-text-secondary);
+}
+
+.chevron {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  transition: transform var(--transition-normal);
+}
+
+.chevronExpanded {
+  transform: rotate(180deg);
+}
+
+.stepsPanel {
+  max-height: 0;
+  opacity: 0;
+  transform: translateY(-2px);
+  overflow: hidden;
+  transition: max-height var(--transition-normal), opacity var(--transition-fast), transform var(--transition-fast);
+}
+
+.stepsPanelExpanded {
+  max-height: 280px;
+  opacity: 1;
+  transform: translateY(0);
+}
+
+.stepsList {
+  list-style: none;
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  margin: var(--space-xs) 0 0;
+  padding: 0;
+}
+
+.stepRow {
+  display: flex;
+  align-items: flex-start;
+  gap: var(--space-sm);
+}
+
+.stepIconWrap {
+  width: 16px;
+  min-height: 18px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding-top: 1px;
+  flex-shrink: 0;
+}
+
+.successIcon {
+  color: var(--color-success);
+}
+
+.errorIcon {
+  color: var(--color-error);
+}
+
+.stepLabel {
+  font-size: 0.8125rem;
+  line-height: 1.35;
+  color: var(--color-text-secondary);
+}
+
+.stepDetail {
+  color: var(--color-text-tertiary);
+}
+
+@keyframes pulse {
+  0%,
+  100% {
+    opacity: 1;
+  }
+
+  50% {
+    opacity: 0.35;
+  }
+}

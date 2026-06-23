@@ -1,0 +1,198 @@
+/**
+ * CalendarStrip — Compact horizontal timeline ribbon
+ *
+ * Each day is a column with a stacked horizontal bar showing meeting density
+ * by type (solo/internal/external). Compact, beautiful, and informative.
+ * Today gets a subtle accent treatment.
+ *
+ * Uses CSS variables for full dark/light theme support.
+ */
+
+/* ─────────────────────────────────────────────────────────────
+   Container — the full ribbon
+   ───────────────────────────────────────────────────────────── */
+
+.strip {
+  display: grid;
+  grid-template-columns: repeat(7, 1fr);
+  gap: 6px;
+  width: 100%;
+}
+
+/* ─────────────────────────────────────────────────────────────
+   Day Column
+   ───────────────────────────────────────────────────────────── */
+
+.dayColumn {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 6px;
+  padding: 10px 6px 8px;
+  border-radius: 12px;
+  transition: background 0.15s ease;
+  position: relative;
+}
+
+.dayColumnToday {
+  background: rgba(99, 102, 241, 0.06);
+}
+
+/* ─────────────────────────────────────────────────────────────
+   Today Accent Bar
+   ───────────────────────────────────────────────────────────── */
+
+.todayAccent {
+  position: absolute;
+  top: 0;
+  left: 6px;
+  right: 6px;
+  height: 2px;
+  border-radius: 1px;
+  background: var(--color-brand-indigo, #4f46e5);
+}
+
+/* ─────────────────────────────────────────────────────────────
+   Day Label & Date — compact row
+   ───────────────────────────────────────────────────────────── */
+
+.dayLabel {
+  font-size: 0.62rem;
+  font-weight: 500;
+  color: var(--color-muted-foreground);
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  margin: 0;
+  line-height: 1;
+}
+
+.dayLabelToday {
+  color: var(--color-text-primary);
+  font-weight: 600;
+}
+
+.dayDate {
+  font-size: 0.78rem;
+  font-weight: 500;
+  color: var(--color-muted-foreground);
+  opacity: 0.65;
+  margin: 0;
+  line-height: 1;
+}
+
+.dayDateToday {
+  opacity: 1;
+  color: #fff;
+  font-weight: 600;
+  background: var(--color-brand-indigo, #4f46e5);
+  width: 24px;
+  height: 24px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 0.72rem;
+}
+
+/* ─────────────────────────────────────────────────────────────
+   Density Bar — stacked horizontal bar showing meeting types
+   ───────────────────────────────────────────────────────────── */
+
+.densityBar {
+  display: flex;
+  width: 100%;
+  height: 6px;
+  border-radius: 3px;
+  overflow: hidden;
+  background: rgba(148, 163, 184, 0.08);
+  gap: 1px;
+}
+
+.densityBarEmpty {
+  background: rgba(148, 163, 184, 0.05);
+}
+
+.densitySegment {
+  height: 100%;
+  min-width: 2px;
+  transition: opacity 0.15s ease;
+}
+
+.densitySegmentSolo { background: #94a3b8; }
+.densitySegmentInternal { background: #6366f1; }
+.densitySegmentExternal { background: #14b8a6; }
+
+/* ─────────────────────────────────────────────────────────────
+   Meeting count — below the bar
+   ───────────────────────────────────────────────────────────── */
+
+.meetingCount {
+  font-size: 0.62rem;
+  color: var(--color-muted-foreground);
+  margin: 0;
+  text-align: center;
+  opacity: 0.6;
+  line-height: 1;
+}
+
+.meetingCountToday {
+  color: var(--color-text-primary);
+  font-weight: 600;
+  opacity: 1;
+}
+
+.meetingCountZero {
+  opacity: 0.25;
+}
+
+/* ─────────────────────────────────────────────────────────────
+   Legend
+   ───────────────────────────────────────────────────────────── */
+
+.legend {
+  display: flex;
+  gap: 12px;
+  justify-content: center;
+  padding-top: 4px;
+}
+
+.legendItem {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  font-size: 0.6rem;
+  color: var(--color-muted-foreground);
+  letter-spacing: 0.02em;
+}
+
+.legendDot {
+  display: inline-block;
+  width: 5px;
+  height: 5px;
+  border-radius: 50%;
+}
+
+/* Meeting type colors for legend dots */
+.meetingTypeSolo { background: #94a3b8; }
+.meetingTypeInternal { background: #6366f1; }
+.meetingTypeExternal { background: #14b8a6; }
+
+/* ─────────────────────────────────────────────────────────────
+   Light Theme Overrides
+   ───────────────────────────────────────────────────────────── */
+
+:global(body.light) .dayColumnToday {
+  background: rgba(99, 102, 241, 0.05);
+}
+
+:global(body.light) .dayDateToday {
+  color: #fff;
+}
+
+:global(body.light) .densityBar {
+  background: rgba(148, 163, 184, 0.1);
+}
+
+:global(body.light) .densitySegmentSolo { background: #94a3b8; }
+:global(body.light) .densitySegmentInternal { background: #818cf8; }
+:global(body.light) .densitySegmentExternal { background: #2dd4bf; }

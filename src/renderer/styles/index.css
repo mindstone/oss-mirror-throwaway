@@ -1,0 +1,41 @@
+@import "tailwindcss" source(none);
+@source "../../renderer";
+@plugin "@tailwindcss/typography" {}
+@plugin "tailwindcss-animate" {}
+
+@layer base, layout, components, utilities;
+
+@import "./foundations/reset.css" layer(base);
+@import "./foundations/tokens.css" layer(base);
+@import "./foundations/theme.css";
+@import "./foundations/typography.css" layer(base);
+@import "./foundations/motion.css" layer(base);
+@import "./foundations/utilities.css" layer(utilities);
+@import "./layout/app-shell.css" layer(layout);
+@import "./components/conversation-annotations.css" layer(components);
+
+/**
+ * Pause all CSS animations when the app window is hidden/minimized OR visible-but-unfocused.
+ * The .app-hidden class is toggled by App.tsx based on document.visibilitychange; the
+ * .app-unfocused class is toggled on window blur/focus. On macOS a visible-but-unfocused
+ * window keeps document.hidden === false, so always-mounted `infinite` animations would
+ * otherwise keep driving the compositor at vsync and peg the GPU (FOX-3438).
+ * This reduces CPU/GPU usage when the app isn't the foreground window.
+ * Targets body, all descendants, and pseudo-elements where animations often live (e.g., aurora).
+ */
+body.app-hidden,
+body.app-hidden *,
+body.app-hidden *::before,
+body.app-hidden *::after,
+body.app-hidden::before,
+body.app-hidden::after,
+body.app-unfocused,
+body.app-unfocused *,
+body.app-unfocused *::before,
+body.app-unfocused *::after,
+body.app-unfocused::before,
+body.app-unfocused::after {
+  animation-play-state: paused !important;
+}
+
+

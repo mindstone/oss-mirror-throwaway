@@ -1,0 +1,38 @@
+{
+  "description": "OpenRouter connection profile with dangling customProviderId stays missing-profile-credentials",
+  "input": {
+    "model": "profile:or-dangling-custom-provider",
+    "settings": {
+      "activeProvider": "anthropic",
+      "models": {
+        "apiKey": "sk-ant-test",
+        "authMethod": "api-key",
+        "model": "claude-sonnet-4-6",
+        "oauthToken": null
+      },
+      "localModel": {
+        "activeProfileId": null,
+        "profiles": [
+          {
+            "createdAt": 0,
+            "customProviderId": "deleted-provider",
+            "id": "or-dangling-custom-provider",
+            "model": "anthropic/claude-sonnet-4.6",
+            "name": "OR Dangling Custom Provider",
+            "profileSource": "connection",
+            "providerType": "openrouter",
+            "serverUrl": "https://openrouter.ai/api/v1"
+          }
+        ]
+      },
+      "openRouter": {
+        "enabled": true,
+        "oauthToken": "or-token",
+        "selectedModel": "anthropic/claude-sonnet-4.6"
+      },
+      "providerKeys": {}
+    },
+    "codexConnectivity": "unknown"
+  },
+  "name": "or_connection_profile_dangling_custom_provider"
+}

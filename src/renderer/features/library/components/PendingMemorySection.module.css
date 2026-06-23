@@ -1,0 +1,408 @@
+/* PendingMemorySection - Amber-themed approval surface */
+
+.container {
+  margin-bottom: 12px;
+  background: rgba(234, 179, 8, 0.08);
+  border: 1px solid rgba(234, 179, 8, 0.25);
+  border-radius: 8px;
+  overflow: hidden;
+  animation: slideIn 0.2s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+@keyframes slideIn {
+  from {
+    opacity: 0;
+    transform: translateY(-4px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* Collapsible Header */
+.header {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  width: 100%;
+  padding: 10px 12px;
+  background: transparent;
+  border: none;
+  cursor: pointer;
+  text-align: left;
+  transition: background-color 0.15s ease;
+}
+
+.header:hover {
+  background: rgba(234, 179, 8, 0.08);
+}
+
+.iconWrapper {
+  position: relative;
+  flex-shrink: 0;
+}
+
+.icon {
+  color: rgba(234, 179, 8, 0.9);
+}
+
+.badge {
+  position: absolute;
+  top: -6px;
+  right: -8px;
+  min-width: 16px;
+  height: 16px;
+  padding: 0 4px;
+  border-radius: 8px;
+  background: rgba(234, 179, 8, 0.9);
+  color: #000;
+  font-size: 10px;
+  font-weight: 700;
+  line-height: 16px;
+  text-align: center;
+}
+
+.title {
+  flex: 1;
+  font-size: 12px;
+  font-weight: 500;
+  color: rgba(250, 204, 21, 0.95);
+}
+
+.subtitle {
+  font-weight: 400;
+  color: rgba(250, 204, 21, 0.65);
+  margin-left: 6px;
+}
+
+.chevron {
+  color: rgba(250, 204, 21, 0.7);
+  transition: transform 0.2s ease;
+  flex-shrink: 0;
+}
+
+.chevronOpen {
+  transform: rotate(180deg);
+}
+
+/* Content Area */
+.content {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  padding: 0 12px 12px;
+  max-height: 400px;
+  overflow-y: auto;
+  animation: contentSlideIn 0.15s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+@keyframes contentSlideIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+/* Item Card */
+.itemCard {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  padding: 10px 12px;
+  background: var(--bg-secondary);
+  border: 1px solid rgba(234, 179, 8, 0.2);
+  border-radius: 6px;
+  transition: border-color 0.15s ease;
+}
+
+.itemCard:hover {
+  border-color: rgba(234, 179, 8, 0.35);
+}
+
+.itemHeader {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px;
+}
+
+.itemMeta {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  min-width: 0;
+  flex: 1;
+}
+
+.spaceIcon {
+  color: var(--text-tertiary);
+  flex-shrink: 0;
+}
+
+.spaceName {
+  font-size: 11px;
+  font-weight: 600;
+  color: rgba(250, 204, 21, 0.9);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.pathSeparator {
+  flex-shrink: 0;
+  color: rgba(148, 163, 184, 0.5);
+}
+
+.filename {
+  font-size: 11px;
+  color: rgba(148, 163, 184, 0.8);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  min-width: 0;
+  max-width: 200px;
+}
+
+.itemTime {
+  font-size: 10px;
+  color: var(--text-tertiary);
+  flex-shrink: 0;
+}
+
+.itemSummary {
+  font-size: 12px;
+  color: var(--text-primary);
+  line-height: 1.4;
+  margin: 0;
+}
+
+.itemActions {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  margin-top: 4px;
+}
+
+.saveButton {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  padding: 5px 10px;
+  border: none;
+  border-radius: 5px;
+  background: rgba(16, 185, 129, 0.9);
+  color: #fff;
+  font-size: 11px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background 0.15s ease, transform 0.1s ease;
+}
+
+.saveButton:hover:not(:disabled) {
+  background: rgba(16, 185, 129, 1);
+}
+
+.saveButton:active:not(:disabled) {
+  transform: scale(0.98);
+}
+
+.saveButton:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+.skipButton {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  padding: 5px 10px;
+  border: none;
+  border-radius: 5px;
+  background: transparent;
+  color: var(--text-tertiary);
+  font-size: 11px;
+  font-weight: 500;
+  cursor: pointer;
+  transition: background 0.15s ease, color 0.15s ease;
+}
+
+.skipButton:hover:not(:disabled) {
+  background: rgba(220, 38, 38, 0.1);
+  color: rgba(248, 113, 113, 0.9);
+}
+
+.skipButton:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+.viewButton {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 26px;
+  height: 26px;
+  padding: 0;
+  border: 1px solid rgba(148, 163, 184, 0.2);
+  border-radius: 5px;
+  background: transparent;
+  color: var(--text-tertiary);
+  cursor: pointer;
+  transition: all 0.15s ease;
+}
+
+.viewButton:hover:not(:disabled) {
+  background: rgba(99, 102, 241, 0.1);
+  border-color: rgba(99, 102, 241, 0.3);
+  color: rgb(129, 140, 248);
+}
+
+.viewButton:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+/* Bulk Actions */
+.bulkActions {
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  gap: 8px;
+  padding-top: 8px;
+  border-top: 1px solid rgba(234, 179, 8, 0.15);
+  margin-top: 4px;
+}
+
+.bulkSaveButton {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  padding: 6px 12px;
+  border: none;
+  border-radius: 6px;
+  background: rgba(16, 185, 129, 0.9);
+  color: #fff;
+  font-size: 12px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background 0.15s ease;
+}
+
+.bulkSaveButton:hover:not(:disabled) {
+  background: rgba(16, 185, 129, 1);
+}
+
+.bulkSaveButton:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+.bulkSkipButton {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  padding: 6px 12px;
+  border: none;
+  border-radius: 6px;
+  background: transparent;
+  color: var(--text-tertiary);
+  font-size: 12px;
+  font-weight: 500;
+  cursor: pointer;
+  transition: background 0.15s ease, color 0.15s ease;
+}
+
+.bulkSkipButton:hover:not(:disabled) {
+  background: rgba(220, 38, 38, 0.08);
+  color: rgba(248, 113, 113, 0.9);
+}
+
+.bulkSkipButton:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+/* Spinner */
+.spinning {
+  animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+/* ─────────────────────────────────────────────────────────────
+   Light Mode Overrides
+   ───────────────────────────────────────────────────────────── */
+
+:global(body.light) .container {
+  background: rgba(251, 191, 36, 0.1);
+  border-color: rgba(234, 179, 8, 0.3);
+}
+
+:global(body.light) .header:hover {
+  background: rgba(251, 191, 36, 0.12);
+}
+
+:global(body.light) .icon {
+  color: #d97706;
+}
+
+:global(body.light) .badge {
+  background: #d97706;
+  color: #fff;
+}
+
+:global(body.light) .title {
+  color: #92400e;
+}
+
+:global(body.light) .subtitle {
+  color: #b45309;
+}
+
+:global(body.light) .chevron {
+  color: #b45309;
+}
+
+:global(body.light) .itemCard {
+  border-color: rgba(234, 179, 8, 0.25);
+}
+
+:global(body.light) .itemCard:hover {
+  border-color: rgba(234, 179, 8, 0.4);
+}
+
+:global(body.light) .spaceName {
+  color: #92400e;
+}
+
+:global(body.light) .pathSeparator {
+  color: rgba(100, 116, 139, 0.5);
+}
+
+:global(body.light) .filename {
+  color: var(--color-muted-foreground);
+}
+
+:global(body.light) .bulkActions {
+  border-top-color: rgba(234, 179, 8, 0.2);
+}
+
+:global(body.light) .viewButton {
+  border-color: var(--color-border);
+}
+
+:global(body.light) .viewButton:hover:not(:disabled) {
+  background: rgba(79, 70, 229, 0.08);
+  border-color: rgba(79, 70, 229, 0.3);
+  color: rgb(79, 70, 229);
+}

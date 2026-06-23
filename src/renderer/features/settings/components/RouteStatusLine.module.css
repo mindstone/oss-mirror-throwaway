@@ -1,0 +1,21 @@
+.routeStatusLine {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  max-width: 100%;
+  padding: 4px 10px;
+  margin-bottom: 10px;
+  border-radius: var(--radius-sm);
+  border: 1px solid var(--color-border-soft);
+  background-color: color-mix(in srgb, var(--color-card) 65%, transparent);
+}
+
+.routeStatusText {
+  font-size: 12px;
+  color: var(--color-text-secondary);
+  line-height: 1.4;
+}
+
+.reconnectButton {
+  margin-left: 4px;
+}

@@ -1,0 +1,826 @@
+.meeting-status {
+  display: flex;
+  align-items: center;
+  gap: var(--space-2);
+  min-height: 32px;
+  padding: 0 var(--space-3);
+  border-radius: 8px;
+  font-size: var(--font-size-sm);
+  white-space: nowrap;
+  /* Never exceed the protected header-center slot; let flexible children
+     (title/quip) shrink and ellipsize rather than overflowing into the
+     brand or action cluster. See Chief Designer contract (FOX-3259). */
+  min-width: 0;
+  max-width: 100%;
+}
+
+/* Identity + primary action must survive narrow widths — never squish them. */
+.meeting-status__avatar-btn,
+.meeting-status__avatar,
+.meeting-status__icon,
+.meeting-status__icon-wrapper,
+.meeting-status__calendar-icon,
+.meeting-status__actions,
+.meeting-status__btn-primary,
+.meeting-status__btn-join {
+  flex-shrink: 0;
+}
+
+/* Flexible text: shrink below its max-width cap and ellipsize first. */
+.meeting-status__title,
+.meeting-status__preview-text,
+.meeting-status__quip {
+  flex: 0 1 auto;
+  min-width: 0;
+}
+
+/* Truncate-and-shed against the real available header-center width.
+   In the header the row must stay on a single line — wrapping pops the
+   content out above the bar. Flavour goes first, then secondary links;
+   the icon/avatar, truncated title, and primary action stay reachable. */
+@container header-center (max-width: 360px) {
+  /* Compound selectors raise specificity so these win over the per-state
+     rules (e.g. .meeting-status--detected { flex-wrap: wrap }) that appear
+     later in this file, regardless of source order. */
+  .meeting-status.meeting-status {
+    flex-wrap: nowrap;
+  }
+  /* Drop pure flavour + redundant secondary text. The essential status quip
+     (.meeting-status__quip — e.g. "Couldn't join", "Uploading…") is KEPT and
+     truncates via its ellipsis; only the subtle flavour quip is dropped. */
+  .meeting-status .meeting-status__quip--subtle,
+  .meeting-status .meeting-status__other-bots,
+  .meeting-status .meeting-status__local-link,
+  .meeting-status .meeting-status__hint {
+    display: none;
+  }
+  /* Only when a primary action button exists, shed the secondary Prep/Skip
+     buttons so the meeting TITLE stays visible (Chief Designer ranking:
+     title outranks secondary actions). */
+  .meeting-status:has(.meeting-status__btn-primary) .meeting-status__btn-prep,
+  .meeting-status:has(.meeting-status__btn-primary) .meeting-status__btn-secondary {
+    display: none;
+  }
+}
+
+@container header-center (max-width: 240px) {
+  /* Last resort: drop secondary links, but ONLY when a primary action button
+     is present — so link-only states (e.g. pre-scheduled imminent, which has
+     just Prep/Join links and no primary button) keep their single action.
+     :has() fails safe: if unsupported, the links stay rather than vanish. */
+  .meeting-status:has(.meeting-status__btn-join, .meeting-status__btn-primary) .meeting-status__prep-link,
+  .meeting-status:has(.meeting-status__btn-join, .meeting-status__btn-primary) .meeting-status__join-link,
+  .meeting-status:has(.meeting-status__btn-join, .meeting-status__btn-primary) .meeting-status__send-anyway-link {
+    display: none;
+  }
+}
+
+.meeting-status--idle {
+  font-size: 0.75rem;
+  color: var(--color-muted-foreground);
+  opacity: 0.5;
+  letter-spacing: 0.02em;
+}
+
+.meeting-status--preview {
+  font-size: 0.75rem;
+  color: var(--color-muted-foreground);
+  gap: var(--space-2);
+}
+
+.meeting-status__calendar-icon {
+  flex-shrink: 0;
+  opacity: 0.6;
+}
+
+.meeting-status__preview-text {
+  color: var(--color-text-secondary);
+  max-width: 240px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.meeting-status__prep-link {
+  background: none;
+  border: none;
+  padding: 0;
+  font: inherit;
+  font-size: var(--font-size-xs);
+  color: var(--color-primary);
+  cursor: pointer;
+  transition: color 0.15s ease;
+}
+
+.meeting-status__prep-link:hover {
+  text-decoration: underline;
+}
+
+.meeting-status__dismiss-btn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: var(--space-1);
+  background: transparent;
+  border: none;
+  border-radius: var(--radius-sm);
+  color: var(--color-muted-foreground);
+  opacity: 0.4;
+  cursor: pointer;
+  transition: opacity 0.15s ease, background-color 0.15s ease;
+}
+
+.meeting-status__dismiss-btn:hover {
+  opacity: 0.8;
+  background: var(--color-surface-hover);
+}
+
+.meeting-status--imminent {
+  font-size: 0.75rem;
+  color: var(--color-muted-foreground);
+  gap: var(--space-2);
+}
+
+.meeting-status__btn-join {
+  font-size: var(--font-size-xs);
+  padding: var(--space-1) var(--space-2);
+  height: auto;
+  display: flex;
+  align-items: center;
+  gap: var(--space-1);
+}
+
+.meeting-status__join-link {
+  background: none;
+  border: none;
+  padding: 0;
+  font: inherit;
+  font-size: var(--font-size-xs);
+  color: var(--color-text-secondary);
+  cursor: pointer;
+  transition: color 0.15s ease;
+}
+
+.meeting-status__join-link:hover {
+  text-decoration: underline;
+}
+
+.meeting-status--detected {
+  background: var(--color-surface-raised);
+  border: 1px solid var(--color-border-subtle);
+  gap: var(--space-2);
+  flex-wrap: wrap;
+}
+
+.meeting-status--dispatching,
+.meeting-status--joining {
+  background: var(--color-surface-raised);
+  border: 1px solid var(--color-border-subtle);
+  gap: var(--space-2);
+}
+
+.meeting-status--recording {
+  background: var(--color-surface-raised);
+  border: 1px solid var(--color-border-subtle);
+  gap: var(--space-2);
+  flex-wrap: wrap;
+}
+
+.meeting-status--warning {
+  background: var(--color-warning-background, hsl(38deg 92% 95%));
+  border: 1px solid var(--color-warning-border, hsl(38deg 92% 75%));
+  color: hsl(28deg 80% 25%);
+  gap: var(--space-2);
+}
+
+.meeting-status--warning .meeting-status__quip {
+  color: hsl(28deg 80% 25%);
+}
+
+.meeting-status--warning button,
+.meeting-status--warning .meeting-status__btn-local,
+.meeting-status--warning .meeting-status__btn-retry,
+.meeting-status--warning .meeting-status__btn-dismiss {
+  color: hsl(28deg 80% 25%);
+}
+
+.meeting-status--error {
+  background: var(--color-error-background, hsl(0deg 84% 96%));
+  border: 1px solid var(--color-error-border, hsl(0deg 84% 80%));
+  color: hsl(0deg 70% 30%);
+  gap: var(--space-2);
+}
+
+.meeting-status--error .meeting-status__quip {
+  color: hsl(0deg 70% 30%);
+}
+
+.meeting-status--error button,
+.meeting-status--error .meeting-status__btn-local,
+.meeting-status--error .meeting-status__btn-retry,
+.meeting-status--error .meeting-status__btn-dismiss {
+  color: hsl(0deg 70% 30%);
+}
+
+.meeting-status--external {
+  background: var(--color-surface-raised);
+  border: 1px solid var(--color-border-subtle);
+  gap: var(--space-2);
+  opacity: 0.7;
+}
+
+/* Collaborator state - another user's bot is recording */
+.meeting-status--collaborator {
+  background: var(--color-surface-raised);
+  border: 1px solid var(--color-border-subtle);
+  gap: var(--space-2);
+}
+
+.meeting-status__send-anyway-link {
+  background: none;
+  border: none;
+  padding: 0;
+  font: inherit;
+  font-size: var(--font-size-xs);
+  color: var(--color-primary);
+  cursor: pointer;
+  transition: color 0.15s ease;
+  margin-left: auto;
+}
+
+.meeting-status__send-anyway-link:hover:not(:disabled) {
+  text-decoration: underline;
+}
+
+/* Use same recording icon style but slightly dimmed to show it's someone else's */
+.meeting-status--collaborator .meeting-status__icon--recording {
+  opacity: 0.7;
+}
+
+/* Hoverable icon wrapper for tooltip affordance */
+.meeting-status__icon-wrapper--hoverable {
+  cursor: help;
+}
+
+.meeting-status__send-anyway-link:disabled {
+  cursor: not-allowed;
+  opacity: 0.5;
+}
+
+/* Local recording states */
+.meeting-status--recording-local {
+  background: var(--color-surface-raised);
+  border: 1px solid var(--color-border-subtle);
+  gap: var(--space-2);
+}
+
+.meeting-status--uploading {
+  background: var(--color-surface-raised);
+  border: 1px solid var(--color-border-subtle);
+  gap: var(--space-2);
+}
+
+.meeting-status--processing {
+  background: var(--color-surface-raised);
+  border: 1px solid var(--color-border-subtle);
+  gap: var(--space-2);
+}
+
+/* Avatar thumbnail button */
+.meeting-status__avatar-btn {
+  background: none;
+  border: none;
+  padding: 0;
+  cursor: pointer;
+  border-radius: var(--radius-sm);
+  overflow: hidden;
+  flex-shrink: 0;
+  transition: transform 0.15s ease, box-shadow 0.15s ease;
+}
+
+.meeting-status__avatar-btn:hover {
+  transform: scale(1.1);
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
+}
+
+.meeting-status__avatar-btn:focus-visible {
+  outline: 2px solid var(--color-primary);
+  outline-offset: 2px;
+}
+
+/* Avatar image */
+.meeting-status__avatar {
+  width: 20px;
+  height: 20px;
+  border-radius: var(--radius-sm);
+  object-fit: cover;
+}
+
+.meeting-status__avatar--animated {
+  animation: avatar-bounce 1.5s ease-in-out infinite;
+}
+
+.meeting-status__avatar--dimmed {
+  opacity: 0.5;
+  filter: grayscale(30%);
+}
+
+.meeting-status__avatar--small {
+  width: 16px;
+  height: 16px;
+}
+
+@keyframes avatar-bounce {
+  0%, 100% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(-2px);
+  }
+}
+
+.meeting-status__text {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  max-width: 200px;
+}
+
+.meeting-status__title {
+  font-weight: var(--font-weight-medium);
+  overflow: hidden;
+  text-overflow: ellipsis;
+  max-width: 150px;
+}
+
+/* "Needs setup" state - meeting visible but link not readable */
+.meeting-status--needs-setup {
+  border-color: var(--color-warning, #b45309);
+}
+
+.meeting-status__needs-setup-content {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  min-width: 0;
+}
+
+.meeting-status__hint {
+  color: var(--color-text-secondary);
+  font-size: var(--font-size-xs, 11px);
+  line-height: 1.3;
+}
+
+/* Celebration state - FDA granted */
+.meeting-status--celebration {
+  border-color: var(--color-success, #059669);
+}
+
+.meeting-status__celebration-text {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  color: var(--color-success, #059669);
+  font-size: var(--font-size-sm, 13px);
+  font-weight: var(--font-weight-medium);
+}
+
+.meeting-status__quip {
+  color: var(--color-text-secondary);
+  overflow: hidden;
+  text-overflow: ellipsis;
+  max-width: 280px;
+}
+
+.meeting-status__other-bots {
+  font-size: 11px;
+  color: var(--color-text-secondary);
+  margin-top: 2px;
+}
+
+.meeting-status__quip--subtle {
+  color: var(--color-muted-foreground);
+}
+
+.meeting-status__presence-pill {
+  display: inline-flex;
+  align-items: center;
+  padding: 0 var(--space-1);
+  font-size: 0.65rem;
+  font-weight: 500;
+  color: var(--color-primary);
+  background: color-mix(in srgb, var(--color-primary) 10%, transparent);
+  border-radius: var(--radius-sm);
+  letter-spacing: 0.02em;
+  line-height: 1;
+  height: 16px;
+}
+
+.meeting-status__time {
+  color: var(--color-text-secondary);
+}
+
+.meeting-status__duration {
+  font-variant-numeric: tabular-nums;
+  color: var(--color-text-secondary);
+}
+
+.meeting-status__icon {
+  flex-shrink: 0;
+}
+
+.meeting-status__icon-wrapper {
+  position: relative;
+  display: flex;
+  align-items: center;
+}
+
+.meeting-status__badge {
+  position: absolute;
+  top: -6px;
+  right: -8px;
+  min-width: 14px;
+  height: 14px;
+  padding: 0 4px;
+  font-size: 10px;
+  font-weight: 600;
+  line-height: 14px;
+  text-align: center;
+  color: white;
+  background: var(--color-error);
+  border-radius: 7px;
+  cursor: default;
+}
+
+/* Caption status indicator dot — overlay on the mic icon wrapper */
+.meeting-status__caption-dot {
+  position: absolute;
+  bottom: -2px;
+  right: -2px;
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  border: 1px solid var(--color-surface-raised);
+  pointer-events: auto;
+}
+
+.meeting-status__caption-dot--active {
+  background: var(--color-success, hsl(142deg 71% 45%));
+  animation: caption-pulse 2s ease-in-out infinite;
+}
+
+.meeting-status__caption-dot--warning {
+  background: var(--color-warning, hsl(38deg 92% 50%));
+}
+
+@keyframes caption-pulse {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0.5; }
+}
+
+/* Respect reduced motion preference */
+@media (prefers-reduced-motion: reduce) {
+  .meeting-status__caption-dot--active {
+    animation: none;
+  }
+}
+
+.meeting-status__icon--recording {
+  color: var(--color-error);
+  animation: pulse 2s ease-in-out infinite;
+}
+
+.meeting-status__icon--no-avatar {
+  opacity: 0.5;
+}
+
+@keyframes pulse {
+  0%, 100% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 0.5;
+  }
+}
+
+.meeting-status__actions {
+  display: flex;
+  align-items: center;
+  gap: var(--space-1);
+}
+
+.meeting-status__btn-primary {
+  font-size: var(--font-size-xs);
+  padding: var(--space-1) var(--space-2);
+  height: auto;
+  display: flex;
+  align-items: center;
+  gap: var(--space-1);
+}
+
+.meeting-status__spinner {
+  animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+.meeting-status__btn-secondary {
+  font-size: var(--font-size-xs);
+  padding: var(--space-1) var(--space-2);
+  height: auto;
+}
+
+.meeting-status__btn-stop {
+  padding: var(--space-1);
+  height: auto;
+}
+
+.meeting-status__btn-knowledge {
+  padding: var(--space-1);
+  height: auto;
+  opacity: 0.5;
+  transition: opacity 0.15s ease, color 0.15s ease;
+}
+
+.meeting-status__btn-knowledge:hover {
+  opacity: 0.8;
+}
+
+.meeting-status__btn-knowledge--active {
+  opacity: 1;
+  color: var(--color-primary);
+}
+
+.meeting-status__btn-knowledge--active:hover {
+  opacity: 0.9;
+}
+
+.meeting-status__btn-companion {
+  padding: var(--space-1);
+  height: auto;
+  opacity: 0.6;
+  transition: opacity 0.15s ease, color 0.15s ease;
+}
+
+.meeting-status__btn-companion:hover {
+  opacity: 1;
+  color: var(--color-primary);
+}
+
+.meeting-status__btn-stop-speaking {
+  padding: var(--space-1);
+  height: auto;
+  color: var(--color-warning, #f59e0b);
+  opacity: 0.9;
+  transition: opacity 0.15s ease;
+}
+
+.meeting-status__btn-stop-speaking:hover {
+  opacity: 1;
+}
+
+.meeting-status__btn-let-speak {
+  padding: var(--space-1);
+  height: auto;
+  color: var(--color-primary, #3b82f6);
+  opacity: 0.9;
+  transition: opacity 0.15s ease;
+  animation: pulse-subtle 2s ease-in-out infinite;
+}
+
+.meeting-status__btn-let-speak:hover {
+  opacity: 1;
+  animation: none;
+}
+
+@keyframes pulse-subtle {
+  0%, 100% {
+    opacity: 0.7;
+  }
+  50% {
+    opacity: 1;
+  }
+}
+
+.meeting-status__btn-retry {
+  font-size: var(--font-size-xs);
+  padding: var(--space-1) var(--space-2);
+  height: auto;
+  display: flex;
+  align-items: center;
+  gap: var(--space-1);
+}
+
+.meeting-status__btn-dismiss {
+  padding: var(--space-1);
+  height: auto;
+  opacity: 0.7;
+}
+
+.meeting-status__btn-dismiss:hover {
+  opacity: 1;
+}
+
+/* Local recording link - subtle text below detected state actions */
+.meeting-status__local-link {
+  background: none;
+  border: none;
+  padding: 0;
+  font: inherit;
+  font-size: var(--font-size-xs);
+  color: var(--color-muted-foreground);
+  cursor: pointer;
+  transition: color 0.15s ease;
+}
+
+.meeting-status__local-link:hover:not(:disabled) {
+  text-decoration: underline;
+}
+
+.meeting-status__local-link:disabled {
+  cursor: not-allowed;
+  opacity: 0.5;
+}
+
+/* Normal detected meetings already have the clear primary path ("Send Rebel")
+   plus Skip/Prep. Keeping the local-recording fallback in the header made the
+   topbar read as five competing text fragments; reserve that fallback for
+   stuck/error states where recovery is the point. */
+.meeting-status--detected .meeting-status__local-link {
+  display: none;
+}
+
+/* Physical recording (Limitless Pendant) */
+.meeting-status--recording-physical {
+  background: var(--color-surface-raised);
+  border: 1px solid var(--color-border-subtle);
+  gap: var(--space-2);
+}
+
+.meeting-status--done {
+  background: var(--color-surface-raised);
+  border: 1px solid var(--color-border-subtle);
+  gap: var(--space-2);
+}
+
+.meeting-status__icon--success {
+  color: var(--color-success);
+}
+
+/* Coach picker button */
+.meeting-status__btn-coach {
+  padding: var(--space-1);
+  height: auto;
+  display: flex;
+  align-items: center;
+  gap: var(--space-1);
+  opacity: 0.5;
+  transition: opacity 0.15s ease;
+}
+
+.meeting-status__btn-coach:hover {
+  opacity: 0.8;
+}
+
+.meeting-status__btn-coach--active {
+  opacity: 1;
+  color: var(--color-primary);
+}
+
+.meeting-status__coach-name {
+  font-size: 0.7rem;
+  max-width: 80px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.meeting-status__coach-clear {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 2px;
+  margin-left: 2px;
+  background: transparent;
+  border: none;
+  border-radius: var(--radius-sm);
+  color: inherit;
+  opacity: 0.6;
+  cursor: pointer;
+  transition: opacity 0.15s ease, background-color 0.15s ease;
+}
+
+.meeting-status__coach-clear:hover {
+  opacity: 1;
+  background: var(--color-surface-hover);
+}
+
+/* Coach picker container */
+.coach-picker {
+  position: relative;
+  display: inline-flex;
+}
+
+/* Coach picker dropdown menu */
+.coach-picker__menu {
+  z-index: 9999;
+  min-width: 200px;
+  max-width: 280px;
+  padding: var(--space-1);
+  background: var(--color-popover);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-md);
+  box-shadow: var(--shadow-lg);
+  /* Ensure opaque background - no transparency bleed-through */
+  backdrop-filter: none;
+  -webkit-backdrop-filter: none;
+}
+
+.coach-picker__separator {
+  height: 1px;
+  margin: var(--space-1) 0;
+  background: var(--color-border);
+}
+
+.coach-picker__section-label {
+  padding: var(--space-1) var(--space-2);
+  font-size: 0.65rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  color: var(--color-muted-foreground);
+  opacity: 0.7;
+}
+
+.coach-picker__item {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  width: 100%;
+  padding: var(--space-2);
+  background: var(--color-popover);
+  border: none;
+  border-radius: var(--radius-sm);
+  text-align: left;
+  font: inherit;
+  font-size: var(--font-size-sm);
+  color: var(--color-foreground);
+  cursor: pointer;
+  transition: background-color 0.15s ease;
+}
+
+.coach-picker__item:hover {
+  background: var(--color-surface-hover);
+}
+
+.coach-picker__item-name {
+  font-weight: var(--font-weight-medium);
+}
+
+.coach-picker__item-desc {
+  font-size: 0.7rem;
+  color: var(--color-muted-foreground);
+  opacity: 0.8;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.coach-picker__item--selected {
+  background: var(--color-surface-hover);
+}
+
+/* ── FOX-3259 / Chief Designer correction: inline header indicator, no pill ──
+   The meeting indicator sits inline in the header rhythm — not in an enclosing
+   box. Remove background/border/shadow for every state. Warning/error/done keep
+   state legibility through semantic icon + text colour only, never a filled
+   container. (Compound `.meeting-status.meeting-status` wins over the per-state
+   background/border rules above regardless of source order.) */
+.meeting-status.meeting-status {
+  background: transparent;
+  border: none;
+  box-shadow: none;
+}
+
+.meeting-status--warning,
+.meeting-status--warning .meeting-status__quip,
+.meeting-status--warning button,
+.meeting-status--warning .meeting-status__btn-local,
+.meeting-status--warning .meeting-status__btn-retry,
+.meeting-status--warning .meeting-status__btn-dismiss {
+  color: var(--color-warning);
+}
+
+.meeting-status--error,
+.meeting-status--error .meeting-status__quip,
+.meeting-status--error button,
+.meeting-status--error .meeting-status__btn-local,
+.meeting-status--error .meeting-status__btn-retry,
+.meeting-status--error .meeting-status__btn-dismiss {
+  color: var(--color-error);
+}

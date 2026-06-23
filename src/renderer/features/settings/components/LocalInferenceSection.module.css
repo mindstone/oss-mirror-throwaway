@@ -1,0 +1,411 @@
+/* ─────────────────────────────────────────────────────────────
+   LocalInferenceSection — CSS Module
+   Settings UI for bundled Ollama local inference feature.
+   Uses design tokens for theming (light/dark).
+   ───────────────────────────────────────────────────────────── */
+
+/* === Section Container === */
+
+.sectionWrapper {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.container {
+  padding: 14px;
+  background-color: rgba(255, 255, 255, 0.02);
+  border-radius: 8px;
+  border: 1px solid rgba(255, 255, 255, 0.08);
+}
+
+:global(body.light) .container {
+  background-color: rgba(0, 0, 0, 0.02);
+  border-color: rgba(0, 0, 0, 0.06);
+}
+
+/* === Header === */
+
+.heading {
+  font-size: 14px;
+  font-weight: 600;
+  margin: 0 0 4px;
+}
+
+.subtext {
+  font-size: 12px;
+  color: var(--color-text-muted);
+  margin: 0 0 12px;
+}
+
+/* === Hardware Info === */
+
+.hardwareInfo {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  font-size: 11px;
+  color: var(--color-text-secondary);
+  margin-bottom: 10px;
+}
+
+.hardwareItem {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+}
+
+.ramWarning {
+  display: flex;
+  align-items: flex-start;
+  gap: 6px;
+  font-size: 11px;
+  color: var(--color-warning, #f59e0b);
+  margin-bottom: 10px;
+  padding: 8px 10px;
+  background-color: rgba(245, 158, 11, 0.08);
+  border-radius: 6px;
+  border: 1px solid rgba(245, 158, 11, 0.15);
+}
+
+:global(body.light) .ramWarning {
+  background-color: rgba(245, 158, 11, 0.06);
+  border-color: rgba(245, 158, 11, 0.2);
+}
+
+.ramWarningIcon {
+  flex-shrink: 0;
+  margin-top: 1px;
+}
+
+/* === Status Badge === */
+
+.statusBadge {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  font-size: 11px;
+  font-weight: 500;
+  padding: 3px 8px;
+  border-radius: 4px;
+  color: var(--color-success);
+  background-color: rgba(34, 197, 94, 0.1);
+  margin-bottom: 12px;
+}
+
+:global(body.light) .statusBadge {
+  background-color: rgba(34, 197, 94, 0.08);
+}
+
+/* === Progress Bar === */
+
+.progressContainer {
+  margin-bottom: 12px;
+}
+
+.progressLabel {
+  font-size: 12px;
+  color: var(--color-text-secondary);
+  margin-bottom: 6px;
+}
+
+.progressBar {
+  width: 100%;
+  height: 6px;
+  background-color: rgba(255, 255, 255, 0.08);
+  border-radius: 3px;
+  overflow: hidden;
+}
+
+:global(body.light) .progressBar {
+  background-color: rgba(0, 0, 0, 0.06);
+}
+
+.progressFill {
+  height: 100%;
+  background-color: var(--color-accent, #818cf8);
+  border-radius: 3px;
+  transition: width 0.3s ease;
+}
+
+.progressStatus {
+  font-size: 11px;
+  color: var(--color-text-muted);
+  margin-top: 4px;
+}
+
+/* === Model Catalog === */
+
+.catalogHeader {
+  font-size: 12px;
+  font-weight: 500;
+  margin-bottom: 8px;
+  color: var(--color-text-secondary);
+}
+
+.modelCard {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  padding: 10px 12px;
+  background-color: rgba(255, 255, 255, 0.02);
+  border-radius: 6px;
+  border: 1px solid rgba(255, 255, 255, 0.05);
+  margin-bottom: 6px;
+}
+
+:global(body.light) .modelCard {
+  background-color: rgba(0, 0, 0, 0.02);
+  border-color: rgba(0, 0, 0, 0.06);
+}
+
+.modelCardDisabled {
+  composes: modelCard;
+  opacity: 0.5;
+}
+
+.modelCardTop {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.modelCardInfo {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  min-width: 0;
+  flex: 1;
+}
+
+.modelName {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 12px;
+  font-weight: 500;
+}
+
+.modelDescription {
+  font-size: 11px;
+  color: var(--color-text-muted);
+}
+
+.modelMeta {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  font-size: 10px;
+  color: var(--color-text-muted);
+  margin-top: 2px;
+}
+
+.modelMetaItem {
+  display: flex;
+  align-items: center;
+  gap: 3px;
+}
+
+.modelCardAction {
+  flex-shrink: 0;
+  margin-left: 8px;
+}
+
+/* === Badges === */
+
+.badge {
+  font-size: 9px;
+  font-weight: 500;
+  padding: 1px 5px;
+  border-radius: 3px;
+  text-transform: uppercase;
+  letter-spacing: 0.3px;
+}
+
+.badgeRecommended {
+  composes: badge;
+  color: var(--color-success);
+  background-color: rgba(34, 197, 94, 0.12);
+}
+
+.badgeLightweight {
+  composes: badge;
+  color: var(--color-info, #3b82f6);
+  background-color: rgba(59, 130, 246, 0.12);
+}
+
+.badgeReasoning {
+  composes: badge;
+  color: var(--color-accent, #818cf8);
+  background-color: rgba(139, 92, 246, 0.12);
+}
+
+.badgeReady {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  font-size: 11px;
+  font-weight: 500;
+  color: var(--color-success);
+}
+
+.badgeNeedsRam {
+  composes: badge;
+  color: var(--color-text-muted);
+  background-color: rgba(107, 114, 128, 0.12);
+}
+
+/* === Context Window Slider === */
+
+.contextSection {
+  margin-top: 12px;
+  padding-top: 12px;
+  border-top: 1px solid rgba(255, 255, 255, 0.06);
+}
+
+:global(body.light) .contextSection {
+  border-top-color: rgba(0, 0, 0, 0.06);
+}
+
+.contextLabel {
+  font-size: 12px;
+  font-weight: 500;
+  margin-bottom: 6px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.contextValue {
+  font-weight: 400;
+  color: var(--color-text-muted);
+  font-size: 11px;
+}
+
+.contextSlider {
+  width: 100%;
+  max-width: 280px;
+  accent-color: var(--color-accent, #818cf8);
+  cursor: pointer;
+}
+
+.contextHint {
+  font-size: 11px;
+  color: var(--color-text-muted);
+  margin-top: 4px;
+}
+
+/* === Cloud Fallback === */
+
+.fallbackSection {
+  margin-top: 12px;
+  padding-top: 12px;
+  border-top: 1px solid rgba(255, 255, 255, 0.06);
+}
+
+:global(body.light) .fallbackSection {
+  border-top-color: rgba(0, 0, 0, 0.06);
+}
+
+.fallbackHeader {
+  font-size: 12px;
+  font-weight: 500;
+  margin-bottom: 2px;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.fallbackSubtext {
+  font-size: 11px;
+  color: var(--color-text-muted);
+  margin-bottom: 8px;
+}
+
+.fallbackSelect {
+  width: 100%;
+  max-width: 320px;
+  font-size: 12px;
+  padding: 6px 8px;
+  border-radius: 6px;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  background-color: transparent;
+  color: var(--color-text-primary);
+  cursor: pointer;
+  appearance: auto;
+}
+
+:global(body.light) .fallbackSelect {
+  border-color: rgba(0, 0, 0, 0.12);
+}
+
+.fallbackSelect:focus {
+  outline: 2px solid var(--color-ring, #a78bfa);
+  outline-offset: 2px;
+}
+
+.fallbackContext {
+  font-size: 11px;
+  color: var(--color-text-muted);
+  margin-top: 6px;
+  display: flex;
+  align-items: center;
+  gap: 4px;
+}
+
+/* === Deactivation === */
+
+.deactivateRow {
+  margin-top: 12px;
+  padding-top: 12px;
+  border-top: 1px solid rgba(255, 255, 255, 0.06);
+}
+
+:global(body.light) .deactivateRow {
+  border-top-color: rgba(0, 0, 0, 0.06);
+}
+
+.deactivateLink {
+  background: none;
+  border: none;
+  padding: 0;
+  font-size: 11px;
+  color: var(--color-text-muted);
+  cursor: pointer;
+  text-decoration: underline;
+}
+
+.deactivateLink:hover {
+  color: var(--color-destructive);
+}
+
+/* === Error state === */
+
+.errorMessage {
+  font-size: 11px;
+  color: var(--color-destructive);
+  margin-top: 4px;
+  display: flex;
+  align-items: center;
+  gap: 4px;
+}
+
+/* === Spinner === */
+
+@keyframes spin {
+  from { transform: rotate(0deg); }
+  to { transform: rotate(360deg); }
+}
+
+.spinner {
+  animation: spin 1s linear infinite;
+}
+
+/* === Action bar === */
+
+.actionBar {
+  display: flex;
+  gap: 8px;
+  align-items: center;
+  margin-top: 4px;
+}

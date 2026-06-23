@@ -1,0 +1,4 @@
+# Generic AI-tool ignore file (Claude Code, JetBrains AI Assistant, etc.).
+#
+# See `.factoryignore` for the full rationale.
+mirror/patches/**

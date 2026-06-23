@@ -1,0 +1,28 @@
+{
+  "name": "system-continuation-hidden",
+  "input": [
+    {
+      "id": "u2",
+      "turnId": "t2",
+      "role": "user",
+      "text": "Normal-looking continuation text.",
+      "messageOrigin": "system-continuation",
+      "createdAt": 2001
+    },
+    {
+      "id": "a2",
+      "turnId": "t2",
+      "role": "assistant",
+      "text": "Continuing after user input.",
+      "createdAt": 2002
+    }
+  ],
+  "expected": {
+    "visibleIds": ["a2"],
+    "messagesByTurnIds": {
+      "t2": ["u2", "a2"]
+    },
+    "activeTurnId": "t2",
+    "isBusy": true
+  }
+}

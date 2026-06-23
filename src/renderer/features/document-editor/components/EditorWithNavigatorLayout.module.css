@@ -1,0 +1,177 @@
+.splitLayout {
+  display: flex;
+  width: 100%;
+  max-width: 1280px;
+  margin: 0 auto;
+  --editor-navigator-rail-width: clamp(220px, 22vw, 300px);
+  height: 100%;
+  min-height: 0;
+  overflow: hidden;
+  position: relative;
+}
+
+/* When editor is open, use full width for the two-panel layout */
+.splitLayout[data-editor-open='true'] {
+  max-width: none;
+}
+
+.navigatorPane {
+  display: flex;
+  flex-direction: column;
+  min-width: 280px;
+  flex: 1 1 auto;
+  min-height: 0;
+  overflow: hidden;
+}
+
+.splitLayout[data-editor-open='true'] .navigatorPane {
+  /* Default to 50% width, controlled by inline style when resizing */
+  flex: 0 0 50%;
+  min-width: 240px;
+  max-width: calc(100% - 300px);
+}
+
+.splitLayout[data-editor-open='true'][data-kiosk-level='wide'] .navigatorPane {
+  flex: 0 0 var(--editor-navigator-rail-width);
+  min-width: 160px;
+  max-width: 45%;
+}
+
+.splitLayout[data-editor-open='true'][data-kiosk-level='zen'] .navigatorPane {
+  display: none;
+}
+
+/* Resize handle between navigator and editor */
+.resizeHandle {
+  flex: 0 0 6px;
+  background: transparent;
+  cursor: col-resize;
+  position: relative;
+  /* Must stack above .library-editor-panel (z-index: 20 in floating editor mode).
+     In wide kiosk mode the floating editor's left edge extends past the rail and
+     would otherwise cover the handle entirely. */
+  z-index: 30;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: background-color 0.15s ease;
+}
+
+.resizeHandle::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: 50%;
+  width: 1px;
+  background: transparent;
+  transition: background-color 0.15s ease, width 0.15s ease, opacity 0.15s ease;
+}
+
+/* Forgiving hit zone — 6px visible bar plus 4px slop on each side
+   so users don't need pixel-perfect aim to grab the divider. */
+.resizeHandle::after {
+  content: '';
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: -4px;
+  right: -4px;
+  cursor: col-resize;
+}
+
+/* No persistent line in wide kiosk mode — the floating editor's left edge
+   serves as the only visible separator (the rail's own right border is
+   suppressed in wide mode — see LibraryDrawer.module.css .kioskRail rule). */
+
+/* In normal mode the rail and editor sit edge-to-edge inside the same flex
+   container, so a tinted hover line marks the otherwise-invisible drag axis. */
+.splitLayout:not([data-kiosk-level='wide']) .resizeHandle:hover::before,
+.splitLayout:not([data-kiosk-level='wide']) .resizeHandle:focus-visible::before,
+.splitLayout:not([data-kiosk-level='wide']) .resizeHandle[data-resizing='true']::before {
+  width: 3px;
+  left: calc(50% - 1px);
+  background: var(--color-accent, #6366f1);
+}
+
+.splitLayout:not([data-kiosk-level='wide']) .resizeHandle:hover,
+.splitLayout:not([data-kiosk-level='wide']) .resizeHandle:focus-visible,
+.splitLayout:not([data-kiosk-level='wide']) .resizeHandle[data-resizing='true'] {
+  background: rgba(99, 102, 241, 0.08);
+}
+
+/* In wide kiosk mode the editor's left edge is the visible separator. Hover
+   feedback is just cursor + grip icon — no competing line or background tint. */
+
+.resizeHandle:focus-visible {
+  outline: none;
+}
+
+.resizeHandleGrip {
+  position: relative;
+  z-index: 1;
+  color: var(--color-text-tertiary, rgba(100, 116, 139, 0.75));
+  opacity: 0;
+  pointer-events: none;
+  transform: translateX(0);
+  transition: opacity 0.15s ease, color 0.15s ease;
+}
+
+.resizeHandle:hover .resizeHandleGrip,
+.resizeHandle:focus-visible .resizeHandleGrip,
+.resizeHandle[data-resizing='true'] .resizeHandleGrip {
+  opacity: 1;
+  color: var(--color-accent, #6366f1);
+}
+
+.splitLayout[data-kiosk-level='zen'] .resizeHandle {
+  display: none;
+}
+
+.editorPane {
+  flex: 1 1 auto;
+  min-width: 300px;
+  min-height: 0;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+}
+
+/* Prevent text selection while resizing */
+.splitLayout[data-resizing='true'] {
+  user-select: none;
+  cursor: col-resize;
+}
+
+.splitLayout[data-resizing='true'] * {
+  cursor: col-resize !important;
+}
+
+@media (max-width: 900px) {
+  .splitLayout[data-editor-open='true'] .navigatorPane {
+    min-width: 200px;
+  }
+}
+
+@media (max-width: 720px) {
+  .splitLayout {
+    flex-direction: column;
+  }
+
+  .splitLayout[data-editor-open='true'] .navigatorPane {
+    flex: 0 0 auto;
+    max-width: none;
+    min-width: 0;
+    max-height: 200px;
+    border-right: none;
+  }
+
+  .resizeHandle {
+    display: none;
+  }
+
+  .editorPane {
+    flex: 1 1 auto;
+    min-width: 0;
+  }
+}

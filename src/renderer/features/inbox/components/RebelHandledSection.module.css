@@ -1,0 +1,146 @@
+/* RebelHandledSection — subtle bottom section for auto-completed items */
+
+.section {
+  display: flex;
+  flex-direction: column;
+  margin-top: 8px;
+  padding-top: 8px;
+  border-top: 1px solid rgba(148, 163, 184, 0.08);
+}
+
+.header {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 4px 0;
+  cursor: pointer;
+  user-select: none;
+  border: none;
+  background: none;
+  width: 100%;
+  text-align: left;
+}
+
+.header:focus-visible {
+  outline: 2px solid rgba(99, 102, 241, 0.5);
+  outline-offset: 2px;
+  border-radius: 6px;
+}
+
+.chevron {
+  color: rgba(148, 163, 184, 0.35);
+  transition: transform 150ms ease;
+  flex-shrink: 0;
+}
+
+.chevronCollapsed {
+  transform: rotate(-90deg);
+}
+
+.label {
+  font-size: 0.72rem;
+  font-weight: 500;
+  color: rgba(148, 163, 184, 0.55);
+  letter-spacing: 0.01em;
+}
+
+.summary {
+  font-size: 0.68rem;
+  color: rgba(148, 163, 184, 0.4);
+  margin-left: auto;
+}
+
+.items {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  padding: 4px 0 4px 22px;
+}
+
+.item {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 4px 0;
+  min-height: 28px;
+}
+
+.checkIcon {
+  color: rgba(34, 197, 94, 0.6);
+  flex-shrink: 0;
+}
+
+.itemTitle {
+  font-size: 0.78rem;
+  color: rgba(248, 250, 255, 0.6);
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  flex: 1;
+  min-width: 0;
+}
+
+.itemTime {
+  font-size: 0.68rem;
+  color: rgba(148, 163, 184, 0.4);
+  white-space: nowrap;
+  font-variant-numeric: tabular-nums;
+}
+
+.viewLink {
+  font-size: 0.72rem;
+  font-weight: 500;
+  color: rgba(167, 139, 250, 0.6);
+  background: transparent;
+  border: none;
+  padding: 0;
+  cursor: pointer;
+  white-space: nowrap;
+  transition: color 0.15s ease;
+}
+
+.viewLink:hover {
+  color: rgba(167, 139, 250, 0.9);
+}
+
+/* ─────────────────────────────────────────────────────────────
+   Light Mode Overrides
+   ───────────────────────────────────────────────────────────── */
+
+:global(body.light) .section {
+  border-top-color: var(--color-border);
+}
+
+:global(body.light) .chevron {
+  color: var(--color-muted-foreground);
+}
+
+:global(body.light) .label {
+  color: var(--color-muted-foreground);
+}
+
+:global(body.light) .summary {
+  color: var(--color-muted-foreground);
+}
+
+:global(body.light) .checkIcon {
+  color: rgba(34, 197, 94, 0.7);
+}
+
+:global(body.light) .itemTitle {
+  color: var(--color-foreground);
+  opacity: 0.6;
+}
+
+:global(body.light) .itemTime {
+  color: var(--color-muted-foreground);
+}
+
+:global(body.light) .viewLink {
+  color: var(--color-primary);
+  opacity: 0.7;
+}
+
+:global(body.light) .viewLink:hover {
+  opacity: 1;
+}

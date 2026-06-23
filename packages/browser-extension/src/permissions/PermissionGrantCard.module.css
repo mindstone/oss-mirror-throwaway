@@ -1,0 +1,277 @@
+/**
+ * PermissionGrantCard visual spec (plan finding O).
+ *
+ * Consumes tokens from popup.css / sidepanel.css (added there):
+ *   --bg, --fg, --muted, --border, --accent, --accent-fg,
+ *   --accent-soft   (subtle accent background — new token, both themes)
+ *   --radius-card   (12px — new token, both themes)
+ *
+ * Card spec:
+ *   - padding 16px; border-radius --radius-card (12px); inter-element gap 12px
+ *   - title 15px / 600; body 13px / 400 / line-height 1.4
+ *   - button row: flex, justify-content: flex-end, gap 8px
+ *   - chevron: 200ms smooth-height expand; reduced-motion: instant
+ *   - shield-check + globe fallback are inline SVGs (no lucide-react here)
+ *   - favicon renders at 20x20 CSS px (request 32x32 for HiDPI sharpness)
+ *   - light + dark themes supported via token inheritance
+ */
+
+.card {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  padding: 16px;
+  border-radius: var(--radius-card, 12px);
+  border: 1px solid var(--border);
+  background: var(--accent-soft, color-mix(in srgb, var(--accent) 10%, transparent));
+  color: var(--fg);
+  font-size: 13px;
+  line-height: 1.4;
+}
+
+/*
+ * CSS `order` on each section reshuffles the visual stack without changing
+ * DOM order. DOM order (which drives keyboard tab order) is:
+ *   header → body → buttonRow → revokeLink → details
+ * Visual order (via `order`):
+ *   header → body → details → buttonRow → revokeLink
+ * This keeps the primary CTA reachable via Tab first while preserving the
+ * familiar "explanation → buttons → footer" reading flow.
+ */
+.header {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  order: 1;
+}
+
+.shieldIconWrap {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  flex: 0 0 auto;
+  color: var(--accent);
+}
+
+.shieldIcon {
+  width: 20px;
+  height: 20px;
+}
+
+.faviconWrap {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  flex: 0 0 auto;
+  width: 20px;
+  height: 20px;
+  border-radius: 4px;
+  overflow: hidden;
+  color: var(--muted);
+}
+
+.favicon {
+  width: 20px;
+  height: 20px;
+  object-fit: contain;
+  display: block;
+}
+
+.faviconFallback {
+  width: 20px;
+  height: 20px;
+  display: block;
+}
+
+.title {
+  margin: 0;
+  font-size: 15px;
+  font-weight: 600;
+  letter-spacing: -0.01em;
+  color: var(--fg);
+  flex: 1 1 auto;
+  min-width: 0;
+}
+
+.body {
+  margin: 0;
+  font-size: 13px;
+  font-weight: 400;
+  line-height: 1.4;
+  color: var(--fg);
+  order: 2;
+}
+
+.details {
+  border-top: 1px solid color-mix(in srgb, var(--border) 70%, transparent);
+  padding-top: 8px;
+  order: 3;
+}
+
+/*
+ * Smooth 200ms chevron expand. We cap at a generous max-height ceiling so
+ * the transition works without JS while still collapsing to 0 when the
+ * <details> element closes. Reduced motion collapses to an instant swap.
+ */
+.details[open] .detailsBody {
+  max-height: 400px;
+  opacity: 1;
+}
+
+.summary {
+  list-style: none;
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 12px;
+  font-weight: 500;
+  color: var(--muted);
+  user-select: none;
+  padding: 2px 0;
+}
+
+.summary::-webkit-details-marker {
+  display: none;
+}
+
+/* Chevron glyph that rotates on open — pure CSS so it respects a11y. */
+.summary::before {
+  content: '';
+  display: inline-block;
+  width: 0;
+  height: 0;
+  margin-right: 2px;
+  border-left: 4px solid currentColor;
+  border-top: 4px solid transparent;
+  border-bottom: 4px solid transparent;
+  transition: transform 200ms ease;
+}
+
+.details[open] .summary::before {
+  transform: rotate(90deg);
+}
+
+.detailsBody {
+  margin: 6px 0 0;
+  font-size: 12px;
+  line-height: 1.45;
+  color: var(--muted);
+  max-height: 0;
+  overflow: hidden;
+  opacity: 0;
+  transition:
+    max-height 200ms ease,
+    opacity 200ms ease;
+}
+
+.buttonRow {
+  /*
+   * `row-reverse` so the primary Allow button sits on the right visually
+   * (the conventional Western primary-action slot) while appearing FIRST
+   * in the DOM — keyboard tab order then hits Allow first, then Not now.
+   * `justify-content: flex-start` with row-reverse produces the same
+   * right-aligned visual layout as `flex-end` with normal row direction.
+   */
+  display: flex;
+  flex-direction: row-reverse;
+  justify-content: flex-start;
+  gap: 8px;
+  margin-top: 4px;
+  order: 4;
+}
+
+.primary,
+.secondary {
+  padding: 8px 12px;
+  border-radius: 8px;
+  border: 1px solid var(--border);
+  font-size: 12px;
+  font-weight: 500;
+  cursor: pointer;
+  line-height: 1.2;
+  transition:
+    background-color 120ms ease,
+    opacity 120ms ease,
+    border-color 120ms ease;
+}
+
+.primary {
+  background: var(--accent);
+  color: var(--accent-fg);
+  border-color: var(--accent);
+}
+
+.primary:hover:not(:disabled) {
+  background: color-mix(in srgb, var(--accent) 90%, black);
+}
+
+.primary:focus-visible {
+  outline: 2px solid var(--accent);
+  outline-offset: 2px;
+}
+
+.primary:disabled {
+  opacity: 0.75;
+  cursor: not-allowed;
+}
+
+/*
+ * Subtle pulse while waiting for the native Chrome prompt. Signals the
+ * click landed and Rebel is waiting on the browser, not frozen. Respects
+ * prefers-reduced-motion — the `@media` rule below disables the keyframes
+ * entirely so users with motion sensitivity get an instant, non-pulsing
+ * button label swap.
+ */
+.primaryPulsing {
+  animation: rebel-pg-pulse 1.2s ease-in-out infinite;
+}
+
+@keyframes rebel-pg-pulse {
+  0%,
+  100% {
+    opacity: 0.85;
+  }
+  50% {
+    opacity: 1;
+  }
+}
+
+.secondary {
+  background: transparent;
+  color: var(--fg);
+}
+
+.secondary:hover {
+  background: color-mix(in srgb, var(--muted) 10%, transparent);
+}
+
+.secondary:focus-visible {
+  outline: 2px solid var(--accent);
+  outline-offset: 2px;
+}
+
+.revokeLink {
+  font-size: 11px;
+  color: var(--muted);
+  text-decoration: none;
+  align-self: flex-start;
+  order: 5;
+}
+
+.revokeLink:hover,
+.revokeLink:focus-visible {
+  color: var(--fg);
+  text-decoration: underline;
+  outline: none;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .summary::before,
+  .detailsBody {
+    transition: none;
+  }
+  .primaryPulsing {
+    animation: none;
+  }
+}

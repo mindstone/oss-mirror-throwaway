@@ -1,0 +1,27 @@
+{
+  "name": "pre-version-data",
+  "input": [
+    {
+      "id": "u7",
+      "turnId": "t7",
+      "role": "user",
+      "text": "<conversation_history>\nlegacy continuation payload\n</conversation_history>",
+      "createdAt": 7001
+    },
+    {
+      "id": "a7",
+      "turnId": "t7",
+      "role": "assistant",
+      "text": "Continuing from legacy payload.",
+      "createdAt": 7002
+    }
+  ],
+  "expected": {
+    "visibleIds": ["a7"],
+    "messagesByTurnIds": {
+      "t7": ["u7", "a7"]
+    },
+    "activeTurnId": "t7",
+    "isBusy": true
+  }
+}

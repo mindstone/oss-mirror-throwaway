@@ -1,0 +1,119 @@
+{
+  "fixture": "02-tool-roundtrip",
+  "steps": [
+    {
+      "index": 0,
+      "eventType": "turn_started",
+      "state": {
+        "isSending": false,
+        "streamingText": "",
+        "statusText": null,
+        "activeTurnId": "turn-1",
+        "completedSteps": [],
+        "missionContext": null,
+        "taskProgress": [],
+        "subAgentItems": [],
+        "error": null,
+        "hasMissionSet": false,
+        "touchedTaskIds": [],
+        "userQuestionEventsByTurn": {}
+      }
+    },
+    {
+      "index": 1,
+      "eventType": "tool",
+      "state": {
+        "isSending": false,
+        "streamingText": "",
+        "statusText": "Using Read...",
+        "activeTurnId": "turn-1",
+        "completedSteps": [],
+        "missionContext": null,
+        "taskProgress": [],
+        "subAgentItems": [],
+        "error": null,
+        "hasMissionSet": false,
+        "touchedTaskIds": [],
+        "userQuestionEventsByTurn": {}
+      }
+    },
+    {
+      "index": 2,
+      "eventType": "tool",
+      "state": {
+        "isSending": false,
+        "streamingText": "",
+        "statusText": null,
+        "activeTurnId": "turn-1",
+        "completedSteps": [
+          {
+            "label": "Read",
+            "timestamp": 3000,
+            "toolName": "Read",
+            "detail": "input",
+            "toolUseId": "tool-1"
+          }
+        ],
+        "missionContext": null,
+        "taskProgress": [],
+        "subAgentItems": [],
+        "error": null,
+        "hasMissionSet": false,
+        "touchedTaskIds": [],
+        "userQuestionEventsByTurn": {}
+      }
+    },
+    {
+      "index": 3,
+      "eventType": "assistant",
+      "state": {
+        "isSending": false,
+        "streamingText": "Done",
+        "statusText": null,
+        "activeTurnId": "turn-1",
+        "completedSteps": [
+          {
+            "label": "Read",
+            "timestamp": 3000,
+            "toolName": "Read",
+            "detail": "input",
+            "toolUseId": "tool-1"
+          }
+        ],
+        "missionContext": null,
+        "taskProgress": [],
+        "subAgentItems": [],
+        "error": null,
+        "hasMissionSet": false,
+        "touchedTaskIds": [],
+        "userQuestionEventsByTurn": {}
+      }
+    },
+    {
+      "index": 4,
+      "eventType": "result",
+      "state": {
+        "isSending": false,
+        "streamingText": "Done",
+        "statusText": null,
+        "activeTurnId": null,
+        "completedSteps": [
+          {
+            "label": "Read",
+            "timestamp": 3000,
+            "toolName": "Read",
+            "detail": "input",
+            "toolUseId": "tool-1"
+          }
+        ],
+        "missionContext": null,
+        "taskProgress": [],
+        "subAgentItems": [],
+        "error": null,
+        "hasMissionSet": false,
+        "touchedTaskIds": [],
+        "userQuestionEventsByTurn": {}
+      }
+    }
+  ]
+}

@@ -1,0 +1,8 @@
+{
+  "boundarySetters": [
+    {
+      "name": "setMissingProvider",
+      "decl": "src/core/missingProvider.ts"
+    }
+  ]
+}

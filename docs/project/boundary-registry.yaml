@@ -1,0 +1,2940 @@
+# Boundary Registry v1
+#
+# Hand-curated list of cross-boundary contracts whose drift has caused or
+# is likely to cause silent regressions. Consumed by scripts/boundary-hints.ts
+# during plan / stage review (see CHIEF_ENGINEER2/CHIEF_ENGINEER2.md § 6.4 BOUNDARY_CHECKLIST.md).
+#
+# Add entries FROM POSTMORTEMS; do not auto-infer from codebase analysis.
+# Each entry represents a demonstrated failure mode backed by at least one
+# postmortem. Purpose: answer "which canonical spec doc describes this
+# boundary?" so reviewers can grep invariants before approving changes
+# that cross it.
+#
+# Schema (v1):
+#   id               string, kebab-case, unique
+#   category         enum: mcp-env | mcp-catalog | mcp-timeout |
+#                    ipc-schema | cloud-parity | provider-routing |
+#                    super-mcp-spawn | auth-boundary | eval-harness |
+#                    mcp-resource-routing | cross-surface-port |
+#                    (extend as needed)
+#   description      one-sentence summary of the boundary
+#   spec_doc         path (relative to repo root), optional #anchor.
+#                    Script verifies this file exists at load time.
+#   owned_by         optional: path or module name of the owning side
+#   match:
+#     paths          list of globs (Node fs.promises.glob syntax).
+#                    ≥1 must resolve to a real repo path or the script
+#                    emits a Registry Warning at load.
+#     identifiers    list of literal substrings or regex fragments.
+#                    Matched case-sensitively against planning-doc text
+#                    when --planning-doc is provided.
+#     exclude_paths  optional list of globs. PER-FILE filter applied
+#                    BEFORE path matching: files matching any
+#                    exclude_paths glob are removed from the candidate
+#                    set. A file matching BOTH `paths` and `exclude_paths`
+#                    is removed for that file only — other include
+#                    matches in the same change still fire the entry.
+#                    Default: []. Does not affect identifier matching.
+#                    Use when a path glob incidentally covers a file
+#                    that is known-irrelevant to the boundary (e.g.,
+#                    catalog-json changes that happen to land in paths
+#                    watched by another boundary).
+#   forbidden_terms  optional: strings/regex that MUST NOT appear in the
+#                    proposed diff context (e.g., forbidden env-var names
+#                    in subprocess env merges). Flagged as HIGH.
+#   allowed_terms    optional: canonical names (documentation only).
+#   rationale        why the boundary exists and what drift looks like.
+#   postmortems      list of filenames in docs-private/postmortems/, primary first.
+#   contract_test    optional: NON-EMPTY list of repo-relative test file paths
+#                    (`*.test.ts(x)` / `*.spec.ts(x)`) that exercise this seam.
+#                    OPT-IN: only entries that declare this are checked by
+#                    scripts/check-boundary-contract-coverage.ts
+#                    (`validate:boundary-contract-coverage`). The gate asserts
+#                    (a) each file exists, (b) each is a test-shaped file
+#                    (*.test/spec), and (c) the import-graph floor — the test's
+#                    source (parsed via the TS compiler, so commented-out /
+#                    string-literal imports do NOT count) imports the entry's
+#                    `owned_by` module by relative OR aliased (`@core/...`)
+#                    specifier (skipped if `owned_by` is absent). NOTE: this does
+#                    NOT assert the test is actually RUN by validate:fast (which
+#                    runs only tests/parity + a tiebreaker today) — that
+#                    reachability check is a follow-up for enforce-promotion. The
+#                    gate is WARN-ONLY today (advisory + exit 0); promote with
+#                    --enforce or BOUNDARY_CONTRACT_COVERAGE_ENFORCE=1.
+#   contract_test_waiver  optional: string (>=30 chars, no weak markers like
+#                    TODO/FIXME/WIP/temp/later) explaining why this entry is
+#                    covered by construction (e.g. brand-typed kill-by-
+#                    construction) and needs no runtime contract_test. For a seam
+#                    with NO contract_test only — declaring BOTH contract_test and
+#                    a waiver is a config error (bad-schema).
+#
+# See BOUNDARY_REGISTRY.md for the full maintenance protocol.
+
+version: 1
+
+boundaries:
+  - id: provider-routing-class-central-resolver
+    category: provider-routing
+    description: All provider routing decisions flow through ProviderRouter.forTurn / forBTS / forSubagent; consumers use plan auth and headers instead of re-deriving provider branches.
+    spec_doc: docs/plans/finished/260427_refactor_provider_route_plan.md
+    owned_by: src/core/rebelCore/providerRouting.ts
+    contract_test:
+      - src/core/rebelCore/__tests__/providerRouting.invariants.test.ts
+    match:
+      paths:
+        - src/core/rebelCore/providerRouting.ts
+        - src/core/rebelCore/providerRouteDecision.ts
+        - src/core/rebelCore/providerAuthPlan.ts
+        - src/core/rebelCore/providerRouteHeaders.ts
+        - src/core/rebelCore/providerRoutePlan.ts
+        - src/core/rebelCore/ensureDirectAnthropicCapable.ts
+        - src/core/rebelCore/clientFactory.ts
+        - src/core/rebelCore/rebelCoreQuery.ts
+        - src/core/rebelCore/queryRouter.ts
+        - src/core/rebelCore/agentTool.ts
+        - src/core/services/behindTheScenesClient.ts
+        - src/core/utils/authEnvUtils.ts
+        - src/main/services/agentTurnExecutor.ts
+        - src/main/services/queryOptionsBuilder.ts
+        - src/main/services/turnErrorRecovery.ts
+        - src/main/services/behindTheScenesClient.ts
+        - src/main/services/councilService.ts
+        - src/main/services/localModelProxyServer.ts
+        - src/main/services/promptCacheWarmupService.ts
+        - src/main/services/useCaseGeneratorService.ts
+        # Stage 6 of docs/plans/260514_openrouter_sonnet_bypass_remediation.md —
+        # the provider-aware default resolver introduced in Stage 1 is the
+        # canonical answer to "what model should we pick when settings are
+        # silent?". Touching this file or its constants changes the entire
+        # routing-default semantics, so reviewers must read the spec doc.
+        - src/shared/utils/getDefaultModelForProvider.ts
+        - src/shared/utils/providerDefaultConstants.ts
+      identifiers:
+        - ProviderRoutePlan
+        - ProviderRouter
+        - ProviderRouteDecision
+        - DispatchableRouteDecision
+        - TerminalRouteDecision
+        - kind
+        - dispatchPath
+        - deriveDispatchPath
+        - coerceToRouteTable
+        # Stage 6 — provider-aware default resolver (Stage 1 of plan
+        # 260514_openrouter_sonnet_bypass_remediation.md).
+        - getDefaultModelForProvider
+        - getProviderModelDefaults
+        - ProviderModelDefaults
+        - ANTHROPIC_DEFAULT_WORKING_MODEL
+        - ANTHROPIC_DEFAULT_THINKING_MODEL
+        - ANTHROPIC_DEFAULT_BACKGROUND_MODEL
+        - isDispatchableDecision
+        - isTerminalDecision
+        - isTerminalRoutePlan
+        - validateRouteDecisionShape
+        - MalformedRouteDecisionError
+        - isProxyDispatch
+        - isRouteTableDispatch
+        - isDirectDispatch
+        - assertDispatchableRoutePlan
+        - proxyRuntimeForDecision
+        - ProviderAuthPlan
+        - selectProviderMode
+        - deriveResolvedAuthLabel
+        - applyAuthPlanToEnv
+        - ensureDirectAnthropicCapable
+        - ResolvedTarget
+        - createDirectAnthropicClient
+        - _resolvedAuth
+        - codexConnectivity
+        - materializePlanRuntime
+        - extractProxyConfig
+        - RouteRebuildHint
+    forbidden_terms:
+      - "startsWith\\('claude'\\)"
+      - "'x-codex-turn'"
+      - "'x-openrouter-turn'"
+      - "process\\.env\\.ANTHROPIC_API_KEY\\s*="
+      - "new Anthropic\\("
+    rationale: >
+      The April 2026 routing bug cascade came from provider routing being
+      encoded imperatively at each call site. ProviderRouteDecision is now a
+      discriminated union (`kind: dispatchable | terminal`) so terminal route
+      decisions cannot silently enter dispatch-only code. Drift mode: a new path
+      re-derives active provider/auth/header state instead of consuming
+      ProviderRoutePlan, or bypasses the union/validator helpers and reopens
+      OpenRouter/Codex/BTS misrouting and cost-attribution bugs.
+    postmortems:
+      - 260419_prepush_live_api_integration_test_404_postmortem.md
+      - 260417_openrouter_adhoc_auth_failure_postmortem.md
+      - 260421_openrouter_partial_config_fail_open_postmortem.md
+
+  - id: managed-traffic-zdr-proxy-precedence
+    category: provider-routing
+    description: Managed OpenRouter connection profiles must resolve through the local proxy so ZDR, provider routing, attribution, and managed allowlists are applied before egress.
+    spec_doc: docs-private/postmortems/260601_managed_openrouter_connection_proxy_bypass_zdr_postmortem.md
+    owned_by: src/core/rebelCore/clientFactory.ts + src/core/rebelCore/providerRouting.ts + src/core/rebelCore/providerRouteHeaders.ts + src/main/services/localModelProxyServer.ts
+    contract_test:
+      - src/main/services/__tests__/managedOpenRouterZdrProxyPrecedence.contract.test.ts
+    match:
+      paths:
+        - src/core/rebelCore/clientFactory.ts
+        - src/core/rebelCore/providerRouting.ts
+        - src/core/rebelCore/providerRouteHeaders.ts
+        - src/main/services/localModelProxyServer.ts
+      identifiers:
+        - createClientForModel
+        - profileDecision
+        - injectProviderRouting
+        - x-zdr
+        - openrouter-proxy
+        - profileSource
+        - openrouter-oauth-token
+    rationale: >
+      A managed/connection OpenRouter profile uses shared OAuth and no BYOK key;
+      dispatching it direct to OpenRouter bypasses the local proxy privacy boundary.
+      The resolver must require proxy transport, and the proxy must stamp ZDR,
+      provider-routing, attribution, and allowlist enforcement before upstream egress.
+    postmortems:
+      - 260601_managed_openrouter_connection_proxy_bypass_zdr_postmortem.md
+
+  - id: provider-integrity-guard-symmetry
+    category: provider-routing
+    description: |
+      Provider-integrity guards must derive from a single typed source per concern.
+      Admission gating (`turnAdmission.ts`, `authEnvUtils.hasValidAuth`) must consume
+      `validateProviderCredentials()` (typed discriminated union, exhaustive switch).
+      Auth tagging in `agentTurnExecutor.ts` must consume `resolveTurnAuthLabelFromRoutePlan(plan)`
+      (route-truth source). Per-provider inline conditionals (e.g. `activeProvider === 'codex' && !codexConnected`)
+      are forbidden everywhere — they were the failure mode that produced the 260429
+      disconnect-fallthrough postmortem.
+    spec_doc: docs-private/postmortems/260429_codex_disconnected_anthropic_fallthrough_postmortem.md
+    owned_by: src/core/utils/validateProviderCredentials.ts
+    match:
+      paths:
+        - src/core/utils/validateProviderCredentials.ts
+        - src/core/utils/authEnvUtils.ts
+        - src/main/services/turnPipeline/turnAdmission.ts
+        - src/main/services/agentTurnExecutor.ts
+      identifiers:
+        - validateProviderCredentials
+        - ProviderCredentialState
+        - codexConnectedAtTurnStart
+        - hasValidAuth
+        - resolveTurnAuthLabelFromRoutePlan
+    forbidden_terms:
+      # Per-provider inline guards — multiple operand orders
+      - "activeProvider\\s*===\\s*['\"]codex['\"]\\s*&&\\s*!\\w*Connected\\w*"
+      - "activeProvider\\s*===\\s*['\"]codex['\"]\\s*&&\\s*\\w*Connected\\w*\\s*===\\s*false"
+      # Order-flipped: codexConnected first, activeProvider second
+      - "!\\s*\\w*Connected\\w*\\s*&&\\s*activeProvider\\s*===\\s*['\"]codex['\"]"
+      - "\\w*Connected\\w*\\s*===\\s*false\\s*&&\\s*activeProvider\\s*===\\s*['\"]codex['\"]"
+      # OpenRouter equivalents
+      - "activeProvider\\s*===\\s*['\"]openrouter['\"]\\s*&&\\s*!\\w*[Tt]oken"
+      - "!\\w*[Tt]oken\\s*&&\\s*activeProvider\\s*===\\s*['\"]openrouter['\"]"
+      # Direct inline isConnected() checks in admission/executor (any boolean position)
+      - "getCodexAuthProvider\\(\\)\\.isConnected\\(\\)\\s*&&"
+      - "&&\\s*getCodexAuthProvider\\(\\)\\.isConnected\\(\\)"
+      - "!\\s*getCodexAuthProvider\\(\\)\\.isConnected\\(\\)"
+    rationale: |
+      The 260429 postmortem identified per-provider inline guards drift over time
+      and miss cases as providers are added. This entry enforces the dual-gate design:
+
+      1. Admission and capability checks (`turnAdmission.ts`, `authEnvUtils.hasValidAuth()`)
+         consume `validateProviderCredentials()` whose discriminated union forces compile-time
+         exhaustiveness — adding a new arm is a TypeScript error in every consuming switch.
+
+      2. Auth tagging in `agentTurnExecutor.ts` consumes
+         `resolveTurnAuthLabelFromRoutePlan(providerRoutePlan)` because the route plan
+         is already the source of truth for transport selection — re-deriving the auth
+         label here would risk drift between admission, transport, and ledger.
+
+      Both helpers prevent the 260429 class of "per-provider boolean fall-through" bugs.
+    postmortems:
+      - 260429_codex_disconnected_anthropic_fallthrough_postmortem.md
+      - 260421_openrouter_partial_config_fail_open_postmortem.md
+
+  - id: model-role-resolver-runtime-fallback-fence
+    category: provider-routing
+    description: Thinking/working/fast runtime model selection must flow through resolveDefaultModelForRole with typed failures; runtime entry points must not hardcode Claude fallback literals.
+    spec_doc: docs/plans/260507_model_resolver_and_output_cap_autolearn.md#stage-1--l1-resolver--lint-rule--observable-failure-surface-v2
+    owned_by: src/core/rebelCore/modelRoleResolver.ts
+    match:
+      paths:
+        - src/core/rebelCore/modelRoleResolver.ts
+        - src/core/rebelCore/modelErrors.ts
+        - src/core/rebelCore/agentTool.ts
+        - src/core/rebelCore/planningMode.ts
+        - src/core/rebelCore/providerRouting.ts
+        - src/core/services/agentEventDispatcher.ts
+        - src/renderer/features/agent-session/hooks/useAgentSessionEngine.ts
+        - src/renderer/features/settings/components/LocalModelSection.tsx
+      identifiers:
+        - resolveDefaultModelForRole
+        - roleResolutionFailure
+        - createRoleResolutionModelError
+        - agent:role-not-configured
+        - Roles needing a model
+    rationale: >
+      Model defaults previously drifted across three runtime entry points
+      (`agentTool`, `planningMode`, `providerRouting`) as hardcoded Claude
+      literals. The resolver boundary centralizes role lookup + failure typing;
+      drift mode is any new direct fallback in an entry point that bypasses
+      the resolver and silently reintroduces provider-coupled defaults.
+    postmortems:
+      - 260421_openrouter_partial_config_fail_open_postmortem.md
+      - 260419_prepush_live_api_integration_test_404_postmortem.md
+
+  - id: learned-output-cap-cascade-coupling
+    category: provider-routing
+    description: Output-cap auto-learn writes and max-output cascade reads must evolve together; changing one side without the other silently reintroduces repeat 400 invalid_request loops.
+    spec_doc: docs/plans/260507_model_resolver_and_output_cap_autolearn.md#stage-3--l2-wire-400-classifier--centralized-dispatcher-cascade-reads-profile-first-v2
+    owned_by: src/core/rebelCore/modelLimits.ts
+    match:
+      paths:
+        - src/core/rebelCore/modelLimits.ts
+        - src/core/rebelCore/modelErrors.ts
+        - src/core/rebelCore/learnedProfileWriter.ts
+        - src/core/rebelCore/dispatchLearnedLimitsFromError.ts
+        - src/core/rebelCore/agentTool.ts
+        - src/core/rebelCore/rebelCoreQuery.ts
+        - src/main/services/agentTurnExecutor.ts
+        - src/main/services/turnErrorRecovery.ts
+      identifiers:
+        - profileMaxOutputSource
+        - outputTokensSource
+        - lastLearnedOutputTokens
+        - recordOutputCapOnProfile
+        - dispatchLearnedLimitsFromError
+        - parseOutputCapFrom400
+    rationale: >
+      The output-cap learner is only effective when the 400 classifier,
+      centralized dispatcher, writer provenance fields, and model-limit cascade
+      stay in lockstep. Drift mode: parser learns a cap but cascade ignores
+      auto-source fields (or vice versa), causing repeated invalid_request
+      retries and non-actionable user errors.
+    postmortems:
+      - 260421_openrouter_partial_config_fail_open_postmortem.md
+      - 260419_prepush_live_api_integration_test_404_postmortem.md
+
+  - id: mcp-workspace-env-propagation
+    category: mcp-env
+    description: Super-MCP router must inject MCP_WORKSPACE_PATH into every spawned OSS connector subprocess env; must NOT inject REBEL_WORKSPACE_PATH.
+    spec_doc: docs/project/MCP_SERVER_STANDARD.md#workspace-path-propagation-oss-connectors
+    owned_by: super-mcp/src/clients/stdioClient.ts
+    match:
+      # Narrowed to stdioClient only — the 260420 bug was in the subprocess
+      # spawn path, not in request handlers. The previous super-mcp/src/handlers/**/*.ts
+      # glob over-fired on any handler change, including unrelated MCP-apps
+      # routing work (e.g. 260412's edits to readResource.ts).
+      paths:
+        - super-mcp/src/clients/stdioClient.ts
+      # Identifiers trimmed to the two specific env-var names. Removed
+      # 'workspacePath' (too generic — matches any workspace-path variable)
+      # and 'StdioClientTransport' (matches SDK type docs / unrelated code).
+      identifiers:
+        - MCP_WORKSPACE_PATH
+        - REBEL_WORKSPACE_PATH
+    forbidden_terms:
+      - REBEL_WORKSPACE_PATH
+    allowed_terms:
+      - MCP_WORKSPACE_PATH
+    rationale: >
+      OSS subprocess env must stay OSS-branded so our connector fork behaves
+      identically to upstream. Drift mode (260420): router writes host env
+      name, connector reads OSS env name, nothing matches, workspace path
+      silently falls back to .app bundle. Nine Round-1 reviewers missed
+      this by not opening the spec doc.
+    postmortems:
+      - 260420_nano_banana_workspace_path_propagation_postmortem.md
+      - 260327_mcp_subagent_inheritance_postmortem.md
+
+  - id: mcp-catalog-bundledconfig-preservation
+    category: mcp-catalog
+    description: connector-catalog.json bundledConfig fields must be preserved across OSS migrations; dropped fields cause silent config regression.
+    spec_doc: docs/project/MCP_SERVER_STANDARD.md
+    owned_by: resources/connector-catalog.json
+    match:
+      paths:
+        - resources/connector-catalog.json
+        - resources/mcp/**
+        - src/main/services/bundledMcpManager.ts
+      identifiers:
+        - BRIDGE_STATE_PATH
+        - MINDSTONE_REBEL_BRIDGE_STATE
+        - bundledConfig
+        - connector-catalog
+        - validateEnvPlaceholderResolvability
+        - migrateBundledConnectorsToNpx
+        - resolveEnvPlaceholders
+        - OSS migration
+        - package pin
+    rationale: >
+      OSS migrations replace the bundled connector with an npm package pin.
+      bundledConfig fields (defaults, env templates, feature flags) must
+      carry over; the 260417 bug was a direct field drop during migration.
+    postmortems:
+      - 260417_rebel_oss_bundledconfig_regression_postmortem.md
+
+  - id: super-mcp-passthrough
+    category: mcp-resource-routing
+    description: |
+      super-mcp's `use_tool` outer response block must hoist spec-conformant
+      `_meta.ui` and `structuredContent` from the inner downstream tool_result,
+      and namespace its own metadata under `_meta.superMcp` and
+      `_meta.materialization` (per
+      docs/project/SUPER_MCP_PASSTHROUGH_CONTRACT.md). Outer metadata must be
+      constructed through the single egress helper, with bypass paths (dry-run,
+      continuation, staged) identified under `_meta.superMcp`. The model-facing
+      JSON envelope inside `content[0].text` MUST remain unchanged for
+      backward-compat.
+    spec_doc: docs/project/SUPER_MCP_PASSTHROUGH_CONTRACT.md
+    owned_by: super-mcp/src/handlers/useTool.ts
+    match:
+      paths:
+        - super-mcp/src/handlers/useTool.ts
+        - super-mcp/src/handlers/materializeOutput.ts
+        - src/core/rebelCore/mcpClient.ts
+        - src/core/rebelCore/types.ts
+        - src/core/rebelCore/agentLoop.ts
+        - src/core/rebelCore/agentMessageAdapter.ts
+        - src/core/rebelCore/hookPipeline.ts
+        - src/main/services/agentMessageHandler.ts
+        - src/shared/types/agent.ts
+        - src/shared/ipc/schemas/agent.ts
+        - src/renderer/features/agent-session/components/McpAppView.tsx
+      identifiers:
+        - processCallToolResult
+        - ToolExecutionResult
+        - tool_use:result
+        - toToolResultContent
+        - toToolResultBlock
+        - extractInnerPassthroughMeta
+        - buildOuter
+        - applyOuterMeta
+        - SuperMcpTelemetryMeta
+        - MaterializationMeta
+        - OuterPassthroughMeta
+        - structuredContent
+        - _meta.ui
+        - _meta.superMcp
+        - _meta.materialization
+        - unwrapUseToolEnvelopeMeta
+        - parseUseToolEnvelopeJson
+    forbidden_terms:
+      # Re-introducing a renderer-side regex/JSON.parse fallback for
+      # _meta.ui / structuredContent indicates the contract has regressed.
+      # The canonical place for the envelope-aware unwrap is
+      # agentMessageHandler.ts (Method 0); other consumers must read off the
+      # outer block.
+      - "JSON\\.parse.*content\\[0\\]\\.text.*structuredContent"
+    rationale: |
+      The 2026-05-07 email-compose pre-fill bug was the third super-mcp
+      envelope-shape regression in five months (after
+      260417_materialisation_non_text_bypass and
+      260427_super_mcp_iserror_propagation). All three had the same shape: a
+      spec-conformant outer-block field (`_meta.ui`, `structuredContent`,
+      `isError`) was visible inside the JSON envelope text but invisible
+      structurally on the outer block, so spec-compliant consumers silently
+      missed it.
+
+      This entry locks the structural contract documented in
+      SUPER_MCP_PASSTHROUGH_CONTRACT.md. Drift mode: a future super-mcp
+      refactor strips a hoisted field from any egress path (success,
+      materialised, safety-net, dry-run, continuation, or _rebel_staged), adds
+      a new return path that bypasses the single-egress constructor, or moves
+      the inner `_meta.ui` / `structuredContent` extraction to AFTER
+      materialisation rewrites the inner content (where it would be lost).
+      Reviewers must verify that spec-conformant outer-block fields are
+      hoisted through a single egress path, and any new consumer reads
+      passthrough fields off the outer block (not via a regex sniff of
+      `content[0].text`).
+    postmortems:
+      - 260417_materialisation_non_text_bypass_postmortem.md
+      - 260427_super_mcp_iserror_propagation_postmortem.md
+
+  - id: mcp-apps-package-identity-routing
+    category: mcp-resource-routing
+    description: MCP-apps resource URIs (ui://...) must preserve sourcePackageId through the main↔super-mcp↔renderer routing chain; dropping the identity silently routes to the wrong instance or returns -33010.
+    spec_doc: docs-private/postmortems/260412_mcp_apps_resource_routing_postmortem.md
+    owned_by: src/main/ipc/mcpAppsHandlers.ts
+    match:
+      paths:
+        - src/main/services/agentMessageHandler.ts
+        - src/main/ipc/mcpAppsHandlers.ts
+        - src/shared/ipc/channels/mcpApps.ts
+        - src/shared/types/agent.ts
+        - src/shared/ipc/schemas/agent.ts
+        - src/renderer/features/agent-session/components/McpAppView.tsx
+        - super-mcp/src/catalog.ts
+        - super-mcp/src/handlers/readResource.ts
+      exclude_paths:
+        # connector-catalog.json changes legitimately mention sourcePackageId
+        # without carrying any routing logic; suppress the identifier-only path
+        # when the only changed file is the catalog.
+        - resources/connector-catalog.json
+      identifiers:
+        - sourcePackageId
+        - mcpAppInstance
+        - registerResourceUris
+        # Plain substring (not anchored) — regex engine compiles with /g only,
+        # so ^ would anchor to document start and never fire. 'ui://' is
+        # specific enough on its own given MCP-apps URI scheme uniqueness.
+        - 'ui://'
+    rationale: >
+      MCP-apps register resource URIs with an app-family prefix
+      (ui://google-workspace/...), but per-instance routing requires
+      sourcePackageId + instance identity to be threaded from the
+      agent message through main IPC, super-mcp, and the renderer
+      view. 260412 bug: a single dropped field in agentMessageHandler
+      caused every ui:// resource request to return -33010 because
+      the super-mcp catalog lookup had no package context. When this
+      entry fires, reviewers must check each consumer preserves
+      sourcePackageId along the full routing chain.
+    postmortems:
+      - 260412_mcp_apps_resource_routing_postmortem.md
+
+  - id: mcp-apps-bidirectional-trust
+    category: mcp-app-trust
+    description: MCP Apps iframe→host bidirectional messages must use host-derived provenance, active nonce freshness, rate limits, first-use permissions, and no-content structured logging.
+    spec_doc: docs/project/MCP_APPS_BIDIRECTIONAL_TRUST_CONTRACT.md
+    owned_by: src/renderer/features/agent-session/components/McpAppView.tsx + src/main/ipc/mcpAppsHandlers.ts
+    match:
+      paths:
+        - src/renderer/features/agent-session/components/McpAppView.tsx
+        - src/main/ipc/mcpAppsHandlers.ts
+        - src/shared/ipc/channels/mcpApps.ts
+        - src/shared/types/agent.ts
+        - src/main/services/agentMessageHandler.ts
+      identifiers:
+        - IframeProvenanceEnvelope
+        - IframeMessageMethod
+        - IframeMessageEnvelope
+        - PermissionScope
+        - TrustBoundaryRejectionReason
+        - TrustBoundaryRejection
+        - RateLimitTier
+        - TrustBoundaryLogEvent
+        - ui/initialize
+        - ui/sendMessage
+        - ui/updateModelContext
+        - ui/resize
+        - tools/call
+        - mcp:send-message
+        - mcp:update-context
+        - nonce
+        - iframeInstanceId
+        - stale_nonce
+        - permission_denied
+        - attemptedContentBytes
+        - sourcePackageFamily
+        - sourcePackageHash
+        - sourcePackageId
+    rationale: >
+      Phase C completes MCP Apps bidirectional support by letting iframe code
+      influence the conversation and model context. That crosses a stricter
+      trust boundary than read-only rendering: provenance must be derived from
+      host state (not iframe params), each iframe load must prove freshness with
+      an active nonce, conversation-mutating methods require first-use
+      permission, and rejection logs must never leak content. This entry is the
+      preventive sibling of the MCP Apps sourcePackageId routing boundary and
+      the super-mcp passthrough contract: dropped identity or structural fields
+      at either boundary silently mis-scope app behavior.
+    postmortems:
+      - 260412_mcp_apps_resource_routing_postmortem.md
+      - 260417_materialisation_non_text_bypass_postmortem.md
+      - 260427_super_mcp_iserror_propagation_postmortem.md
+
+  - id: mcp-connector-request-timeout
+    category: mcp-timeout
+    description: When bumping an OSS connector package pin or proposing timeout-related changes, verify the connector's outbound-API timeout defaults against realistic 95th-percentile latency; long-running APIs (image/video gen) need realistic defaults plus env-var overrides.
+    spec_doc: docs-private/postmortems/260421_nano_banana_request_timeout_postmortem.md
+    owned_by: upstream (mindstone/mcp-servers) — host-side surface is resources/connector-catalog.json
+    match:
+      paths:
+        # Path-match only on catalog pin changes (where an OSS connector version
+        # is bumped in this repo). The actual timeout code lives in the OSS
+        # submodule / upstream repo, not here — so broad super-mcp globs would
+        # over-fire on any unrelated super-mcp change. Identifier-matching
+        # (below) covers planning docs that propose timeout work directly.
+        - resources/connector-catalog.json
+      identifiers:
+        - REQUEST_TIMEOUT_MS
+        - DEFAULT_GEMINI_REQUEST_TIMEOUT_MS
+        - DEFAULT_BRIDGE_REQUEST_TIMEOUT_MS
+        - NANO_BANANA_GEMINI_TIMEOUT_MS
+        - NANO_BANANA_BRIDGE_TIMEOUT_MS
+    rationale: >
+      Template _default_ 30s was inherited by every connector without
+      measurement. Gemini Pro image gen takes 30-120s synchronously; the
+      30s cap aborted mid-call with a generic error. Fix pattern (260421):
+      split bridge vs upstream timeouts, raise upstream default to 180s,
+      expose env override with input validation, compose caller AbortSignal
+      via AbortSignal.any().
+    postmortems:
+      - 260421_nano_banana_request_timeout_postmortem.md
+
+  - id: super-mcp-owner-tag-contract
+    category: super-mcp-spawn
+    description: Super-MCP subprocess cleanup must preserve the owner-tag argv contract and tri-state classifier so live desktop/eval owners are protected from orphan sweeps.
+    spec_doc: docs/project/SUPER_MCP_LIFECYCLE.md
+    owned_by: src/core/services/superMcpHttpManager.ts
+    match:
+      paths:
+        - src/core/services/superMcpHttpManager.ts
+        - src/core/services/superMcpOwnershipClassifier.ts
+        - src/core/services/superMcpOwnerTag.ts
+        - src/core/services/superMcpOwnerRegistry.ts
+        - src/core/services/superMcpOwnerRegistrySingleton.ts
+        - evals/lib/portBaselineLease.ts
+        - evals/knowledge-work.ts
+        - evals/knowledge-work-bootstrap.ts
+        - docs/project/SUPER_MCP_LIFECYCLE.md
+        - docs/project/boundary-registry.yaml
+        - docs-private/postmortems/260429_super_mcp_orphan_collateral_damage_postmortem.md
+        - scripts/sweep-supermcp.ts
+        - super-mcp/src/cli.ts
+        - super-mcp/src/server.ts
+      identifiers:
+        - --rebel-owner-id
+        - --rebel-owner-pid
+        - --rebel-owner-start
+        - superMcpOwnerTag
+        - superMcpOwnershipClassifier
+        - cleanupOrphanedProcessesInRange
+        - portBaselineLease
+        - REBEL_SUPER_MCP_PORT_BASELINE
+        - acquirePortBaseline
+    forbidden_terms:
+      - "isOrphanedSuperMcp"
+    rationale: >
+      The 260429 collateral-damage incident came from orphan cleanup classifying
+      any process whose command line looked like Super-MCP as killable, without
+      proving which Rebel process owned it. Drift mode: spawn args, CLI argv
+      tolerance, registry fallback, port-baseline leasing, or sweep tooling stop
+      preserving owner identity and re-open live-process SIGKILL failures.
+    postmortems:
+      - 260429_super_mcp_orphan_collateral_damage_postmortem.md
+
+  - id: proxy-passthrough-auth-symmetry
+    category: auth-boundary
+    description: Every localModelProxyServer passthrough handler (Anthropic, OpenRouter, Codex, council-member) must strip client-supplied x-api-key and authorization headers and re-inject the upstream-correct credential at egress; the PROXY_HANDLES_AUTH_SENTINEL contract MUST hold symmetrically across all handlers.
+    spec_doc: docs-private/postmortems/260430_evals_s5b_cluster_anthropic_passthrough_sentinel_leak_postmortem.md
+    owned_by: src/main/services/localModelProxyServer.ts
+    contract_test:
+      - src/main/services/__tests__/localModelProxyServer.crossHandlerAuth.test.ts
+    match:
+      paths:
+        - src/main/services/localModelProxyServer.ts
+        - src/main/services/__tests__/localModelProxyServer.crossHandlerAuth.test.ts
+        - src/main/services/__tests__/localModelProxyServer.anthropicPassthrough.test.ts
+        - src/core/rebelCore/proxyAuthContract.ts
+        - src/core/rebelCore/clientFactory.ts
+      identifiers:
+        - handleAnthropicPassthrough
+        - handleOpenRouterPassthrough
+        - handleCodexStreamingRequest
+        - injectAnthropicUpstreamAuth
+        - buildPassthroughHeaders
+        - PROXY_HANDLES_AUTH_SENTINEL
+        - x-proxy-auth
+        - x-routed-turn-id
+    forbidden_terms:
+      # The sentinel must NEVER appear as a literal string outside
+      # proxyAuthContract.ts (the canonical producer/consumer module).
+      # Any other occurrence likely means a new caller is producing or
+      # comparing the literal directly, reopening the asymmetry that
+      # caused the 260430 leak.
+      - "'proxy-handles-auth'"
+    rationale: >
+      The 260430 sentinel-leak bug was an asymmetric refactor: route-table-proxy
+      mode was added to clientFactory.ts (sentinel produced) but only 3 of the 4
+      passthrough handlers in localModelProxyServer.ts were updated to strip and
+      re-inject upstream auth at egress. handleAnthropicPassthrough forwarded the
+      sentinel x-api-key plus a proxy-internal Bearer to api.anthropic.com,
+      producing 401s on every Anthropic-routed eval fixture. Drift mode: a 5th
+      passthrough handler (or a refactor that touches the existing 4) skips the
+      strip-and-reinject at egress, or duplicates the literal sentinel string
+      outside proxyAuthContract.ts. Reviewers must verify the cross-handler
+      poison-key invariant test in localModelProxyServer.crossHandlerAuth.test.ts
+      and confirm symmetric injection across every handler.
+    postmortems:
+      - 260430_evals_s5b_cluster_anthropic_passthrough_sentinel_leak_postmortem.md
+      - 260417_openrouter_adhoc_auth_failure_postmortem.md
+
+  - id: routed-subagent-header-transport-contract
+    category: provider-routing
+    description: >
+      Any decision whose dispatchPath is local-proxy-route-table in council/ad-hoc
+      routeScope (lead OR subagent) must carry x-routed-turn-id and x-routed-model
+      end-to-end from route planning to proxy resolution. Decisions whose
+      dispatchPath is direct-provider or none must bypass proxy identity headers
+      entirely, regardless of routeScope or role, so local proxy auth and routed
+      headers cannot leak to direct upstream APIs. Route-table membership is
+      determined SOLELY by decision.dispatchPath; decision.transport remains the
+      wire dialect axis.
+    spec_doc: docs/plans/260506_routing_transport_refactor_and_council_rename.md#stage-6-concept-rename--x-council-turn-id--x-routed-turn-id
+    owned_by: src/core/rebelCore/providerRouteHeaders.ts + src/core/rebelCore/providerRouting.ts + src/main/services/localModelProxyServer.ts + src/main/services/agentTurnExecutor.ts
+    contract_test:
+      - src/core/rebelCore/__tests__/providerRouting.invariants.test.ts
+      - src/main/services/__tests__/localModelProxyServer.routing.test.ts
+    match:
+      paths:
+        - src/core/rebelCore/providerRouteHeaders.ts
+        - src/core/rebelCore/providerRouting.ts
+        - src/core/rebelCore/providerRoutePlan.ts
+        - src/core/rebelCore/agentTool.ts
+        - src/core/services/behindTheScenesClient.ts
+        - src/main/services/localModelProxyServer.ts
+        - src/main/services/agentTurnExecutor.ts
+        - src/core/rebelCore/__tests__/subAgentRouting.regression.test.ts
+        - src/core/rebelCore/__tests__/providerRouting.invariants.test.ts
+        - src/main/services/__tests__/localModelProxyServer.routing.test.ts
+      identifiers:
+        - x-routed-turn-id
+        - x-routed-model
+        - appendProxyIdentityHeaders
+        - assertRouteTableRuntimeContext
+        - resolveRouteProfile
+        - route_required
+        - decisionProxyRuntime
+        - routeRuntimeContextForDecision
+        - DispatchableRouteDecision
+        - TerminalRouteDecision
+        - kind
+        - dispatchPath
+        - deriveDispatchPath
+        - coerceToRouteTable
+        - isDispatchableDecision
+        - isTerminalDecision
+        - isTerminalRoutePlan
+        - validateRouteDecisionShape
+        - MalformedRouteDecisionError
+        - isProxyDispatch
+        - isRouteTableDispatch
+        - isDirectDispatch
+        - assertDispatchableRoutePlan
+        - proxyRuntimeForDecision
+        - createBtsRoutePlan
+        - proxyAuthToken
+    rationale: >
+      Stage 6 hard-cutover replaced x-council-turn-id with x-routed-turn-id and
+      made x-routed-model the canonical route-table wire signal. Drift mode #1:
+      stale header names or missing x-routed-model break fail-closed route-table
+      dispatch and reintroduce runtime-versus-wire routing mismatches. Drift
+      mode #2 (260507): conflating turn-level routeScope (council/ad-hoc) with
+      transport-based proxy inference. The discriminated-union shape now splits
+      dispatchable and terminal decisions by `kind`; dispatchPath owns dispatch
+      semantics for dispatchable routes (local-proxy-route-table vs
+      local-proxy-passthrough vs direct-provider) while transport remains wire
+      dialect only. Reviewers must verify decisionProxyRuntime and header gates
+      key off dispatchPath helpers, route-table subagent decisions are born via
+      the internal coerceToRouteTable path, and route-table plans carry
+      routedModel plus non-empty turnId before header emission.
+    postmortems:
+      - 260417_openrouter_adhoc_auth_failure_postmortem.md
+      - 260430_evals_s5b_cluster_anthropic_passthrough_sentinel_leak_postmortem.md
+      - 260507_routing_transport_lead_proxy_conflation_postmortem.md
+
+  - id: codex-model-dialect-axis
+    category: provider-routing
+    description: >
+      The model-dialect axis for the localModelProxyServer Codex transport is
+      type-enforced, not defensively re-checked. The ONLY model name that may
+      reach EITHER Codex Responses egress site — forwardToCodexModel()
+      (non-streaming) and handleCodexStreamingRequest() (streaming) — is a
+      brand-typed CodexEgressModel, produced SOLELY by remapToCodexEgressModel()
+      (in src/main/services/localModelProxy/classifier.ts). Both egress
+      functions take the egress model as a CodexEgressModel parameter (the
+      non-streaming site via the CodexEgressRequest body type, whose `model`
+      field is the brand), so passing a raw `string` / `ModelProfile.model` /
+      `anthropicRequest.model` to a Codex egress is a COMPILE error at the
+      construction site — the brand is threaded all the way to the wire, not
+      widened back to `string` at the call. remapToCodexEgressModel() is the
+      single home of both defence-in-depth remaps: (1) anthropic-native
+      (`claude-*` / `anthropic/claude-*`) → working-profile model (re-checked
+      for Codex support) or Codex default (the REBEL-540 / PM 260429 / PM 260504
+      Claude-leak guard, cascading into the REBEL-520 second-stage check) and
+      (2) Codex-unsupported OpenAI model (e.g. `gpt-5.5-pro`) → supported model
+      or Codex default (REBEL-520 mirror). BOTH Codex egress paths funnel
+      through this single choke point: the `x-codex-turn` passthrough branch
+      (classifyRequest() carries the result as the brand-typed `egress` field of
+      the codex-turn RequestClassification) AND the route-resolved → Codex path
+      (forwardToLocalModel / handleStreamingRequest call remapToCodexEgressModel
+      before dispatching). Consumer-class dispatch in handleMessagesRequest is an
+      exhaustive `switch` with an assertNever default, so a new ConsumerClass /
+      ProviderTransport variant is a compile error too. New transports / model
+      dialects must extend this axis (the ModelDialect union + CodexEgressModel
+      brand), so the omitted-axis class stays a type error.
+
+      Advisory (NOT type-enforced) today: the streamContract,
+      structuredOutputContract, and authPlan fields of RequestClassification are
+      computed but the handler still re-derives stream/output-format from the
+      raw AnthropicRequest and injects auth per-branch downstream (Stage 13
+      consolidates the injectors). Only the model-dialect and consumer-class
+      axes are enforced as type errors; do not read those three fields as the
+      source of truth until Stage 13 wires them.
+    spec_doc: docs/plans/260526_hotspot-refactor-roadmap/PLAN.md#stage-12-extract-typed-requestclassification
+    owned_by: src/main/services/localModelProxy/classifier.ts + src/main/services/localModelProxyServer.ts
+    match:
+      paths:
+        - src/main/services/localModelProxy/classifier.ts
+        - src/main/services/localModelProxyServer.ts
+        - src/main/services/__tests__/localModelProxyServer.invariants.test.ts
+        - src/core/rebelCore/providerRouting.ts
+        - src/core/rebelCore/clientFactory.ts
+        - src/core/services/turnPipeline/agentTurnExecute.ts
+      identifiers:
+        - classifyRequest
+        - RequestClassification
+        - remapToCodexEgressModel
+        - CodexEgressModel
+        - CodexEgressModelResolution
+        - CodexEgressRequest
+        - forwardToCodexModel
+        - handleCodexStreamingRequest
+        - reportCodexEgressRemap
+        - classifyModelDialect
+        - ModelDialect
+        - CODEX_DEFAULT_MODEL
+        - x-codex-turn
+        - isNativeAnthropicModel
+    rationale: >
+      PMs 260429 (Anthropic-native model routed to the Codex proxy) and 260504
+      (Claude model leaked at the proxy egress), and the live production signal
+      REBEL-540 (878 events / 11 users), are all instances of the same
+      omitted-axis class: a routing/remapping change preserved the
+      provider/role/scope axes but dropped the model-dialect axis, so a
+      `claude-*` name reached the Codex Responses endpoint verbatim. Defensive
+      string checks (`model.startsWith('claude-')`) had been duplicated inline at
+      the proxy egress and at several upstream guard sites (clientFactory.ts,
+      providerRouting.ts, agentTurnExecute.ts) — any one of which could be
+      dropped or mis-ordered without a compile failure. Stage 12 makes the axis a
+      brand-typed seam: the Codex egress model can only be produced by the single
+      remapper, so the guard cannot be silently removed. Drift mode: a new
+      Codex-adjacent transport or a refactor that bypasses
+      remapToCodexEgressModel() and assigns a raw string to the egress model —
+      reviewers must verify the Codex upstream-request construction consumes the
+      brand-typed egress model from classifyRequest, and that the Claude-leak
+      invariant in localModelProxyServer.invariants.test.ts stays green.
+    postmortems:
+      - 260429_provider_routing_anthropic_native_under_codex_postmortem.md
+      - 260504_codex_passthrough_claude_model_leak_resolveTargetForModel_postmortem.md
+
+  - id: cross-session-routed-broadcast-event-provenance
+    category: ipc-schema
+    description: Cross-session-routed status broadcasts must include authoritative originalSessionId provenance and consumers must route mismatches via main-process atomic per-session writes (never active-session fallback).
+    spec_doc: docs/plans/260501_memory_update_session_routing_and_event_dedup.md#stage-1-split-broadcast-vs-persisted-types--producer-provenance--consumer-filter-bug-1
+    owned_by: src/shared/types/agent.ts + src/shared/ipc/schemas/agent.ts
+    match:
+      paths:
+        - src/shared/types/agent.ts
+        - src/shared/ipc/schemas/agent.ts
+        - src/shared/ipc/channels/memory.ts
+        - src/core/services/memoryUpdateService.ts
+        - src/core/services/timeSavedService.ts
+        - cloud-service/src/bootstrap.ts
+        - cloud-service/src/routes/sessions.ts
+        - src/main/index.ts
+        - src/main/ipc/memoryHandlers.ts
+        - src/main/services/cloud/cloudEventChannel.ts
+        - src/main/services/cloud/cloudRouterHelpers.ts
+        - src/preload/index.ts
+        - src/renderer/components/TimeSavedMilestoneChecker.tsx
+        - src/renderer/hooks/useProgressData.ts
+        - src/renderer/hooks/useIpcListeners.ts
+        - src/renderer/features/agent-session/components/ConversationPane.tsx
+        - src/renderer/features/agent-session/hooks/useMemoryUpdateStatus.ts
+        - src/renderer/features/agent-session/hooks/useTimeSavedStatus.ts
+        - src/renderer/features/agent-session/store/sessionStore.ts
+      identifiers:
+        - BroadcastMemoryUpdateStatus
+        - BroadcastTimeSavedStatus
+        - BroadcastMemoryUpdateStatusSchema
+        - BroadcastTimeSavedStatusSchema
+        - originalSessionId
+        - memoryUpdate:applyStatusToSession
+        - timeSaved:applyTimeSavedStatusToSession
+        - routeIncomingMemoryUpdateStatus
+        - routeIncomingTimeSavedStatus
+        - applyMemoryUpdateStatusToSession
+        - applyTimeSavedStatusToSession
+    forbidden_terms:
+      - 'memoryUpdateStatusByTurn:\s*\{\s*\.\.\.state\.memoryUpdateStatusByTurn'
+      - 'sessionsApi\.upsert\(.*\.\.\..*memoryUpdateStatusByTurn'
+      - 'timeSavedStatusByTurn:\s*\{\s*\.\.\.state\.timeSavedStatusByTurn'
+      - 'sessionsApi\.upsert\(.*\.\.\..*timeSavedStatusByTurn'
+    rationale: >
+      Multiple cross-session routing incidents shared the same drift pattern:
+      producer omits provenance, consumer applies to ambient active session, and
+      a narrow turn-key map captures a status in the wrong conversation. Stage 1
+      hardens this by splitting broadcast vs persisted types, requiring
+      originalSessionId on producer broadcast payloads, filtering in renderer
+      consumers, and routing mismatches through main-process
+      IncrementalSessionStore.updateSession atomic RMW.
+    postmortems:
+      - 260424_user_question_cross_session_routing_leak_postmortem.md
+      - 260331_cross_conversation_compaction_postmortem.md
+      - 260422_cross_conversation_content_leak_postmortem.md
+
+  - id: session-kind-classification-source-of-truth
+    category: session-classification
+    description: Session lifecycle classification must flow through classifySessionKind in src/shared/sessionKind.ts; consumer-side direct prefix checks are forbidden.
+    spec_doc: docs/project/SESSION_KINDS.md
+    owned_by: src/shared/sessionKind.ts
+    match:
+      paths:
+        - src/main/services/turnPipeline/turnAdmission.ts
+        - src/core/services/agentEventDispatcher.ts
+        - src/core/services/incrementalSessionStore.ts
+        - src/renderer/features/inbox/utils/backgroundTaskLabels.ts
+        - src/renderer/features/agent-session/hooks/useSessionHistoryView.ts
+        - src/renderer/features/agent-session/hooks/useSessionSearch.ts
+        - src/renderer/features/usecases/hooks/useCoachingInsights.ts
+        - src/renderer/features/automations/hooks/useAutomationApprovals.ts
+        - src/main/ipc/agentHandlers.ts
+        - src/main/ipc/memoryHandlers.ts
+        - src/main/services/toolSafetyService.ts
+        - src/main/services/agentMessageHandler.ts
+        - src/main/services/safety/automationContextLookup.ts
+        - src/main/services/safety/memoryWriteHook.ts
+        - src/main/services/agentTurnExecutor.ts
+        - src/core/services/costLedgerService.ts
+        - src/renderer/features/agent-session/store/sessionStore.ts
+      identifiers:
+        - SessionKind
+        - classifySessionKind
+        - SIDEBAR_HIDDEN_KINDS
+        - DELETE_ELIGIBLE_KINDS
+        - SKIP_CHECKPOINTING_KINDS
+        - SKIP_MEMORY_UPDATE_KINDS
+        - SKIP_TIME_SAVED_KINDS
+        - INTERNAL_LEDGER_KINDS
+        - isSidebarHiddenKind
+        - isDeleteEligibleKind
+        - shouldSkipCheckpointing
+        - shouldSkipMemoryUpdate
+        - shouldSkipTimeSaved
+        - isInternalLedgerKind
+        - isSidebarHiddenSession
+        - isDeleteEligibleSession
+    forbidden_terms:
+      - "[\\w?.]+\\.startsWith\\(\\s*['\"]memory-update-['\"]\\s*\\)"
+      - "[\\w?.]+\\.startsWith\\(\\s*['\"]meeting-qa-['\"]\\s*\\)"
+      - "[\\w?.]+\\.startsWith\\(\\s*['\"]error-eval-['\"]\\s*\\)"
+      - "[\\w?.]+\\.startsWith\\(\\s*['\"]automation-insight-['\"]\\s*\\)"
+      - "[\\w?.]+\\.startsWith\\(\\s*['\"]automation-['\"]\\s*\\)"
+      - "[\\w?.]+\\.startsWith\\(\\s*['\"]meeting-analysis-['\"]\\s*\\)"
+      - "[\\w?.]+\\.startsWith\\(\\s*['\"]use-case-discovery-['\"]\\s*\\)"
+      - "[\\w?.]+\\.startsWith\\(\\s*['\"]cli-chat-['\"]\\s*\\)"
+      - "[\\w?.]+\\.startsWith\\(\\s*['\"]role-['\"]\\s*\\)"
+      - "[\\w?.]+\\s*===\\s*['\"]calendar-sync['\"]"
+    rationale: >
+      Prefix checks in consumer files drift over time and create "category exists
+      but isn't wired" regressions. Session-kind classification must be
+      centralized so visibility, deletion, and checkpointing semantics remain
+      aligned across main/core/renderer paths.
+    postmortems:
+      - 260501_main_process_checkpoint_amplification_postmortem.md
+
+  - id: composer-tiptap-markdown-overrides
+    category: editor-wrapper
+    description: Composer wraps @tiptap/markdown and overrides Document/Paragraph/HardBreak renderMarkdown via per-extension lookup; brittle to upstream serializer changes and to "build a new editor surface" work that bypasses the shared factory.
+    spec_doc: docs/plans/260501_composer_tiptap_atmention_bugfix.md
+    owned_by: src/renderer/features/composer/utils/composerEditorFactory.ts
+    match:
+      paths:
+        # Repo-resolvable paths only (per boundary-hints.ts:107-114). Upstream
+        # @tiptap/markdown surfaces live in node_modules and would fail
+        # registry validation; the contract test is the loud-failure detector
+        # if they drift.
+        - package.json
+        - src/renderer/features/composer/utils/composerEditorFactory.ts
+        - src/renderer/features/composer/utils/composerMarkdown.ts
+        - src/renderer/features/composer/utils/draftSanitisation.ts
+        - src/renderer/features/composer/components/TipTapPromptEditor.tsx
+        - src/renderer/features/composer/__tests__/composerMarkdownContract.test.ts
+        - src/renderer/features/composer/__tests__/wireFormat.contract.test.ts
+        - src/renderer/features/composer/__tests__/realFixtures.test.ts
+      identifiers:
+        # Narrowly TipTap-only per existing registry convention (one entry =
+        # one demonstrated-failure surface). If a non-TipTap editor surface
+        # (Lexical, Slate, contentEditable) ever ships, that adds its own
+        # entry with its own demonstrated-failure surface to anchor it.
+        - '@tiptap/markdown'
+        - '@tiptap/extension-document'
+        - '@tiptap/extension-paragraph'
+        - '@tiptap/extension-hard-break'
+        - EMPTY_PARAGRAPH_MARKDOWN
+        - MarkdownManager
+        - renderMarkdown
+        - createPromptEditorExtensions
+        - composerEditorFactory
+        - ComposerWireMarkdown
+        - getCurrentPromptMarkdown
+        - getMarkdown
+        - editor\.markdown\.parse
+    rationale: >
+      The 260501 composer @-mention bug shipped because three orthogonal upstream
+      contracts inside @tiptap/markdown (Document.renderMarkdown joining children
+      with '\n\n', Paragraph.renderMarkdown using EMPTY_PARAGRAPH_MARKDOWN = '&nbsp;',
+      HardBreak.renderMarkdown returning '  \n') compose into a wire format that
+      breaks the council service's `<@model>` regex when an empty paragraph sits
+      between user content. The fix overrides each renderer per-extension via
+      MarkdownManager's getExtensionField channel, but the override chain is
+      brittle: an upgrade to @tiptap/markdown could change the override mechanism;
+      a new editor surface that doesn't consume the shared factory could omit the
+      overrides entirely; an agent removing the lint guards could re-introduce
+      `editor.getMarkdown()` calls outside the wrapper. Drift mode: any of these
+      three reopens the @-mention corruption class. Reviewers must (a) verify the
+      4 ESLint guards still fire, (b) confirm `createPromptEditorExtensions()` is
+      the single source of truth consumed by both production `useEditor` and
+      tests, (c) run `composerMarkdownContract.test.ts` (86 rows) which is the
+      loud-failure detector for upstream renderMarkdown drift.
+    postmortems:
+      - 260501_composer_tiptap_atmention_nbsp_corruption_postmortem.md
+
+  - id: evals-judge-panel-shared-primitives
+    category: eval-harness
+    description: evals/judgePanel.ts is a cross-consumer module shared by knowledge-work and replay-judge; refactors that move, delete, or rename exported symbols must enumerate all consumers and run an end-to-end harness fixture before merge. Also covers the OpenAI-compatible judge request-body contract (gpt-5+ provider drift caught only at runtime).
+    spec_doc: docs-private/postmortems/260430_evals_s5b_cluster_deleted_constants_postmortem.md
+    owned_by: evals/judgePanel.ts
+    match:
+      paths:
+        - evals/judgePanel.ts
+        - evals/knowledge-work.ts
+        - evals/replay-judge.ts
+        - evals/__tests__/judgePanel.degraded.test.ts
+        - evals/__tests__/judgePanel.snapshot.test.ts
+        - evals/__tests__/judgePanel.health.test.ts
+        - evals/__tests__/openaiCompatJudge.gpt5.test.ts
+        - evals/__tests__/knowledgeWork.constants.regression.test.ts
+      identifiers:
+        - summarizeJudgePanelStatus
+        - summarizeJudgePanelHealth
+        - finalizeJudgePanel
+        - runAllJudges
+        - runJudgePanel
+        - completePanel
+        - JUDGE_MAX_RETRIES
+        - DEFAULT_PREDICATE_MODEL
+        - DEFAULT_MAX_QUESTION_ROUNDS
+        - resolveEvalModels
+        - formatResolvedTier
+        - JudgePanelStatus
+        - JudgePanelResult
+        - JudgePanelHealthSummary
+        - judgePanelStatus
+        - callOpenAICompatibleJudge
+        - max_completion_tokens
+    rationale: >
+      The 260430 evals s5b cluster contained five consumer-side bugs from one
+      refactor that moved primitives into evals/judgePanel.ts: 5 deleted exports
+      (DEFAULT_PREDICATE_MODEL, DEFAULT_MAX_QUESTION_ROUNDS, ResolvedModelTier,
+      resolveEvalModels, formatResolvedTier), JUDGE_MAX_RETRIES dropped, and
+      judgePanelStatus scope-drifted into a try-block whose catch handler still
+      referenced it. Plus two provider-API-drift bugs (gpt-5+ rejecting
+      max_tokens and temperature: 0) that were silent for weeks because the
+      judge fleet still produced verdicts with reduced N. Unit tests passed
+      because consumers were mocked; module-load ReferenceErrors and 400
+      provider rejections only surfaced at end-to-end harness runtime. Drift
+      mode: deleting/moving an exported symbol without enumerating callers in
+      knowledge-work.ts and replay-judge.ts; re-introducing try-block-scoped
+      variables read by catch blocks; sending obsolete request-body fields to
+      provider APIs without a contract test. Reviewers must verify the
+      BUG-PREVENTION end-to-end run from CHIEF_ENGINEER2/CHIEF_ENGINEER2.md Phase 5 and check
+      consumer files for symbol resolution.
+    postmortems:
+      - 260430_evals_s5b_cluster_deleted_constants_postmortem.md
+      - 260430_evals_s5b_cluster_judgePanelStatus_referenceerror_postmortem.md
+      - 260430_evals_s5b_cluster_judge_max_retries_referenceerror_postmortem.md
+      - 260430_evals_s5b_cluster_gpt5_max_tokens_rejection_postmortem.md
+      - 260430_evals_s5b_cluster_gpt5_temperature_rejection_postmortem.md
+
+  - id: bts-cooldown-pre-check-parity
+    category: cross-cutting-bts-contract
+    description: Every BTS entry point in src/core/services/behindTheScenesClient.ts that participates in the cooldown lifecycle must enforce the same fail-fast pre-check on its effective rate-limit cooldown; sibling-parity drift here silently bypassed the cooldown gate via merge resolution in postmortem 260429.
+    spec_doc: docs-private/postmortems/260429_bts_callwithmodelauthaware_cooldown_bypass_postmortem.md
+    owned_by: src/core/services/behindTheScenesClient.ts
+    contract_test:
+      - src/core/services/__tests__/behindTheScenesClient.cooldown.test.ts
+    match:
+      paths:
+        - src/core/services/behindTheScenesClient.ts
+        - src/core/services/__tests__/behindTheScenesClient.cooldown.test.ts
+        - src/main/services/behindTheScenesClient.ts
+      identifiers:
+        - callBehindTheScenesWithAuth
+        - callWithModelAuthAware
+        - apiRateLimitCooldown
+        - safetyEvalRateLimitCooldown
+        - effectiveCooldown
+    rationale: >
+      Both callBehindTheScenesWithAuth and callWithModelAuthAware must enforce the
+      same fail-fast pre-check on their effective rate-limit cooldown
+      (apiRateLimitCooldown for non-safety BTS, safetyEvalRateLimitCooldown for
+      safety evals). The sibling-parity contract regressed silently in merge
+      41e71d26a (Bug B of postmortem 260429; restored by fix 3fbf022f1). Drift
+      mode: any new BTS entry point added to this file that participates in the
+      cooldown lifecycle (e.g. a future callWithProfileAuthAware) lands without
+      the fail-fast gate; existing tests pass because they target individual
+      functions, not the sibling-parity contract. Reviewers must verify the
+      cooldown pre-check describe blocks in behindTheScenesClient.cooldown.test.ts
+      and confirm every entry-point body retains the gate. A broader contract
+      covering the same machinery's recordRateLimit / recordSuccess sites across
+      safetyPromptLogic.ts, btsSafetyEvalService.ts, and automationScheduler.ts
+      is proposed separately by postmortem 260502
+      (bts-rate-limit-cooldown-pre-check-parity); the two could be consolidated
+      later if the team chooses one entry per machinery rather than one per file.
+    postmortems:
+      - 260429_bts_callwithmodelauthaware_cooldown_bypass_postmortem.md
+      - 260502_safety_eval_rate_limit_cooldown_parity_gap_postmortem.md
+
+  - id: cloud-instance-status-single-writer
+    category: cloud-parity
+    description: cloudInstance status fields must be written only by CloudConnectionReconciler, and the local-mode transition must be written only by clearCloudInstanceLocally(); side-channel writes recreate sticky degraded states, stale last-synced semantics, or mode:'local' records carrying live cloud credentials.
+    spec_doc: docs/plans/260504_cloud_connection_reconciler.md
+    owned_by: src/core/services/cloud/cloudConnectionReconciler.ts
+    match:
+      paths:
+        - eslint.config.mjs
+        - src/core/services/cloud/cloudConnectionReconciler.ts
+        - src/core/services/cloud/cloudConnectionReconcilerTypes.ts
+        - src/core/services/settingsStore.ts
+        - src/main/services/cloud/cloudConnectionReconcilerSingleton.ts
+        - src/shared/types/settings.ts
+        - src/shared/ipc/contracts.ts
+        - src/main/index.ts
+        - src/main/ipc/cloudHandlers.ts
+        - src/renderer/features/settings/hooks/useCloudConnection.ts
+        - src/renderer/features/settings/hooks/useCloudStatusRefresh.ts
+        - src/renderer/features/settings/hooks/useCloudSync.ts
+        - src/renderer/features/settings/hooks/useCloudProvisioning.ts
+      identifiers:
+        - CloudConnectionReconciler
+        - cloudConnectionReconciler
+        - cloudInstance
+        - cloudInstance.mode
+        - cloudUrl
+        - cloudToken
+        - lastKnownStatus
+        - lastError
+        - lastSyncedAt
+        - errorCategory
+        - degradedSince
+        - lastWriter
+        - CloudInstanceSettingsAdapter
+        - cloud:status-changed
+        - clearCloudInstanceLocally
+        - cloudTeardownGeneration
+        - cloudInstanceLocalModeDriftSelectors
+        - reportSuccess
+        - reportFailure
+        - reconcile
+    allowed_terms:
+      - cloudConnectionReconciler.reconcile
+      - cloudConnectionReconciler.reportSuccess
+      - cloudConnectionReconciler.reportFailure
+      - CloudInstanceSettingsAdapter
+      - clearCloudInstanceLocally
+      - cloudTeardownGeneration
+      - cloudInstanceLocalModeDriftSelectors
+    rationale: >
+      REBEL-568 exposed a sticky desktop state caused by multiple call sites
+      writing cloudInstance status fields with inconsistent success/failure
+      semantics. Drift mode: a future change writes lastKnownStatus, lastError,
+      or lastSyncedAt via updateSettings outside the reconciler/adapter path,
+      bypassing typed error categories, auto-clear-on-success, asymmetric
+      lastSyncedAt semantics, broadcasts, and Sentry transition hooks.
+      The 260608 recurrence extended the same single-writer problem to the full
+      local transition: only clearCloudInstanceLocally() in
+      src/main/ipc/cloudHandlers.ts may persist mode:'local' and clear
+      cloudUrl/cloudToken; eslint.config.mjs enforces the
+      cloudInstanceLocalModeDriftSelectors guard against mode:'local' paired
+      with live cloud fields elsewhere. The 260610 reattach race adds the
+      companion TOCTOU rule: any cloud-instance write path that can restore
+      mode:'cloud' must re-check cloudTeardownGeneration immediately before
+      persisting credentials. Reviewers must verify status updates flow through
+      the reconciler methods, local clears flow through clearCloudInstanceLocally(),
+      generation re-checks remain on reattach-style writers, and both ESLint
+      guards remain active.
+    postmortems:
+      - 260504_rebel_568_cloud_instance_status_sticky_silent_postmortem.md
+      - 260608_cloud_teardown_stall_and_drift_postmortem.md
+      - 260610_cloud_teardown_failure_surface_honesty_postmortem.md
+
+  - id: session-event-delta-sync-contract
+    category: cloud-parity
+    description: >
+      Session cloud sync must preserve the symmetric delta contract: append-only
+      event POSTs, metadata PATCHes, capability negotiation, lean cursor seeding,
+      and destructive/delete ledgers converge across desktop, cloud, and mobile.
+    spec_doc: docs/plans/260509_session_event_delta_sync.md
+    owned_by: src/core/services/cloudSessionMergeService.ts
+    contract_test:
+      - src/core/services/__tests__/cloudSessionMergeService.convergence.contract.test.ts
+    match:
+      paths:
+        - src/core/services/cloudSessionMergeService.ts
+        - cloud-service/src/routes/sessions.ts
+        - cloud-client/src/cloudClient.ts
+        - src/main/services/cloud/cloudOutbox.ts
+        - src/main/services/cloud/cloudServiceClient.ts
+        - src/shared/types/agent.ts
+      identifiers:
+        - X-Rebel-Capabilities
+        - POST /api/sessions/:id/events
+        - PATCH /api/sessions/:id
+        - GET /api/sessions/:id?lean=true
+        - session-event-delta-push
+        - session-metadata-patch
+        - messageDelta
+        - messageDeletes
+        - destructiveOpsApplied
+        - _destructiveOps
+        - _deletedMessages
+        - _destructiveOpsLedger
+    allowed_terms:
+      - X-Rebel-Capabilities
+      - POST /api/sessions/:id/events
+      - PATCH /api/sessions/:id
+      - GET /api/sessions/:id?lean=true
+    rationale: >
+      The 2026-05 mobile sync outage exposed full-session PUT as an unbounded
+      cross-surface contract: payload size grew with total conversation length,
+      hit the cloud body cap, then retried forever. Delta sync fixes this only
+      if every surface preserves the same protocol split: append-only event
+      POSTs for content, metadata PATCHes for titles/pins/drafts, capability
+      fallback to legacy PUT, lean preflight cursor seeding, and pull-side
+      auxiliary fields for message/delete/destructive-op convergence. Drift
+      mode: a future caller reintroduces full-session content writes, drops a
+      capability/header path, treats lean pulls as content-authoritative, or
+      forgets the `_deletedMessages` / `_destructiveOps` ledgers; desktop,
+      cloud, and mobile can then diverge silently despite individual requests
+      succeeding.
+    postmortems:
+      - docs/plans/260509_session_event_delta_sync.md
+
+  - id: agent-event-sequence-identity
+    category: ipc-schema
+    description: AgentEvent seq identity must be stamped once and immutable across persistence, broadcast, accumulator, cloud merge, compaction, and hydration; dedup keys by seq with content-equivalence as defence-in-depth only.
+    spec_doc: docs-private/postmortems/260513_duplicate_result_text_in_message_bubble_postmortem.md
+    owned_by: src/shared/utils/eventIdentity.ts
+    match:
+      paths:
+        - src/shared/utils/eventIdentity.ts
+        - src/core/services/lazyContextAccumulator.ts
+        - src/core/services/sessionSeqIndex.ts
+        - src/core/services/agentEventDispatcher.ts
+        - src/main/ipc/sessionsHandlers.ts
+        - src/main/services/cloud/cloudRouter.ts
+        - src/main/services/cloud/cloudOutbox.ts
+        - src/core/services/cloudSessionMergeService.ts
+        - src/renderer/features/agent-session/store/reducers/historyReducer.ts
+        - src/renderer/features/agent-session/store/sessionStore.ts
+      identifiers:
+        - SequencedAgentEvent
+        - assertEventHasSeq
+        - stampMissingEventSeq
+        - getEventIdentity
+        - getContentEquivalenceKey
+        - appendEvent
+        - applyTurnEventUnion
+        - applyTurnEventUnionToSession
+    rationale: >
+      Multiple duplicate-result-text incidents shared a seq-restamp / identity
+      drift: consumers keyed by `(turnId, seq)` treated the same logical event as
+      novel when it arrived with a different seq. Content-equivalence dedup is a
+      defence-in-depth repair path, not permission for producers to restamp
+      stable events. This is distinct from
+      `cross-session-routed-broadcast-event-provenance`, which protects
+      cross-session provenance routing rather than seq-identity dedup.
+    postmortems:
+      - 260513_duplicate_result_text_in_message_bubble_postmortem.md
+      - 260531_stop_duplicate_result_text_from_doubling_b853638_postmortem.md
+      - 260502_persist_user_question_answered_unstamped_postmortem.md
+      - 260506_cross_session_drop_warning_amplifier_postmortem.md
+
+  - id: structured-output-schema
+    category: provider-routing
+    description: |
+      Provider-neutral JsonSchemaFormat (planner outputConfig.format) is
+      consumed by Anthropic, OpenAI Chat Completions, OpenAI Codex Responses,
+      and the local-model proxy with three subtly different dialect rules.
+      Drift in any one dialect → silent 400 / empty plan / "internal error"
+      banner before tokens are produced.
+
+      BTS request body translation contract — output_format must be translated
+      to response_format on every Anthropic→OpenAI proxy branch.
+      `BehindTheScenesRequestOptions.outputFormat` (Anthropic-shaped
+      `output_format`) is the canonical structured-output channel for BTS
+      callers (timeSaved, safety eval, summary, etc.). Every typed Anthropic→OpenAI
+      translator inside `localModelProxyServer.ts` MUST translate it to
+      `response_format.json_schema` via `translateAnthropicOutputFormatToOpenAIResponseFormat()`
+      before handing the request to `translateChatToResponses` or any other
+      upstream call. Missing the translation silently downgrades structured
+      output to free-text on Codex/OpenAI-compatible upstreams.
+    spec_doc: docs/project/REBEL_CORE.md#structured-output-schema-boundary
+    owned_by: src/core/rebelCore/planningMode.ts
+    match:
+      paths:
+        - src/core/rebelCore/modelClient.ts
+        - src/core/rebelCore/planningMode.ts
+        - src/core/rebelCore/clients/anthropicClient.ts
+        - src/core/rebelCore/clients/openaiClient.ts
+        - src/core/rebelCore/__tests__/planSchemaProviderCompat.test.ts
+        - src/core/rebelCore/__tests__/planningMode.test.ts
+        - src/core/services/behindTheScenesClient.ts
+        - src/core/services/codexResponsesTranslator.ts
+        - src/main/services/localModelProxyServer.ts
+        - src/main/services/turnErrorRecovery.ts
+        - packages/shared/src/utils/humanizeAgentError.ts
+        - packages/shared/src/utils/structuredOutputErrorClassification.ts
+      identifiers:
+        - JsonSchemaFormat
+        - PLAN_OUTPUT_FORMAT
+        - PLAN_RESPONSE_SCHEMA
+        - PLAN_RESPONSE_SCHEMA_OPENAI_STRICT
+        - selectOpenAIPlannerSchema
+        - outputConfig
+        - output_format
+        - response_format
+        - text.format
+        - additionalProperties
+        - isStructuredOutputSchemaRejection
+        - humanizeStructuredOutputSchemaRejection
+        - validateForOpenAIStrict
+        - validateForAnthropicConstrained
+        - BehindTheScenesRequestOptions
+        - translateAnthropicOutputFormatToOpenAIResponseFormat
+        - walkSchema
+        - nullableAnyOfCount
+        - parameters with union types
+    rationale: |
+      Provider hard limits (verbatim, do not weaken):
+        - Anthropic constrained decoding:
+            - ≤16 parameters with union types (nullable type-arrays /
+              anyOf) per schema. Verbatim error: "Schemas contains too
+              many parameters with union types … limit: 16 parameters
+              with unions". See 260509 postmortem.
+            - Requires additionalProperties:false on every object.
+            - Rejects array-form `type` combined with `enum`.
+        - OpenAI strict mode:
+            - Forbids top-level anyOf/oneOf/allOf/not/enum at root.
+            - Requires additionalProperties:false on every object.
+            - Every property in `properties` must also appear in `required`.
+            - Array-form `type` cannot combine with `enum`.
+
+      Both incidents cited in the originating diagnosis (f1b4d44b-… OpenAI,
+      2feaa34a-… Anthropic) were silent: a 400 with `errorKind=invalid_request`
+      rendered as "Something went wrong" instead of identifying the
+      schema-rejection root cause. Reviewers must keep the
+      planSchemaProviderCompat CI gate green and ensure the runtime fallback in
+      runPlanningPhase (retry once without outputConfig) plus the humanized
+      banner copy stay wired together.
+
+      BTS request body translation: the local proxy is a typed boundary
+      between BTS Anthropic-shaped requests and OpenAI/Codex upstream calls.
+      `AnthropicRequest.output_format` and `OpenAIRequest.response_format`
+      must both stay declared on the proxy interfaces so the Anthropic→OpenAI
+      builders cannot silently drop structured output. Every translator branch
+      must call `translateAnthropicOutputFormatToOpenAIResponseFormat()` and
+      log `inboundOutputFormat` / `outboundResponseFormat` on
+      success-side `[CODEX-DIAG]` / `Model response received` log lines so
+      future drift is detectable from logs.
+    postmortems:
+      - 260506_planning_schema_provider_compat_class_bug.md
+      - 260509_planner_anthropic_16_union_cap_overflow_postmortem.md
+
+  - id: shared-client-primitives
+    category: provider-routing
+    description: |
+      OpenAIClient / AnthropicClient / clientFactory / planningMode / BTS
+      structured-output path / providerFeatureGuards form a shared
+      protocol-feature surface. A single literal-gate (`providerType ===`,
+      `kind ===`, `Set.has(providerType)`, etc.) added to any of these files
+      under-reviewed silently fans out across 4+ provider types. The 4-bug
+      cluster in 260505_* (Bugs B/C/D/E) all originated from light-mode
+      shipping on these primitives.
+    spec_doc: docs/plans/260505_typed_provider_capability_matrix.md
+    owned_by: src/core/rebelCore/providerFeatureGuards.ts
+    match:
+      paths:
+        - src/core/rebelCore/clients/openaiClient.ts
+        - src/core/rebelCore/clients/openaiClientTypes.ts
+        - src/core/rebelCore/clients/anthropicClient.ts
+        - src/core/rebelCore/clientFactory.ts
+        - src/core/rebelCore/planningMode.ts
+        - src/core/services/behindTheScenesClient.ts
+        - src/core/rebelCore/contextPolicy.ts
+        - src/core/rebelCore/providerFeatureGuards.ts
+      identifiers:
+        - OpenAIClient
+        - AnthropicClient
+        - OpenAIProviderType
+        - normalizeToOpenAIProviderType
+        - emitsStrictResponseFormat
+        - takesResponsesApiRoute
+        - nonChatModelGuardEnabled
+        - providerFeatureGuards
+        - providerFeatureGateGuardSelectors
+    rationale: >
+      Postmortems 260505_planner_schema_compat_provider_fanout,
+      260505_planner_universal_subset_rewrite_broke_openai_strict, and
+      260505_anthropic_prefix_not_stripped_before_native_wire document a
+      light-mode commit (225170e7f) that shipped four silent feature-fan-out
+      bugs on these primitives. Reviewers MUST verify any diff touching these
+      paths runs in `review_mode: medium` minimum (≥2 reviewers, including a
+      non-Claude model for diversity) and explicitly enumerates per-provider
+      smoke for ≥3 of [Anthropic-direct, OpenAI-native, Cohere-compat,
+      OpenRouter-passthrough] in the plan's verification section. ESLint
+      `providerFeatureGateGuardSelectors` enforces structural prevention
+      (banning ad-hoc `providerType === '<literal>'` and similar shapes); this
+      entry adds the review-process counterpart.
+    postmortems:
+      - 260505_planner_schema_compat_provider_fanout_postmortem.md
+      - 260505_planner_universal_subset_rewrite_broke_openai_strict_postmortem.md
+      - 260505_anthropic_prefix_not_stripped_before_native_wire_postmortem.md
+
+  - id: spaces-write-realpath-boundary
+    category: file-system-trust-boundary
+    description: |
+      Every space-mutating fs.writeFile / fs.rename / fs.mkdir / fs.copyFile / fs.unlink
+      that takes a workspace-relative spacePath must call assertSpaceWriteSafe(target, workspaceRoot)
+      before the I/O call. The realpath of the resolved target must remain inside the workspace,
+      and protected root names (e.g. Resources, .app bundle dirs, /Applications, /System,
+      /Library, Windows system roots) must be denied via the central isProtectedRootName predicate.
+    spec_doc: docs/plans/260423_symlink_write_through_into_app_bundle.md
+    owned_by: src/main/services/spaceWriteSafety.ts
+    match:
+      paths:
+        - src/main/services/spaceService.ts
+        - src/main/services/spaceWriteSafety.ts
+        - src/main/services/__tests__/spaceWriteSafety.test.ts
+      identifiers:
+        - assertSpaceWriteSafe
+        - WriteOutsideWorkspaceError
+        - isProtectedRootName
+        - isUnderWin32Path
+        - excludedRootNames
+        - addDescriptionToFrontmatter
+        - attemptMechanicalFrontmatterRepairOnDisk
+        - migrateLegacyAgentsMd
+        - updateSpaceFrontmatter
+    rationale: |
+      The 2026-04-21 incident saw a conflicted-copy symlink inside the workspace point
+      at the installed .app bundle's Resources/ directory; a downstream space-frontmatter
+      writer dereferenced and wrote through it, surfacing as a "Permission denied" toast
+      and silently corrupting bundled fixtures on disk. The spaceWriteSafety helpers landed
+      with brand-new realpath + protected-root + win32-system-root denylist primitives,
+      but the structural mitigation only holds if every write entry-point in spaceService.ts
+      consumes assertSpaceWriteSafe with the realpath of the resolved target, and every
+      protected-root check consumes isProtectedRootName (rather than duplicating a string
+      Set inline). Drift mode: a new write entry-point in spaceService.ts (or a new caller
+      of an existing write helper) skips the assertion; or the excludedRootNames Set is
+      cloned inline somewhere instead of consuming isProtectedRootName; or fs.realpath is
+      called manually with non-tolerant error handling that swallows ENOENT/EACCES on
+      legitimate workspace-inside paths. Reviewers must verify every fs.writeFile /
+      fs.rename / fs.mkdir / fs.copyFile / fs.unlink call site in spaceService.ts is
+      preceded by assertSpaceWriteSafe and that the protected-root list flows from the
+      helper rather than being duplicated.
+    postmortems:
+      - 260423_symlink_write_through_bundle_postmortem.md
+
+  - id: cloud-image-rollback-defense-in-depth
+    category: cloud-parity
+    description: Cross-boot image rollback contract — every write to bootStateStore / lastKnownGoodImageTagStore / quarantinedTagsStore, every Fly machine config update on the cloud, and every desktop revert call must flow through the canonical helpers (writeBootPending, scheduleBootSuccessMarker, applyImageRollback) with a writerTag so the pre-bootstrap watchdog can reason about prior-boot state.
+    spec_doc: docs/plans/260510_cloud_image_rollback_defense_in_depth.md
+    owned_by: cloud-service/src/preBootstrapWatchdog.ts
+    match:
+      paths:
+        - cloud-service/src/preBootstrapWatchdog.ts
+        - cloud-service/src/entry.ts
+        - cloud-service/src/services/bootSuccessMarker.ts
+        - cloud-service/src/services/bootStateStore.ts
+        - cloud-service/src/services/lastKnownGoodImageTagStore.ts
+        - cloud-service/src/services/quarantinedTagsStore.ts
+        - cloud-service/src/services/forcedBootCrash.ts
+        - cloud-service/src/services/flyRestartPolicyMigration.ts
+        - cloud-service/src/selfUpdateScheduler.ts
+        - cloud-service/src/server.ts
+        - cloud-service/fly.toml
+        - cloud-service/Dockerfile
+        - cloud-service/build.mjs
+        - src/core/services/flyApiClient.ts
+        - src/core/services/schemaFingerprint.ts
+        - src/main/services/cloud/desktopLkgCache.ts
+        - src/main/ipc/cloudHandlers.ts
+      identifiers:
+        - applyImageRollback
+        - writerTag
+        - bootStateStore
+        - writeBootPending
+        - clearBootPending
+        - readBootState
+        - scheduleBootSuccessMarker
+        - bootSuccessMarker
+        - lastKnownGoodImageTagStore
+        - quarantinedTagsStore
+        - addRejected
+        - readActive
+        - preBootstrapWatchdog
+        - desktopLkgCache
+        - readDesktopLkgCache
+        - writeDesktopLkgCache
+        - schemaFingerprint
+        - REBEL_FORCE_BOOT_CRASH
+        - IS_CI_SMOKE_TEST
+        - REBEL_BOOT_GRACE_MS
+        - cloud:fetch-lkg-image
+        - cloud:revert-to-last-known-good
+        - default-lkg.json
+        - flyRestartPolicyMigration
+        - desktop-revert
+        - watchdog-rollback
+    forbidden_terms:
+      # The watchdog/rollback path must never bypass applyImageRollback or
+      # write boot/LKG state outside the canonical stores. Any direct
+      # machines.update PATCH or hand-rolled JSON.stringify into the
+      # state files would reopen the race the cross-boot state machine
+      # exists to close.
+      - "machines/\\$\\{[a-zA-Z]+\\}/update"
+      - "writeFileSync\\([^,]+,\\s*JSON\\.stringify\\([^)]*bootPending"
+      - "writeFileSync\\([^,]+,\\s*JSON\\.stringify\\([^)]*last-known-good"
+    rationale: >
+      Hot-fix 222189772 (March 2026) shipped after a bad cloud image silently
+      crashed in a tight loop, taking down customer clouds with no automated
+      recovery. Defense-in-depth was layered in over Stages 0-F: a Fly
+      `[[restart]]` policy caps the crash loop, a pre-bootstrap watchdog
+      checks `bootStateStore` before letting `server.ts` import, and
+      `applyImageRollback` is the single chokepoint for every machine image
+      change (with `writerTag` proving which subsystem initiated the change
+      for postmortems). Drift modes: (1) a new code path patches the Fly
+      machine config directly instead of routing through `applyImageRollback`,
+      so the rollback contract (image + cmd + auto_destroy) is partially
+      applied; (2) a new state write skips `bootStateStore`/`bootSuccessMarker`
+      and the watchdog can no longer prove "this boot crashed"; (3) the
+      scheduler's quarantine guard is bypassed and a tag the watchdog
+      rolled away from is immediately re-installed; (4) the desktop
+      `cloud:revert-to-last-known-good` channel grows automation paths that
+      can fire without `confirmedByUser:true`, losing the user-confirmation
+      invariant. Reviewers must verify every machine-config mutation flows
+      through `applyImageRollback`, every state file write uses the
+      canonical store wrapper, and the desktop revert handler keeps its
+      Zod-enforced confirmation flag.
+    postmortems:
+      - 260505_cloud_shim_logger_import_break_postmortem.md
+      - 260220_cloud_platformconfig_lazy_init_startup_crash_postmortem.md
+
+  - id: eval-per-tier-identity-encoding
+    category: eval-harness
+    description: |
+      Per-tier identity for eval bundles uses the `profile:<id>` prefix encoding
+      (same as main-app `behindTheScenesModel`); the resolver keys on profile ID.
+      Bare model strings are **inert** — they NEVER match a local profile, even
+      when exactly one profile has the same `model`; the resolver emits a one-
+      shot `console.warn` with the corresponding `profile:<id>` migration line
+      and returns `null`. This eliminates the silent-injection of local app-
+      settings state into bundle identity (see `260514_eval_collapse_degraded_propagation`
+      postmortem). The analyzer variant key NEVER includes `profileId` — profile
+      identity is metadata-only, never key-influencing.
+    spec_doc: docs/plans/260511_eval_per_tier_profile_refactor.md
+    supersession_note: |
+      The 260511 plan's "bare-model multi-match throws" semantics are
+      superseded by 260514 Stage B's warn-and-null. Bare strings are now
+      inert regardless of match count; `profile:<id>` is the only path
+      to a local profile. See `docs/plans/260514_eval_bundle_reproducibility_hardening.md` § Stage B.
+    owned_by: evals/knowledge-work-bootstrap.ts
+    match:
+      paths:
+        - evals/knowledge-work-bootstrap.ts
+        - evals/knowledge-work.ts
+        - evals/analyze-knowledge-work-types.ts
+        - evals/analyze-knowledge-work-aggregate.ts
+        - evals/shared.ts
+        - evals/connector-build.ts
+        - src/shared/utils/modelChoiceCodec.ts
+      identifiers:
+        - resolveTierProfile
+        - resolveBundleProfiles
+        - assertActivatableBundle
+        - resolveTierCredentialStatus
+        - resolveBareModelCredentialStatus
+        # Drift sentinel: re-introduction of the legacy single-provider guard
+        # name. The function was removed 2026-05-12 per
+        # docs/plans/260512_eval_per_tier_provider_activation.md.
+        - assertSingleProviderAcrossTiers
+        - EvalRunBundle
+        - resolvedProfiles
+        - getResolvedTierMetadata
+        - deriveModelVariantKey
+        - canonicalizeReasoningEffort
+        - decodePrefixed
+        - EvalTierChoice
+      forbidden_terms:
+        - 'profiles\.find\(.*\.model ==='
+        - 'findProfile\(name\)'
+        - '(?:parts|keyParts)\.push\([^\n)]*\bprofileId\b[^\n)]*\)|variantKey\s*(?:=|\+=)[^\n]*\bprofileId\b'
+        # 260512 trim: drift sentinels for the legacy single-provider guard.
+        - '\bassertSingleProviderAcrossTiers\b'
+        - '\bproviders\.size\s*<=\s*1\b'
+        - 'Per-tier provider activation is not yet implemented'
+        # Guard the scalar AppSettings.activeProvider contract (260503).
+        # Stage 2 of the deferred work MUST NOT add a parallel per-tier
+        # activeProvider field; per-tier identity is metadata-only.
+        - 'add a parallel activeProvider'
+    rationale: |
+      The 2026-05-11 V4 Pro overnight eval incident: two Together V4 Pro profiles
+      shared `model: 'deepseek-ai/DeepSeek-V4-Pro'` but differed in
+      `reasoningEffort`. The legacy `findProfile(name)` resolver in
+      `evals/knowledge-work-bootstrap.ts:838-847` did
+      `profiles.find(p => p.model === name)` and silently returned the FIRST
+      match, routing both tiers to the same effort even when the operator
+      intended per-tier disambiguation. The structural fix harmonises with the
+      main-app `behindTheScenesModel` `profile:<id>` wire format
+      (`src/shared/utils/modelChoiceCodec.ts:32-58`): the resolver parses the
+      prefix and keys on profile ID. **As of 2026-05-14 Stage B (see below)
+      the bare branch is inert + warn for ALL match counts (zero, one, or
+      many) — superseding the original 260511 multi-match-throw semantics
+      to also catch the silent-injection vector for the one-match case.**
+      Single-pass resolution (`resolveBundleProfiles` at the top of
+      `buildEvalRunConfig`) keeps the resolver behaviour predictable and
+      avoids lazy re-throws from deep predicate paths.
+
+      The analyzer variant key (`deriveModelVariantKey` at
+      `evals/analyze-knowledge-work-aggregate.ts:190-205`) MUST NOT include
+      `profileId`. Profile IDs are local-ephemeral (machine-specific,
+      settings-reset-volatile); including them in the bucketing key fragments
+      longitudinal comparability across machines/runs. Profile identity is
+      metadata-only — surfaced in `modelVariantLabel` (display) and
+      `fullConfigLine` (Configuration column) but never in the bucketing key.
+
+      The `model` field carried by `ResolvedTierMetadata` MUST be the resolved
+      provider-model string (e.g. `'deepseek-v4-pro'`), NOT the encoded CLI
+      string (`'profile:<id>'`). The encoded form is the resolver INPUT; the
+      `model` field is the resolver OUTPUT. Violating this invariant silently
+      back-doors profile IDs into the analyzer variant key.
+
+      Drift mode: a future agent re-introduces lazy `profiles.find(p => p.model === name)`
+      somewhere in eval setup, or adds `profileId` to the variant key as
+      "extra disambiguation", or writes raw CLI strings into result-file
+      `metadata.model` fields. `forbidden_terms` flags the first two patterns
+      at plan-review time; the Stage 4 full-ingestion unit test in
+      `evals/__tests__/analyze-knowledge-work-aggregate.test.ts` is the
+      durable code-level enforcement against profileId-in-key.
+
+      **Important caveat on enforcement:** `scripts/boundary-hints.ts` scans
+      planning-doc text for `forbidden_terms`, NOT diff contents. The registry
+      entry is reviewer guidance during plan reviews; durable enforcement is
+      the unit-test suite.
+
+      **2026-05-12 update — per-tier activation (260512 trim):**
+      `assertSingleProviderAcrossTiers` was replaced with
+      `assertActivatableBundle` (`evals/knowledge-work-bootstrap.ts:743+`),
+      a per-tier credential preflight that delegates to
+      `resolveProfileApiKey` for openai/google/together/cerebras profiles,
+      and special-cases anthropic, openrouter, local, and Codex-subscription
+      paths to mirror runtime auth resolution. This unblocked mixed-provider
+      bundles (Bundle 4 = Anthropic-thinking + OpenAI-working + OpenAI-BTS).
+      The runtime was already per-tier-correct; the assertion was the only
+      bottleneck. See `docs/plans/260512_eval_per_tier_provider_activation.md`
+      § Stage 1 (TRIMMED) for the synthesis and root-cause confirmation
+      (`__virtual-thinking` profile collision). The deferred follow-up
+      (manifest enrichment, schema bump, verifier extension) is documented
+      in the same plan's "DEFERRED" section.
+
+      **2026-05-14 update — bare-string inertness (Stage B of 260514 hardening):**
+      The 260511 plan's "bare-model multi-match throws" semantics is
+      **superseded**. Bare strings are now inert at the resolver regardless
+      of match count — `resolveTierProfile` returns `null` and emits a one-
+      shot `console.warn` with the `profile:<id>` migration line(s) when
+      any local profile shares the bare model name. The `findProfile`
+      fallback in `buildEvalRunConfig` (formerly `:1290`) is gone for the
+      same reason. `profile:<id>` is now the only path to a local profile.
+      This eliminates the silent-injection of local app-settings state
+      (`localModel.profiles`, `customProviders`, `providerKeys`) into
+      bundle identity that contaminated 33 result files in the gpt-5.4
+      baseline. See `docs/plans/260514_eval_bundle_reproducibility_hardening.md`
+      § Stage B and `docs-private/postmortems/260514_eval_collapse_degraded_propagation.md`.
+    postmortems:
+      - 260511_eval_per_tier_profile_refactor.md
+      - 260512_eval_per_tier_provider_activation.md
+      - 260514_eval_collapse_degraded_propagation.md
+
+  - id: headless-runtime-options
+    category: headless-runtime
+    description: Headless turn option and runtime factory changes must preserve the shared CLI/eval/cloud/standalone contract rather than re-deriving surface-specific bootstrap behavior.
+    spec_doc: docs/plans/260515_cli_alternative_interface.md
+    owned_by: src/core/services/headlessRuntime.ts
+    match:
+      paths:
+        - src/core/types/headlessTurnOptions.ts
+        - src/core/services/headlessRuntime.ts
+        - src/core/types/turnPolicy.ts
+        - src/core/services/turnPolicy.ts
+      identifiers:
+        - HeadlessTurnOptions
+        - HeadlessRuntimeConfig
+        - HeadlessRuntime
+        - createHeadlessRuntime
+        - runHeadlessTurn
+        - TurnPolicy
+        - derivePolicy
+        - policy
+        - promptSessionMode
+        - registerPreOAuthCallHook
+        - startSuperMcpWithRetries
+        - skipMcp
+        - approvalHandler
+        - persistMode
+    forbidden_terms:
+      - "(\\.sessionType|sessionType\\?\\.|\\bsessionType\\b)\\s*[!=]==?\\s*['\\\"]automation['\\\"]"
+    rationale: >
+      The CLI alternative-interface plan intentionally shares one headless
+      runtime across Electron CLI, cloud, evals, and the future standalone Node
+      binary. Drift mode: a surface adds an option, safety hook, MCP startup
+      branch, or cleanup path locally instead of updating the canonical
+      `HeadlessTurnOptions` / `createHeadlessRuntime()` contract, causing the
+      260330 ReferenceError class or the 260327 BTS token-refresh gap to
+      reappear on only one surface.
+    postmortems:
+      - docs/plans/260515_cli_alternative_interface.md
+      - docs/plans/260330_headless_runtime_consolidation.md
+
+  - id: bts-preoauth-hook-registration-sites
+    category: cross-surface-coupling
+    description: >
+      Every surface that builds a HeadlessRuntimeConfig must wire the BTS
+      preOAuthCallHook to refresh the Codex token
+      (DEFAULT_CODEX_AUTH_PROVIDER.getAccessToken()) before OAuth-token
+      Anthropic calls. Desktop (src/main/index.ts) and cloud
+      (cloud-service/src/bootstrap.ts) must stay in lockstep; a surface that
+      drops or stubs the hook body silently regresses BTS token refresh on that
+      surface only.
+    spec_doc: docs/plans/260526_hotspot-refactor-roadmap/PLAN.md#stage-9-cross-surface-parity-hooks--rescoped-2026-05-28-stale-premise-corrected
+    owned_by: src/core/services/headlessRuntime.ts
+    match:
+      paths:
+        - src/main/index.ts
+        - cloud-service/src/bootstrap.ts
+        - src/core/services/headlessRuntime.ts
+        - src/core/services/bts/transports/shared.ts
+        - src/core/services/bts/transports/anthropic.ts
+        - src/core/services/defaultCodexAuthProvider.ts
+        - cloud-service/src/__tests__/bootstrap.preOAuthCallHook.test.ts
+      identifiers:
+        - preOAuthCallHook
+        - registerPreOAuthCallHook
+        - getPreOAuthCallHook
+        - DEFAULT_CODEX_AUTH_PROVIDER
+        - getAccessToken
+        - HeadlessRuntimeConfig
+        - createHeadlessRuntime
+    rationale: >
+      The BTS pre-OAuth hook (src/core/services/bts/transports/shared.ts) is a
+      process-global registered exactly once, by createHeadlessRuntime
+      (headlessRuntime.ts:363) from the required `preOAuthCallHook` field of
+      HeadlessRuntimeConfig. TypeScript guarantees the FIELD is supplied, but it
+      cannot guarantee the BODY actually refreshes the Codex token: a surface can
+      pass `async () => {}` and still compile. PM 260327 originally framed this
+      as a desktop/cloud parity gap; both surfaces now wire the identical
+      Codex-refresh hook (cloud-service/src/bootstrap.ts ≡ src/main/index.ts).
+      Drift mode: a surface drops the `DEFAULT_CODEX_AUTH_PROVIDER.getAccessToken()`
+      call (or a new surface builds a HeadlessRuntimeConfig with an empty hook),
+      so background/headless BTS turns on that surface stop refreshing the Codex
+      token and silently 401 on expiry while every other surface stays green.
+      Reviewers must verify each HeadlessRuntimeConfig site's preOAuthCallHook
+      body drives the Codex refresh, and that
+      cloud-service/src/__tests__/bootstrap.preOAuthCallHook.test.ts (the
+      behaviour-pinning parity test) stays green. NOTE: this entry covers the
+      Codex-refresh hook only — there is no Claude Max / Anthropic OAuth refresh
+      on any surface (tracked separately as FU-9; out of scope here).
+    postmortems:
+      - docs/plans/260526_hotspot-refactor-roadmap/PLAN.md
+      - docs/plans/260330_headless_runtime_consolidation.md
+
+  - id: locked-session-persistence
+    category: session-persistence
+    description: Shared session writers must use per-session and index locks with reload-under-lock before writing session files and index.json.
+    spec_doc: docs/plans/260515_cli_alternative_interface.md
+    owned_by: src/core/services/lockedSessionPersistence.ts
+    match:
+      paths:
+        - src/core/utils/sessionFileLock.ts
+        - src/core/services/lockedSessionPersistence.ts
+        - src/core/services/turnCheckpointService.ts
+        - src/main/ipc/sessionsHandlers.ts
+        - src/main/ipc/memoryHandlers.ts
+      identifiers:
+        - updateSessionWithReload
+        - upsertSessionsWithLocks
+        - sessionLockManager
+        - acquirePerSession
+        - acquireGlobalIndex
+    rationale: >
+      The CLI/GUI/cloud session store is shared across processes. Drift mode:
+      a writer reintroduces raw `IncrementalSessionStore.updateSession()` or
+      `save()` on a cross-process path, so a concurrent CLI, checkpoint, memory
+      status, cloud, or renderer write can lose another writer's fields or
+      leave `index.json` stale.
+    postmortems:
+      - docs/plans/260515_cli_alternative_interface.md
+
+  - id: cli-flag-env-contract
+    category: cli-contract
+    description: CLI safety/control flags and REBEL_CLI_* env-vars must preserve documented precedence and equivalent runtime options.
+    spec_doc: docs/project/HEADLESS_CLI_ENTRYPOINT_REFERENCE.md
+    owned_by: src/main/cli.ts
+    match:
+      paths:
+        - src/main/cli.ts
+        - src/main/__tests__/cli.test.ts
+        - docs/project/HEADLESS_CLI_ENTRYPOINT_REFERENCE.md
+      identifiers:
+        - REBEL_CLI_BYPASS_SAFETY
+        - REBEL_CLI_APPROVAL_TIMEOUT_MS
+        - --bypass-safety
+        - --approval-timeout
+        - bypassToolSafety
+    rationale: >
+      The CLI alternative-interface plan promises flags and env-vars for
+      safety controls with `CLI flag > env-var > default` precedence. Drift
+      mode: a flag exists without the matching env-var bridge (or vice versa),
+      Clipanion rejects a documented flag, or precedence changes silently.
+    postmortems:
+      - docs/plans/260515_cli_alternative_interface.md
+
+  - id: cli-approval-protocol
+    category: cli-safety
+    description: CLI approval routing must keep TTY prompts, JSON/non-TTY auto-deny, memory-write approval, and tool-safety approval in sync.
+    spec_doc: docs/project/HEADLESS_CLI_ENTRYPOINT_REFERENCE.md#approval-policy
+    owned_by: src/main/cli/ttyApprovalPrompt.ts
+    match:
+      paths:
+        - src/main/cli/ttyApprovalPrompt.ts
+        - src/main/services/toolSafetyService.ts
+        - src/main/services/safety/memoryWriteHook.ts
+        - src/core/types/headlessTurnOptions.ts
+      identifiers:
+        - ApprovalHandler
+        - ApprovalRequest
+        - approval_required
+        - createCliApprovalHandler
+        - memory_write
+        - tool_safety
+    rationale: >
+      CLI approvals intentionally approve in place for interactive TTYs and
+      fail closed for JSON/non-TTY automation unless safety is explicitly
+      bypassed. Drift mode: tool-safety and memory-write hooks diverge, JSON
+      mode prompts, non-TTY hangs, or a timeout/abort path stops releasing
+      session locks promptly.
+    postmortems:
+      - docs/plans/260515_cli_alternative_interface.md
+
+  - id: hermetic-eval-config-source-of-truth
+    category: eval-harness
+    description: >
+      Eval CLI inputs flow exclusively through (HermeticEvalConfig file, process.env).
+      No code path may read ~/Library/Application Support/mindstone-rebel/app-settings.json
+      from inside a running eval invocation. The one legitimate read is
+      scripts/eval/capture-keys.ts (operator-side, run once per credential
+      rotation).
+    spec_doc: docs/plans/260518_hermetic_eval_config_refactor.md
+    owned_by: evals/configs/loader.ts
+    # PRIMARY protection: any edit to these paths triggers the Spec Reader
+    # hint, requiring the agent to read this plan's intent before proceeding.
+    match:
+      paths:
+        - evals/configs/types.ts
+        - evals/configs/loader.ts
+        - evals/configs/*.json
+        - evals/knowledge-work-bootstrap.ts
+        - evals/knowledge-work.ts
+        - evals/knowledge-work-setup.ts
+        - evals/setup-env-evals.ts
+        - evals/shared.ts
+        - evals/memory-update-quality.ts
+        - evals/memory-update-ab.ts
+        - evals/rebel-core-loop.ts
+        - evals/safety-prompt.ts
+        - evals/auto-continue.ts
+        - evals/watchdog-judge.ts
+        - evals/narration.ts
+        # Broad BTS surface coverage — any new harness touching credentials
+        # should be in evals/*.ts and will trigger hint.
+        - evals/*.ts
+        - scripts/eval/capture-keys.ts
+        - scripts/eval/snapshot-live-settings.ts
+      identifiers:
+        - HermeticEvalConfig
+        - loadHermeticEvalConfig
+        - resolveCredentialsFromEnv
+        - resolveEvalRun
+        - hermeticConfig
+    # forbidden_terms scans planning-doc PROSE only. Useful for catching
+    # "we should re-add EVAL_APP_SETTINGS_PATH" in a future plan; NOT for
+    # catching code drift. Code drift is caught by the match.paths trigger.
+    forbidden_terms:
+      - "EVAL_APP_SETTINGS_PATH"
+      - "resolveAppSettingsPath\\("
+      - "\\.env\\.evals"
+      - "\\.config\\.defaults\\.json"
+    # allowed_terms is documentation-only per registry schema (NOT consumed
+    # by scripts/boundary-hints.ts for path-glob scoping). Retained as inline
+    # guidance for human reviewers.
+    #
+    # `scripts/eval/capture-keys.ts` and `scripts/eval/snapshot-live-settings.ts`
+    # ARE intentionally in `match.paths` above. They are the legitimate
+    # operator-side reads of `app-settings.json` (one-shot key-capture and
+    # diagnostic snapshot, respectively). Edits to them SHOULD fire the
+    # Spec Reader hint so future agents read this plan before changing the
+    # only sanctioned operator-side reads.
+    #
+    # The line in the sand for OTHER paths (i.e. anything inside `evals/**`
+    # or new harnesses) is the `resolveAppSettingsPath\(` and
+    # `EVAL_APP_SETTINGS_PATH` entries in `forbidden_terms` above, which
+    # scan planning-doc prose at CHIEF_ENGINEER review time.
+    allowed_terms:
+      - "resolveAppSettingsPath # only inside scripts/eval/*.ts (capture-keys, snapshot-live-settings)"
+    rationale: >
+      The 260518 hermetic eval config refactor moved eval inputs onto a typed
+      HermeticEvalConfig + process.env boundary. Reverting any consumer to read
+      `~/Library/.../app-settings.json` from inside a running eval reopens the
+      hidden-state coupling failure modes that 260503 closed at the translator
+      OUTPUT and that this plan closes at the translator INPUT.
+    postmortems:
+      - 260503_kw_eval_infra_robustness.md  # planning doc; treat as the
+                                            # postmortem-equivalent.
+
+  - id: cross-surface-coupling
+    category: cross-surface-coupling
+    description: |
+      Files under `cloud-service/**` and `mobile/**` must not import from
+      `@main/*`. Cross-surface coupling re-introduces the de-electronification
+      drift class (cloud and mobile transitively pulling Electron-aware code).
+      Shared logic belongs in `@core/*` via boundary interfaces so it runs on
+      all three surfaces. Catches BOTH static `import { x } from '@main/...'`
+      and dynamic `await import('@main/...')` forms via the tsx-script
+      ratchet at `scripts/check-cross-surface-imports.ts` (primary,
+      `validate:fast`) and `@typescript-eslint/no-restricted-imports` in
+      `eslint.config.mjs` (secondary, dev-loop static only).
+    spec_doc: docs/plans/260514_surface_capabilities_and_quick_wins.md
+    owned_by: scripts/check-cross-surface-imports.ts
+    match:
+      paths:
+        - scripts/check-cross-surface-imports.ts
+        - scripts/__tests__/check-cross-surface-imports.test.ts
+        - eslint.config.mjs
+        - cloud-service/src/bootstrap.ts
+        - cloud-service/src/routes/slackWebhook.ts
+        - cloud-service/src/routes/mcp.ts
+        - cloud-service/src/routes/auth.ts
+        - cloud-service/src/__tests__/diagnosticsRouteCloudHandler.test.ts
+      identifiers:
+        - findCrossSurfaceViolations
+        - check-cross-surface-imports
+        - validate:cross-surface-imports
+        - '@main/settingsStore'
+        - '@main/services/agentTurnExecutor'
+        - '@main/services/coreStartup'
+        - '@main/services/safety'
+        - '@main/services/inboxStore'
+        - '@main/ipc/cloudIpcHandlers'
+        - '@main/services/toolSafetyService'
+        - '@main/services/localModelProxyServer'
+        - '@main/services/bundledMcpCloudRegistration'
+        - '@main/ipc/diagnosticsHandlers'
+    rationale: |
+      The de-electronification programme (`docs/plans/260330_strengthen_de_electronification.md`)
+      requires `cloud-service/**` and `mobile/**` to consume only `@core/*`
+      boundary interfaces. Each existing `@main/*` import is a deferred
+      migration — the allowlist captures the genuine current coupling and
+      shrinks as those services move into core. Drift mode: a new `@main/*`
+      import lands in cloud or mobile (especially as a dynamic `import()` —
+      ESLint's `no-restricted-imports` does NOT cover those, so the tsx
+      script is the canonical enforcement). The allowlist uses exact
+      `(file, specifier)` pairs so adding a NEW specifier to an already-
+      allowlisted file still fires (closes the file-level bypass class).
+      Reviewers must verify any change touching the allowlist names a real
+      migration that justifies the addition, and that the per-line
+      `/* eslint-disable-next-line @typescript-eslint/no-restricted-imports */`
+      comment is present at each static-import site for in-source review.
+    postmortems:
+      - docs/plans/260330_strengthen_de_electronification.md
+      - docs/plans/260514_surface_capabilities_and_quick_wins.md
+
+  - id: conversation-state-derivation
+    status: planned
+    category: cross-surface-port
+    description: Conversation state derivation should be canonical in core so desktop, cloud-client, and mobile render identical state from the same event stream.
+    spec_doc: docs/plans/260516_cross_surface_centralization.md
+    match:
+      paths:
+        - docs/plans/260516_cross_surface_centralization.md
+      identifiers:
+        - conversation-state-derivation
+        - conversationState
+        - deriveConversationFromEvents
+    rationale: >
+      Stage 0.A will introduce a canonical reducer for conversation-state
+      derivation. The boundary exists to prevent each surface from rebuilding
+      slightly different selectors or hiding rules around the same event stream.
+    postmortems:
+      - docs/plans/260516_cross_surface_centralization.md
+
+  - id: secure-token-store
+    status: active
+    category: cross-surface-port
+    description: Secure token persistence should flow through a core boundary with per-surface adapters instead of desktop-only storage imports.
+    spec_doc: docs/plans/260516_cross_surface_centralization.md
+    owned_by: src/core/secureTokenStore.ts
+    match:
+      paths:
+        - src/core/secureTokenStore.ts
+        - src/core/services/tokenStorage/*.ts
+        - src/main/services/secureTokenStore/electronSecureTokenStore.ts
+        - cloud-service/src/services/cloudSecureTokenStore.ts
+        - scripts/rebel-cli/standaloneSecureTokenStore.ts
+      exclude_paths:
+        - src/main/services/secureTokenStore/electronSecureTokenStore.ts
+      identifiers:
+        - secure-token-store
+        - SecureTokenStore
+        - setSecureTokenStoreFactory
+        - getSecureTokenStore
+    forbidden_terms:
+      - "safeStorage\\.encryptString"
+      - "safeStorage\\.decryptString"
+    rationale: >
+      Stage 1.A centralized token storage behind src/core/secureTokenStore.ts
+      plus per-surface adapters. Drift mode: new token storage code bypasses
+      the boundary and reintroduces direct safeStorage encryption/decryption in
+      non-desktop surfaces. The desktop adapter remains the only allowed
+      safeStorage callsite.
+    postmortems:
+      - docs/plans/260516_cross_surface_centralization.md
+
+  - id: workspace-file-system
+    status: active
+    category: cross-surface-port
+    description: Workspace file operations should use a core boundary so traversal safety and file semantics stay consistent across surfaces.
+    spec_doc: docs/plans/260516_cross_surface_centralization.md
+    owned_by: src/core/workspaceFileSystem/index.ts
+    match:
+      paths:
+        - src/core/workspaceFileSystem/index.ts
+        - src/core/services/workspace/fileTreeService.ts
+        - src/main/services/workspaceFileSystem/electronWorkspaceFileSystem.ts
+        - cloud-service/src/services/cloudWorkspaceFileSystem.ts
+        - cloud-service/src/bootstrap.ts
+        - src/main/ipc/libraryHandlers.ts
+      identifiers:
+        - workspace-file-system
+        - WorkspaceFileSystem
+        - fileTreeService
+        - setWorkspaceFileSystemFactory
+        - getWorkspaceFileSystem
+        - buildFileTree
+        - BuildFileTreePublicResult
+        - FileTreeMetadata
+        - FileTreeTruncationReason
+    forbidden_terms:
+      - "fs\\.(promises\\.)?readFile\\(workspacePath"
+      - "fs\\.(promises\\.)?readdir\\(workspacePath"
+    rationale: >
+      Stage 1.B moved workspace file-system policy behind
+      src/core/workspaceFileSystem.ts with desktop and cloud adapters.
+      Drift mode: workspace reads/walks are reimplemented inline (especially in
+      cloud bootstrap/routes), bypassing traversal and symlink containment
+      guarantees enforced by the boundary adapters.
+      CAP + COMPLETENESS INVARIANT (Bug-2, 260616): the file-tree producer
+      buildFileTree is bounded (MAX_FILE_TREE_NODES / MAX_FILE_TREE_ESTIMATED_BYTES /
+      MAX_CHILDREN_PER_DIRECTORY) and MUST return BuildFileTreePublicResult
+      ({ nodes, metadata }) so completeness travels WITH the tree — every consumer
+      observes whether the tree is complete/truncated alongside the nodes. Drift
+      mode: a change drops the metadata wrapper, returns a bare FileNode[], or
+      lets a consumer (libraryHandlers, useTruncationSignal) treat a truncated tree
+      as complete (complete:true / unavailableNodes:0 for an inaccessible subtree) —
+      re-introducing the renderer-OOM-class "partial tree looks whole" bug.
+    postmortems:
+      - docs/plans/260516_cross_surface_centralization.md
+      - docs/plans/260616_stuck-library-renderer-oom/PLAN.md
+
+  - id: process-spawner
+    status: active
+    category: cross-surface-port
+    description: Process spawning should sit behind a core boundary so pure MCP config logic stays separate from desktop subprocess adapters.
+    spec_doc: docs/plans/260516_cross_surface_centralization.md
+    owned_by: src/core/processSpawner.ts
+    match:
+      paths:
+        - src/core/processSpawner.ts
+        - src/core/services/superMcpHttpManager.ts
+        - src/core/services/mcp/mcpConfigResolver.ts
+        - src/main/services/mcp/mcpSubprocessAdapter.ts
+        - cloud-service/src/services/mcp/cloudProcessSpawner.ts
+        - src/main/index.ts
+        - cloud-service/src/bootstrap.ts
+        - scripts/rebel-cli/main.ts
+        - vitest.setup.ts
+      identifiers:
+        - process-spawner
+        - ProcessSpawner
+        - mcpSubprocessAdapter
+        - setProcessSpawnerFactory
+        - getProcessSpawner
+      exclude_paths:
+        - src/main/services/mcp/mcpSubprocessAdapter.ts
+        - cloud-service/src/services/mcp/cloudProcessSpawner.ts
+    forbidden_terms:
+      - "node:child_process"
+      - "child_process\\.spawn"
+      - "child_process\\.exec"
+    rationale: >
+      Stage 2.B separates MCP config resolution from subprocess lifecycle
+      concerns by routing process operations through src/core/processSpawner.ts.
+      Drift mode: core/shared MCP modules bypass the boundary and reintroduce
+      direct child_process usage outside the dedicated adapters.
+    postmortems:
+      - docs/plans/260516_cross_surface_centralization.md
+
+  - id: scheduler
+    status: active
+    category: cross-surface-port
+    description: Scheduling decisions should be centralized so automation timing, deferral, and execution policy do not diverge by surface.
+    spec_doc: docs/plans/260516_cross_surface_centralization.md
+    owned_by: src/core/scheduler.ts
+    match:
+      paths:
+        - src/core/scheduler.ts
+        - src/core/services/automation/automationRules.ts
+        - src/main/services/scheduler/electronScheduler.ts
+        - cloud-service/src/services/scheduler/cloudScheduler.ts
+        - scripts/rebel-cli/standaloneScheduler.ts
+        - src/main/services/automationScheduler.ts
+        - cloud-service/src/services/cloudAutomationScheduler.ts
+        - src/main/index.ts
+        - cloud-service/src/bootstrap.ts
+        - scripts/rebel-cli/main.ts
+        - vitest.setup.ts
+      identifiers:
+        - Scheduler
+        - scheduler
+        - automationScheduler
+        - cloudAutomationScheduler
+        - setSchedulerFactory
+        - getScheduler
+        - scheduleDefinitionWithMaxTimeout
+        - waitForInteractiveTurnToSettle
+        - evaluateRateLimitCooldownRule
+        - shouldSkipDueToActiveRun
+        - nextRunAt
+    rationale: >
+      Stage 3.A introduces the scheduler boundary used by automation flows.
+      The boundary exists because scheduler drift can produce silent skips,
+      duplicate runs, or inconsistent next-run state across surfaces.
+    postmortems:
+      - docs/plans/260516_cross_surface_centralization.md
+
+  - id: mcp-runtime-manager
+    status: planned
+    category: cross-surface-port
+    description: MCP runtime management should centralize shared lifecycle policy while keeping surface-specific runtime adapters isolated.
+    spec_doc: docs/plans/260516_cross_surface_centralization.md
+    match:
+      paths:
+        - docs/plans/260516_cross_surface_centralization.md
+      identifiers:
+        - mcp-runtime-manager
+        - mcpRuntimeManager
+        - mcpService
+    rationale: >
+      Stage 2.C will split shared MCP runtime policy from desktop implementation
+      details. The boundary exists so cloud, desktop, and future mobile callers
+      do not invent incompatible MCP runtime state machines.
+    postmortems:
+      - docs/plans/260516_cross_surface_centralization.md
+
+  - id: push-notification-sink
+    status: active
+    category: cross-surface-port
+    description: Push notification delivery is abstracted behind PushNotificationSink so shared turn-submission logic emits notification intents without cloud-specific send APIs.
+    spec_doc: docs/plans/260516_cross_surface_centralization.md
+    owned_by: src/core/pushNotificationSink.ts
+    match:
+      paths:
+        - src/core/pushNotificationSink.ts
+        - src/core/services/agentTurnSubmissionService.ts
+        - cloud-service/src/services/agentTurnSubmissionService.ts
+        - cloud-service/src/services/pushNotificationService.ts
+        - src/main/services/pushNotificationSink/noOpPushNotificationSink.ts
+        - src/main/index.ts
+        - cloud-service/src/bootstrap.ts
+        - scripts/rebel-cli/main.ts
+        - vitest.setup.ts
+      identifiers:
+        - push-notification-sink
+        - PushNotificationSink
+        - setPushNotificationSinkFactory
+        - getPushNotificationSink
+        - CloudPushNotificationSink
+        - NoOpPushNotificationSink
+    rationale: >
+      Stage 2.D moved agent turn submission orchestration to core while keeping
+      cloud push delivery surface-specific. Drift mode: core turn submission
+      regresses to direct cloud push service imports, or non-cloud surfaces
+      accidentally attempt real push delivery instead of using the no-op sink.
+    postmortems:
+      - docs/plans/260516_cross_surface_centralization.md
+
+  - id: automation-rule-engine
+    status: planned
+    category: cross-surface-port
+    description: Automation rule evaluation should be canonical in core so scheduling and execution inputs are interpreted consistently everywhere.
+    spec_doc: docs/plans/260516_cross_surface_centralization.md
+    match:
+      paths:
+        - docs/plans/260516_cross_surface_centralization.md
+      identifiers:
+        - automation-rule-engine
+        - automationRuleEngine
+        - AutomationRuleEngine
+    rationale: >
+      Stage 3.A will introduce the automation rule engine boundary. The
+      boundary exists to prevent each surface from reimplementing trigger,
+      eligibility, and deferral semantics independently.
+    postmortems:
+      - docs/plans/260516_cross_surface_centralization.md
+  - id: local-openai-compatible-translation
+    category: provider-routing
+    description: |
+      OpenAI-compatible message translation invariants are shared across BOTH
+      translator surfaces:
+        1) desktop proxy path (`src/main/services/localModelProxyServer.ts`)
+        2) core client path (`src/core/rebelCore/clients/openaiTranslators.ts`)
+
+      Assistant-history `reasoning_content` replay is destination-gated through
+      `supportsReasoningReplay` (threaded via modelClient StreamParams/CreateParams
+      and runAgentLoop opts). Translators must emit reasoning replay only when the
+      flag is true, must preserve assistant text/tool ordering, and must coalesce
+      `thinking` + `thinking_delta` into one outbound `reasoning_content` string
+      per assistant message.
+
+      Post-finish streaming invariant: if `reasoning_content` arrives after
+      `finish_reason`, buffer and flush before stop with hard caps
+      (256KB / 1000 chunks / active 30s timer) and degraded-status signaling on cap hit.
+    spec_doc: docs/plans/260516_ds4_local_model_integration_and_evals.md#stage-4--reasoning-content-multi-turn-replay-correctness--both-translators-lands-before-stage-1
+    owned_by: src/main/services/localModelProxyServer.ts
+    match:
+      paths:
+        - src/main/services/localModelProxyServer.ts
+        - src/main/services/__tests__/localModelProxyServer.translate.test.ts
+        - src/core/rebelCore/clients/openaiTranslators.ts
+        - src/core/rebelCore/clients/openaiClient.ts
+        - src/core/rebelCore/clients/__tests__/openaiTranslators.test.ts
+        - src/core/rebelCore/modelClient.ts
+        - src/core/rebelCore/agentLoop.ts
+        - src/core/rebelCore/rebelCoreQuery.ts
+        - src/core/rebelCore/agentTool.ts
+        - src/shared/utils/reasoningCapability.ts
+      identifiers:
+        - supportsReasoningReplay
+        - translateMessagesToOpenAI
+        - reasoning_content
+        - computeSupportsReasoningReplay
+        - getThinkingRetentionTurns
+        - runAgentLoop
+        - processStreamChunk
+        - flushLateReasoningBuffer
+        - late-reasoning-buffer-cap
+    rationale: |
+      Stage 4 of the DS4 integration plan fixed a dual-translator drift class:
+      assistant `thinking` blocks were preserved in Rebel history but silently
+      dropped from outbound OpenAI-compatible history, collapsing DS4 KV-cache
+      hit-rate and risking HTTP 400s on strict-replay destinations. The same
+      contract spans both local proxy translation and core-client translation;
+      enforcing one side only reopens regressions in eval-path or runtime-path
+      depending on which translator drifts first.
+
+      The late-reasoning buffer limits are also part of this boundary. Without
+      caps and active post-finish timeout, a provider that stalls after
+      `finish_reason` can hold the stream open indefinitely or cause unbounded
+      buffer growth. Reviewers must verify cap-hit degradations are observable
+      (`degraded-status` + structured logs) and buffered reasoning is never
+      silently dropped.
+    postmortems:
+      - docs-private/investigations/260516_ds4_reasoning_content_replay_validation.md
+
+  - id: agent-error-resolution-contract
+    category: ipc-schema
+    description: AgentErrorKind classification and AgentErrorResolution metadata must stay wired through IPC schemas to renderer recovery UX so user-fixable agent errors expose structured next actions.
+    spec_doc: docs-private/postmortems/260531_add_actionable_error_ux_with_kind_b87f28e_postmortem.md
+    owned_by: packages/shared/src/utils/classifyErrorUx.ts
+    match:
+      paths:
+        - packages/shared/src/utils/agentErrorCatalog.ts
+        - packages/shared/src/utils/classifyErrorUx.ts
+        - packages/shared/src/utils/friendlyErrors.ts
+        - src/shared/types/agent.ts
+        - src/shared/ipc/schemas/agent.ts
+        - src/shared/ipc/channels/agentError.ts
+        - src/shared/contracts/agentEventManifest.ts
+        - src/main/ipc/agentErrorHandlers.ts
+        - src/core/services/agentEventDispatcher.ts
+        - src/main/services/agentEventDispatcher.ts
+        - src/main/services/turnErrorRecovery.ts
+        - src/preload/ipcBridge.ts
+        - src/renderer/components/SessionErrorNotice.tsx
+        - src/renderer/App.tsx
+        - cloud-service/src/bootstrap.ts
+      identifiers:
+        - AgentErrorKind
+        - AgentErrorResolution
+        - classifyErrorUx
+        - isTransientError
+        - error:apply-resolution
+        - resolution
+    rationale: >
+      User-fixable agent errors cross the shared classifier, event schema, IPC
+      action channel, preload, and final renderer notice. Drift mode: a future
+      error-kind or recovery-action change updates classification without
+      updating the renderer recovery contract, leaving the user with friendly
+      but unactionable copy or a retry loop driven by parsed text instead of
+      structured `kind` / `resolution` metadata.
+    postmortems:
+      - 260531_add_actionable_error_ux_with_kind_b87f28e_postmortem.md
+
+  - id: sentry-fingerprint-for-structured-errors
+    category: auth-boundary
+    description: |
+      All Sentry capture sites for structured (known-class) errors in the
+      recovery / dispatch hot paths must route through
+      `captureKnownCondition()` in `src/core/sentry/captureKnownCondition.ts`,
+      not raw `getErrorReporter().captureException()`. The wrapper applies a
+      registry-owned, deterministic fingerprint, sets the canonical severity
+      level, runs Zod context validation, and emits the diagnostic-events
+      ledger entry. Raw `captureException` calls in this surface fragment
+      Sentry grouping and lose the dual-write to the diagnostic ledger.
+    spec_doc: docs/plans/260526_hotspot-refactor-roadmap/PLAN.md#stage-5-fingerprinted-sentry-capture-wrapper
+    owned_by: src/core/sentry/captureKnownCondition.ts
+    match:
+      paths:
+        - src/core/sentry/captureKnownCondition.ts
+        - src/core/sentry/knownConditions.ts
+        - src/main/services/turnErrorRecovery.ts
+        - src/main/services/turnErrorRecovery/**
+        - src/core/services/behindTheScenesClient.ts
+        - src/main/services/behindTheScenesClient.ts
+        - src/core/services/recovery/recoveryPipeline.ts
+        - src/core/services/recovery/recoveryAdapter.ts
+        - src/main/services/recovery/desktopRecoveryAdapter.ts
+        - cloud-service/src/services/cloudRecoveryAdapter.ts
+      identifiers:
+        - captureKnownCondition
+        - KNOWN_CONDITIONS
+        - KnownCondition
+        - recovery_tool_input_too_large
+        - recovery_managed_model_not_allowed
+        - recovery_billing_quota
+        - recovery_empty_result_anomaly
+        - recovery_pause_detection_missed
+        - recovery_unknown_error
+        - recovery_pipeline_summary_generation_failed
+        - recovery_pipeline_agent_loop_error_before_recovery
+        - recovery_pipeline_agent_loop_error_after_recovery
+        - recovery_pipeline_long_context_fallback_failed
+        - recovery_pipeline_depth_limit_reached
+        - recovery_pipeline_attempt_limit_reached
+        - recovery_pipeline_no_qualifying_profile
+        - recovery_pipeline_rate_limited
+        - recovery_pipeline_no_messages_to_compact
+        - reportKnownCondition
+    rationale: |
+      ModelError messages and similar structured errors carry raw 4xx JSON
+      bodies, request IDs, and per-variant strategy names that fragment Sentry
+      issue grouping into hundreds of near-duplicate issues when grouping is
+      left to Sentry's default heuristics. The Stage 5 hotspot refactor
+      (PLAN.md hotspot 2) collapsed every raw `captureException` site in
+      `turnErrorRecovery.ts` onto a registry-owned fingerprint via
+      `captureKnownCondition('recovery_<class>', ...)`. Drift mode: a future
+      patch adds a new structured-error capture site in the recovery / BTS
+      surface using `getErrorReporter().captureException(...)` directly,
+      bypassing both the fingerprint registry and the diagnostic-events
+      ledger. The 260424 / 260427 cluster shows this happens silently: the
+      raw call still "works" — Sentry receives the event — but the issue
+      lands in a per-instance bucket and downstream observability (ledger,
+      dashboards keyed on fingerprint) silently degrades. Reviewers must
+      verify any new capture site in the listed paths routes through
+      `captureKnownCondition` and has a corresponding `KNOWN_CONDITIONS`
+      registry entry with `addedAt`, `level`, `description`, and (when the
+      fingerprint is parameterised) a `contextSchema`.
+    postmortems:
+      - 260424_sentry_model_error_fingerprint_fragmentation_postmortem.md
+      - 260427_codex_disconnected_bts_sentry_fragmentation_postmortem.md
+      - 260427_outer_retry_guard_system_init_and_fallback_activity_postmortem.md
+
+  # Recommendation 7333e8c54fa1e4c7 prescribed the id
+  # `safestorage_token_loader_decode_parity`; rendered kebab-case here to
+  # satisfy the registry id schema (the underscore form is referenced in the
+  # source postmortems for traceability).
+  - id: safestorage-token-loader-decode-parity
+    status: active
+    category: auth-boundary
+    description: >
+      Every safeStorage-backed token loader must route encrypted-blob decoding
+      through src/core/services/safeStorageDecode.ts; the v10/v11 byte-header
+      guard, validator-gated plain decode, and per-kind dedupe-latched Sentry
+      signal must stay symmetric across all loaders (cross-directory).
+    spec_doc: src/core/services/safeStorageDecode.ts
+    owned_by: src/core/services/safeStorageDecode.ts
+    contract_test:
+      - src/core/services/__tests__/safeStorageDecode.test.ts
+    match:
+      paths:
+        - src/core/services/safeStorageDecode.ts
+        - src/core/services/tokenStorage/*.ts
+        # Retained @main re-export shims, plus the one real main-side loader
+        # (openRouterTokenStorage.ts) — all covered by the *TokenStorage.ts glob.
+        - src/main/services/*TokenStorage.ts
+        # The desktop decode callsite that secure-token-store deliberately excludes.
+        - src/main/services/secureTokenStore/electronSecureTokenStore.ts
+      identifiers:
+        - decodeStringStore
+        - decodeJsonStore
+        - hasSafeStorageHeader
+        - captureDegradedOnce
+        - safestorage_unavailable_at_read
+        - isEncryptionAvailable
+        - unavailable_encrypted
+    rationale: >
+      The on-disk token format carries NO metadata distinguishing an Electron
+      safeStorage encrypted Buffer from a plain-UTF-8 Buffer (Linux without
+      Secret Service / E2E mode), both base64-serialized. When
+      safeStorage.isEncryptionAvailable() flips between the write session and a
+      later read session (locked vault, post-resume race, FileVault transition,
+      app-identity drift), a naive plain `buffer.toString('utf-8')` of
+      encrypted bytes produces a U+FFFD-poisoned string that deterministically
+      fails undici's `Authorization: Bearer ${token}` ByteString conversion —
+      the safeStorage decode-as-UTF-8 corruption class that recurred five times
+      across REBEL-174 / 260402 / 260422 / 260428 / 260506 (four-store) /
+      260506 (codex parity). The centralized helper (decodeStringStore /
+      decodeJsonStore) detects the v10/v11 header at the byte level, returns
+      null without deleting on transient keychain-unavailability so the next
+      read recovers transparently, clears-and-nulls only on genuine ciphertext
+      corruption, validator-gates the plain-decode path, and dedupe-latches the
+      `safestorage_unavailable_at_read` Sentry signal per token kind. Drift
+      mode: a new token store (a 6th loader, or a re-home of a shim back into a
+      real implementation) decodes stored bytes directly instead of routing
+      through the helper, silently reintroducing the U+FFFD class. This is the
+      decode-FORMAT contract; it is distinct from and complementary to the
+      `secure-token-store` boundary above, which governs cross-surface storage
+      ROUTING (factory/adapter centralization) and deliberately excludes the
+      decode callsite this entry includes. When adding a new token store, the
+      new loader must route through safeStorageDecode and be added to the
+      no-restricted-syntax ESLint override block.
+    postmortems:
+      - 260506_safestorage_token_corruption_ufffd_postmortem.md
+      - 260506_codex_safestorage_ufffd_parity_postmortem.md
+      - 260402_fly_provider_token_corruption_fallback_postmortem.md
+
+  - id: outbound-dns-threadpool-decouple
+    category: provider-routing   # (or extend with a new `http-stack` category)
+    description: All outbound HTTP dispatchers must use the centralized DNS resolver choice in dnsThreadpoolDecouple; desktop defaults to the OS resolver for VPN split-DNS, while c-ares remains an opt-in rollback/cloud mode.
+    spec_doc: docs/project/OUTBOUND_NETWORKING_AND_SSRF.md
+    owned_by: src/core/utils/dnsThreadpoolDecouple.ts
+    match:
+      paths:
+        - "src/core/utils/dnsThreadpoolDecouple.ts"
+        - "src/core/rebelCore/mcpClient.ts"
+        - "src/main/bootstrap.ts"
+        - "cloud-service/src/bootstrap.ts"
+        - "cloud-service/src/installDnsDecouple.ts"
+      identifiers:
+        # NOTE: identifiers are compiled as RegExp (scripts/boundary-hints.ts),
+        # so the literal `(` in the Agent constructors must be escaped.
+        - "setGlobalDispatcher"
+        - "new Agent\\("
+        - "new UndiciAgent\\("
+        - "connect\\.lookup"
+        - "getDecoupledLookup"
+    rationale: Node's default dns.lookup can starve on the shared libuv pool under concurrent fs/crypto/indexing, while c-ares can bypass OS/VPN scoped DNS. New undici Agents/global dispatchers must not roll their own resolver policy; they must route through the centralized selector so desktop gets OS split-DNS by default and cloud/rollback can opt into c-ares. The cloud installer must be imported before ./bootstrap (ESM eval ordering).
+    postmortems:
+      - 260617_dns_threadpool_starvation_connect_timeouts_postmortem.md
+
+surface_parity:
+  version: 1
+  surfaces: [desktop, cloud]
+  seams:
+    - id: platform-config
+      seam: setPlatformConfig
+      definition: src/core/platform.ts
+      required_surfaces: [desktop, cloud]
+      surfaces:
+        desktop:
+          call_sites:
+            - src/main/bootstrap.ts
+        cloud:
+          call_sites:
+            - cloud-service/src/platformInit.ts
+
+    - id: store-factory
+      seam: setStoreFactory
+      definition: src/core/storeFactory.ts
+      required_surfaces: [desktop, cloud]
+      surfaces:
+        desktop:
+          call_sites:
+            - src/main/index.ts
+        cloud:
+          call_sites:
+            - cloud-service/src/bootstrap.ts
+
+    - id: scheduler-factory
+      seam: setSchedulerFactory
+      definition: src/core/scheduler.ts
+      required_surfaces: [desktop, cloud]
+      surfaces:
+        desktop:
+          call_sites:
+            - src/main/index.ts
+        cloud:
+          call_sites:
+            - cloud-service/src/bootstrap.ts
+
+    - id: secure-token-store-factory
+      seam: setSecureTokenStoreFactory
+      definition: src/core/secureTokenStore.ts
+      required_surfaces: [desktop, cloud]
+      surfaces:
+        desktop:
+          call_sites:
+            - src/main/index.ts
+        cloud:
+          call_sites:
+            - cloud-service/src/bootstrap.ts
+
+    - id: workspace-filesystem-factory
+      seam: setWorkspaceFileSystemFactory
+      definition: src/core/workspaceFileSystem/index.ts
+      required_surfaces: [desktop, cloud]
+      surfaces:
+        desktop:
+          call_sites:
+            - src/main/index.ts
+        cloud:
+          call_sites:
+            - cloud-service/src/bootstrap.ts
+
+    - id: process-spawner-factory
+      seam: setProcessSpawnerFactory
+      definition: src/core/processSpawner.ts
+      required_surfaces: [desktop, cloud]
+      surfaces:
+        desktop:
+          call_sites:
+            - src/main/index.ts
+        cloud:
+          call_sites:
+            - cloud-service/src/bootstrap.ts
+
+    - id: push-notification-sink-factory
+      seam: setPushNotificationSinkFactory
+      definition: src/core/pushNotificationSink.ts
+      required_surfaces: [desktop, cloud]
+      surfaces:
+        desktop:
+          call_sites:
+            - src/main/index.ts
+        cloud:
+          call_sites:
+            - cloud-service/src/bootstrap.ts
+
+    - id: power-save-blocker-factory
+      seam: setPowerSaveBlockerFactory
+      definition: src/core/powerSaveBlocker.ts
+      required_surfaces: [desktop, cloud]
+      surfaces:
+        desktop:
+          call_sites:
+            - src/main/index.ts
+        cloud:
+          call_sites:
+            - cloud-service/src/bootstrap.ts
+
+    - id: preturn-worker-factory
+      seam: setPreTurnWorkerFactory
+      definition: src/core/preTurnWorker.ts
+      required_surfaces: [desktop, cloud]
+      surfaces:
+        desktop:
+          call_sites:
+            - src/main/index.ts
+        cloud:
+          call_sites:
+            - cloud-service/src/bootstrap.ts
+
+    - id: current-user-provider-factory
+      seam: setCurrentUserProviderFactory
+      definition: src/core/currentUserProvider.ts
+      required_surfaces: [desktop, cloud]
+      surfaces:
+        desktop:
+          call_sites:
+            - src/main/index.ts
+        cloud:
+          call_sites:
+            - cloud-service/src/bootstrap.ts
+
+    - id: embedding-generator-factory
+      seam: setEmbeddingGeneratorFactory
+      definition: src/core/embeddingGenerator.ts
+      required_surfaces: [desktop, cloud]
+      surfaces:
+        desktop:
+          call_sites:
+            - src/main/index.ts
+        cloud:
+          call_sites:
+            - cloud-service/src/bootstrap.ts
+
+    - id: dock-badge-factory
+      seam: setDockBadgeFactory
+      definition: src/core/dockBadge.ts
+      required_surfaces: [desktop, cloud]
+      surfaces:
+        desktop:
+          call_sites:
+            - src/main/index.ts
+        cloud:
+          call_sites:
+            - cloud-service/src/bootstrap.ts
+
+    - id: desktop-notification-sink-factory
+      seam: setDesktopNotificationSinkFactory
+      definition: src/core/desktopNotificationSink.ts
+      required_surfaces: [desktop, cloud]
+      surfaces:
+        desktop:
+          call_sites:
+            - src/main/index.ts
+        cloud:
+          call_sites:
+            - cloud-service/src/bootstrap.ts
+
+    - id: codex-auth-provider
+      seam: setCodexAuthProvider
+      definition: src/core/codexAuth.ts
+      required_surfaces: [desktop, cloud]
+      surfaces:
+        desktop:
+          call_sites:
+            - src/main/index.ts
+        cloud:
+          call_sites:
+            - cloud-service/src/bootstrap.ts
+
+    - id: rebel-auth-provider
+      seam: setRebelAuthProvider
+      definition: src/core/rebelAuth.ts
+      required_surfaces: [desktop, cloud]
+      surfaces:
+        desktop:
+          call_sites:
+            - src/main/index.ts
+        cloud:
+          call_sites:
+            - cloud-service/src/bootstrap.ts
+
+    - id: token-sync-coordinator
+      seam: setTokenSyncCoordinator
+      definition: src/core/setTokenSyncCoordinator.ts
+      required_surfaces: [desktop, cloud]
+      surfaces:
+        desktop:
+          call_sites:
+            - src/main/index.ts
+        cloud:
+          call_sites:
+            - cloud-service/src/bootstrap.ts
+
+    - id: token-sync-transport
+      seam: setTokenSyncTransport
+      definition: src/core/setTokenSyncTransport.ts
+      required_surfaces: [desktop, cloud]
+      surfaces:
+        desktop:
+          call_sites:
+            - src/main/index.ts
+        cloud:
+          call_sites:
+            - cloud-service/src/bootstrap.ts
+
+    - id: cross-process-lease
+      seam: setCrossProcessLease
+      definition: src/core/setCrossProcessLease.ts
+      required_surfaces: [desktop, cloud]
+      surfaces:
+        desktop:
+          call_sites:
+            - src/main/index.ts
+        cloud:
+          call_sites:
+            - cloud-service/src/bootstrap.ts
+
+    - id: oauth-tool-resolver
+      seam: setOAuthToolResolver
+      definition: src/core/setOAuthToolResolver.ts
+      required_surfaces: [desktop, cloud]
+      surfaces:
+        desktop:
+          call_sites:
+            - src/main/index.ts
+        cloud:
+          call_sites:
+            - cloud-service/src/bootstrap.ts
+
+    - id: error-reporter
+      seam: setErrorReporter
+      definition: src/core/errorReporter.ts
+      required_surfaces: [desktop, cloud]
+      surfaces:
+        desktop:
+          call_sites:
+            - src/main/index.ts
+        cloud:
+          call_sites:
+            - cloud-service/src/bootstrap.ts
+
+    - id: feedback-reporter
+      seam: setFeedbackReporter
+      definition: src/core/feedbackReporter.ts
+      required_surfaces: [desktop, cloud]
+      surfaces:
+        desktop:
+          call_sites:
+            - src/main/index.ts
+        cloud:
+          call_sites:
+            - cloud-service/src/bootstrap.ts
+
+    - id: tracker
+      seam: setTracker
+      definition: src/core/tracking.ts
+      required_surfaces: [desktop, cloud]
+      surfaces:
+        desktop:
+          call_sites:
+            - src/main/index.ts
+        cloud:
+          call_sites:
+            - cloud-service/src/bootstrap.ts
+
+    - id: broadcast-service
+      seam: setBroadcastService
+      definition: src/core/broadcastService.ts
+      required_surfaces: [desktop, cloud]
+      surfaces:
+        desktop:
+          call_sites:
+            - src/main/index.ts
+        cloud:
+          call_sites:
+            - cloud-service/src/bootstrap.ts
+
+    - id: handler-registry
+      seam: setHandlerRegistry
+      definition: src/core/handlerRegistry.ts
+      required_surfaces: [desktop, cloud]
+      surfaces:
+        desktop:
+          call_sites:
+            - src/main/index.ts
+        cloud:
+          call_sites:
+            - cloud-service/src/bootstrap.ts
+
+    - id: diagnostic-events-ledger-writer
+      seam: setDiagnosticEventsLedgerWriter
+      definition: src/core/services/diagnosticEventsLedger.ts
+      required_surfaces: [desktop, cloud]
+      surfaces:
+        desktop:
+          call_sites:
+            - src/main/index.ts
+        cloud:
+          call_sites:
+            - cloud-service/src/bootstrap.ts
+
+    - id: diagnostic-events-ledger-reader
+      seam: setDiagnosticEventsLedgerReader
+      definition: src/core/services/diagnosticEventsLedger.ts
+      required_surfaces: [desktop, cloud]
+      surfaces:
+        desktop:
+          call_sites:
+            - src/main/index.ts
+        cloud:
+          call_sites:
+            - cloud-service/src/bootstrap.ts
+
+    - id: diagnostic-events-surface
+      seam: setDiagnosticEventsSurface
+      definition: src/core/services/diagnosticEventsLedger.ts
+      required_surfaces: [desktop, cloud]
+      surfaces:
+        desktop:
+          call_sites:
+            - src/main/index.ts
+        cloud:
+          call_sites:
+            - cloud-service/src/bootstrap.ts
+
+    - id: settings-store-adapter
+      seam: setSettingsStoreAdapter
+      definition: src/core/services/settingsStore.ts
+      required_surfaces: [desktop, cloud]
+      surfaces:
+        desktop:
+          call_sites:
+            - src/main/index.ts
+        cloud:
+          call_sites:
+            - cloud-service/src/bootstrap.ts
+
+    - id: safety-evaluation-service
+      seam: setSafetyEvaluationService
+      definition: src/core/safetyEvaluationService.ts
+      required_surfaces: [desktop, cloud]
+      surfaces:
+        desktop:
+          call_sites:
+            - src/main/index.ts
+        cloud:
+          call_sites:
+            - cloud-service/src/bootstrap.ts
+
+    - id: asset-store
+      seam: setAssetStore
+      definition: src/core/assetStore.ts
+      required_surfaces: [desktop, cloud]
+      surfaces:
+        desktop:
+          call_sites:
+            - src/main/bootstrap.ts
+        cloud:
+          call_sites:
+            - cloud-service/src/bootstrap.ts
+
+    - id: content-store
+      seam: setContentStore
+      definition: src/core/contentStore.ts
+      required_surfaces: [desktop, cloud]
+      surfaces:
+        desktop:
+          call_sites:
+            - src/main/bootstrap.ts
+        cloud:
+          call_sites:
+            - cloud-service/src/bootstrap.ts
+
+    - id: cloud-capability-probe
+      seam: setCloudCapabilityProbe
+      definition: src/core/cloudCapabilityProbe.ts
+      required_surfaces: [desktop, cloud]
+      surfaces:
+        desktop:
+          call_sites:
+            - src/main/bootstrap.ts
+        cloud:
+          call_sites:
+            - cloud-service/src/bootstrap.ts
+
+    - id: managed-key-availability
+      seam: registerManagedKeyAvailability
+      definition: src/core/rebelCore/managedKeyAvailability.ts
+      required_surfaces: [desktop, cloud]
+      surfaces:
+        desktop:
+          call_sites:
+            - src/main/services/behindTheScenesClient.ts
+        cloud:
+          call_sites:
+            - cloud-service/src/bootstrap.ts
+
+    - id: bts-proxy-provider
+      seam: registerBtsProxyProviders
+      definition: src/core/services/bts/transports/shared.ts
+      required_surfaces: [desktop, cloud]
+      surfaces:
+        desktop:
+          call_sites:
+            - src/main/index.ts
+        cloud:
+          call_sites:
+            - cloud-service/src/bootstrap.ts
+
+    - id: bts-preoauth-call-hook
+      seam: preOAuthCallHook
+      definition: src/core/services/headlessRuntime.ts
+      matcher: property_assignment
+      required_surfaces: [desktop, cloud]
+      surfaces:
+        desktop:
+          call_sites:
+            - src/main/index.ts
+        cloud:
+          call_sites:
+            - cloud-service/src/bootstrap.ts
+
+    - id: license-tier-registration
+      seam: setLicenseTier
+      definition: src/core/featureGating.ts
+      required_surfaces: [desktop, cloud]
+      surfaces:
+        desktop:
+          # 260607 B3 carve-out S10: the enterprise authService (which calls
+          # setLicenseTier) moved to private/mindstone/ (mode-dependent, absent in
+          # OSS-mode checkouts). The always-present public desktop call-site is
+          # OSS_NULL_AUTH_PROVIDER, which calls setLicenseTier('teams') on
+          # initializeAuth()/refreshLicenseTier() — a stable proof the desktop
+          # surface wires the seam in both real and OSS builds.
+          call_sites:
+            - src/core/services/ossNullAuthProvider.ts
+        cloud:
+          call_sites:
+            - cloud-service/src/bootstrap.ts
+
+    - id: user-question-response-handler-registration
+      seam: registerUserQuestionResponseHandler
+      definition: src/core/services/userQuestionResponseHandler.ts
+      required_surfaces: [desktop, cloud]
+      surfaces:
+        desktop:
+          call_sites:
+            - src/main/ipc/agentHandlers.ts
+        cloud:
+          call_sites:
+            - cloud-service/src/bootstrap.ts
+
+    - id: user-question-provenance-resolver
+      seam: setUserQuestionProvenanceResolver
+      definition: src/core/services/userQuestionResponseHandler.ts
+      required_surfaces: [desktop, cloud]
+      surfaces:
+        desktop:
+          call_sites:
+            - src/main/ipc/agentHandlers.ts
+        cloud:
+          call_sites:
+            - cloud-service/src/bootstrap.ts
+
+    - id: user-question-answered-persister
+      seam: setUserQuestionAnsweredPersister
+      definition: src/core/services/userQuestionResponseHandler.ts
+      required_surfaces: [cloud]
+      surfaces:
+        cloud:
+          call_sites:
+            - cloud-service/src/bootstrap.ts
+      declared_asymmetry:
+        missing_surfaces: [desktop]
+        rationale: Desktop intentionally persists this in renderer session state while cloud requires server-side persistence with no renderer process.

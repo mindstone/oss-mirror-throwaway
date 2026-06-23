@@ -1,0 +1,93 @@
+.meeting-button {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 32px;
+  height: 32px;
+  padding: 0;
+  background: rgba(148, 163, 184, 0.08);
+  border: 1px solid rgba(148, 163, 184, 0.15);
+  border-radius: 8px;
+  cursor: pointer;
+  transition: opacity 0.15s ease, background-color 0.15s ease, border-color 0.15s ease;
+  opacity: 0.7;
+}
+
+.meeting-button__icon {
+  color: var(--color-muted-foreground);
+  transition: color 0.15s ease;
+}
+
+.meeting-button:hover {
+  opacity: 1;
+  background: rgba(79, 70, 229, 0.08);
+  border-color: rgba(139, 92, 246, 0.25);
+}
+
+.meeting-button:hover .meeting-button__icon {
+  color: var(--color-foreground);
+}
+
+.meeting-button:focus-visible {
+  outline: none;
+  box-shadow: 0 0 0 2px rgba(139, 92, 246, 0.4);
+}
+
+/* Respect reduced motion preferences */
+@media (prefers-reduced-motion: reduce) {
+  .meeting-button,
+  .meeting-button__icon {
+    transition: none;
+  }
+}
+
+.meeting-button-popover {
+  background-color: var(--color-surface-raised);
+  border: 1px solid var(--color-border-subtle);
+  border-radius: var(--radius-lg);
+  padding: var(--space-3);
+  box-shadow: var(--shadow-lg);
+  z-index: 9999;
+  min-width: 240px;
+  max-width: 320px;
+}
+
+/* Ensure solid background in both themes */
+body.dark .meeting-button-popover {
+  background-color: var(--color-surface-raised, hsl(220 13% 13%));
+}
+
+body.light .meeting-button-popover {
+  background-color: var(--color-surface-raised, hsl(0 0% 100%));
+}
+
+.meeting-button-popover__header {
+  display: flex;
+  align-items: center;
+  gap: var(--space-2);
+  margin-bottom: var(--space-2);
+}
+
+.meeting-button-popover__title {
+  font-weight: var(--font-weight-semibold);
+  font-size: var(--font-size-base);
+  color: var(--color-text-primary);
+}
+
+.meeting-button-popover__text {
+  font-size: var(--font-size-sm);
+  color: var(--color-text-secondary);
+  margin: 0 0 var(--space-3) 0;
+}
+
+.meeting-button-popover__actions {
+  border-top: 1px solid var(--color-border-subtle);
+  padding-top: var(--space-2);
+}
+
+.meeting-button-popover__btn {
+  width: 100%;
+  justify-content: flex-start;
+  gap: var(--space-2);
+  font-size: var(--font-size-sm);
+}

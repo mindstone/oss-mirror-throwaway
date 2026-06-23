@@ -1,0 +1,152 @@
+.overlay {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: var(--space-3, 12px);
+
+  width: min(560px, calc(100% - 48px));
+  padding: var(--space-5, 20px) var(--space-6, 24px);
+  border-radius: var(--radius-xl, 24px);
+  background:
+    radial-gradient(circle at top, color-mix(in srgb, var(--color-brand-indigo) 6%, transparent) 0%, transparent 48%),
+    linear-gradient(
+      180deg,
+      color-mix(in srgb, var(--color-surface-muted) 94%, transparent) 0%,
+      color-mix(in srgb, var(--color-surface-glass) 82%, transparent) 100%
+    );
+  box-shadow:
+    0 12px 28px rgba(0, 0, 0, 0.26),
+    0 0 0 1px rgba(255, 255, 255, 0.02);
+  backdrop-filter: blur(var(--glass-overlay-blur, 12px));
+  -webkit-backdrop-filter: blur(var(--glass-overlay-blur, 12px));
+  isolation: isolate;
+  overflow: hidden;
+
+  font-family: var(--font-family-sans);
+  text-align: center;
+
+  opacity: 0;
+  transition:
+    opacity var(--motion-duration-medium, 260ms) var(--motion-ease-out, ease-out);
+
+  pointer-events: none;
+  z-index: var(--z-overlay, 30);
+}
+
+.overlay::before,
+.overlay::after {
+  content: '';
+  position: absolute;
+  border-radius: 50%;
+  filter: blur(36px);
+  opacity: 0.22;
+  pointer-events: none;
+}
+
+.overlay::before {
+  top: -56px;
+  left: -24px;
+  width: 144px;
+  height: 144px;
+  background: color-mix(in srgb, var(--color-brand-cyan) 12%, transparent);
+}
+
+.overlay::after {
+  right: -36px;
+  bottom: -72px;
+  width: 180px;
+  height: 180px;
+  background: color-mix(in srgb, var(--color-brand-indigo) 12%, transparent);
+}
+
+.overlay_visible {
+  opacity: 1;
+}
+
+.overlay_exiting {
+  opacity: 0;
+  transition: opacity 150ms var(--motion-ease-out, ease-out);
+}
+
+/* Eyebrow row: thin rule ─ icon ─ label ─ thin rule */
+.eyebrow {
+  position: relative;
+  z-index: 1;
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-2, 8px);
+  padding: 5px 10px;
+  border-radius: var(--radius-pill, 999px);
+  background: color-mix(in srgb, var(--color-brand-indigo) 7%, transparent);
+  box-shadow: 0 6px 16px rgba(15, 23, 42, 0.12);
+  color: color-mix(in srgb, var(--color-text-secondary) 88%, var(--color-brand-indigo) 12%);
+}
+
+.eyebrowLabel {
+  font-size: 10px;
+  font-weight: 600;
+  line-height: 1;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+}
+
+.icon {
+  flex-shrink: 0;
+  width: 14px;
+  height: 14px;
+  color: currentColor;
+  opacity: 0.72;
+}
+
+.tipText {
+  position: relative;
+  z-index: 1;
+  max-width: 100%;
+  font-size: 14px;
+  line-height: 1.55;
+  color: var(--color-text-secondary);
+  font-weight: 450;
+  max-width: 42ch;
+
+  /* Wrap up to 3 lines, then ellipsis. */
+  display: -webkit-box;
+  -webkit-line-clamp: 3;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+
+  transition:
+    opacity var(--motion-duration-medium, 260ms) var(--motion-ease-out, ease-out),
+    transform var(--motion-duration-medium, 260ms) var(--motion-ease-out, ease-out);
+}
+
+.tipText_swapping {
+  opacity: 0;
+  transform: translateY(4px);
+}
+
+@media (max-width: 540px) {
+  .overlay {
+    width: min(420px, calc(100% - 32px));
+    gap: var(--space-2, 8px);
+    padding: var(--space-4, 16px);
+  }
+
+  .tipText {
+    font-size: 13px;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .overlay,
+  .overlay_visible,
+  .overlay_exiting,
+  .tipText,
+  .tipText_swapping {
+    transition: none;
+  }
+}

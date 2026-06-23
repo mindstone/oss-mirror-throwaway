@@ -1,0 +1,246 @@
+{
+  "agent_watchdog_auto_abort": {
+    "addedAt": "2026-06-10T00:00:00Z",
+    "level": "warning"
+  },
+  "agent_watchdog_self_resolved": {
+    "addedAt": "2026-06-10T00:00:00Z",
+    "level": "info",
+    "sink": "ledger-only"
+  },
+  "agent_watchdog_stalled": {
+    "addedAt": "2026-06-10T00:00:00Z",
+    "level": "warning"
+  },
+  "all_providers_unreachable": {
+    "addedAt": "2026-06-21T00:00:00Z",
+    "level": "warning"
+  },
+  "bridge_log_file_paths_failure": {
+    "addedAt": "2026-05-06T00:00:00Z",
+    "level": "warning"
+  },
+  "bridge_recent_events_failure": {
+    "addedAt": "2026-05-06T00:00:00Z",
+    "level": "warning"
+  },
+  "bridge_recent_logs_failure": {
+    "addedAt": "2026-05-06T00:00:00Z",
+    "level": "warning"
+  },
+  "bts_profile_missing": {
+    "addedAt": "2026-05-18T00:00:00.000Z",
+    "level": "warning"
+  },
+  "bts_quip_failure": {
+    "addedAt": "2026-05-05T00:00:00Z",
+    "level": "info",
+    "sink": "ledger-only"
+  },
+  "bts_structured_output_fallback": {
+    "addedAt": "2026-05-11T00:00:00Z",
+    "level": "info",
+    "sink": "ledger-only"
+  },
+  "bts_summary_failure": {
+    "addedAt": "2026-05-05T00:00:00Z",
+    "level": "warning"
+  },
+  "bts_warmup_failure": {
+    "addedAt": "2026-05-05T00:00:00Z",
+    "level": "warning"
+  },
+  "cloud_connection_degraded": {
+    "addedAt": "2026-06-11T00:00:00Z",
+    "level": "info",
+    "sink": "ledger-only"
+  },
+  "cloud_connection_degraded_escalated": {
+    "addedAt": "2026-06-11T00:00:00Z",
+    "level": "warning"
+  },
+  "cloud_connection_recovered": {
+    "addedAt": "2026-06-11T00:00:00Z",
+    "level": "info",
+    "sink": "ledger-only"
+  },
+  "cloud_outbox_stuck": {
+    "addedAt": "2026-05-03T00:00:00Z",
+    "level": "warning"
+  },
+  "cloud_pressure_capability_missing": {
+    "addedAt": "2026-06-11T00:00:00Z",
+    "level": "info",
+    "sink": "ledger-only"
+  },
+  "cloud_self_update_credentials_missing": {
+    "addedAt": "2026-06-11T00:00:00Z",
+    "level": "info",
+    "sink": "issue-stream"
+  },
+  "cloud_sync_boot_rehab_summary": {
+    "addedAt": "2026-06-11T00:00:00Z",
+    "level": "info",
+    "sink": "ledger-only"
+  },
+  "cloud_sync_tombstone_applied": {
+    "addedAt": "2026-06-11T00:00:00Z",
+    "level": "info",
+    "sink": "ledger-only"
+  },
+  "codex_auth_destructive_disconnect": {
+    "addedAt": "2026-06-11T00:00:00Z",
+    "level": "warning"
+  },
+  "codex_disconnected_bts": {
+    "addedAt": "2026-05-03T00:00:00Z",
+    "level": "info",
+    "sink": "ledger-only"
+  },
+  "codex_proxy_claude_leak": {
+    "addedAt": "2026-06-12T00:00:00Z",
+    "level": "warning"
+  },
+  "codex_proxy_unsupported_model": {
+    "addedAt": "2026-06-12T00:00:00Z",
+    "level": "warning"
+  },
+  "conversation_title_unavailable": {
+    "addedAt": "2026-05-11T00:00:00Z",
+    "level": "info",
+    "sink": "ledger-only"
+  },
+  "corrupt_session_file_skipped": {
+    "addedAt": "2026-06-21T00:00:00Z",
+    "level": "warning"
+  },
+  "fd_pressure_critical": {
+    "addedAt": "2026-06-11T00:00:00Z",
+    "level": "warning"
+  },
+  "fd_pressure_elevated": {
+    "addedAt": "2026-06-11T00:00:00Z",
+    "level": "warning"
+  },
+  "file_index_fts_degraded": {
+    "addedAt": "2026-06-18T00:00:00Z",
+    "level": "warning"
+  },
+  "file_index_semantic_search_failed": {
+    "addedAt": "2026-06-18T00:00:00Z",
+    "level": "warning"
+  },
+  "microsoft_oauth_no_pending_callback": {
+    "addedAt": "2026-06-11T00:00:00Z",
+    "level": "info",
+    "sink": "ledger-only"
+  },
+  "model_error": {
+    "addedAt": "2026-05-03T00:00:00Z",
+    "level": "warning"
+  },
+  "pass_through_redaction_policy": {
+    "addedAt": "2026-05-06T00:00:00Z",
+    "level": "info",
+    "sink": "ledger-only"
+  },
+  "providers_reachability_recovered": {
+    "addedAt": "2026-06-21T00:00:00Z",
+    "level": "info",
+    "sink": "ledger-only"
+  },
+  "quit_deadlock_detected": {
+    "addedAt": "2026-06-18T00:00:00Z",
+    "level": "warning"
+  },
+  "recovery_billing_quota": {
+    "addedAt": "2026-05-26T00:00:00Z",
+    "level": "warning"
+  },
+  "recovery_empty_result_anomaly": {
+    "addedAt": "2026-05-26T00:00:00Z",
+    "level": "warning"
+  },
+  "recovery_managed_model_not_allowed": {
+    "addedAt": "2026-05-26T00:00:00Z",
+    "level": "warning"
+  },
+  "recovery_pause_detection_missed": {
+    "addedAt": "2026-05-26T00:00:00Z",
+    "level": "warning"
+  },
+  "recovery_pipeline_agent_loop_error_after_recovery": {
+    "addedAt": "2026-05-31T00:00:00Z",
+    "level": "warning"
+  },
+  "recovery_pipeline_agent_loop_error_before_recovery": {
+    "addedAt": "2026-05-27T00:00:00Z",
+    "level": "warning"
+  },
+  "recovery_pipeline_attempt_limit_reached": {
+    "addedAt": "2026-05-27T00:00:00Z",
+    "level": "warning"
+  },
+  "recovery_pipeline_depth_limit_reached": {
+    "addedAt": "2026-05-27T00:00:00Z",
+    "level": "warning"
+  },
+  "recovery_pipeline_long_context_fallback_failed": {
+    "addedAt": "2026-05-27T00:00:00Z",
+    "level": "warning"
+  },
+  "recovery_pipeline_no_messages_to_compact": {
+    "addedAt": "2026-05-27T00:00:00Z",
+    "level": "warning"
+  },
+  "recovery_pipeline_no_qualifying_profile": {
+    "addedAt": "2026-05-27T00:00:00Z",
+    "level": "warning"
+  },
+  "recovery_pipeline_rate_limited": {
+    "addedAt": "2026-05-27T00:00:00Z",
+    "level": "warning"
+  },
+  "recovery_pipeline_summary_generation_failed": {
+    "addedAt": "2026-05-27T00:00:00Z",
+    "level": "warning"
+  },
+  "recovery_tool_input_too_large": {
+    "addedAt": "2026-05-26T00:00:00Z",
+    "level": "warning"
+  },
+  "recovery_unknown_error": {
+    "addedAt": "2026-05-26T00:00:00Z",
+    "level": "error"
+  },
+  "route_facts_binding_mismatch": {
+    "addedAt": "2026-06-21T00:00:00Z",
+    "level": "warning"
+  },
+  "route_tag_gate_model_mismatch": {
+    "addedAt": "2026-06-20T00:00:00Z",
+    "level": "warning"
+  },
+  "runtime_activity_mapper_failure": {
+    "addedAt": "2026-05-03T00:00:00Z",
+    "level": "error"
+  },
+  "sentry_oversized_event_detected": {
+    "addedAt": "2026-06-11T00:00:00Z",
+    "level": "info",
+    "sink": "ledger-only"
+  },
+  "session_index_collapse_detected": {
+    "addedAt": "2026-06-21T00:00:00Z",
+    "level": "warning"
+  },
+  "time_saved_unavailable": {
+    "addedAt": "2026-05-11T00:00:00Z",
+    "level": "info",
+    "sink": "ledger-only"
+  },
+  "update_external_force_kill_fired": {
+    "addedAt": "2026-06-22T00:00:00Z",
+    "level": "warning"
+  }
+}

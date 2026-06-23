@@ -1,0 +1,1690 @@
+/* UnifiedDocumentEditor — merged styles from LibraryEditorPanel.module.css
+   and DocumentPreviewDrawer.css into a single CSS Module.
+   Uses CSS custom properties for theme compatibility. */
+
+/* ─── Root Container ─── */
+
+.panel {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  min-height: 0;
+  background: rgb(16, 20, 32);
+  border-radius: 24px;
+  box-shadow: 0 0 24px rgba(0, 0, 0, 0.3), 0 0 8px rgba(0, 0, 0, 0.2);
+  overflow: hidden;
+}
+
+.panel:focus {
+  outline: none;
+}
+
+:global(body.light) .panel {
+  background: rgb(255, 255, 255);
+  box-shadow: 0 0 24px rgba(15, 23, 42, 0.12), 0 0 8px rgba(15, 23, 42, 0.08);
+}
+
+/* ─── Tab Bar ─── */
+
+.tabBar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px;
+  padding: 12px 16px 0;
+  flex-shrink: 0;
+  overflow: hidden;
+}
+
+.tabBarScroll {
+  display: flex;
+  gap: 2px;
+  flex: 1 1 auto;
+  min-width: 0;
+  overflow-x: auto;
+  scrollbar-width: none;
+  -ms-overflow-style: none;
+}
+
+.tabBarScroll::-webkit-scrollbar {
+  display: none;
+}
+
+.tab {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  padding: 6px 8px 6px 12px;
+  font-size: 0.8rem;
+  font-weight: 500;
+  color: var(--color-muted-foreground);
+  background: transparent;
+  border: none;
+  border-radius: 8px 8px 0 0;
+  cursor: pointer;
+  white-space: nowrap;
+  transition: background 0.15s ease, color 0.15s ease;
+  max-width: 180px;
+  min-width: 0;
+}
+
+.tab:hover {
+  background: rgba(139, 92, 246, 0.08);
+  color: var(--color-foreground);
+}
+
+.tabActive {
+  background: rgba(139, 92, 246, 0.12);
+  color: var(--color-foreground);
+}
+
+.tabActive:hover {
+  background: rgba(139, 92, 246, 0.15);
+}
+
+.tabTitle {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.tabClose {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 18px;
+  height: 18px;
+  padding: 0;
+  border: none;
+  border-radius: 4px;
+  background: transparent;
+  color: var(--color-muted-foreground);
+  cursor: pointer;
+  flex-shrink: 0;
+  transition: background 0.15s ease, color 0.15s ease;
+}
+
+.tabClose:hover {
+  background: rgba(248, 113, 113, 0.15);
+  color: #f87171;
+}
+
+.tabClose:focus-visible {
+  outline: none;
+  box-shadow: 0 0 0 2px rgba(139, 92, 246, 0.5);
+}
+
+.tabBarAction {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  border: none;
+  border-radius: 999px;
+  background: rgba(139, 92, 246, 0.12);
+  color: var(--color-foreground);
+  cursor: pointer;
+  font-size: 0.72rem;
+  font-weight: 500;
+  padding: 4px 8px;
+  white-space: nowrap;
+  transition: background 0.15s ease;
+}
+
+.tabBarAction:hover {
+  background: rgba(139, 92, 246, 0.2);
+}
+
+.tabBarAction:focus-visible {
+  outline: none;
+  box-shadow: 0 0 0 2px rgba(139, 92, 246, 0.5);
+}
+
+:global(body.light) .tab:hover {
+  background: rgba(139, 92, 246, 0.06);
+}
+
+:global(body.light) .tabActive {
+  background: rgba(139, 92, 246, 0.1);
+}
+
+:global(body.light) .tabActive:hover {
+  background: rgba(139, 92, 246, 0.12);
+}
+
+:global(body.light) .tabClose:hover {
+  background: rgba(239, 68, 68, 0.1);
+  color: #dc2626;
+}
+
+:global(body.light) .tabBarAction {
+  background: rgba(139, 92, 246, 0.1);
+}
+
+:global(body.light) .tabBarAction:hover {
+  background: rgba(139, 92, 246, 0.16);
+}
+
+/* ─── Header ─── */
+
+.header {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  padding: 20px 24px 12px;
+  border-bottom: 1px solid var(--color-border);
+  flex-shrink: 0;
+  gap: 12px;
+  background: transparent;
+}
+
+.headerLeft {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  min-width: 0;
+  flex: 1;
+}
+
+.titleRow {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  min-width: 0;
+}
+
+.headerActions {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  flex-shrink: 0;
+}
+
+.title {
+  font-size: 0.95rem;
+  font-weight: 600;
+  letter-spacing: 0.01em;
+  color: var(--color-foreground);
+  margin: 0;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.pathText {
+  font-size: 0.74rem;
+  color: var(--color-muted-foreground);
+}
+
+.titlePathButton {
+  font: inherit;
+  font-size: 0.95rem;
+  font-weight: 600;
+  letter-spacing: 0.01em;
+  text-align: left;
+  border: none;
+  background: transparent;
+  margin: 0;
+  padding: 0;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  color: rgba(167, 139, 250, 0.92);
+  cursor: pointer;
+}
+
+.titlePathButton:hover {
+  color: rgba(196, 181, 253, 1);
+  text-decoration: underline;
+}
+
+.titlePathButton:focus-visible {
+  outline: none;
+  box-shadow: 0 0 0 2px rgba(139, 92, 246, 0.5);
+  border-radius: 4px;
+}
+
+.unsavedDot {
+  display: inline-block;
+  flex-shrink: 0;
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: #f59e0b;
+  animation: pulse-dot 2s ease-in-out infinite;
+}
+
+@keyframes pulse-dot {
+  0%, 100% { opacity: 0.6; }
+  50% { opacity: 1; }
+}
+
+:global(body.light) .unsavedDot {
+  background: #d97706;
+}
+
+.privacyIcon {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  opacity: 0.7;
+  cursor: default;
+}
+
+.privacyIconPrivate {
+  color: rgba(148, 163, 184, 0.8);
+}
+
+.privacyIconShared {
+  color: #fbbf24;
+}
+
+:global(body.light) .privacyIconPrivate {
+  color: rgba(100, 116, 139, 0.8);
+}
+
+:global(body.light) .privacyIconShared {
+  color: #d97706;
+}
+
+/* ─── Breadcrumbs ─── */
+
+.breadcrumbs {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 0;
+  font-size: 0.75rem;
+  color: rgba(203, 213, 225, 0.65);
+  overflow: hidden;
+}
+
+.breadcrumbItem {
+  display: inline-flex;
+  align-items: center;
+}
+
+.breadcrumbLink {
+  background: none;
+  border: none;
+  padding: 2px 4px;
+  margin: -2px 0;
+  font: inherit;
+  font-size: 0.75rem;
+  color: rgba(167, 139, 250, 0.8);
+  cursor: pointer;
+  border-radius: 4px;
+  transition: background-color 0.15s ease, color 0.15s ease;
+}
+
+.breadcrumbLink:hover {
+  background: rgba(167, 139, 250, 0.15);
+  color: rgba(167, 139, 250, 1);
+}
+
+.breadcrumbText {
+  font-size: 0.75rem;
+  color: var(--color-muted-foreground);
+  padding: 2px 4px;
+}
+
+.breadcrumbSeparator {
+  color: rgba(148, 163, 184, 0.4);
+  margin: 0 2px;
+  user-select: none;
+}
+
+.breadcrumbCurrent {
+  color: rgba(203, 213, 225, 0.65);
+}
+
+:global(body.light) .breadcrumbs {
+  color: var(--color-muted-foreground);
+}
+
+:global(body.light) .breadcrumbLink {
+  color: var(--color-primary);
+}
+
+:global(body.light) .breadcrumbLink:hover {
+  background: color-mix(in srgb, var(--color-primary) 10%, transparent);
+  color: var(--color-primary);
+}
+
+:global(body.light) .breadcrumbSeparator {
+  color: var(--color-muted-foreground);
+}
+
+:global(body.light) .breadcrumbCurrent {
+  color: var(--color-muted-foreground);
+}
+
+/* ─── Action Buttons ─── */
+
+.actionButton {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 32px;
+  height: 32px;
+  padding: 0;
+  border: none;
+  border-radius: 8px;
+  background: transparent;
+  color: var(--color-muted-foreground);
+  cursor: pointer;
+  transition: background 0.15s ease, color 0.15s ease;
+}
+
+.focusButton {
+  height: 28px;
+  border: 1px solid rgba(148, 163, 184, 0.3);
+  border-radius: 999px;
+  background: transparent;
+  color: var(--color-muted-foreground);
+  font-size: 0.75rem;
+  font-weight: 600;
+  padding: 0 10px;
+  cursor: pointer;
+  transition: background 0.15s ease, color 0.15s ease, border-color 0.15s ease;
+}
+
+.focusButton:hover {
+  background: rgba(139, 92, 246, 0.12);
+  color: var(--color-foreground);
+  border-color: rgba(139, 92, 246, 0.45);
+}
+
+.focusButtonActive {
+  background: rgba(139, 92, 246, 0.2);
+  color: var(--color-foreground);
+  border-color: rgba(139, 92, 246, 0.55);
+}
+
+.focusButton:focus-visible {
+  outline: none;
+  box-shadow: 0 0 0 2px rgba(139, 92, 246, 0.5);
+}
+
+.actionButton:hover {
+  background: rgba(139, 92, 246, 0.1);
+  color: var(--color-primary);
+  transform: none;
+}
+
+.actionButton:disabled {
+  opacity: 0.45;
+  cursor: not-allowed;
+}
+
+.actionButton:disabled:hover {
+  background: transparent;
+  color: var(--color-muted-foreground);
+}
+
+.actionButton:focus-visible {
+  outline: none;
+  box-shadow: 0 0 0 2px rgba(139, 92, 246, 0.5);
+}
+
+.actionButtonActive {
+  background: rgba(139, 92, 246, 0.15);
+  color: var(--color-primary);
+}
+
+.actionButtonSuccess {
+  color: #10b981;
+}
+
+:global(body.light) .actionButtonSuccess {
+  color: #059669;
+}
+
+.actionButtonError {
+  color: #f87171;
+}
+
+.actionButtonSpinner {
+  animation: unified-editor-spin 1s linear infinite;
+}
+
+.hiddenFileInput {
+  display: none;
+}
+
+:global(body.light) .actionButtonError {
+  color: #dc2626;
+}
+
+.closeButton {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 32px;
+  height: 32px;
+  border: none;
+  border-radius: 8px;
+  background: transparent;
+  color: var(--color-muted-foreground);
+  cursor: pointer;
+  transition: background 0.15s ease, color 0.15s ease;
+}
+
+.closeButton:hover {
+  background: rgba(248, 113, 113, 0.12);
+  color: #f87171;
+  transform: none;
+}
+
+.closeButton:focus-visible {
+  outline: none;
+  box-shadow: 0 0 0 2px rgba(139, 92, 246, 0.5);
+}
+
+:global(body.light) .closeButton:hover {
+  background: rgba(239, 68, 68, 0.08);
+  color: #dc2626;
+}
+
+:global(body.light) .actionButtonActive {
+  background: rgba(139, 92, 246, 0.12);
+}
+
+
+:global(body.light) .titlePathButton {
+  color: var(--color-primary);
+}
+
+:global(body.light) .titlePathButton:hover {
+  color: color-mix(in srgb, var(--color-primary) 80%, black 20%);
+}
+
+:global(body.light) .focusButton {
+  border-color: rgba(148, 163, 184, 0.45);
+}
+
+:global(body.light) .focusButton:hover {
+  background: rgba(139, 92, 246, 0.1);
+  border-color: rgba(139, 92, 246, 0.35);
+}
+
+:global(body.light) .focusButtonActive {
+  background: rgba(139, 92, 246, 0.16);
+  border-color: rgba(139, 92, 246, 0.45);
+}
+/* ─── Save Status ─── */
+
+.saveStatus {
+  font-size: 0.75rem;
+  color: var(--color-text-tertiary, rgba(255, 255, 255, 0.45));
+  white-space: nowrap;
+  user-select: none;
+  padding: 0 4px;
+}
+
+:global(body.light) .saveStatus {
+  color: var(--color-text-tertiary, rgba(0, 0, 0, 0.4));
+}
+
+.exportingIndicator {
+  font-size: 0.75rem;
+}
+
+/* ─── More Actions Menu ─── */
+
+.moreMenu {
+  z-index: 9999;
+  min-width: 200px;
+  padding: 4px;
+  border-radius: 10px;
+  background: rgba(13, 17, 28, 0.98);
+  border: 1px solid rgba(148, 163, 184, 0.22);
+  box-shadow:
+    0 12px 32px rgba(2, 6, 23, 0.55),
+    0 0 0 1px rgba(99, 102, 241, 0.08);
+  backdrop-filter: blur(var(--glass-overlay-blur));
+  visibility: hidden;
+}
+
+.moreMenu[data-positioned='true'] {
+  visibility: visible;
+  animation: menu-fade-in 120ms cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+@keyframes menu-fade-in {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+.moreMenuItem {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  width: 100%;
+  padding: 9px 12px;
+  border: none;
+  border-radius: 6px;
+  background: transparent;
+  color: rgba(248, 250, 255, 0.88);
+  font-size: 0.82rem;
+  font-weight: 500;
+  text-align: left;
+  cursor: pointer;
+  transition: background 0.15s ease, color 0.15s ease;
+}
+
+.moreMenuItem:hover {
+  background: rgba(99, 102, 241, 0.12);
+  color: rgba(248, 250, 255, 1);
+}
+
+.moreMenuItem:focus-visible {
+  outline: none;
+  background: rgba(99, 102, 241, 0.15);
+  box-shadow: 0 0 0 2px rgba(99, 102, 241, 0.4);
+}
+
+.moreMenuItem svg {
+  flex-shrink: 0;
+  opacity: 0.7;
+}
+
+.moreMenuItem:hover svg {
+  opacity: 1;
+}
+
+.moreMenuItem:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+.moreMenuItem:disabled:hover {
+  background: transparent;
+}
+
+.moreMenuItemDanger {
+  color: #dc2626;
+}
+
+.moreMenuItemDanger:hover {
+  background: rgba(220, 38, 38, 0.15);
+  color: #b91c1c;
+}
+
+.menuDivider {
+  height: 1px;
+  margin: 4px 8px;
+  background: var(--color-border);
+}
+
+:global(body.light) .moreMenu {
+  background: var(--color-popover);
+  border: 1px solid var(--color-border);
+  box-shadow:
+    0 8px 24px rgba(0, 0, 0, 0.1),
+    0 0 0 1px color-mix(in srgb, var(--color-primary) 6%, transparent);
+}
+
+:global(body.light) .moreMenuItem {
+  color: var(--color-foreground);
+}
+
+:global(body.light) .moreMenuItem:hover {
+  background: color-mix(in srgb, var(--color-primary) 8%, transparent);
+}
+
+:global(body.light) .moreMenuItemDanger {
+  color: #dc2626;
+}
+
+:global(body.light) .moreMenuItemDanger:hover {
+  background: rgba(220, 38, 38, 0.1);
+  color: #b91c1c;
+}
+
+/* ─── Content Area ─── */
+
+.content {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  min-height: 0;
+  overflow-y: auto;
+}
+
+/* ─── Loading State ─── */
+
+.loading {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 12px;
+  padding: 24px;
+  min-height: 200px;
+  color: var(--color-muted-foreground);
+}
+
+.spinner {
+  animation: unified-editor-spin 1s linear infinite;
+  color: var(--color-primary);
+}
+
+@keyframes unified-editor-spin {
+  from { transform: rotate(0deg); }
+  to { transform: rotate(360deg); }
+}
+
+.loading span {
+  font-size: 0.85rem;
+}
+
+/* ─── Error State ─── */
+
+.error {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 12px;
+  padding: 24px;
+  min-height: 200px;
+  text-align: center;
+  color: rgba(248, 113, 113, 0.9);
+}
+
+.error span {
+  font-size: 0.85rem;
+  max-width: 280px;
+  line-height: 1.5;
+}
+
+:global(body.light) .error {
+  color: #dc2626;
+}
+
+/* ─── Conflict Banner ─── */
+
+.conflictBanner {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 8px 12px;
+  background: color-mix(in srgb, var(--color-warning, #d97706) 12%, transparent);
+  border-bottom: 1px solid color-mix(in srgb, var(--color-warning, #d97706) 32%, transparent);
+  color: var(--color-warning, #d97706);
+  font-size: 13px;
+}
+
+.conflictMessage {
+  flex: 1;
+  min-width: 0;
+}
+
+.conflictActions {
+  display: flex;
+  gap: 6px;
+  flex-shrink: 0;
+}
+
+/* ─── Pending Approval State ─── */
+
+.pendingApproval {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 12px;
+  padding: 32px 24px;
+  min-height: 200px;
+  text-align: center;
+}
+
+.pendingApprovalIcon {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 52px;
+  height: 52px;
+  border-radius: 50%;
+  background: rgba(251, 191, 36, 0.12);
+  color: rgb(251, 191, 36);
+}
+
+:global(body.light) .pendingApprovalIcon {
+  background: rgba(217, 119, 6, 0.1);
+  color: rgb(180, 83, 9);
+}
+
+.pendingApprovalTitle {
+  font-size: 0.95rem;
+  font-weight: 600;
+  margin: 4px 0 0;
+  color: rgba(255, 255, 255, 0.9);
+}
+
+:global(body.light) .pendingApprovalTitle {
+  color: #1e293b;
+}
+
+.pendingApprovalDescription {
+  font-size: 0.82rem;
+  max-width: 340px;
+  line-height: 1.55;
+  color: rgba(255, 255, 255, 0.55);
+  margin: 0;
+}
+
+:global(body.light) .pendingApprovalDescription {
+  color: #64748b;
+}
+
+.pendingApprovalDescription strong {
+  color: rgba(255, 255, 255, 0.75);
+  font-weight: 500;
+}
+
+:global(body.light) .pendingApprovalDescription strong {
+  color: #334155;
+}
+
+.pendingApprovalSummary {
+  font-size: 0.8rem;
+  max-width: 340px;
+  line-height: 1.5;
+  color: rgba(255, 255, 255, 0.45);
+  margin: 0;
+  font-style: italic;
+}
+
+:global(body.light) .pendingApprovalSummary {
+  color: #94a3b8;
+}
+
+.pendingApprovalActions {
+  display: flex;
+  gap: 8px;
+  margin-top: 8px;
+}
+
+/* ─── Find Bar ─── */
+
+.findBar {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 8px 12px;
+  background: rgba(30, 41, 59, 0.95);
+  border-bottom: 1px solid rgba(148, 163, 184, 0.18);
+  flex-shrink: 0;
+}
+
+.findInput {
+  flex: 1;
+  min-width: 120px;
+  max-width: 280px;
+  padding: 6px 10px;
+  border-radius: 6px;
+  border: 1px solid rgba(148, 163, 184, 0.25);
+  background: rgba(13, 17, 28, 0.9);
+  color: rgba(248, 250, 255, 0.95);
+  font-size: 0.875rem;
+  font-family: inherit;
+  outline: none;
+  transition: border-color 0.15s ease, box-shadow 0.15s ease;
+}
+
+.findInput:focus {
+  border-color: rgba(99, 102, 241, 0.55);
+  box-shadow: 0 0 0 2px rgba(99, 102, 241, 0.15);
+}
+
+.findInput::placeholder {
+  color: rgba(148, 163, 184, 0.5);
+}
+
+.findCount {
+  font-size: 0.75rem;
+  color: rgba(148, 163, 184, 0.7);
+  min-width: 70px;
+  text-align: center;
+}
+
+.findNavButton {
+  padding: 4px;
+  min-width: 28px;
+  height: 28px;
+  border-radius: 6px;
+  color: rgba(203, 213, 225, 0.7);
+}
+
+.findNavButton:hover:not(:disabled) {
+  color: rgba(248, 250, 255, 0.95);
+  background: rgba(99, 102, 241, 0.12);
+}
+
+.findNavButton:disabled {
+  opacity: 0.4;
+  cursor: not-allowed;
+}
+
+.findCloseButton {
+  padding: 4px;
+  min-width: 28px;
+  height: 28px;
+  border-radius: 6px;
+  color: rgba(203, 213, 225, 0.6);
+}
+
+.findCloseButton:hover {
+  color: rgba(248, 250, 255, 0.95);
+  background: rgba(248, 113, 113, 0.12);
+}
+
+:global(body.light) .findBar {
+  background: rgba(248, 250, 252, 0.95);
+  border-bottom: 1px solid rgba(148, 163, 184, 0.15);
+}
+
+:global(body.light) .findInput {
+  border: 1px solid rgba(148, 163, 184, 0.25);
+  background: rgba(255, 255, 255, 0.95);
+  color: var(--color-foreground);
+}
+
+:global(body.light) .findInput:focus {
+  border-color: rgba(139, 92, 246, 0.45);
+  box-shadow: 0 0 0 2px rgba(139, 92, 246, 0.12);
+}
+
+:global(body.light) .findInput::placeholder {
+  color: var(--color-muted-foreground);
+}
+
+:global(body.light) .findCount {
+  color: var(--color-muted-foreground);
+}
+
+:global(body.light) .findNavButton {
+  color: var(--color-muted-foreground);
+}
+
+:global(body.light) .findNavButton:hover:not(:disabled) {
+  color: var(--color-foreground);
+  background: color-mix(in srgb, var(--color-primary) 8%, transparent);
+}
+
+:global(body.light) .findCloseButton {
+  color: var(--color-muted-foreground);
+}
+
+:global(body.light) .findCloseButton:hover {
+  color: var(--color-foreground);
+  background: color-mix(in srgb, var(--color-destructive) 8%, transparent);
+}
+
+/* ─── Outline Layout ─── */
+
+.bodyWithOutline {
+  flex: 1;
+  display: flex;
+  flex-direction: row;
+  min-height: 0;
+  overflow: hidden;
+}
+
+.bodyContent {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  min-width: 0;
+  min-height: 0;
+  overflow: hidden;
+}
+
+.outlineContainer {
+  display: flex;
+  flex-direction: column;
+  flex-shrink: 0;
+  align-self: flex-start;
+  align-items: flex-start;
+  gap: 4px;
+  padding: 12px 4px 12px 12px;
+  min-height: 0;
+  max-height: 100%;
+  overflow: hidden;
+  position: sticky;
+  top: 0;
+}
+
+.outlineContainerOpen {
+  border-right: 1px solid rgba(148, 163, 184, 0.1);
+}
+
+:global(body.light) .outlineContainerOpen {
+  border-right-color: rgba(15, 23, 42, 0.06);
+}
+
+.outlineToggle {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 30px;
+  height: 30px;
+  border: none;
+  border-radius: 6px;
+  background: rgba(148, 163, 184, 0.08);
+  color: rgba(148, 163, 184, 0.55);
+  cursor: pointer;
+  transition: color 0.15s ease, background 0.15s ease;
+  flex-shrink: 0;
+}
+
+.outlineToggle:hover {
+  color: rgba(248, 250, 255, 0.9);
+  background: rgba(148, 163, 184, 0.15);
+}
+
+.outlineToggleActive {
+  color: rgba(167, 139, 250, 0.9);
+  background: rgba(167, 139, 250, 0.12);
+}
+
+.outlineToggleActive:hover {
+  color: rgba(167, 139, 250, 1);
+  background: rgba(167, 139, 250, 0.18);
+}
+
+:global(body.light) .outlineToggle {
+  background: rgba(15, 23, 42, 0.04);
+  color: var(--color-muted-foreground);
+}
+
+:global(body.light) .outlineToggle:hover {
+  color: var(--color-foreground);
+  background: rgba(15, 23, 42, 0.08);
+}
+
+:global(body.light) .outlineToggleActive {
+  color: var(--color-primary);
+  background: color-mix(in srgb, var(--color-primary) 10%, transparent);
+}
+
+:global(body.light) .outlineToggleActive:hover {
+  color: var(--color-primary);
+  background: color-mix(in srgb, var(--color-primary) 15%, transparent);
+}
+
+.outlineMain {
+  flex: 1;
+  min-width: 0;
+  min-height: 0;
+  overflow-y: auto;
+}
+
+/* ─── Editor & Preview Panes ─── */
+
+.editorPane {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  min-height: 0;
+  padding: 24px;
+  max-width: 756px;
+  margin-inline: auto;
+  width: 100%;
+}
+
+.previewPane {
+  flex: 1;
+  overflow-y: auto;
+  overflow-x: hidden;
+  padding: 24px;
+  max-width: 756px;
+  margin-inline: auto;
+  width: 100%;
+}
+
+.previewPane :global(.markdown-body) {
+  font-size: 14px;
+  line-height: 1.7;
+  color: rgba(248, 250, 255, 0.95);
+  max-width: 100%;
+  overflow-wrap: break-word;
+  word-wrap: break-word;
+}
+
+:global(body.light) .previewPane :global(.markdown-body) {
+  color: var(--color-foreground);
+}
+
+.textarea {
+  flex: 1;
+  border: none;
+  background: transparent;
+  padding: 0;
+  font-size: 0.9rem;
+  line-height: 1.75;
+  color: rgba(248, 250, 255, 0.95);
+  resize: none;
+  outline: none;
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', system-ui, sans-serif;
+  letter-spacing: -0.01em;
+  white-space: pre-wrap;
+  overflow-y: auto;
+  -webkit-font-smoothing: antialiased;
+}
+
+.textarea::selection {
+  background: rgba(99, 102, 241, 0.25);
+}
+
+.textarea::placeholder {
+  color: rgba(148, 163, 184, 0.4);
+}
+
+:global(body.light) .textarea {
+  color: var(--color-foreground);
+}
+
+:global(body.light) .textarea::selection {
+  background: color-mix(in srgb, var(--color-primary) 20%, transparent);
+}
+
+:global(body.light) .textarea::placeholder {
+  color: var(--color-muted-foreground);
+}
+
+/* ─── Skill Edit Warning ─── */
+
+.skillEditWarning {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 10px 14px;
+  margin: 12px 24px 0;
+  background: rgba(251, 191, 36, 0.12);
+  border: 1px solid rgba(251, 191, 36, 0.3);
+  border-radius: 6px;
+  flex-wrap: wrap;
+}
+
+.skillEditWarningIcon {
+  color: #fbbf24;
+  flex-shrink: 0;
+}
+
+.skillEditWarningText {
+  font-size: 0.85rem;
+  color: rgba(255, 255, 255, 0.85);
+  flex: 1;
+  min-width: 200px;
+}
+
+.skillEditWarningActions {
+  display: flex;
+  gap: 8px;
+  flex-shrink: 0;
+}
+
+:global(body.light) .skillEditWarning {
+  background: rgba(251, 191, 36, 0.1);
+  border-color: rgba(251, 191, 36, 0.4);
+}
+
+:global(body.light) .skillEditWarningText {
+  color: var(--color-foreground);
+}
+
+.skillBackRow {
+  padding: 8px 24px 0;
+}
+
+.skillBackButton {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 0.8rem;
+  color: var(--color-muted-foreground);
+}
+
+.skillBackButton:hover {
+  color: var(--color-foreground);
+}
+
+/* ─── Image Renderer ─── */
+
+.imageContainer {
+  display: flex;
+  justify-content: center;
+  align-items: flex-start;
+  padding: 24px;
+}
+
+.imageButton {
+  position: relative;
+  display: block;
+  background: none;
+  border: none;
+  padding: 0;
+  cursor: pointer;
+  border-radius: 8px;
+  overflow: hidden;
+  max-width: 100%;
+}
+
+.imageButton:focus-visible {
+  outline: none;
+  box-shadow: 0 0 0 2px rgba(139, 92, 246, 0.5);
+}
+
+.image {
+  display: block;
+  max-width: 100%;
+  max-height: calc(100vh - 200px);
+  min-height: 200px;
+  width: auto;
+  height: auto;
+  border-radius: 8px;
+  object-fit: contain;
+  background: rgba(128, 128, 128, 0.05);
+}
+
+.imageExpandHint {
+  position: absolute;
+  bottom: 12px;
+  right: 12px;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  padding: 6px 12px;
+  background: rgba(0, 0, 0, 0.7);
+  border-radius: 6px;
+  color: white;
+  font-size: 0.75rem;
+  opacity: 0;
+  transition: opacity 0.15s ease;
+}
+
+.imageButton:hover .imageExpandHint {
+  opacity: 1;
+}
+
+/* Expanded image overlay */
+.imageOverlay {
+  position: fixed;
+  inset: 0;
+  z-index: 9999;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: rgba(0, 0, 0, 0.9);
+  backdrop-filter: blur(var(--glass-overlay-blur));
+}
+
+.imageOverlayContent {
+  position: relative;
+  max-width: 95vw;
+  max-height: 95vh;
+}
+
+.imageExpanded {
+  display: block;
+  max-width: 95vw;
+  max-height: 95vh;
+  object-fit: contain;
+  border-radius: 4px;
+}
+
+.imageOverlayClose {
+  position: absolute;
+  top: -40px;
+  right: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 32px;
+  height: 32px;
+  background: rgba(255, 255, 255, 0.1);
+  border: none;
+  border-radius: 6px;
+  color: white;
+  cursor: pointer;
+  transition: background 0.15s ease;
+}
+
+.imageOverlayClose:hover {
+  background: rgba(255, 255, 255, 0.2);
+}
+
+.imageOverlayClose:focus-visible {
+  outline: none;
+  box-shadow: 0 0 0 2px rgba(139, 92, 246, 0.5);
+}
+
+/* ─── Video / Audio Renderers ─── */
+
+.videoContainer {
+  display: flex;
+  justify-content: center;
+  align-items: flex-start;
+  padding: 24px;
+}
+
+.video {
+  width: 100%;
+  max-height: calc(100vh - 200px);
+  border-radius: 8px;
+  background: black;
+}
+
+.audioContainer {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 24px;
+}
+
+.audio {
+  width: 100%;
+  max-width: 500px;
+}
+
+/* ─── Tutorial / HTML iframe ─── */
+
+.tutorialFrame {
+  width: 100%;
+  height: 100%;
+  border: none;
+  border-radius: 8px;
+  background: white;
+}
+
+/* ─── PDF preview ─── */
+
+.pdfContainer {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  height: 100%;
+  min-height: 0;
+}
+
+.pdfFrame {
+  flex: 1 1 auto;
+  width: 100%;
+  min-height: 0;
+  border: none;
+  border-radius: 8px 8px 0 0;
+  background: white;
+}
+
+.pdfToolbar {
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  gap: 8px;
+  padding: 6px 12px;
+  border-top: 1px solid var(--color-border);
+  background: var(--color-muted, rgba(148, 163, 184, 0.08));
+  flex-shrink: 0;
+}
+
+.htmlNotice {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  padding: 8px 12px;
+  font-size: 0.75rem;
+  color: var(--color-muted-foreground);
+  background: rgba(148, 163, 184, 0.08);
+  border-radius: 6px;
+  margin-bottom: 8px;
+  flex-wrap: wrap;
+  flex-shrink: 0;
+}
+
+.htmlNoticeTrusted {
+  background: rgba(139, 92, 246, 0.08);
+  color: var(--color-foreground);
+}
+
+.htmlNoticeText {
+  flex: 1 1 auto;
+  min-width: 0;
+}
+
+.htmlNoticeActions {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  flex-shrink: 0;
+}
+
+.htmlNoticeLink {
+  background: none;
+  border: none;
+  padding: 0;
+  color: var(--color-primary);
+  text-decoration: underline;
+  cursor: pointer;
+  font-size: inherit;
+}
+
+.htmlNoticeLink:hover {
+  color: var(--color-primary-hover, var(--color-primary));
+}
+
+.htmlNoticeLink:disabled {
+  opacity: 0.5;
+  cursor: progress;
+}
+
+/* ─── Footer ─── */
+
+.footer {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 8px 16px;
+  border-top: 1px solid var(--color-border);
+  font-size: 0.78rem;
+  gap: 12px;
+  flex-shrink: 0;
+}
+
+:global(body.light) .footer {
+  background: var(--color-card);
+}
+
+.footerStatus {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  min-width: 0;
+}
+
+.statusText {
+  color: rgba(203, 213, 225, 0.65);
+}
+
+:global(body.light) .statusText {
+  color: var(--color-muted-foreground);
+}
+
+.tokenCount {
+  color: rgba(203, 213, 225, 0.5);
+  cursor: default;
+}
+
+:global(body.light) .tokenCount {
+  color: color-mix(in srgb, var(--color-muted-foreground) 70%, transparent);
+}
+
+.statusSeparator {
+  color: rgba(203, 213, 225, 0.35);
+  margin: 0 2px;
+}
+
+:global(body.light) .statusSeparator {
+  color: color-mix(in srgb, var(--color-muted-foreground) 50%, transparent);
+}
+
+.savedIndicator {
+  display: flex;
+  align-items: center;
+  color: #22c55e;
+  animation: savedFadeInOut 2s ease-out forwards;
+}
+
+:global(body.light) .savedIndicator {
+  color: #16a34a;
+}
+
+@keyframes savedFadeInOut {
+  0% { opacity: 0; transform: scale(0.8); }
+  15% { opacity: 1; transform: scale(1); }
+  70% { opacity: 1; }
+  100% { opacity: 0; }
+}
+
+.savedCheck {
+  color: #22c55e;
+  flex-shrink: 0;
+}
+
+:global(body.light) .savedCheck {
+  color: #16a34a;
+}
+
+.statusError {
+  color: #f87171;
+  font-weight: 500;
+}
+
+:global(body.light) .statusError {
+  color: #dc2626;
+}
+
+.footerActions {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+}
+
+.footerShortcuts {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  flex-shrink: 0;
+}
+
+.shortcutHint {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  font-size: 0.72rem;
+  color: rgba(148, 163, 184, 0.5);
+}
+
+.shortcutHint kbd {
+  padding: 2px 5px;
+  font-size: 0.68rem;
+  font-family: inherit;
+  background: rgba(148, 163, 184, 0.1);
+  border-radius: 4px;
+  border: 1px solid rgba(148, 163, 184, 0.15);
+  color: rgba(148, 163, 184, 0.7);
+}
+
+:global(body.light) .shortcutHint {
+  color: var(--color-muted-foreground);
+}
+
+:global(body.light) .shortcutHint kbd {
+  background: var(--color-muted);
+  border-color: var(--color-border);
+  color: var(--color-muted-foreground);
+}
+
+/* ─── Annotation Controls ─── */
+
+.annotationControls {
+  position: relative;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 4px 8px;
+  background: rgba(var(--color-accent-rgb), 0.1);
+  border-radius: var(--radius-md);
+  border: 1px solid rgba(var(--color-accent-rgb), 0.2);
+}
+
+.annotationCountButton {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 0.78rem;
+  font-weight: 500;
+  color: var(--color-primary);
+  background: none;
+  border: none;
+  cursor: pointer;
+  padding: 4px 8px;
+  border-radius: 4px;
+  transition: background-color 150ms ease;
+}
+
+.annotationCountButton:hover:not(:disabled) {
+  background: rgba(139, 92, 246, 0.1);
+}
+
+.annotationCountButton:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+.annotationList {
+  position: absolute;
+  bottom: 100%;
+  left: 0;
+  margin-bottom: 8px;
+  width: 320px;
+  max-height: 300px;
+  overflow: hidden;
+  background: var(--color-popover);
+  border: 1px solid var(--color-border);
+  border-radius: 10px;
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.2);
+  z-index: 100;
+}
+
+.annotationListHeader {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 12px 16px;
+  border-bottom: 1px solid var(--color-border);
+  font-weight: 500;
+  font-size: 0.85rem;
+  color: var(--color-foreground);
+}
+
+.annotationListClose {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 24px;
+  height: 24px;
+  padding: 0;
+  border: none;
+  border-radius: 4px;
+  background: transparent;
+  color: var(--color-muted-foreground);
+  cursor: pointer;
+  transition: background 0.15s ease, color 0.15s ease;
+}
+
+.annotationListClose:hover {
+  background: rgba(248, 113, 113, 0.12);
+  color: #f87171;
+}
+
+.annotationListItems {
+  max-height: 240px;
+  overflow-y: auto;
+  padding: 8px;
+}
+
+.annotationItem {
+  position: relative;
+  padding: 10px 12px;
+  padding-right: 32px;
+  border-radius: 6px;
+  cursor: pointer;
+  transition: background-color 150ms ease;
+}
+
+.annotationItem:hover {
+  background: rgba(139, 92, 246, 0.08);
+}
+
+.annotationItem:focus {
+  outline: none;
+  background: rgba(139, 92, 246, 0.12);
+}
+
+.annotationItemText {
+  font-size: 0.8rem;
+  color: var(--color-muted-foreground);
+  font-style: italic;
+  margin-bottom: 4px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.annotationItemComment {
+  font-size: 0.85rem;
+  color: var(--color-foreground);
+  line-height: 1.4;
+}
+
+.annotationItemDelete {
+  position: absolute;
+  top: 8px;
+  right: 8px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 20px;
+  height: 20px;
+  border: none;
+  background: transparent;
+  color: rgba(148, 163, 184, 0.5);
+  cursor: pointer;
+  border-radius: 4px;
+  transition: background-color 150ms ease, color 150ms ease;
+}
+
+.annotationItemDelete:hover {
+  background: rgba(239, 68, 68, 0.1);
+  color: #ef4444;
+}
+
+.sendAnnotationsButton {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  padding: 6px 12px;
+  border: none;
+  border-radius: 6px;
+  background: rgba(139, 92, 246, 0.1);
+  color: var(--color-primary);
+  font-size: 0.8rem;
+  font-weight: 500;
+  cursor: pointer;
+  transition: background 0.15s ease;
+}
+
+.sendAnnotationsButton:hover {
+  background: rgba(139, 92, 246, 0.18);
+}
+
+:global(body.light) .sendAnnotationsButton {
+  background: rgba(139, 92, 246, 0.08);
+}
+
+:global(body.light) .sendAnnotationsButton:hover {
+  background: rgba(139, 92, 246, 0.14);
+}
+
+.clearAnnotationsButton {
+  padding: 4px;
+  color: rgba(148, 163, 184, 0.6);
+}
+
+.clearAnnotationsButton:hover {
+  color: rgba(148, 163, 184, 0.9);
+  background: rgba(148, 163, 184, 0.1);
+}

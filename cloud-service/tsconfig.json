@@ -1,0 +1,39 @@
+{
+  "extends": "../tsconfig.base.json",
+  "compilerOptions": {
+    "module": "ESNext",
+    "moduleResolution": "Bundler",
+    "target": "ES2022",
+    "jsx": "react-jsx",
+    "noEmit": true,
+    "paths": {
+      "@core/*": ["../src/core/*"],
+      "@shared/*": ["../src/shared/*"],
+      "@main/*": ["../src/main/*"],
+      "@private/mindstone/*": ["../private/mindstone/src/*", "../src/main/oss/private-mindstone-stub/*"],
+      "@rebel/shared": ["../packages/shared/src"],
+      "@rebel/shared/*": ["../packages/shared/src/*"],
+      "@rebel/cloud-client": ["../cloud-client/src"],
+      "@rebel/cloud-client/*": ["../cloud-client/src/*"]
+    }
+  },
+  "include": [
+    "src/**/*.ts",
+    "../src/shared/**/*.ts",
+    "../src/main/**/*.ts",
+    "../src/forge.env.d.ts",
+    "../packages/shared/src/**/*.d.ts"
+  ],
+  "exclude": [
+    "src/**/__tests__/**/*",
+    "src/**/*.test.ts",
+    "src/**/*.spec.ts",
+    "../src/shared/**/__tests__/**/*",
+    "../src/shared/**/*.test.ts",
+    "../src/shared/**/*.spec.ts",
+    "../src/main/**/__tests__/**/*",
+    "../src/main/**/*.test.ts",
+    "../src/main/**/*.spec.ts",
+    "../src/main/services/turnPipeline/__lint_fixtures__/**"
+  ]
+}

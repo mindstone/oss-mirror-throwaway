@@ -1,0 +1,30 @@
+{
+  "commits": [
+    {
+      "hash": "1111111111111111111111111111111111111111",
+      "subject": "fix(test): Guard against empty UNCONFIGURED_TEST_MCPS in mcp-smoke",
+      "body": "Vitest rejects empty describe blocks."
+    },
+    {
+      "hash": "2222222222222222222222222222222222222222",
+      "subject": "fix(ci): Grant contents read on beta deploy trigger workflow",
+      "body": "Allows actions/checkout to fetch the private repo."
+    },
+    {
+      "hash": "5555555555555555555555555555555555555555",
+      "subject": "fix(windows): Repair release build packaging",
+      "body": "Keeps the installer job moving after signing."
+    },
+    {
+      "hash": "3333333333333333333333333333333333333333",
+      "subject": "feat(settings): Added clearer connection warnings",
+      "body": "Helps users understand why a connector needs attention."
+    },
+    {
+      "hash": "4444444444444444444444444444444444444444",
+      "subject": "fix(office): Clarify post-enable setup instructions",
+      "body": "Office desktop users were looking in the wrong ribbon area."
+    }
+  ],
+  "mocked_llm_completion": "\"not valid summary json\""
+}

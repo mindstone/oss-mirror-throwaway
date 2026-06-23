@@ -1,0 +1,67 @@
+.root {
+  display: grid;
+  gap: var(--space-3);
+}
+
+.statusRoot {
+  display: grid;
+  min-height: 260px;
+}
+
+.header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--space-2);
+}
+
+.headerInfo {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-2);
+  color: var(--color-text-secondary);
+  font-size: 0.8125rem;
+  font-weight: 600;
+}
+
+.canvasFrame {
+  border: 1px solid color-mix(in srgb, var(--color-border) 80%, transparent);
+  border-radius: var(--radius-md);
+  min-height: 320px;
+  overflow: hidden;
+  position: relative;
+  background: color-mix(in srgb, var(--color-surface-muted) 92%, transparent);
+}
+
+.relationshipsIndicator {
+  position: absolute;
+  top: var(--space-3);
+  right: var(--space-3);
+  z-index: 2;
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-2);
+  padding: var(--space-1) var(--space-2);
+  border: 1px solid color-mix(in srgb, var(--color-border) 70%, transparent);
+  border-radius: var(--radius-full);
+  background: color-mix(in srgb, var(--color-surface) 88%, transparent);
+  color: var(--color-text-secondary);
+  font-size: 0.75rem;
+  font-weight: 600;
+  box-shadow: var(--shadow-sm);
+}
+
+.relationshipsSpinner {
+  width: 0.75rem;
+  height: 0.75rem;
+  border: 2px solid color-mix(in srgb, var(--color-text-tertiary) 35%, transparent);
+  border-top-color: var(--color-accent);
+  border-radius: 999px;
+  animation: atlasRelationshipsSpin 0.9s linear infinite;
+}
+
+@keyframes atlasRelationshipsSpin {
+  to {
+    transform: rotate(360deg);
+  }
+}

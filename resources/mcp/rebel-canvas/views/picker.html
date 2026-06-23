@@ -1,0 +1,721 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Pick</title>
+  <style>
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --rc-bg: #ffffff;
+      --rc-fg: #1a1a1a;
+      --rc-muted: #666666;
+      --rc-border: #d8d8d8;
+      --rc-subtle: #f7f7f7;
+      --rc-accent: #6366f1;
+      --rc-accent-soft: rgba(99, 102, 241, 0.10);
+      --rc-accent-contrast: #ffffff;
+      --rc-danger: #b42318;
+      --rc-danger-bg: #fff4f2;
+      --rc-focus: rgba(99, 102, 241, 0.28);
+      --rc-success: #166534;
+      --rc-success-bg: #f0fdf4;
+      --rc-warning: #92400e;
+      --rc-warning-bg: #fffbeb;
+      --rc-status-fs: 12px;
+      --rc-status-lh: 1.4;
+      --rc-status-pad: 8px;
+      --rc-status-gap: 12px;
+      --rc-status-button-gap: 8px;
+    }
+
+    body {
+      background: var(--rc-bg);
+      color: var(--rc-fg);
+      color-scheme: light dark;
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+      line-height: 1.5;
+      padding: 24px;
+    }
+
+    body.dark {
+      --rc-bg: #1a1a1a;
+      --rc-fg: #f0f0f0;
+      --rc-muted: #aaaaaa;
+      --rc-border: #3a3a3a;
+      --rc-subtle: #242424;
+      --rc-accent-soft: rgba(129, 140, 248, 0.16);
+      --rc-danger: #ffb4ab;
+      --rc-danger-bg: #3b1714;
+      --rc-focus: rgba(129, 140, 248, 0.35);
+      --rc-success: #86efac;
+      --rc-success-bg: #12351f;
+      --rc-warning: #fcd34d;
+      --rc-warning-bg: #392b11;
+    }
+
+    @media (prefers-color-scheme: dark) {
+      body:not(.light) {
+        --rc-bg: #1a1a1a;
+        --rc-fg: #f0f0f0;
+        --rc-muted: #aaaaaa;
+        --rc-border: #3a3a3a;
+        --rc-subtle: #242424;
+        --rc-accent-soft: rgba(129, 140, 248, 0.16);
+        --rc-danger: #ffb4ab;
+        --rc-danger-bg: #3b1714;
+        --rc-focus: rgba(129, 140, 248, 0.35);
+        --rc-success: #86efac;
+        --rc-success-bg: #12351f;
+        --rc-warning: #fcd34d;
+        --rc-warning-bg: #392b11;
+      }
+    }
+
+    h1 {
+      font-size: 18px;
+      font-weight: 650;
+      margin-bottom: 16px;
+    }
+
+    button,
+    input {
+      font: inherit;
+    }
+
+    input:focus,
+    button:focus-visible {
+      border-color: var(--rc-accent);
+      box-shadow: 0 0 0 3px var(--rc-focus);
+      outline: none;
+    }
+
+    button {
+      border: 1px solid var(--rc-border);
+      border-radius: 8px;
+      cursor: pointer;
+      padding: 9px 13px;
+    }
+
+    button.primary {
+      background: var(--rc-accent);
+      border-color: var(--rc-accent);
+      color: var(--rc-accent-contrast);
+      font-weight: 600;
+    }
+
+    button.primary:not(:disabled):hover {
+      filter: brightness(0.96);
+    }
+
+    button.secondary,
+    .link-button {
+      background: var(--rc-bg);
+      color: var(--rc-fg);
+    }
+
+    button.secondary:not(:disabled):hover,
+    .link-button:not(:disabled):hover {
+      background: var(--rc-subtle);
+    }
+
+    button.cancel {
+      background: transparent;
+      border-color: transparent;
+      color: var(--rc-muted);
+    }
+
+    button.cancel:not(:disabled):hover {
+      background: var(--rc-subtle);
+      color: var(--rc-fg);
+    }
+
+    button:disabled {
+      cursor: not-allowed;
+      opacity: 0.62;
+    }
+
+    fieldset {
+      border: 1px solid var(--rc-border);
+      border-radius: 10px;
+      padding: 12px;
+    }
+
+    fieldset legend {
+      color: var(--rc-fg);
+      font-size: 13px;
+      font-weight: 600;
+      padding: 0 4px;
+    }
+
+    fieldset[data-invalid="true"] {
+      border-color: var(--rc-danger);
+    }
+
+    fieldset[data-invalid="true"] > legend {
+      color: var(--rc-danger);
+    }
+
+    .choice-list {
+      display: flex;
+      flex-direction: column;
+      gap: 9px;
+      margin-top: 8px;
+    }
+
+    .choice-list-scroll {
+      max-height: 220px;
+      overflow-y: auto;
+      padding-right: 4px;
+    }
+
+    .choice-row {
+      align-items: flex-start;
+      border-radius: 8px;
+      cursor: pointer;
+      display: grid;
+      gap: 8px;
+      grid-template-columns: auto minmax(0, 1fr);
+      padding: 4px 5px;
+    }
+
+    .choice-row:hover {
+      background: var(--rc-subtle);
+    }
+
+    .choice-row:has(input:checked),
+    .choice-row[data-checked="true"] {
+      background: var(--rc-accent-soft);
+    }
+
+    .choice-row input {
+      margin-top: 3px;
+    }
+
+    .choice-label {
+      color: var(--rc-fg);
+      cursor: pointer;
+      font-size: 14px;
+      font-weight: 400;
+    }
+
+    .choice-description {
+      color: var(--rc-muted);
+      display: block;
+      font-size: 12px;
+      margin-top: 1px;
+    }
+
+    .inline-error {
+      color: var(--rc-danger);
+      font-size: 12px;
+      margin-top: 8px;
+      min-height: 1em;
+    }
+
+    .actions {
+      display: flex;
+      gap: 10px;
+      margin-top: 18px;
+    }
+
+    .alert-summary {
+      display: none;
+      border: 1px solid var(--rc-danger);
+      border-radius: 10px;
+      background: var(--rc-danger-bg);
+      color: var(--rc-danger);
+      margin-bottom: 12px;
+      padding: 12px 14px;
+      font-size: 13px;
+    }
+
+    .alert-summary[data-visible="true"] {
+      display: block;
+    }
+
+    .error-empty {
+      color: var(--rc-muted);
+      font-size: 14px;
+      padding: 40px 0;
+      text-align: center;
+    }
+
+    .state-card {
+      background: var(--rc-subtle);
+      border: 1px solid var(--rc-border);
+      border-radius: 12px;
+      padding: 18px;
+    }
+
+    .state-card h2 {
+      font-size: 16px;
+      margin-bottom: 6px;
+    }
+
+    .state-card p {
+      color: var(--rc-muted);
+      font-size: 14px;
+      margin-bottom: 14px;
+    }
+
+    .summary-list {
+      display: grid;
+      gap: 8px;
+      margin: 14px 0;
+    }
+
+    .summary-row {
+      border-top: 1px solid var(--rc-border);
+      display: grid;
+      gap: 3px;
+      padding-top: 8px;
+    }
+
+    .summary-row dt {
+      color: var(--rc-muted);
+      font-size: 12px;
+      font-weight: 600;
+    }
+
+    .summary-row dd {
+      color: var(--rc-fg);
+      font-size: 14px;
+      white-space: pre-wrap;
+      word-break: break-word;
+    }
+
+    .picker-helper {
+      align-items: center;
+      color: var(--rc-muted);
+      display: flex;
+      flex-wrap: wrap;
+      font-size: 12px;
+      gap: 8px;
+      justify-content: space-between;
+      margin-top: 6px;
+    }
+
+    .picker-helper strong {
+      color: var(--rc-fg);
+      font-weight: 600;
+    }
+
+    [data-rebel-canvas-status] {
+      border: 1px solid transparent;
+      border-radius: 8px;
+    }
+
+    [data-rebel-canvas-status-kind="success"] {
+      background: var(--rc-success-bg);
+      color: var(--rc-success);
+    }
+
+    [data-rebel-canvas-status-kind="permission_denied"],
+    [data-rebel-canvas-status-kind="warning"] {
+      background: var(--rc-warning-bg);
+      color: var(--rc-warning);
+    }
+
+    [data-rebel-canvas-status-kind="error"] {
+      background: var(--rc-danger-bg);
+      border-color: var(--rc-danger);
+      color: var(--rc-danger);
+    }
+  </style>
+</head>
+<body>
+  <div id="root"></div>
+
+  <script>
+    var DATA = /*__DATA__*/ null;
+
+    (function () {
+      'use strict';
+
+      try {
+        var ctx = window.__REBEL_HOST_CONTEXT__;
+        if (ctx && ctx.theme === 'dark') {
+          document.body.classList.add('dark');
+        } else if (ctx && ctx.theme === 'light') {
+          document.body.classList.add('light');
+        }
+      } catch (_) { /* fallback to prefers-color-scheme */ }
+
+      var root = document.getElementById('root');
+      var definition = DATA && DATA.definition ? DATA.definition : DATA;
+      var optionInputs = [];
+      var currentSelection = initialSelection();
+      var submitButton = null;
+      var cancelButton = null;
+      var submitInFlight = false;
+
+      if (!definition || !definition.question || !definition.actionId || !Array.isArray(definition.options) || definition.options.length < 2) {
+        root.innerHTML = '<p class="error-empty">No picker options available</p>';
+        notifyReady();
+        return;
+      }
+
+      renderEditing(currentSelection);
+      notifyReady();
+
+      function notifyReady() {
+        var run = function () {
+          if (window.__rebelCanvas) {
+            window.__rebelCanvas.bindActionElements(document.body);
+            window.__rebelCanvas.ready();
+          }
+        };
+        if (document.readyState === 'loading') {
+          document.addEventListener('DOMContentLoaded', run, { once: true });
+        } else {
+          setTimeout(run, 0);
+        }
+      }
+
+      function renderEditing(selection) {
+        root.textContent = '';
+        optionInputs = [];
+        submitInFlight = false;
+        currentSelection = Array.isArray(selection) ? selection.slice() : [];
+
+        var heading = document.createElement('h1');
+        heading.textContent = definition.question || 'Pick';
+        root.appendChild(heading);
+
+        var form = document.createElement('form');
+        form.noValidate = true;
+
+        var alert = document.createElement('div');
+        alert.id = 'picker-error-summary';
+        alert.className = 'alert-summary';
+        alert.setAttribute('role', 'alert');
+        alert.setAttribute('aria-live', 'assertive');
+        form.appendChild(alert);
+
+        form.appendChild(renderChoiceGroup());
+
+        var actions = document.createElement('div');
+        actions.className = 'actions';
+
+        submitButton = document.createElement('button');
+        submitButton.type = 'submit';
+        submitButton.className = 'primary';
+        submitButton.textContent = 'Submit';
+
+        cancelButton = document.createElement('button');
+        cancelButton.type = 'button';
+        cancelButton.className = 'cancel';
+        cancelButton.textContent = 'Cancel';
+        cancelButton.addEventListener('click', function () {
+          markCancelled();
+          clearPendingRetry();
+          currentSelection = [];
+          renderDismissed();
+        });
+
+        actions.appendChild(submitButton);
+        actions.appendChild(cancelButton);
+        form.appendChild(actions);
+        form.addEventListener('submit', handleSubmit);
+        root.appendChild(form);
+        updateChoiceStates();
+
+        if (optionInputs[0]) {
+          optionInputs[0].focus();
+          setTimeout(function () { optionInputs[0].focus(); }, 0);
+        }
+      }
+
+      function renderChoiceGroup() {
+        var fieldset = document.createElement('fieldset');
+        fieldset.id = 'picker-fieldset';
+        if (isRequired()) fieldset.setAttribute('aria-required', 'true');
+
+        var legend = document.createElement('legend');
+        legend.textContent = definition.question;
+        fieldset.appendChild(legend);
+
+        var constraintHelper = getConstraintHelperText();
+        if (constraintHelper || definition.mode === 'multi') {
+          var helper = document.createElement('div');
+          helper.className = 'picker-helper';
+          if (constraintHelper) {
+            var text = document.createElement('span');
+            text.textContent = constraintHelper;
+            helper.appendChild(text);
+          }
+          if (definition.mode === 'multi') {
+            var count = document.createElement('strong');
+            count.id = 'picker-selected-count';
+            count.setAttribute('aria-live', 'polite');
+            helper.appendChild(count);
+          }
+          fieldset.appendChild(helper);
+        }
+
+        var choices = document.createElement('div');
+        choices.className = 'choice-list';
+        if (definition.options.length > 8) choices.className += ' choice-list-scroll';
+
+        definition.options.forEach(function (option, index) {
+          var row = document.createElement('label');
+          row.className = 'choice-row';
+          row.htmlFor = 'picker-option-' + index;
+
+          var input = document.createElement('input');
+          input.id = 'picker-option-' + index;
+          input.name = 'picker';
+          input.type = definition.mode === 'multi' ? 'checkbox' : 'radio';
+          input.value = option.value;
+          input.setAttribute('aria-describedby', 'picker-error');
+          input.setAttribute('aria-invalid', 'false');
+          if (isRequired()) input.setAttribute('aria-required', 'true');
+          input.checked = currentSelection.indexOf(option.value) !== -1;
+          input.addEventListener('change', function () {
+            currentSelection = collectSelection();
+            updateChoiceStates();
+          });
+          optionInputs.push(input);
+
+          var label = document.createElement('span');
+          label.className = 'choice-label';
+          label.appendChild(document.createTextNode(option.label));
+          if (option.description) {
+            var description = document.createElement('span');
+            description.className = 'choice-description';
+            description.textContent = option.description;
+            label.appendChild(description);
+          }
+
+          row.appendChild(input);
+          row.appendChild(label);
+          choices.appendChild(row);
+        });
+
+        fieldset.appendChild(choices);
+        var error = document.createElement('div');
+        error.id = 'picker-error';
+        error.className = 'inline-error';
+        error.setAttribute('role', 'alert');
+        fieldset.appendChild(error);
+        updateChoiceStates();
+        return fieldset;
+      }
+
+      function initialSelection() {
+        if (definition.mode === 'multi' && Array.isArray(definition.default)) {
+          return definition.default.slice();
+        }
+        if (definition.mode !== 'multi' && typeof definition.default === 'string') {
+          return [definition.default];
+        }
+        return [];
+      }
+
+      function getConstraintHelperText() {
+        if (definition.mode !== 'multi') return '';
+        var min = definition.minCount == null ? null : Number(definition.minCount);
+        var max = definition.maxCount == null ? null : Number(definition.maxCount);
+        if (min != null && max != null) return min === max ? 'Choose ' + min : 'Choose ' + min + ' to ' + max;
+        if (min != null) return 'Choose at least ' + min;
+        if (max != null) return 'Choose up to ' + max;
+        return '';
+      }
+
+      function updateChoiceStates() {
+        optionInputs.forEach(function (input) {
+          var row = input.closest ? input.closest('.choice-row') : input.parentElement;
+          if (row) row.dataset.checked = input.checked ? 'true' : 'false';
+        });
+        updateSelectedCount();
+      }
+
+      function updateSelectedCount() {
+        var count = document.getElementById('picker-selected-count');
+        if (!count) return;
+        var selectedCount = collectSelection().length;
+        count.textContent = selectedCount + ' selected';
+      }
+
+      function isRequired() {
+        return definition.mode !== 'multi' || Number(definition.minCount || 0) >= 1;
+      }
+
+      async function handleSubmit(event) {
+        event.preventDefault();
+        currentSelection = collectSelection();
+        var error = validateSelection(currentSelection);
+        if (error) {
+          renderValidationError(error);
+          if (optionInputs[0]) optionInputs[0].focus();
+          return;
+        }
+        clearValidationError();
+        if (!window.__rebelCanvas || typeof window.__rebelCanvas.submit !== 'function') {
+          renderFormLevelError('Action submits work only inside Rebel.');
+          return;
+        }
+        var labels = labelsForValues(currentSelection);
+        var payload = definition.mode === 'multi'
+          ? { values: currentSelection.slice() }
+          : { value: currentSelection[0] };
+        setSubmitBusy(true);
+        try {
+          var result = await window.__rebelCanvas.submit(
+            event,
+            definition.actionId,
+            'Picked: ' + labels.join(', '),
+            payload,
+            { sourceElement: submitButton, onRequestStateChange: setSubmitBusy }
+          );
+          if (result && result.success === false) {
+            if (result.rejected === 'cleared' || result.rejected === 'cancelled') return;
+            renderFormLevelError(result.message || (result.error && result.error.message) || 'Picker could not be sent. Try again.');
+            return;
+          }
+          renderSubmitted(currentSelection);
+        } catch (submitError) {
+          renderFormLevelError(submitError && submitError.message ? submitError.message : 'Picker could not be sent. Try again.');
+        } finally {
+          setSubmitBusy(false);
+        }
+      }
+
+      function collectSelection() {
+        return optionInputs
+          .filter(function (input) { return input.checked; })
+          .map(function (input) { return input.value; });
+      }
+
+      function validateSelection(selection) {
+        if (definition.mode !== 'multi') {
+          return selection.length ? '' : 'Choose one option.';
+        }
+        var min = Number(definition.minCount || 0);
+        var max = definition.maxCount == null ? null : Number(definition.maxCount);
+        if (min >= 1 && selection.length < min) {
+          return 'Choose at least ' + min + ' option' + (min === 1 ? '' : 's') + '.';
+        }
+        if (max != null && selection.length > max) {
+          return 'Choose no more than ' + max + ' option' + (max === 1 ? '' : 's') + '.';
+        }
+        return '';
+      }
+
+      function renderValidationError(message) {
+        var fieldset = document.getElementById('picker-fieldset');
+        var error = document.getElementById('picker-error');
+        if (fieldset) fieldset.dataset.invalid = 'true';
+        if (error) error.textContent = message;
+        optionInputs.forEach(function (input) { input.setAttribute('aria-invalid', 'true'); });
+        renderFormLevelError(message);
+      }
+
+      function clearValidationError() {
+        var fieldset = document.getElementById('picker-fieldset');
+        var error = document.getElementById('picker-error');
+        var alert = document.getElementById('picker-error-summary');
+        if (fieldset) fieldset.dataset.invalid = 'false';
+        if (error) error.textContent = '';
+        if (alert) {
+          alert.textContent = '';
+          alert.dataset.visible = 'false';
+        }
+        optionInputs.forEach(function (input) { input.setAttribute('aria-invalid', 'false'); });
+      }
+
+      function renderFormLevelError(message) {
+        var alert = document.getElementById('picker-error-summary');
+        if (!alert) return;
+        alert.textContent = message;
+        alert.dataset.visible = 'true';
+      }
+
+      function setSubmitBusy(isBusy) {
+        submitInFlight = isBusy;
+        if (submitButton) {
+          submitButton.disabled = isBusy;
+          submitButton.textContent = isBusy ? 'Submitting…' : 'Submit';
+          submitButton.setAttribute('aria-busy', isBusy ? 'true' : 'false');
+        }
+        if (cancelButton) cancelButton.disabled = isBusy;
+      }
+
+      function renderSubmitted(selection) {
+        renderStateCard('Submitted', 'Sent to the agent. You can reopen it if you need to choose again.', selection, function () {
+          clearPendingRetry();
+          renderEditing(selection);
+        });
+      }
+
+      function renderDismissed() {
+        renderStateCard('Dismissed', 'Nothing sent.', null, function () {
+          clearPendingRetry();
+          renderEditing([]);
+        });
+      }
+
+      function renderStateCard(title, body, selection, reopenHandler) {
+        root.textContent = '';
+        var card = document.createElement('section');
+        card.className = 'state-card';
+        card.tabIndex = -1;
+        card.setAttribute('role', 'status');
+        card.setAttribute('aria-live', 'polite');
+        var heading = document.createElement('h2');
+        heading.textContent = title;
+        var paragraph = document.createElement('p');
+        paragraph.textContent = body;
+        card.appendChild(heading);
+        card.appendChild(paragraph);
+        if (selection) card.appendChild(renderSummary(selection));
+        var reopen = document.createElement('button');
+        reopen.type = 'button';
+        reopen.className = 'link-button';
+        reopen.textContent = 'Reopen';
+        reopen.addEventListener('click', reopenHandler);
+        card.appendChild(reopen);
+        root.appendChild(card);
+        card.focus();
+        setTimeout(function () { card.focus(); }, 0);
+      }
+
+      function renderSummary(selection) {
+        var list = document.createElement('dl');
+        list.className = 'summary-list';
+        var row = document.createElement('div');
+        row.className = 'summary-row';
+        var term = document.createElement('dt');
+        term.textContent = definition.mode === 'multi' ? 'Choices' : 'Choice';
+        var description = document.createElement('dd');
+        description.textContent = labelsForValues(selection).join(', ') || '—';
+        row.appendChild(term);
+        row.appendChild(description);
+        list.appendChild(row);
+        return list;
+      }
+
+      function labelsForValues(values) {
+        return values.map(function (value) {
+          var match = definition.options.find(function (option) { return option.value === value; });
+          return match ? match.label : String(value);
+        });
+      }
+
+      function clearPendingRetry() {
+        if (window.__rebelCanvas && typeof window.__rebelCanvas.clearPendingRetry === 'function') {
+          window.__rebelCanvas.clearPendingRetry(definition.actionId);
+        }
+      }
+
+      function markCancelled() {
+        if (window.__rebelCanvas && typeof window.__rebelCanvas.markCancelled === 'function') {
+          window.__rebelCanvas.markCancelled(definition.actionId);
+        }
+      }
+    })();
+  </script>
+</body>
+</html>

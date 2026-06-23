@@ -1,0 +1,72 @@
+.root {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-0);
+}
+
+.rootSm {
+  --star-size: 14px;
+  --star-button-size: 20px;
+}
+
+.rootMd {
+  --star-size: 16px;
+  --star-button-size: 28px;
+}
+
+.starButton {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: var(--star-button-size);
+  height: var(--star-button-size);
+  padding: 0;
+  border: 0;
+  border-radius: var(--radius-xs);
+  background: transparent;
+  color: inherit;
+  cursor: pointer;
+  transition: background-color var(--motion-duration-fast) var(--motion-ease-out);
+}
+
+.starButton:hover {
+  background: color-mix(in srgb, var(--color-primary) 10%, transparent);
+}
+
+.starButton:focus-visible {
+  outline: none;
+  box-shadow:
+    0 0 0 2px var(--color-background),
+    0 0 0 4px var(--color-ring);
+}
+
+.starIcon {
+  width: var(--star-size);
+  height: var(--star-size);
+  transition:
+    color var(--motion-duration-fast) var(--motion-ease-out),
+    fill var(--motion-duration-fast) var(--motion-ease-out);
+}
+
+.starFilled {
+  color: var(--color-primary);
+  fill: currentColor;
+}
+
+.starEmpty {
+  color: var(--color-text-muted);
+  fill: transparent;
+}
+
+.description {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  margin: -1px;
+  padding: 0;
+  border: 0;
+  overflow: hidden;
+  clip: rect(0 0 0 0);
+  white-space: nowrap;
+}

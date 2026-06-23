@@ -1,0 +1,162 @@
+/* ErrorRecoveryCard - Error recovery evaluation UI */
+
+.card {
+  position: relative;
+  background: var(--color-surface-secondary);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-lg);
+  padding: var(--space-4);
+  margin: var(--space-3) 0;
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  .card {
+    animation: slideUp 200ms ease-out;
+  }
+}
+
+@keyframes slideUp {
+  from {
+    opacity: 0;
+    transform: translateY(8px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.header {
+  display: flex;
+  align-items: flex-start;
+  gap: var(--space-3);
+}
+
+.iconWrapper {
+  flex-shrink: 0;
+  width: 32px;
+  height: 32px;
+  border-radius: var(--radius-full);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.iconWrapper.evaluating {
+  background: var(--color-warning-subtle);
+  color: var(--color-warning);
+}
+
+.iconWrapper.canHelp {
+  background: var(--color-success-subtle);
+  color: var(--color-success);
+}
+
+.iconWrapper.cannotHelp {
+  background: var(--color-surface-tertiary);
+  color: var(--color-text-secondary);
+}
+
+.iconWrapper.failed {
+  background: var(--color-warning-subtle);
+  color: var(--color-warning);
+}
+
+.content {
+  flex: 1;
+  min-width: 0;
+}
+
+.title {
+  font-size: var(--font-size-sm);
+  font-weight: var(--font-weight-semibold);
+  color: var(--color-text-primary);
+  margin: 0 0 var(--space-1) 0;
+}
+
+.summary {
+  font-size: var(--font-size-sm);
+  color: var(--color-text-secondary);
+  margin: 0;
+  line-height: 1.5;
+}
+
+.quip {
+  font-size: var(--font-size-sm);
+  color: var(--color-text-tertiary);
+  font-style: italic;
+  margin: var(--space-2) 0 0 0;
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  .quip {
+    animation: fadeIn 300ms ease-out;
+  }
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+.actions {
+  display: flex;
+  gap: var(--space-2);
+  margin-top: var(--space-3);
+  flex-wrap: wrap;
+}
+
+.spinner {
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  .spinner {
+    animation: spin 1s linear infinite;
+  }
+}
+
+@keyframes spin {
+  from { transform: rotate(0deg); }
+  to { transform: rotate(360deg); }
+}
+
+/* Success flash animation for can_help state */
+.successFlash {
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  .successFlash {
+    animation: successPulse 250ms ease-out;
+  }
+}
+
+@keyframes successPulse {
+  0% {
+    transform: scale(1);
+    opacity: 0.5;
+  }
+  50% {
+    transform: scale(1.1);
+    opacity: 1;
+  }
+  100% {
+    transform: scale(1);
+    opacity: 1;
+  }
+}
+
+.dismissButton {
+  position: absolute;
+  top: var(--space-2);
+  right: var(--space-2);
+  opacity: 0.6;
+  transition: opacity 150ms ease;
+}
+
+.dismissButton:hover {
+  opacity: 1;
+}
+
+.cardWrapper {
+  position: relative;
+}

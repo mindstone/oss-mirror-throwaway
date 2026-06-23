@@ -1,0 +1,561 @@
+// Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
+
+exports[`ci-investigate catalog fixtures > 'circular-deps-renderer.log' > classifies expected id/repro/lens and snapshots packet 1`] = `
+{
+  "failedJobs": [
+    "validate-and-test",
+  ],
+  "logPath": "scripts/__tests__/fixtures/ci-investigate/circular-deps-renderer.log",
+  "matches": [
+    {
+      "displayName": "Circular dependencies",
+      "evidenceLine": "validate-and-test	UNKNOWN STEP	2026-05-10T19:24:09.000Z ✘ Renderer has 1 circular dependencies (expected 0):",
+      "id": "circular-deps",
+      "jobName": "validate-and-test",
+      "lens": "Architecture",
+      "repro": {
+        "command": "npm run validate:circular-deps",
+      },
+      "signpost": undefined,
+    },
+  ],
+  "runId": "from-file",
+  "status": "classified",
+  "truncated": false,
+  "workflowName": "from-file",
+}
+`;
+
+exports[`ci-investigate catalog fixtures > 'cloud-rollup-unresolved-import.log' > classifies expected id/repro/lens and snapshots packet 1`] = `
+{
+  "failedJobs": [
+    "Build & Push Docker Image",
+  ],
+  "logPath": "scripts/__tests__/fixtures/ci-investigate/cloud-rollup-unresolved-import.log",
+  "matches": [
+    {
+      "displayName": "Cloud Vite/Rollup unresolved import",
+      "evidenceLine": "Build & Push Docker Image	UNKNOWN STEP	2026-05-09T11:46:23.1131124Z #48 3.578 [vite]: Rollup failed to resolve import "zod" from "/build-web/cloud-client/src/slack.ts".",
+      "id": "cloud-rollup-unresolved-import",
+      "jobName": "Build & Push Docker Image",
+      "lens": "Cross-surface parity",
+      "repro": {
+        "command": "npm run verify:cloud-docker",
+        "description": "Cloud Docker build failed because Vite/Rollup could not resolve an import in cloud-client or cloud-service. Typical cause: a dependency present in the desktop bundle but not declared in cloud-client/package.json or cloud-service/package.json, or an import that crosses a surface boundary unsafely. Run verify:cloud-docker locally to reproduce.",
+      },
+      "signpost": undefined,
+    },
+  ],
+  "runId": "from-file",
+  "status": "classified",
+  "truncated": false,
+  "workflowName": "from-file",
+}
+`;
+
+exports[`ci-investigate catalog fixtures > 'cross-surface-parity-baseline-drift.l…' > classifies expected id/repro/lens and snapshots packet 1`] = `
+{
+  "failedJobs": [
+    "validate-and-test",
+  ],
+  "logPath": "scripts/__tests__/fixtures/ci-investigate/cross-surface-parity-baseline-drift.log",
+  "matches": [
+    {
+      "displayName": "Cross-surface parity baseline drift",
+      "evidenceLine": "validate-and-test	Unit tests (desktop project)	2026-05-30T11:40:35.000Z Error: Baseline drift: a new escape-hatch was added without updating the Stage 5 baseline. If intentional, update this test AND justify in the trap catalogue.",
+      "id": "cross-surface-parity-baseline-drift",
+      "jobName": "validate-and-test",
+      "lens": "Cross-surface parity",
+      "repro": {
+        "command": "npm run validate:cross-surface-parity-gap",
+        "description": "A new desktop-only or cross-surface escape hatch was detected. This is usually a meaningful architecture signal: either remove the escape hatch or update the Stage 5 baseline with a documented trap-catalogue justification.",
+      },
+      "signpost": "docs/project/CROSS_SURFACE_PARITY_TRAP_CATALOGUE.md",
+    },
+  ],
+  "runId": "from-file",
+  "status": "classified",
+  "truncated": false,
+  "workflowName": "from-file",
+}
+`;
+
+exports[`ci-investigate catalog fixtures > 'dependabot-private-submodule-access.l…' > classifies expected id/repro/lens and snapshots packet 1`] = `
+{
+  "failedJobs": [
+    "dependabot",
+  ],
+  "logPath": "scripts/__tests__/fixtures/ci-investigate/dependabot-private-submodule-access.log",
+  "matches": [
+    {
+      "displayName": "Dependabot private submodule access failure",
+      "evidenceLine": "dependabot	Dependabot Update	2026-05-29T12:49:10.000Z Failed to request additional scope: 403 Either the repo doesn't exist, or Dependabot doesn't have access to it",
+      "id": "dependabot-private-submodule-access",
+      "jobName": "dependabot",
+      "lens": "Operational",
+      "repro": {
+        "command": "gh secret list --app dependabot",
+        "description": "Dependabot failed while accessing private submodules or their credentials. This is an operational/configuration failure outside app-code validation; grant appropriate access, adjust submodule checkout for Dependabot, or exclude the affected update group.",
+      },
+      "signpost": ".github/dependabot.yml",
+    },
+  ],
+  "runId": "from-file",
+  "status": "classified",
+  "truncated": false,
+  "workflowName": "from-file",
+}
+`;
+
+exports[`ci-investigate catalog fixtures > 'e2e-ipc-payload-size-guard.log' > classifies expected id/repro/lens and snapshots packet 1`] = `
+{
+  "failedJobs": [
+    "E2E Tests (macOS)",
+  ],
+  "logPath": "scripts/__tests__/fixtures/ci-investigate/e2e-ipc-payload-size-guard.log",
+  "matches": [
+    {
+      "displayName": "E2E IPC payload size guard",
+      "evidenceLine": "E2E Tests (macOS)	Run performance regression tests	2026-05-29T17:54:10.000Z IPC channels with payloads >256KB: library:list-files (256.5KB)",
+      "id": "e2e-ipc-payload-size-guard",
+      "jobName": "E2E Tests (macOS)",
+      "lens": "Performance",
+      "repro": {
+        "command": "npm run test:e2e:perf",
+        "description": "The performance E2E payload guard found an IPC payload above the configured threshold. Unlike broad E2E cascades, this is a specific performance signal; inspect the listed channel and reduce payload shape or paging behavior.",
+      },
+      "signpost": undefined,
+    },
+  ],
+  "runId": "from-file",
+  "status": "classified",
+  "truncated": false,
+  "workflowName": "from-file",
+}
+`;
+
+exports[`ci-investigate catalog fixtures > 'eslint-new-warnings-regression.log' > classifies expected id/repro/lens and snapshots packet 1`] = `
+{
+  "failedJobs": [
+    "eslint-new-warnings",
+  ],
+  "logPath": "scripts/__tests__/fixtures/ci-investigate/eslint-new-warnings-regression.log",
+  "matches": [
+    {
+      "displayName": "ESLint new-warning regression",
+      "evidenceLine": "eslint-new-warnings	Run ESLint new-warning gate	2026-05-30T13:18:18.000Z ESLint warning regression: rebel-silent-swallow/no-silent-swallow Empty catch blocks silently swallow errors (baseline: 3, current: 3)",
+      "id": "eslint-new-warnings-regression",
+      "jobName": "eslint-new-warnings",
+      "lens": "Runtime Safety",
+      "repro": {
+        "command": "npm run validate:eslint-new-warnings",
+        "description": "The diff-scoped ESLint warning gate found a warning regression. Treat silent-swallow and runtime-safety warnings as meaningful unless the evidence points to warning-signature churn; if so, fix the classifier/baseline rather than weakening the rule.",
+      },
+      "signpost": undefined,
+    },
+  ],
+  "runId": "from-file",
+  "status": "classified",
+  "truncated": false,
+  "workflowName": "from-file",
+}
+`;
+
+exports[`ci-investigate catalog fixtures > 'eval-migration-lock-temp-cleanup.log' > classifies expected id/repro/lens and snapshots packet 1`] = `
+{
+  "failedJobs": [
+    "validate-and-test",
+  ],
+  "logPath": "scripts/__tests__/fixtures/ci-investigate/eval-migration-lock-temp-cleanup.log",
+  "matches": [
+    {
+      "displayName": "Eval migration-lock temp cleanup failure",
+      "evidenceLine": "validate-and-test	Unit tests (evals project)	2026-05-30T21:24:17.000Z Error: ENOTEMPTY: directory not empty, rmdir '/tmp/migration-lock-RPfzBS'",
+      "id": "eval-migration-lock-temp-cleanup",
+      "jobName": "validate-and-test",
+      "lens": "Testability",
+      "repro": {
+        "command": "npx vitest run --project=evals evals/__tests__/migration-lock.test.ts",
+        "description": "The migration-lock test left heartbeat/temp files behind while the temp directory was being removed. This is a flaky-suspect test-hygiene signal; check teardown ordering, heartbeat shutdown, and recursive cleanup before treating it as product behavior.",
+      },
+      "signpost": undefined,
+    },
+  ],
+  "runId": "from-file",
+  "status": "classified",
+  "truncated": false,
+  "workflowName": "from-file",
+}
+`;
+
+exports[`ci-investigate catalog fixtures > 'eval-planner-fixture-failure.log' > classifies expected id/repro/lens and snapshots packet 1`] = `
+{
+  "failedJobs": [
+    "Eval — rebel-core-planner (structured-output-schema gate)",
+  ],
+  "logPath": "scripts/__tests__/fixtures/ci-investigate/eval-planner-fixture-failure.log",
+  "matches": [
+    {
+      "displayName": "Eval planner fixture failure",
+      "evidenceLine": "Eval — rebel-core-planner (structured-output-schema gate)	Run eval:rebel-core-planner (2-attempt retry on transient flake)	2026-05-29T17:20:36.000Z FAIL 04_sequential_required_email_send_chain",
+      "id": "eval-planner-fixture-failure",
+      "jobName": "Eval — rebel-core-planner (structured-output-schema gate)",
+      "lens": "Eval Quality",
+      "repro": {
+        "command": "npm run eval:rebel-core-planner",
+        "description": "The schema-boundary planner eval failed one or more named fixtures. If different fixtures fail across retry attempts, treat it as a borderline or stochastic eval signal; inspect artifacts before changing prompts or thresholds.",
+      },
+      "signpost": "docs/project/WRITING_EVALS.md",
+    },
+  ],
+  "runId": "from-file",
+  "status": "classified",
+  "truncated": false,
+  "workflowName": "from-file",
+}
+`;
+
+exports[`ci-investigate catalog fixtures > 'ipc-validation-failed.log' > classifies expected id/repro/lens and snapshots packet 1`] = `
+{
+  "failedJobs": [
+    "validate-and-test",
+  ],
+  "logPath": "scripts/__tests__/fixtures/ci-investigate/ipc-validation-failed.log",
+  "matches": [
+    {
+      "displayName": "IPC contract drift",
+      "evidenceLine": "validate-and-test	UNKNOWN STEP	2026-05-10T19:24:11.000Z    ❌ main.preferences.update: Missing request or response schema",
+      "id": "ipc-contract-drift",
+      "jobName": "validate-and-test",
+      "lens": "Cross-process Contract",
+      "repro": {
+        "command": "npm run validate:ipc",
+      },
+      "signpost": undefined,
+    },
+  ],
+  "runId": "from-file",
+  "status": "classified",
+  "truncated": false,
+  "workflowName": "from-file",
+}
+`;
+
+exports[`ci-investigate catalog fixtures > 'knip-health-unused.log' > classifies expected id/repro/lens and snapshots packet 1`] = `
+{
+  "failedJobs": [
+    "knip-health",
+  ],
+  "logPath": "scripts/__tests__/fixtures/ci-investigate/knip-health-unused.log",
+  "matches": [
+    {
+      "displayName": "Knip — unused files",
+      "evidenceLine": "knip-health	UNKNOWN STEP	2026-05-10T19:24:09.000Z ✘ Found 2 unused file(s):",
+      "id": "knip-health-unused-file",
+      "jobName": "knip-health",
+      "lens": "none (mechanical)",
+      "repro": {
+        "command": "npm run validate:knip-health",
+      },
+      "signpost": "docs/project/CODE_HEALTH_TOOLS.md",
+    },
+  ],
+  "runId": "from-file",
+  "status": "classified",
+  "truncated": false,
+  "workflowName": "from-file",
+}
+`;
+
+exports[`ci-investigate catalog fixtures > 'knip-health-unused-dependency.log' > classifies expected id/repro/lens and snapshots packet 1`] = `
+{
+  "failedJobs": [
+    "knip-health",
+  ],
+  "logPath": "scripts/__tests__/fixtures/ci-investigate/knip-health-unused-dependency.log",
+  "matches": [
+    {
+      "displayName": "Knip — unused dependencies",
+      "evidenceLine": "knip-health	UNKNOWN STEP	2026-05-30T12:09:10.000Z ✘ Found 1 unused dependenc(y/ies):",
+      "id": "knip-health-unused-dependency",
+      "jobName": "knip-health",
+      "lens": "none (mechanical)",
+      "repro": {
+        "command": "npm run validate:knip-health",
+        "description": "Knip found dependencies declared in package.json that are no longer used. This is a code-health signal, not a flaky test; remove the dependency or add the missing entry point only if the usage is intentionally dynamic.",
+      },
+      "signpost": "docs/project/CODE_HEALTH_TOOLS.md",
+    },
+  ],
+  "runId": "from-file",
+  "status": "classified",
+  "truncated": false,
+  "workflowName": "from-file",
+}
+`;
+
+exports[`ci-investigate catalog fixtures > 'mcp-lockfile-drift.log' > classifies expected id/repro/lens and snapshots packet 1`] = `
+{
+  "failedJobs": [
+    "validate-and-test",
+  ],
+  "logPath": "scripts/__tests__/fixtures/ci-investigate/mcp-lockfile-drift.log",
+  "matches": [
+    {
+      "displayName": "MCP lockfile drift",
+      "evidenceLine": "validate-and-test	UNKNOWN STEP	2026-05-10T19:24:10.000Z ❌ 2 package(s) missing package-lock.json:",
+      "id": "mcp-lockfile-drift",
+      "jobName": "validate-and-test",
+      "lens": "MCP",
+      "repro": {
+        "command": "npx tsx scripts/check-mcp-lockfiles.ts",
+      },
+      "signpost": undefined,
+    },
+  ],
+  "runId": "from-file",
+  "status": "classified",
+  "truncated": false,
+  "workflowName": "from-file",
+}
+`;
+
+exports[`ci-investigate catalog fixtures > 'metro-unable-to-resolve.log' > classifies expected id/repro/lens and snapshots packet 1`] = `
+{
+  "failedJobs": [
+    "metro-runtime-integrity",
+  ],
+  "logPath": "scripts/__tests__/fixtures/ci-investigate/metro-unable-to-resolve.log",
+  "matches": [
+    {
+      "displayName": "Metro could not resolve module (mobile bundle)",
+      "evidenceLine": "metro-runtime-integrity	UNKNOWN STEP	2026-05-09T11:44:34.7899358Z Error: Timed out fetching Metro bundle: Error: Bundle request failed with HTTP 500: {"type":"UnableToResolveError","originModulePath":"/home/runner/work/rebel-app/rebel-app/src/core/errorReporter.ts","targetModuleName":"pino","message":"Unable to resolve module pino from /home/runner/work/rebel-app/rebel-app/src/core/errorReporter.ts: pino could not be found within the project or in these directories:\\n  node_modules\\n"}",
+      "id": "metro-unable-to-resolve-module",
+      "jobName": "metro-runtime-integrity",
+      "lens": "Cross-surface parity",
+      "repro": {
+        "command": "cd mobile && npx expo start --clear",
+        "description": "React Native Metro bundler cannot resolve a module imported in a path it tries to bundle. Typical cause: a Node-only dep (pino, fs, path, electron, electron-store) imported through a code path that runs on mobile. Fix: gate the import behind a boundary interface in src/core/ (PlatformConfig, StoreFactory, ErrorReporter, Logger). See docs/project/CROSS_SURFACE_PARITY_CHECKLIST.md.",
+      },
+      "signpost": "docs/project/CROSS_SURFACE_PARITY_CHECKLIST.md",
+    },
+  ],
+  "runId": "from-file",
+  "status": "classified",
+  "truncated": false,
+  "workflowName": "from-file",
+}
+`;
+
+exports[`ci-investigate catalog fixtures > 'mobile-testflight-eas-submit-failure.…' > classifies expected id/repro/lens and snapshots packet 1`] = `
+{
+  "failedJobs": [
+    "Build & Submit iOS to TestFlight",
+  ],
+  "logPath": "scripts/__tests__/fixtures/ci-investigate/mobile-testflight-eas-submit-failure.log",
+  "matches": [
+    {
+      "displayName": "Mobile TestFlight EAS submit failure",
+      "evidenceLine": "Build & Submit iOS to TestFlight	Submit to TestFlight	2026-05-29T12:48:09.000Z ##[error]Process completed with exit code 1.",
+      "id": "mobile-testflight-eas-submit-failure",
+      "jobName": "Build & Submit iOS to TestFlight",
+      "lens": "Operational",
+      "repro": {
+        "command": "cd mobile && eas submit --platform ios --profile production --latest --non-interactive",
+        "description": "The iOS build reached the TestFlight submit step and failed there. This is a deploy/credentials/App Store Connect operational signal, not evidence that the app failed to compile. Capture raw EAS submit output before changing app code.",
+      },
+      "signpost": "docs/project/CI_PIPELINE.md",
+    },
+  ],
+  "runId": "from-file",
+  "status": "classified",
+  "truncated": false,
+  "workflowName": "from-file",
+}
+`;
+
+exports[`ci-investigate catalog fixtures > 'react-hooks-exhaustive-deps.log' > classifies expected id/repro/lens and snapshots packet 1`] = `
+{
+  "failedJobs": [
+    "validate-and-test",
+  ],
+  "logPath": "scripts/__tests__/fixtures/ci-investigate/react-hooks-exhaustive-deps.log",
+  "matches": [
+    {
+      "displayName": "React Hooks exhaustive deps",
+      "evidenceLine": "validate-and-test	UNKNOWN STEP	2026-05-10T19:24:09.000Z   215:7  error  React Hook useEffect has a missing dependency: 'refresh'. Either include it or remove the dependency array  react-hooks/exhaustive-deps",
+      "id": "react-hooks-exhaustive-deps",
+      "jobName": "validate-and-test",
+      "lens": "none (mechanical)",
+      "repro": {
+        "command": "npm run lint",
+      },
+      "signpost": undefined,
+    },
+  ],
+  "runId": "from-file",
+  "status": "classified",
+  "truncated": false,
+  "workflowName": "from-file",
+}
+`;
+
+exports[`ci-investigate catalog fixtures > 'rebel-system-token-missing.log' > classifies expected id/repro/lens and snapshots packet 1`] = `
+{
+  "failedJobs": [
+    "Build & Push Docker Image",
+  ],
+  "logPath": "scripts/__tests__/fixtures/ci-investigate/rebel-system-token-missing.log",
+  "matches": [
+    {
+      "displayName": "REBEL_SYSTEM_TOKEN secret missing",
+      "evidenceLine": "Build & Push Docker Image	UNKNOWN STEP	2026-05-09T11:42:43.7250040Z   echo "::error::REBEL_SYSTEM_TOKEN secret is empty or not set"",
+      "id": "rebel-system-token-missing",
+      "jobName": "Build & Push Docker Image",
+      "lens": "Operational",
+      "repro": {
+        "command": "gh secret list",
+        "description": "CI cannot fetch the rebel-system submodule without REBEL_SYSTEM_TOKEN. Set it in GitHub repo Settings → Secrets and variables → Actions. This is an environment / repo-config issue, not a code bug.",
+      },
+      "signpost": undefined,
+    },
+  ],
+  "runId": "from-file",
+  "status": "classified",
+  "truncated": false,
+  "workflowName": "from-file",
+}
+`;
+
+exports[`ci-investigate catalog fixtures > 'release-e2e-harness-cascade.log' > classifies expected id/repro/lens and snapshots packet 1`] = `
+{
+  "failedJobs": [
+    "E2E Tests (macOS)",
+  ],
+  "logPath": "scripts/__tests__/fixtures/ci-investigate/release-e2e-harness-cascade.log",
+  "matches": [
+    {
+      "displayName": "Release E2E harness startup/teardown cascade",
+      "evidenceLine": "E2E Tests (macOS)	Run Playwright E2E tests	2026-05-29T17:53:09.000Z App close timed out or failed: Error: App close timeout. Attempting force quit...",
+      "id": "release-e2e-harness-cascade",
+      "jobName": "E2E Tests (macOS)",
+      "lens": "Testability / E2E",
+      "repro": {
+        "command": "npm run package && npm run test:e2e",
+        "description": "The release E2E job failed in startup or teardown plumbing. This is often a harness cascade: read the E2E STOP-gate docs before changing specs, and isolate app startup/local-cloud/close health before debugging downstream UI assertions.",
+      },
+      "signpost": "docs/project/E2E_TEST_FIXING_GUIDELINES.md",
+    },
+  ],
+  "runId": "from-file",
+  "status": "classified",
+  "truncated": false,
+  "workflowName": "from-file",
+}
+`;
+
+exports[`ci-investigate catalog fixtures > 'store-version-mismatch.log' > classifies expected id/repro/lens and snapshots packet 1`] = `
+{
+  "failedJobs": [
+    "validate-and-test",
+  ],
+  "logPath": "scripts/__tests__/fixtures/ci-investigate/store-version-mismatch.log",
+  "matches": [
+    {
+      "displayName": "Store version registry mismatch",
+      "evidenceLine": "validate-and-test	UNKNOWN STEP	2026-05-10T19:24:10.000Z FAILED: Store version registry is incomplete or has mismatches.",
+      "id": "store-version-mismatch",
+      "jobName": "validate-and-test",
+      "lens": "Migration Safety",
+      "repro": {
+        "command": "npm run validate:store-versions",
+      },
+      "signpost": undefined,
+    },
+  ],
+  "runId": "from-file",
+  "status": "classified",
+  "truncated": false,
+  "workflowName": "from-file",
+}
+`;
+
+exports[`ci-investigate catalog fixtures > 'submodule-pointer-not-pushed.log' > classifies expected id/repro/lens and snapshots packet 1`] = `
+{
+  "failedJobs": [
+    "validate-and-test",
+  ],
+  "logPath": "scripts/__tests__/fixtures/ci-investigate/submodule-pointer-not-pushed.log",
+  "matches": [
+    {
+      "displayName": "Submodule pointer not pushed",
+      "evidenceLine": "validate-and-test	UNKNOWN STEP	2026-05-09T08:19:43.0462708Z fatal: Fetched in submodule path 'rebel-system', but it did not contain f8e824d35e21428bc4ded16c7c91fb5f980b4f7c. Direct fetching of that commit failed.",
+      "id": "submodule-pointer-not-pushed",
+      "jobName": "validate-and-test",
+      "lens": "Operational",
+      "repro": {
+        "command": "git submodule status",
+        "description": "Superproject references an unpushed submodule SHA. Ensure the submodule is pushed BEFORE the superproject. The /git-safe-sync-and-push slash command handles ordering automatically (--recurse-submodules=on-demand).",
+      },
+      "signpost": ".factory/commands/git-safe-sync-and-push.md",
+    },
+  ],
+  "runId": "from-file",
+  "status": "classified",
+  "truncated": false,
+  "workflowName": "from-file",
+}
+`;
+
+exports[`ci-investigate catalog fixtures > 'ts-ratchet-regression.log' > classifies expected id/repro/lens and snapshots packet 1`] = `
+{
+  "failedJobs": [
+    "validate-and-test",
+  ],
+  "logPath": "scripts/__tests__/fixtures/ci-investigate/ts-ratchet-regression.log",
+  "matches": [
+    {
+      "displayName": "TypeScript ratchet regression",
+      "evidenceLine": "validate-and-test	UNKNOWN STEP	2026-05-10T19:24:09.000Z ✘ Renderer: 3 errors (baseline: 0) — new errors introduced",
+      "id": "ts-ratchet-regression",
+      "jobName": "validate-and-test",
+      "lens": "Approach Assessment",
+      "repro": {
+        "command": "npm run validate:ts-ratchet",
+      },
+      "signpost": undefined,
+    },
+  ],
+  "runId": "from-file",
+  "status": "classified",
+  "truncated": false,
+  "workflowName": "from-file",
+}
+`;
+
+exports[`ci-investigate catalog fixtures > 'vitest-snapshot-mismatch.log' > classifies expected id/repro/lens and snapshots packet 1`] = `
+{
+  "failedJobs": [
+    "validate-and-test",
+  ],
+  "logPath": "scripts/__tests__/fixtures/ci-investigate/vitest-snapshot-mismatch.log",
+  "matches": [
+    {
+      "displayName": "Vitest snapshot mismatch",
+      "evidenceLine": "validate-and-test	UNKNOWN STEP	2026-05-10T12:38:56.4230832Z Error: Snapshot \`ci-investigate catalog fixtures > 'knip-health-unused.log' > classifies expected id/repro/lens and snapshots packet 1\` mismatched",
+      "id": "vitest-snapshot-mismatch",
+      "jobName": "validate-and-test",
+      "lens": "Testability",
+      "repro": {
+        "command": "npx vitest run",
+        "description": "A toMatchSnapshot assertion saw different output than the committed .snap file. Most snapshot mismatches in CI but not locally are PORTABILITY bugs: machine-specific data (absolute paths, timestamps, hostnames, OS-specific separators, locale-formatted dates) leaked into the snapshot. Fix the test to normalize before snapshotting (path.relative against repoRoot, redact dates, etc.), THEN run \`npx vitest run -u <test-file>\` to regenerate. Only blindly run -u if the change is a real, intentional output update — otherwise you ratchet a host-specific snapshot.",
+      },
+      "signpost": undefined,
+    },
+  ],
+  "runId": "from-file",
+  "status": "classified",
+  "truncated": false,
+  "workflowName": "from-file",
+}
+`;

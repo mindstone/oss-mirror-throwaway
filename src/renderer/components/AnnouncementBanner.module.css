@@ -1,0 +1,98 @@
+.banner {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  z-index: 9998;
+  background: var(--color-warning-subtle, #fef3c7);
+  color: #000;
+  padding: 8px 16px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+  /* Note: If OfflineBanner (z-index 9999) is also visible, this banner will be below it.
+     In normal operation (online), this banner is visible at top. */
+}
+
+/* Info variant - blue toned */
+.bannerInfo {
+  background: var(--color-info-subtle, #dbeafe);
+}
+
+.content {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  max-width: 1200px;
+  margin: 0 auto;
+  font-size: 13px;
+}
+
+.text {
+  flex: 1;
+  min-width: 0;
+  white-space: nowrap;
+}
+
+.link {
+  color: inherit;
+  font-weight: 600;
+  text-decoration: underline;
+  cursor: pointer;
+}
+
+.link:hover {
+  opacity: 0.8;
+}
+
+.actions {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  flex-shrink: 0;
+}
+
+.dontShowButton {
+  background: transparent;
+  border: 1px solid currentColor;
+  padding: 4px 10px;
+  border-radius: 4px;
+  cursor: pointer;
+  color: inherit;
+  font-size: 12px;
+  font-weight: 500;
+  opacity: 0.8;
+  transition: opacity 0.15s ease;
+  white-space: nowrap;
+}
+
+.dontShowButton:hover {
+  opacity: 1;
+}
+
+.dontShowButton:focus-visible {
+  outline: 2px solid currentColor;
+  outline-offset: 2px;
+}
+
+.dismissButton {
+  flex-shrink: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: transparent;
+  border: none;
+  padding: 4px;
+  border-radius: 4px;
+  cursor: pointer;
+  color: inherit;
+  opacity: 0.7;
+  transition: opacity 0.15s ease;
+}
+
+.dismissButton:hover {
+  opacity: 1;
+}
+
+.dismissButton:focus-visible {
+  outline: 2px solid currentColor;
+  outline-offset: 2px;
+}

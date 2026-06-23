@@ -1,0 +1,408 @@
+/* ConversationModelSelector — segmented quality-tier control */
+
+/* ── Container ── */
+
+.container {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  padding: 8px 40px;
+  width: 100%;
+  box-sizing: border-box;
+  flex-shrink: 0;
+}
+
+/* ── Segmented Control ── */
+
+.sliderContainer {
+  display: flex;
+  align-items: center;
+  gap: 2px;
+  padding: 3px;
+  border-radius: 10px;
+  background: rgba(15, 23, 42, 0.35);
+  backdrop-filter: blur(var(--glass-overlay-blur));
+  -webkit-backdrop-filter: blur(var(--glass-overlay-blur));
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
+}
+
+.segment {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 1px;
+  padding: 6px 14px;
+  border: none;
+  border-radius: 7px;
+  background: transparent;
+  color: rgba(203, 213, 225, 0.85);
+  font-family: inherit;
+  cursor: pointer;
+  transition:
+    background 0.18s ease,
+    color 0.18s ease,
+    box-shadow 0.18s ease;
+  outline: none;
+  position: relative;
+  white-space: nowrap;
+  user-select: none;
+}
+
+.segment:hover:not(.segmentActive) {
+  background: rgba(255, 255, 255, 0.06);
+  color: rgba(203, 213, 225, 0.9);
+}
+
+.segment:focus-visible {
+  outline: 2px solid rgba(99, 102, 241, 0.6);
+  outline-offset: 2px;
+}
+
+.segmentActive {
+  background: var(--color-primary);
+  color: var(--color-primary-foreground);
+  box-shadow: 0 1px 4px rgba(0, 0, 0, 0.2);
+}
+
+.segmentActive:hover {
+  background: var(--color-primary);
+  color: var(--color-primary-foreground);
+}
+
+.segmentDefault::after {
+  content: '';
+  position: absolute;
+  bottom: 2px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 4px;
+  height: 4px;
+  border-radius: 50%;
+  background: rgba(203, 213, 225, 0.4);
+}
+
+.segmentActive.segmentDefault::after {
+  background: rgba(255, 255, 255, 0.5);
+}
+
+.segmentName {
+  font-size: 12px;
+  font-weight: 500;
+  line-height: 1.2;
+  letter-spacing: 0.01em;
+}
+
+.costIndicator {
+  font-size: 9px;
+  font-weight: 600;
+  line-height: 1;
+  opacity: 0.7;
+  letter-spacing: 0.04em;
+}
+
+.segmentActive .costIndicator {
+  opacity: 0.85;
+}
+
+.customLabel {
+  font-size: 11px;
+  font-weight: 500;
+  color: var(--color-muted-foreground);
+  padding: 0 8px;
+  white-space: nowrap;
+  font-style: italic;
+}
+
+/* ── Multi-Model Toggle ── */
+
+.multiModelToggle {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  cursor: pointer;
+  white-space: nowrap;
+  user-select: none;
+  flex-shrink: 0;
+  margin-left: auto;
+}
+
+.multiModelLabel {
+  font-size: 11px;
+  font-weight: 500;
+  color: var(--color-muted-foreground);
+  letter-spacing: 0.01em;
+  transition: color 0.15s ease;
+}
+
+.multiModelToggle:hover .multiModelLabel {
+  color: var(--color-foreground);
+}
+
+.multiModelCheckbox {
+  appearance: none;
+  -webkit-appearance: none;
+  width: 14px;
+  height: 14px;
+  border-radius: 3px;
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  background: rgba(15, 23, 42, 0.3);
+  cursor: pointer;
+  position: relative;
+  flex-shrink: 0;
+  transition:
+    background 0.15s ease,
+    border-color 0.15s ease;
+}
+
+.multiModelCheckbox:checked {
+  background: var(--color-primary);
+  border-color: var(--color-primary);
+}
+
+.multiModelCheckbox:checked::after {
+  content: '';
+  position: absolute;
+  left: 3px;
+  top: 1px;
+  width: 5px;
+  height: 8px;
+  border: solid var(--color-primary-foreground);
+  border-width: 0 1.5px 1.5px 0;
+  transform: rotate(45deg);
+}
+
+.multiModelCheckbox:focus-visible {
+  outline: 2px solid rgba(99, 102, 241, 0.6);
+  outline-offset: 2px;
+}
+
+/* ── Locked State ── */
+
+.readOnlyLabel {
+  font-size: 11px;
+  font-weight: 500;
+  letter-spacing: 0.02em;
+  color: var(--color-muted-foreground);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+/* ── Advanced Panel ── */
+
+.containerWithAdvanced {
+  flex-direction: column;
+  align-items: stretch;
+}
+
+.advancedToggle {
+  background: none;
+  border: none;
+  padding: 4px 8px;
+  font-family: inherit;
+  font-size: 11px;
+  font-weight: 500;
+  color: var(--color-muted-foreground);
+  cursor: pointer;
+  align-self: flex-start;
+  transition: color 0.15s ease;
+  user-select: none;
+}
+
+.advancedToggle:hover {
+  color: var(--color-foreground);
+}
+
+.advancedToggle:focus-visible {
+  outline: 2px solid rgba(99, 102, 241, 0.6);
+  outline-offset: 2px;
+  border-radius: 4px;
+}
+
+.advancedPanel {
+  display: flex;
+  gap: 12px;
+  max-height: 0;
+  overflow: hidden;
+  opacity: 0;
+  transition:
+    max-height 0.25s ease-out,
+    opacity 0.2s ease-out;
+}
+
+.advancedPanelOpen {
+  max-height: 120px;
+  opacity: 1;
+}
+
+.dropdownGroup {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  flex: 1;
+  min-width: 0;
+}
+
+.advancedLabel {
+  font-size: 11px;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  color: var(--color-muted-foreground);
+}
+
+.advancedSelect {
+  appearance: none;
+  -webkit-appearance: none;
+  background: rgba(15, 23, 42, 0.35);
+  backdrop-filter: blur(var(--glass-overlay-blur));
+  -webkit-backdrop-filter: blur(var(--glass-overlay-blur));
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  border-radius: 7px;
+  padding: 6px 28px 6px 10px;
+  font-family: inherit;
+  font-size: 12px;
+  font-weight: 500;
+  color: var(--color-foreground);
+  cursor: pointer;
+  outline: none;
+  width: 100%;
+  box-sizing: border-box;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 12 12'%3E%3Cpath fill='%239ca3af' d='M3 5l3 3 3-3'/%3E%3C/svg%3E");
+  background-repeat: no-repeat;
+  background-position: right 8px center;
+  background-size: 12px;
+  transition:
+    border-color 0.15s ease,
+    box-shadow 0.15s ease;
+}
+
+.advancedSelect:hover {
+  border-color: rgba(255, 255, 255, 0.15);
+}
+
+.advancedSelect:focus-visible {
+  border-color: rgba(99, 102, 241, 0.6);
+  box-shadow: 0 0 0 2px rgba(99, 102, 241, 0.15);
+}
+
+.advancedSelect option {
+  background: #1e293b;
+  color: #e2e8f0;
+}
+
+/* ── Save as Default Button ── */
+
+.saveDefaultButton {
+  background: none;
+  border: none;
+  padding: 4px 8px;
+  font-family: inherit;
+  font-size: 11px;
+  font-weight: 500;
+  color: var(--color-muted-foreground);
+  cursor: pointer;
+  align-self: flex-start;
+  transition: color 0.15s ease;
+  user-select: none;
+  white-space: nowrap;
+}
+
+.saveDefaultButton:hover:not(:disabled) {
+  color: var(--color-foreground);
+}
+
+.saveDefaultButton:disabled {
+  color: var(--color-primary);
+  cursor: default;
+}
+
+.saveDefaultButton:focus-visible {
+  outline: 2px solid rgba(99, 102, 241, 0.6);
+  outline-offset: 2px;
+  border-radius: 4px;
+}
+
+/* ── Light Mode ── */
+
+:global(body.light) .sliderContainer {
+  background: rgba(255, 255, 255, 0.5);
+  border: 1px solid rgba(0, 0, 0, 0.08);
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.06);
+  backdrop-filter: blur(var(--glass-overlay-blur));
+  -webkit-backdrop-filter: blur(var(--glass-overlay-blur));
+}
+
+:global(body.light) .segment {
+  color: rgba(71, 85, 105, 0.8);
+}
+
+:global(body.light) .segment:hover:not(.segmentActive) {
+  background: rgba(0, 0, 0, 0.04);
+  color: var(--color-foreground);
+}
+
+:global(body.light) .segmentDefault::after {
+  background: rgba(71, 85, 105, 0.35);
+}
+
+:global(body.light) .segmentActive.segmentDefault::after {
+  background: rgba(255, 255, 255, 0.6);
+}
+
+:global(body.light) .multiModelCheckbox {
+  border-color: rgba(0, 0, 0, 0.2);
+  background: rgba(255, 255, 255, 0.4);
+}
+
+:global(body.light) .advancedSelect {
+  background: rgba(255, 255, 255, 0.5);
+  border: 1px solid rgba(0, 0, 0, 0.08);
+  backdrop-filter: blur(var(--glass-overlay-blur));
+  -webkit-backdrop-filter: blur(var(--glass-overlay-blur));
+}
+
+:global(body.light) .advancedSelect:hover {
+  border-color: rgba(0, 0, 0, 0.15);
+}
+
+:global(body.light) .advancedSelect option {
+  background: #ffffff;
+  color: #1e293b;
+}
+
+/* ── Reduced Motion ── */
+
+@media (prefers-reduced-motion: reduce) {
+  .segment {
+    transition: none;
+  }
+
+  .advancedPanel {
+    transition: none;
+  }
+
+  .advancedToggle {
+    transition: none;
+  }
+
+  .advancedSelect {
+    transition: none;
+  }
+
+  .multiModelLabel {
+    transition: none;
+  }
+
+  .multiModelCheckbox {
+    transition: none;
+  }
+
+  .saveDefaultButton {
+    transition: none;
+  }
+}

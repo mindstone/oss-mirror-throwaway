@@ -1,0 +1,102 @@
+# Conversation detail Mark-as-done ⇄ Reopen + Star toggle
+# (CHIEF_ENGINEER2 run 260614_done-state-rename, Stage 4 mobile fix — B3b).
+#
+# The detail view is the only place a Done conversation is reachable (the list
+# is active-only), so it hosts the two-way lifecycle toggle. Verifies, for an
+# ACTIVE conversation opened from the list:
+#   - The header overflow ("Conversation actions") opens an action sheet.
+#   - The sheet offers "Mark as done" + a Star toggle ("Add to Starred").
+#   - Tapping "Mark as done" succeeds (no "Action failed" alert), then the
+#     sheet now offers "Reopen" (the two-way toggle flipped) — this is the B3b
+#     fix (currentSession now carries doneAt via fetchSession + typed
+#     CloudSessionCore, so the detail view reads the real Done state).
+#   - Tapping "Reopen" flips the toggle BACK to "Mark as done" (round-trip).
+#
+# NOTE: mobile has NO `rebel://conversation/{id}` deep link (urlParser maps it
+# to `type:'sessions'` → +native-intent default → null = no nav). So we reach
+# the detail view by tapping a seeded row in the Conversations list.
+#
+# PREREQUISITE: seed one active conversation:
+#   curl -X POST .../__e2e/reset -d '{}'
+#   curl -X POST .../__e2e/seed/conversation \
+#     -d '{"id":"e2e-detail-active","title":"Detail active"}'
+#
+# Run: maestro test mobile/.maestro/conversation_detail_done_toggle.yaml
+appId: com.mindstone.rebel.mobile
+---
+- launchApp
+- extendedWaitUntil:
+    visible:
+      id: "home-screen"
+    timeout: 30000
+- tapOn:
+    text: "Conversations"
+- extendedWaitUntil:
+    visible:
+      id: "conversations-screen"
+    timeout: 15000
+# Pull-to-refresh so the seeded conversation is fetched.
+- swipe:
+    from:
+      id: "conversations-screen"
+    direction: DOWN
+- waitForAnimationToEnd
+- extendedWaitUntil:
+    visible:
+      id: "conversations-item-e2e-detail-active"
+    timeout: 15000
+
+# Open the active conversation's detail view by tapping its row (stable testID).
+- tapOn:
+    id: "conversations-item-e2e-detail-active"
+- extendedWaitUntil:
+    visible:
+      id: "conversation-screen"
+    timeout: 15000
+- extendedWaitUntil:
+    visible:
+      id: "conversation-actions-button"
+    timeout: 10000
+
+# ── Active: sheet shows "Mark as done" + Star toggle ───────────────────────
+- tapOn:
+    id: "conversation-actions-button"
+- extendedWaitUntil:
+    visible:
+      text: "Mark as done"
+    timeout: 8000
+- assertVisible:
+    text: "Add to Starred"
+
+# ── Mark it done, confirm no failure alert, sheet flips to "Reopen" ────────
+- tapOn:
+    text: "Mark as done"
+- assertNotVisible:
+    text: "Action failed"
+# Re-open the sheet: the two-way toggle should now read "Reopen" (B3b fix).
+- tapOn:
+    id: "conversation-actions-button"
+- extendedWaitUntil:
+    visible:
+      text: "Reopen"
+    timeout: 8000
+
+# ── Round-trip: tap "Reopen" → conversation goes back to Active ─────────────
+- tapOn:
+    text: "Reopen"
+- assertNotVisible:
+    text: "Action failed"
+- waitForAnimationToEnd
+# Re-open the sheet: the toggle must have flipped BACK to "Mark as done".
+- tapOn:
+    id: "conversation-actions-button"
+- extendedWaitUntil:
+    visible:
+      text: "Mark as done"
+    timeout: 8000
+- assertVisible:
+    text: "Add to Starred"
+# Dismiss the action sheet (tap the backdrop / Cancel region). The toggle has
+# already round-tripped Done → Reopen → Active, which is the B3b assertion.
+- tapOn:
+    point: "50%, 6%"

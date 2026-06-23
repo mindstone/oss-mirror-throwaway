@@ -1,0 +1,134 @@
+/**
+ * HomepagePanel — Main homepage layout
+ *
+ * Modelled after AutomationsPanel:
+ *   - Centred page header (title + subtitle)
+ *   - Hero chat input
+ *   - Recent conversations row
+ *   - Two-column row: Today (60%) + Coach (40%)
+ * Responsive: collapses to single column below 900px.
+ */
+
+/* ─────────────────────────────────────────────────────────────
+   Container
+   ───────────────────────────────────────────────────────────── */
+
+.container {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  overflow-y: auto;
+  overflow-x: hidden;
+  padding: 32px 40px 48px;
+  gap: 24px;
+  max-width: 1120px;
+  margin: 0 auto;
+  width: 100%;
+}
+
+/* ─────────────────────────────────────────────────────────────
+   Horizontal Divider — between chat input and content columns
+   ───────────────────────────────────────────────────────────── */
+
+.horizontalDivider {
+  border: none;
+  border-top: 1px solid var(--color-border);
+  margin: 8px 0;
+  opacity: 0.5;
+}
+
+/* ─────────────────────────────────────────────────────────────
+   Content Row — Today + Coach, 60-40 split
+   ───────────────────────────────────────────────────────────── */
+
+.contentRow {
+  display: grid;
+  grid-template-columns: 3fr 2fr;
+  gap: 28px;
+  min-height: 380px;
+  /* Reserve space below the grid for the Today "Show all" link,
+     which is absolutely positioned out of the grid flow */
+  margin-bottom: 32px;
+}
+
+@media (max-width: 900px) {
+  .contentRow {
+    grid-template-columns: 1fr;
+  }
+
+  /* In single-column mode, revert to natural document flow */
+  .coachColumn {
+    position: static;
+  }
+
+  .coachColumnInner {
+    position: static;
+  }
+}
+
+/* ─────────────────────────────────────────────────────────────
+   Section columns
+   ───────────────────────────────────────────────────────────── */
+
+.todayColumn {
+  min-width: 0;
+}
+
+/* Coach column uses absolute-positioned inner wrapper so its
+   content can't inflate the grid row. The Today column alone
+   determines row height; the Coach card stretches to match. */
+.coachColumn {
+  min-width: 0;
+  position: relative;
+}
+
+.coachColumnInner {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+}
+
+/* ─────────────────────────────────────────────────────────────
+   Time Saved Pill — clickable stat below greeting subtitle
+   ───────────────────────────────────────────────────────────── */
+
+.timeSavedText {
+  font-size: 0.875rem;
+  color: var(--color-muted-foreground);
+  opacity: 0.6;
+  white-space: nowrap;
+}
+
+.timeSavedPill {
+  display: inline-flex;
+  align-items: center;
+  gap: 3px;
+  padding: 1px 7px;
+  border-radius: 999px;
+  border: 1px solid color-mix(in srgb, var(--color-primary) 50%, transparent);
+  background: color-mix(in srgb, var(--color-primary) 18%, transparent);
+  color: var(--color-primary-foreground);
+  font-size: 0.75rem;
+  font-weight: 600;
+  line-height: 1.4;
+  cursor: pointer;
+  vertical-align: middle;
+  margin: 0 3px;
+  transition: background 150ms ease, border-color 150ms ease;
+}
+
+.timeSavedPill:hover {
+  background: color-mix(in srgb, var(--color-primary) 28%, transparent);
+  border-color: color-mix(in srgb, var(--color-primary) 65%, transparent);
+}
+
+.timeSavedIcon {
+  opacity: 0.85;
+  flex-shrink: 0;
+}
+

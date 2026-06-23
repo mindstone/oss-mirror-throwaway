@@ -1,0 +1,150 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=1280, height=720">
+  <title>Rebel Avatar - Audio File Test</title>
+  <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    body {
+      width: 1280px;
+      height: 720px;
+      background: linear-gradient(135deg, #1a1a2e 0%, #16213e 100%);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+      color: white;
+      overflow: hidden;
+    }
+    .avatar-container { text-align: center; }
+    .avatar {
+      width: 200px;
+      height: 200px;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin: 0 auto 24px;
+      box-shadow: 0 8px 32px rgba(0,0,0,0.3);
+      transition: all 0.3s ease;
+    }
+    .avatar.idle { background: linear-gradient(145deg, #4a90a4 0%, #2d5a6b 100%); }
+    .avatar.speaking { background: linear-gradient(145deg, #6bc46d 0%, #3d8b40 100%); transform: scale(1.05); }
+    .avatar.error { background: linear-gradient(145deg, #c44a4a 0%, #8b3d3d 100%); }
+    .avatar-icon { font-size: 80px; }
+    .bot-name { font-size: 32px; font-weight: 600; margin-bottom: 8px; }
+    .status { font-size: 18px; opacity: 0.7; margin-bottom: 16px; }
+    .test-result {
+      font-size: 24px;
+      font-weight: bold;
+      padding: 12px 24px;
+      border-radius: 8px;
+      margin-top: 20px;
+    }
+    .test-result.success { background: rgba(107, 196, 109, 0.2); color: #6bc46d; }
+    .test-result.failure { background: rgba(196, 74, 74, 0.2); color: #c44a4a; }
+    .test-result.pending { background: rgba(196, 166, 74, 0.2); color: #c4a64a; }
+    .debug-info {
+      position: absolute;
+      bottom: 20px;
+      left: 20px;
+      font-size: 12px;
+      opacity: 0.5;
+      font-family: monospace;
+      max-width: 800px;
+    }
+  </style>
+</head>
+<body>
+  <div class="avatar-container">
+    <div class="avatar idle" id="avatar">
+      <span class="avatar-icon">🤖</span>
+    </div>
+    <div class="bot-name">Audio File Test</div>
+    <div class="status" id="status">Loading audio file...</div>
+    <div class="test-result pending" id="result">Testing...</div>
+  </div>
+  <div class="debug-info" id="debugInfo">Loading...</div>
+
+  <!-- Use a real MP3 file - this is a short "ding" sound hosted publicly -->
+  <audio id="testAudio" preload="auto" crossorigin="anonymous">
+    <source src="https://cdn.freesound.org/previews/536/536420_4921277-lq.mp3" type="audio/mpeg">
+  </audio>
+
+  <script>
+    const avatar = document.getElementById('avatar');
+    const status = document.getElementById('status');
+    const result = document.getElementById('result');
+    const debugInfo = document.getElementById('debugInfo');
+    const audio = document.getElementById('testAudio');
+    
+    let logs = [];
+    function log(msg) {
+      const timestamp = new Date().toISOString().substr(11, 12);
+      const entry = `[${timestamp}] ${msg}`;
+      logs.push(entry);
+      console.log('[Spike Test]', msg);
+      debugInfo.textContent = logs.slice(-6).join('\n');
+    }
+    
+    async function testAudioFile() {
+      log('Starting audio file playback test...');
+      
+      // Check if audio is loaded
+      if (audio.readyState < 2) {
+        log('Waiting for audio to load...');
+        await new Promise((resolve, reject) => {
+          audio.oncanplaythrough = resolve;
+          audio.onerror = () => reject(new Error('Failed to load audio file'));
+          setTimeout(() => reject(new Error('Audio load timeout')), 5000);
+        });
+      }
+      
+      log(`Audio loaded, duration: ${audio.duration.toFixed(2)}s`);
+      
+      try {
+        // Set up event handlers
+        audio.onplay = () => {
+          avatar.className = 'avatar speaking';
+          status.textContent = 'Playing audio...';
+          log('Audio playback STARTED');
+        };
+        
+        audio.onended = () => {
+          avatar.className = 'avatar idle';
+          status.textContent = 'Audio completed';
+          result.textContent = '✓ AUDIO PLAYED';
+          result.className = 'test-result success';
+          log('Audio playback COMPLETED - Test PASSED');
+        };
+        
+        audio.onerror = (e) => {
+          throw new Error(`Playback error: ${e.message || 'unknown'}`);
+        };
+        
+        // Try to play
+        log('Attempting audio.play()...');
+        await audio.play();
+        log('audio.play() returned successfully');
+        
+      } catch (err) {
+        log(`FAILED: ${err.message}`);
+        avatar.className = 'avatar error';
+        status.textContent = 'Playback failed';
+        result.textContent = '✗ AUDIO BLOCKED';
+        result.className = 'test-result failure';
+      }
+    }
+    
+    // Run test after short delay
+    log('Page loaded');
+    setTimeout(() => {
+      testAudioFile().catch(err => {
+        log(`Test error: ${err.message}`);
+      });
+    }, 1000);
+  </script>
+</body>
+</html>

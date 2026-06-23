@@ -1,0 +1,5 @@
+{"type":"turn_started","timestamp":1,"turnId":"turn-1"}
+{"type":"user_question","timestamp":2,"batchId":"b1","question":"Proceed?","options":["yes","no"]}
+{"type":"user_question_answered","timestamp":3,"batchId":"b1","answer":"yes"}
+{"type":"user_question_answered","timestamp":4,"batchId":"b1","answer":"yes"}
+{"type":"result","timestamp":5,"text":""}

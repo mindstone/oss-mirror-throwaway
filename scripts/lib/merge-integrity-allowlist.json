@@ -1,0 +1,15 @@
+{
+  "$comment": "Allowlist of historical merge SHAs that the merge-integrity verifier should treat as PASS. Use sparingly. Only add entries when (a) the merge was committed by another author, (b) you cannot retroactively fix it without rewriting shared history, and (c) the dropped content has been recovered in subsequent commits. Always cite the recovery commit in 'recovered_in'.",
+  "exempted_merges": [
+    {
+      "sha": "30ea7b50824c9e5eca3762aef5c11dd135ef4d56",
+      "reason": "Apr 16 merge by liampcollins took 'ours' resolution that dropped src/main/services/__tests__/agentMessageHandler.requestTooLarge.test.ts. The file was re-added in commit 74d5a135c (fix(rebelCore): Broaden context overflow classification...). Cannot be retroactively fixed without rewriting shared history on dev/main.",
+      "recovered_in": "74d5a135c"
+    },
+    {
+      "sha": "d5ae0944d9f1c1d8cc55352a7d594a69373752aa",
+      "reason": "Apr 27 merge of origin/main into dev took 'ours' and dropped 8 files' worth of incoming changes from origin/main (notably scripts/patch-vitest-sourcemap.mjs and the matching package.json postinstall hook). All dropped changes have been re-applied in subsequent commits (e.g., 417dbf856 'fix(ci): Patch vitest source-map parser to tolerate malformed inline sourcemaps'). Verified by inspecting HEAD content for each parent2 file. Cannot be retroactively fixed without rewriting shared history on dev/main.",
+      "recovered_in": "417dbf856"
+    }
+  ]
+}

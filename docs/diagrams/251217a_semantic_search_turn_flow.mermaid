@@ -1,0 +1,115 @@
+%%{init: {'theme': 'base', 'themeVariables': { 'fontSize': '14px', 'fontFamily': 'arial', 'nodeSpacing': 30, 'rankSpacing': 40 }}}%%
+%% Prompt: Semantic search decision flow during agent turns
+%% Files: agentTurnExecutor.ts, semanticContextService.ts, queryRefinementService.ts
+%% Intent: Show when/why semantic search is triggered or skipped after user message
+
+flowchart TD
+    subgraph USER["fa:fa-user User"]
+        style USER fill:#9b59b6,stroke:#8e44ad,color:#fff
+        MSG[Send Message]
+    end
+
+    subgraph TURN["fa:fa-bolt Agent Turn Executor"]
+        style TURN fill:#3498db,stroke:#2980b9,color:#fff
+        START["executeAgentTurn()"]
+        ENHANCE["enhancePromptWithSemanticContext()"]
+    end
+
+    subgraph CONTEXT["fa:fa-search Semantic Context Service"]
+        style CONTEXT fill:#2ecc71,stroke:#27ae60,color:#fff
+        
+        KW_CHECK{"Explicit keyword?<br/>@all @files @workspace"}
+        
+        subgraph EXPLICIT["Explicit Search Mode"]
+            style EXPLICIT fill:#27ae60,stroke:#1e8449,color:#fff
+            EXP_OPTS["limit: 10<br/>threshold: 0.35<br/>skip refinement"]
+        end
+        
+        WATCH_CHECK{"isWatching()?"}
+        PATH_CHECK{"Workspace path?"}
+    end
+
+    subgraph REFINE["fa:fa-brain Query Refinement - Haiku"]
+        style REFINE fill:#f39c12,stroke:#d68910,color:#fff
+        
+        SHORT_CHECK{"Query < 10 chars?"}
+        KEY_CHECK{"API key?"}
+        HAIKU["Claude Haiku<br/>5s timeout"]
+        
+        CLASSIFY["Intent Classification:<br/>• file_search<br/>• external_tool<br/>• general_knowledge<br/>• conversation"]
+    end
+
+    subgraph GUARD["fa:fa-shield Intent Guard"]
+        style GUARD fill:#e74c3c,stroke:#c0392b,color:#fff
+        
+        SHOULD_SEARCH{"shouldSearchFiles?"}
+        CONF_CHECK{"confidence >= 0.7?"}
+        
+        SKIP_SEARCH["SKIP SEARCH<br/>Return empty"]
+        FAILSAFE["FAIL-SAFE MODE<br/>limit: 2<br/>threshold: 0.6"]
+    end
+
+    subgraph VECTOR["fa:fa-database Vector Search"]
+        style VECTOR fill:#9b59b6,stroke:#8e44ad,color:#fff
+        EMBED["semanticSearch()<br/>embedding lookup"]
+        RESULTS["Return matched files"]
+    end
+
+    subgraph OUTPUT["fa:fa-file-alt Result"]
+        style OUTPUT fill:#34495e,stroke:#2c3e50,color:#fff
+        FORMAT["Format context"]
+        DISPATCH["Dispatch semantic_search<br/>tool event"]
+        FINAL["Enhanced prompt<br/>sent to Claude"]
+    end
+
+    %% Flow connections
+    MSG --> START
+    START --> ENHANCE
+    
+    ENHANCE --> KW_CHECK
+    
+    KW_CHECK -->|"Yes"| EXP_OPTS
+    EXP_OPTS --> WATCH_CHECK
+    
+    KW_CHECK -->|"No"| WATCH_CHECK
+    
+    WATCH_CHECK -->|"No"| SKIP_SEARCH
+    WATCH_CHECK -->|"Yes"| PATH_CHECK
+    
+    PATH_CHECK -->|"No"| SKIP_SEARCH
+    PATH_CHECK -->|"Yes"| SHORT_CHECK
+    
+    SHORT_CHECK -->|"Yes"| EMBED
+    SHORT_CHECK -->|"No"| KEY_CHECK
+    
+    KEY_CHECK -->|"No"| EMBED
+    KEY_CHECK -->|"Yes"| HAIKU
+    
+    HAIKU --> CLASSIFY
+    CLASSIFY --> SHOULD_SEARCH
+    
+    SHOULD_SEARCH -->|"Yes"| EMBED
+    SHOULD_SEARCH -->|"No"| CONF_CHECK
+    
+    CONF_CHECK -->|"Yes"| SKIP_SEARCH
+    CONF_CHECK -->|"No"| FAILSAFE
+    
+    FAILSAFE --> EMBED
+    
+    EMBED --> RESULTS
+    RESULTS -->|"Files found"| FORMAT
+    RESULTS -->|"No files"| FINAL
+    
+    FORMAT --> DISPATCH
+    DISPATCH --> FINAL
+    
+    SKIP_SEARCH --> FINAL
+
+    %% Styling for decision nodes
+    style KW_CHECK fill:#f1c40f,stroke:#d4ac0d,color:#000
+    style WATCH_CHECK fill:#f1c40f,stroke:#d4ac0d,color:#000
+    style PATH_CHECK fill:#f1c40f,stroke:#d4ac0d,color:#000
+    style SHORT_CHECK fill:#f1c40f,stroke:#d4ac0d,color:#000
+    style KEY_CHECK fill:#f1c40f,stroke:#d4ac0d,color:#000
+    style SHOULD_SEARCH fill:#f1c40f,stroke:#d4ac0d,color:#000
+    style CONF_CHECK fill:#f1c40f,stroke:#d4ac0d,color:#000

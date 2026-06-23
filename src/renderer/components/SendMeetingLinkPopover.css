@@ -1,0 +1,101 @@
+.send-meeting-link {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-2);
+}
+
+.send-meeting-link__input-row {
+  display: flex;
+  align-items: center;
+  gap: var(--space-2);
+}
+
+.send-meeting-link__input-row input {
+  flex: 1;
+  font-size: var(--font-size-sm);
+}
+
+.send-meeting-link__platform-badge {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  font-size: var(--font-size-xs);
+  color: var(--color-text-accent);
+  white-space: nowrap;
+  flex-shrink: 0;
+}
+
+.send-meeting-link__platform-badge svg {
+  flex-shrink: 0;
+}
+
+.send-meeting-link__error {
+  font-size: var(--font-size-xs);
+  color: var(--color-destructive);
+  margin: 0;
+}
+
+.send-meeting-link__success {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 4px;
+  font-size: var(--font-size-xs);
+  color: var(--color-text-accent);
+  margin: 0;
+}
+
+.send-meeting-link__schedule-toggle {
+  background: none;
+  border: none;
+  padding: 0;
+  font-size: var(--font-size-xs);
+  color: var(--color-text-secondary);
+  cursor: pointer;
+  text-decoration: underline;
+  text-decoration-style: dotted;
+  text-underline-offset: 2px;
+}
+
+.send-meeting-link__schedule-toggle:hover {
+  color: var(--color-text-primary);
+}
+
+.send-meeting-link__schedule-row {
+  display: flex;
+  align-items: center;
+  gap: var(--space-2);
+}
+
+.send-meeting-link__schedule-row label {
+  font-size: var(--font-size-xs);
+  color: var(--color-text-secondary);
+  white-space: nowrap;
+}
+
+.send-meeting-link__schedule-row input[type="datetime-local"] {
+  flex: 1;
+  font-size: var(--font-size-xs);
+  padding: 2px 6px;
+  border: 1px solid var(--color-border-subtle);
+  border-radius: var(--radius-sm);
+  background: var(--color-surface-primary);
+  color: var(--color-text-primary);
+}
+
+.send-meeting-link__actions {
+  display: flex;
+  align-items: center;
+  gap: var(--space-2);
+}
+
+.send-meeting-link__actions button {
+  flex: 1;
+}
+
+.send-meeting-link__dedup {
+  font-size: var(--font-size-xs);
+  color: var(--color-text-secondary);
+  margin: 0;
+  text-align: center;
+}

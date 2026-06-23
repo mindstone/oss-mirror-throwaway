@@ -1,0 +1,94 @@
+.root {
+  display: grid;
+  gap: var(--space-4);
+}
+
+.section {
+  display: grid;
+  gap: var(--space-2);
+}
+
+.sectionHeader {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--space-2);
+}
+
+.sectionTitle {
+  margin: 0;
+  font-size: 0.875rem;
+  font-weight: 600;
+  color: var(--color-text-primary);
+}
+
+.sectionCount {
+  color: var(--color-text-secondary);
+  font-size: 0.75rem;
+  font-weight: 600;
+}
+
+.treeSurface {
+  border: 1px solid color-mix(in srgb, var(--color-border) 80%, transparent);
+  border-radius: var(--radius-md);
+  min-height: 180px;
+  overflow: hidden;
+}
+
+.badgeSection {
+  display: grid;
+  gap: var(--space-2);
+}
+
+.badgeLabel {
+  color: var(--color-text-secondary);
+  font-size: 0.75rem;
+  font-weight: 600;
+}
+
+.badgeRow {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-2);
+}
+
+.groupList {
+  display: grid;
+  gap: var(--space-3);
+}
+
+.groupCard {
+  display: grid;
+  gap: var(--space-2);
+  border: 1px solid color-mix(in srgb, var(--color-border) 80%, transparent);
+  border-radius: var(--radius-md);
+  padding: var(--space-3);
+}
+
+.groupHeader {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--space-2);
+}
+
+.groupTitle {
+  color: var(--color-text-primary);
+  font-size: 0.8125rem;
+  font-weight: 600;
+}
+
+.groupBody {
+  border: 1px solid color-mix(in srgb, var(--color-border) 60%, transparent);
+  border-radius: var(--radius-sm);
+  min-height: 110px;
+  overflow: hidden;
+}
+
+.unavailableMessage {
+  margin: 0;
+  padding: var(--space-3);
+  color: var(--color-text-secondary);
+  font-size: 0.8125rem;
+  line-height: 1.45;
+}

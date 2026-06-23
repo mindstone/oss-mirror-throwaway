@@ -1,0 +1,83 @@
+%% Skills Discovery and Usage Flow
+%% Shows how skills are discovered and used during conversations
+%% Related files:
+%% - src/main/services/skillsService.ts
+%% - rebel-system/AGENTS.md [PROCESS] section
+
+flowchart TB
+    subgraph discovery["📚 Skill Discovery (App Startup)"]
+        SCAN["scanSkills()"]
+        
+        subgraph sources["Skill Sources"]
+            PLATFORM["🔒 rebel-system/skills/<br/><i>Platform skills (read-only)</i>"]
+            WORKSPACE["📁 workspace/skills/<br/><i>Project-specific skills</i>"]
+            SPACES["🏠 {space}/skills/<br/><i>Per-space skills</i>"]
+        end
+        
+        SCAN --> PLATFORM
+        SCAN --> WORKSPACE
+        SCAN --> SPACES
+        
+        PARSE["Parse SKILL.md files<br/><code>readSkillFrontmatter()</code>"]
+        GROUP["Group by source & category"]
+        INDEX["Store in SkillsGroup[]"]
+        
+        PLATFORM --> PARSE
+        WORKSPACE --> PARSE
+        SPACES --> PARSE
+        PARSE --> GROUP
+        GROUP --> INDEX
+    end
+
+    subgraph systemprompt["📝 System Prompt (Not Auto-Loaded)"]
+        AGENTS["rebel-system/AGENTS.md"]
+        PROCESS["[PROCESS] Section:<br/>Step 4: Search for Skills"]
+        SKILLS_IDX["Skills Index Section:<br/>Categories and locations"]
+        
+        AGENTS --> PROCESS
+        AGENTS --> SKILLS_IDX
+    end
+
+    subgraph runtime["⚡ Runtime Usage (Claude's Initiative)"]
+        TASK["User requests task"]
+        ANALYZE["Claude analyzes task"]
+        SEARCH{"Does task<br/>need skills?"}
+        
+        TASK --> ANALYZE
+        ANALYZE --> SEARCH
+        
+        SEARCH -->|No| EXECUTE["Execute directly"]
+        SEARCH -->|Yes| FIND["Search skills/ directories<br/><i>Using file tools</i>"]
+        
+        FIND --> READ["Read relevant SKILL.md"]
+        READ --> EXTRACT["Extract:<br/>• Step-by-step guidance<br/>• Examples/templates<br/>• Best practices"]
+        EXTRACT --> FOLLOW["Follow skill instructions"]
+        FOLLOW --> EXECUTE
+    end
+
+    subgraph system_skills["🔧 System Skills (Code-Loaded)"]
+        SAFETY_SKILL["skills/safety/safety-guard/<br/><i>Tool risk evaluation</i>"]
+        MEMORY_SKILL["skills/memory/memory-update/<br/><i>Memory write processing</i>"]
+        
+        SAFETY_SVC["toolSafetyService.ts"]
+        MEMORY_SVC["memoryService.ts"]
+        
+        SAFETY_SKILL -.->|Loaded by| SAFETY_SVC
+        MEMORY_SKILL -.->|Loaded by| MEMORY_SVC
+    end
+
+    INDEX -.->|UI Display| UI["Settings > Skills"]
+    PROCESS -.->|Instructs| ANALYZE
+    SKILLS_IDX -.->|Guides| FIND
+
+    classDef platform fill:#e3f2fd,stroke:#1565c0
+    classDef workspace fill:#fff8e1,stroke:#f9a825
+    classDef space fill:#f3e5f5,stroke:#7b1fa2
+    classDef process fill:#e8f5e9,stroke:#2e7d32
+    classDef system fill:#ffebee,stroke:#c62828
+
+    class PLATFORM platform
+    class WORKSPACE workspace
+    class SPACES space
+    class ANALYZE,SEARCH,FIND,READ,EXTRACT,FOLLOW,EXECUTE process
+    class SAFETY_SKILL,MEMORY_SKILL,SAFETY_SVC,MEMORY_SVC system

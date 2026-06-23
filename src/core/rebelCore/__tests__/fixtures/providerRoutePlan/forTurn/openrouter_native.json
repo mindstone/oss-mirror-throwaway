@@ -1,0 +1,27 @@
+{
+  "description": "OpenRouter active with native Claude model still uses OR proxy",
+  "input": {
+    "model": "claude-sonnet-4-6",
+    "settings": {
+      "activeProvider": "openrouter",
+      "models": {
+        "apiKey": "sk-ant-linger",
+        "authMethod": "api-key",
+        "model": "claude-sonnet-4-6",
+        "oauthToken": null
+      },
+      "localModel": {
+        "activeProfileId": null,
+        "profiles": []
+      },
+      "openRouter": {
+        "enabled": true,
+        "oauthToken": "or-token",
+        "selectedModel": "anthropic/claude-sonnet-4.6"
+      },
+      "providerKeys": {}
+    },
+    "codexConnectivity": "unknown"
+  },
+  "name": "openrouter_native"
+}

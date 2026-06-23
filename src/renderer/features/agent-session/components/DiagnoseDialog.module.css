@@ -1,0 +1,32 @@
+.body {
+  padding: var(--spacing-md) 0;
+}
+
+.subtitle {
+  color: var(--text-secondary);
+  font-size: var(--text-sm);
+  margin: 0 0 var(--spacing-md);
+  line-height: 1.5;
+}
+
+.subtitle strong {
+  color: var(--text-primary);
+}
+
+.inputWrapper {
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-xs);
+}
+
+.textarea {
+  resize: none;
+  min-height: 80px;
+}
+
+.hint {
+  color: var(--text-tertiary);
+  font-size: var(--text-xs);
+  margin: 0;
+  line-height: 1.4;
+}

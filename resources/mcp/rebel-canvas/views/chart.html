@@ -1,0 +1,354 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Chart</title>
+  <style>
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+      padding: 24px;
+      background: #fff;
+      color: #1a1a1a;
+      line-height: 1.5;
+    }
+
+    body.dark {
+      background: #1a1a1a;
+      color: #f0f0f0;
+    }
+
+    @media (prefers-color-scheme: dark) {
+      body:not(.light) {
+        background: #1a1a1a;
+        color: #f0f0f0;
+      }
+    }
+
+    h1 {
+      font-size: 16px;
+      font-weight: 600;
+      margin-bottom: 20px;
+    }
+
+    .error {
+      color: #888;
+      font-size: 14px;
+      text-align: center;
+      padding: 40px 0;
+    }
+
+    /* ---- Bar chart ---- */
+    .bar-chart { display: flex; flex-direction: column; gap: 10px; }
+    .bar-row { display: flex; align-items: center; gap: 12px; }
+
+    .bar-label {
+      width: 100px;
+      font-size: 13px;
+      text-align: right;
+      color: #666;
+      flex-shrink: 0;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+    }
+    body.dark .bar-label { color: #aaa; }
+    @media (prefers-color-scheme: dark) { body:not(.light) .bar-label { color: #aaa; } }
+
+    .bar-track {
+      flex: 1;
+      height: 26px;
+      background: #f0f0f0;
+      border-radius: 4px;
+      overflow: hidden;
+    }
+    body.dark .bar-track { background: #2a2a2a; }
+    @media (prefers-color-scheme: dark) { body:not(.light) .bar-track { background: #2a2a2a; } }
+
+    .bar-fill {
+      height: 100%;
+      border-radius: 4px;
+      transition: width 0.6s ease;
+      min-width: 2px;
+    }
+
+    .bar-value {
+      width: 60px;
+      font-size: 13px;
+      color: #888;
+      flex-shrink: 0;
+    }
+
+    /* ---- Line chart (SVG) ---- */
+    .line-chart { width: 100%; }
+    .line-chart svg { width: 100%; height: 260px; display: block; }
+
+    .line-chart .axis-line {
+      stroke: #ddd;
+      stroke-width: 1;
+    }
+    body.dark .line-chart .axis-line { stroke: #333; }
+    @media (prefers-color-scheme: dark) { body:not(.light) .line-chart .axis-line { stroke: #333; } }
+
+    .line-chart .data-line {
+      fill: none;
+      stroke-width: 2.5;
+      stroke-linecap: round;
+      stroke-linejoin: round;
+    }
+
+    .line-chart .data-area {
+      opacity: 0.12;
+    }
+
+    .line-chart .data-dot {
+      r: 4;
+    }
+
+    .line-chart .x-label {
+      font-size: 11px;
+      fill: #888;
+      text-anchor: middle;
+    }
+    body.dark .line-chart .x-label { fill: #999; }
+    @media (prefers-color-scheme: dark) { body:not(.light) .line-chart .x-label { fill: #999; } }
+
+    .line-chart .y-label {
+      font-size: 11px;
+      fill: #888;
+      text-anchor: end;
+    }
+    body.dark .line-chart .y-label { fill: #999; }
+    @media (prefers-color-scheme: dark) { body:not(.light) .line-chart .y-label { fill: #999; } }
+
+    /* ---- Pie chart (SVG) ---- */
+    .pie-chart { display: flex; align-items: center; gap: 32px; flex-wrap: wrap; justify-content: center; }
+    .pie-chart svg { width: 200px; height: 200px; flex-shrink: 0; }
+
+    .pie-legend { display: flex; flex-direction: column; gap: 8px; }
+    .pie-legend-item { display: flex; align-items: center; gap: 8px; font-size: 13px; }
+    .pie-legend-swatch {
+      width: 12px;
+      height: 12px;
+      border-radius: 2px;
+      flex-shrink: 0;
+    }
+    .pie-legend-label { color: #555; }
+    body.dark .pie-legend-label { color: #bbb; }
+    @media (prefers-color-scheme: dark) { body:not(.light) .pie-legend-label { color: #bbb; } }
+    .pie-legend-value { color: #999; margin-left: 4px; }
+  </style>
+</head>
+<body>
+  <div id="root"></div>
+
+  <script>
+    const DATA = /*__DATA__*/ null;
+
+    (function () {
+      'use strict';
+
+      // Theme detection
+      try {
+        var ctx = window.__REBEL_HOST_CONTEXT__;
+        if (ctx && ctx.theme === 'dark') {
+          document.body.classList.add('dark');
+        } else if (ctx && ctx.theme === 'light') {
+          document.body.classList.add('light');
+        }
+      } catch (_) { /* fallback to prefers-color-scheme */ }
+
+      var root = document.getElementById('root');
+
+      try {
+        if (!DATA || !DATA.data || !DATA.data.length) {
+          root.innerHTML = '<p class="error">No data available</p>';
+          return;
+        }
+
+        var title = DATA.title || 'Chart';
+        var type = DATA.type || 'bar';
+        var items = DATA.data;
+        var accent = escapeAttr(DATA.color || '#6366f1');
+
+        var heading = '<h1>' + escapeHtml(title) + '</h1>';
+
+        if (type === 'bar') {
+          root.innerHTML = heading + renderBarChart(items, accent);
+        } else if (type === 'line') {
+          root.innerHTML = heading + renderLineChart(items, accent, false);
+        } else if (type === 'area') {
+          root.innerHTML = heading + renderLineChart(items, accent, true);
+        } else if (type === 'pie') {
+          root.innerHTML = heading + renderPieChart(items);
+        } else {
+          root.innerHTML = heading + renderBarChart(items, accent, false);
+        }
+
+        // Animate bars after paint
+        if (type === 'bar' || (type !== 'line' && type !== 'area' && type !== 'pie')) {
+          requestAnimationFrame(function () {
+            var fills = document.querySelectorAll('.bar-fill');
+            fills.forEach(function (el) {
+              el.style.width = el.getAttribute('data-width');
+            });
+          });
+        }
+      } catch (e) {
+        root.innerHTML = '<p class="error">Failed to render chart</p>';
+      }
+
+      // ---- Renderers ----
+
+      function renderBarChart(items, accent) {
+        var max = Math.max.apply(null, items.map(function (d) { return d.value; }));
+        if (max <= 0) max = 1;
+
+        var rows = items.map(function (d) {
+          var pct = ((d.value / max) * 100).toFixed(1) + '%';
+          return '<div class="bar-row">' +
+            '<span class="bar-label" title="' + escapeAttr(d.label) + '">' + escapeHtml(d.label) + '</span>' +
+            '<div class="bar-track">' +
+            '<div class="bar-fill" style="width:0;background:' + accent + '" data-width="' + pct + '"></div>' +
+            '</div>' +
+            '<span class="bar-value">' + formatNumber(d.value) + '</span>' +
+            '</div>';
+        }).join('');
+
+        return '<div class="bar-chart">' + rows + '</div>';
+      }
+
+      function renderLineChart(items, accent, showArea) {
+        var padL = 50, padR = 20, padT = 16, padB = 32;
+        var w = 600, h = 260;
+        var chartW = w - padL - padR;
+        var chartH = h - padT - padB;
+
+        var max = Math.max.apply(null, items.map(function (d) { return d.value; }));
+        if (max <= 0) max = 1;
+
+        var points = items.map(function (d, i) {
+          var x = padL + (items.length === 1 ? chartW / 2 : (i / (items.length - 1)) * chartW);
+          var y = padT + chartH - (d.value / max) * chartH;
+          return { x: x, y: y, label: d.label, value: d.value };
+        });
+
+        var polyline = points.map(function (p) { return p.x + ',' + p.y; }).join(' ');
+
+        // Gridlines
+        var gridCount = 4;
+        var gridLines = '';
+        for (var g = 0; g <= gridCount; g++) {
+          var gy = padT + (g / gridCount) * chartH;
+          var val = max - (g / gridCount) * max;
+          gridLines += '<line class="axis-line" x1="' + padL + '" y1="' + gy + '" x2="' + (w - padR) + '" y2="' + gy + '"/>';
+          gridLines += '<text class="y-label" x="' + (padL - 8) + '" y="' + (gy + 4) + '">' + formatNumber(val) + '</text>';
+        }
+
+        // Area fill
+        var areaPath = '';
+        if (showArea || DATA.type === 'area') {
+          var areaPoints = padL + ',' + (padT + chartH) + ' ' + polyline + ' ' + points[points.length - 1].x + ',' + (padT + chartH);
+          areaPath = '<polygon class="data-area" points="' + areaPoints + '" fill="' + accent + '"/>';
+        }
+
+        // Dots
+        var dots = points.map(function (p) {
+          return '<circle class="data-dot" cx="' + p.x + '" cy="' + p.y + '" fill="' + accent + '"/>';
+        }).join('');
+
+        // X labels
+        var xLabels = points.map(function (p) {
+          return '<text class="x-label" x="' + p.x + '" y="' + (h - 4) + '">' + escapeHtml(p.label) + '</text>';
+        }).join('');
+
+        return '<div class="line-chart"><svg viewBox="0 0 ' + w + ' ' + h + '" preserveAspectRatio="xMidYMid meet">' +
+          gridLines + areaPath +
+          '<polyline class="data-line" points="' + polyline + '" stroke="' + accent + '"/>' +
+          dots + xLabels +
+          '</svg></div>';
+      }
+
+      function renderPieChart(items) {
+        var COLORS = ['#6366f1', '#ec4899', '#f59e0b', '#10b981', '#3b82f6', '#8b5cf6', '#ef4444', '#14b8a6'];
+        var total = items.reduce(function (s, d) { return s + d.value; }, 0);
+        if (total <= 0) return '<p class="error">No data to display</p>';
+
+        var cx = 100, cy = 100, r = 90;
+        var angle = -90;
+        var paths = '';
+        var legendItems = '';
+
+        items.forEach(function (d, i) {
+          var pct = d.value / total;
+          var sweep = pct * 360;
+          var color = COLORS[i % COLORS.length];
+
+          var startRad = (angle * Math.PI) / 180;
+          var endRad = ((angle + sweep) * Math.PI) / 180;
+
+          var x1 = cx + r * Math.cos(startRad);
+          var y1 = cy + r * Math.sin(startRad);
+          var x2 = cx + r * Math.cos(endRad);
+          var y2 = cy + r * Math.sin(endRad);
+          var largeArc = sweep > 180 ? 1 : 0;
+
+          if (items.length === 1) {
+            paths += '<circle cx="' + cx + '" cy="' + cy + '" r="' + r + '" fill="' + color + '"/>';
+          } else {
+            paths += '<path d="M' + cx + ',' + cy + ' L' + x1 + ',' + y1 +
+              ' A' + r + ',' + r + ' 0 ' + largeArc + ',1 ' + x2 + ',' + y2 + ' Z" fill="' + color + '"/>';
+          }
+
+          legendItems += '<div class="pie-legend-item">' +
+            '<div class="pie-legend-swatch" style="background:' + color + '"></div>' +
+            '<span class="pie-legend-label">' + escapeHtml(d.label) + '</span>' +
+            '<span class="pie-legend-value">(' + (pct * 100).toFixed(1) + '%)</span>' +
+            '</div>';
+
+          angle += sweep;
+        });
+
+        return '<div class="pie-chart">' +
+          '<svg viewBox="0 0 200 200">' + paths + '</svg>' +
+          '<div class="pie-legend">' + legendItems + '</div>' +
+          '</div>';
+      }
+
+      // ---- Utilities ----
+
+      function escapeHtml(s) {
+        if (!s) return '';
+        return String(s).replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;');
+      }
+
+      function escapeAttr(s) {
+        return escapeHtml(s);
+      }
+
+      function formatNumber(n) {
+        if (n == null) return '';
+        if (Math.abs(n) >= 1e6) return (n / 1e6).toFixed(1) + 'M';
+        if (Math.abs(n) >= 1e3) return (n / 1e3).toFixed(1) + 'K';
+        return Number.isInteger(n) ? String(n) : n.toFixed(1);
+      }
+    })();
+
+    // Report content height to host for auto-sizing (throttled)
+    var rafPending = false;
+    function reportHeight() {
+      if (rafPending) return;
+      rafPending = true;
+      requestAnimationFrame(function () {
+        rafPending = false;
+        var h = document.documentElement.scrollHeight;
+        window.parent.postMessage({ jsonrpc: '2.0', method: 'ui/resize', params: { height: h } }, '*');
+      });
+    }
+    reportHeight();
+    new ResizeObserver(reportHeight).observe(document.body);
+  </script>
+</body>
+</html>

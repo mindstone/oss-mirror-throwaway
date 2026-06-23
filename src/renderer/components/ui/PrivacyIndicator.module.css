@@ -1,0 +1,23 @@
+.privacyIcon {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  cursor: default;
+}
+
+.privacyIconPrivate {
+  color: rgba(148, 163, 184, 0.8);
+}
+
+.privacyIconShared {
+  color: #fbbf24;
+}
+
+:global(body.light) .privacyIconPrivate {
+  color: rgba(100, 116, 139, 0.8);
+}
+
+:global(body.light) .privacyIconShared {
+  color: #d97706;
+}

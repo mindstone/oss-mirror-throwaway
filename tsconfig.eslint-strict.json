@@ -1,0 +1,15 @@
+{
+  "extends": "./tsconfig.renderer.json",
+  "include": [
+    "src/renderer/App.tsx",
+    "src/renderer/hooks/useModelRoles.ts",
+    "src/renderer/features/focus/components/FocusNoCalendar.tsx",
+    "src/renderer/features/library/components/LibraryLensBar.tsx",
+    "src/renderer/features/library/components/LibraryNavigator.tsx",
+    "src/renderer/features/plugins/components/PluginSurface.tsx",
+    "src/renderer/features/homepage/HomepagePanel.tsx",
+    "src/renderer/features/homepage/components/CoachSection.tsx",
+    "src/renderer/features/settings/components/tabs/PluginsTab.tsx",
+    "src/renderer/features/agent-session/components/MeetingCompanionManager.tsx"
+  ]
+}

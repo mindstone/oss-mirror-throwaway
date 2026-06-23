@@ -1,0 +1,189 @@
+/* Custom DialogContent size for full-screen canvas */
+.dialogContent {
+  width: 95vw !important;
+  max-width: 1400px !important;
+  height: 85vh;
+  max-height: 900px;
+  display: flex;
+  flex-direction: column;
+}
+
+.dialogBody {
+  flex: 1;
+  min-height: 0;
+  padding: 0 !important;
+  overflow: hidden;
+}
+
+.canvasContainer {
+  width: 100%;
+  height: 100%;
+  position: relative;
+  overflow: hidden;
+}
+
+.dialogFooter {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  border-top: 1px solid var(--color-border-soft, rgba(226, 232, 240, 0.7));
+}
+
+:global(.dark) .dialogFooter {
+  border-top-color: rgba(255, 255, 255, 0.1);
+}
+
+.hint {
+  margin: 0;
+  font-size: 13px;
+  color: var(--color-text-secondary, #64748b);
+}
+
+.actions {
+  display: flex;
+  gap: 8px;
+}
+
+/* Floating hints overlay */
+.hintsOverlay {
+  position: absolute;
+  bottom: 20px;
+  left: 20px;
+  z-index: 10;
+  pointer-events: none;
+  animation: fadeInUp 0.3s ease-out;
+}
+
+@keyframes fadeInUp {
+  from {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.hintCard {
+  background: var(--color-surface-1, #ffffff);
+  border: 1px solid var(--color-border-soft, rgba(226, 232, 240, 0.7));
+  border-radius: var(--radius-md, 8px);
+  padding: 12px 16px;
+  box-shadow: var(--shadow-lg, 0 10px 15px -3px rgba(0, 0, 0, 0.1));
+  max-width: 280px;
+}
+
+:global(.dark) .hintCard {
+  background: rgba(30, 27, 75, 0.95);
+  border-color: rgba(99, 102, 241, 0.3);
+}
+
+.hintTitle {
+  margin: 0 0 8px;
+  font-size: 12px;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  color: var(--color-text-secondary, #64748b);
+}
+
+.hintList {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px 16px;
+  margin-bottom: 8px;
+}
+
+.hintList span {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 13px;
+  color: var(--color-text-primary, #1e293b);
+}
+
+:global(.dark) .hintList span {
+  color: var(--color-text-inverse, #e2e8f0);
+}
+
+.hintList kbd {
+  display: inline-block;
+  padding: 2px 6px;
+  font-family: var(--font-mono, monospace);
+  font-size: 11px;
+  font-weight: 500;
+  background: var(--color-surface-muted, #f1f5f9);
+  border: 1px solid var(--color-border-soft, rgba(226, 232, 240, 0.7));
+  border-radius: 4px;
+  color: var(--color-text-secondary, #64748b);
+}
+
+:global(.dark) .hintList kbd {
+  background: rgba(99, 102, 241, 0.2);
+  border-color: rgba(99, 102, 241, 0.3);
+  color: #a5b4fc;
+}
+
+.hintDismiss {
+  margin: 0;
+  font-size: 11px;
+  color: var(--color-text-tertiary, #94a3b8);
+  font-style: italic;
+}
+
+/* Success overlay animation */
+.successOverlay {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  background: rgba(99, 102, 241, 0.95);
+  z-index: 20;
+  animation: successFadeIn 0.3s ease-out;
+}
+
+@keyframes successFadeIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+.successIcon {
+  width: 64px;
+  height: 64px;
+  border-radius: 50%;
+  background: white;
+  color: #6366f1;
+  font-size: 32px;
+  font-weight: bold;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-bottom: 12px;
+  animation: successPop 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+}
+
+@keyframes successPop {
+  0% {
+    transform: scale(0);
+  }
+  70% {
+    transform: scale(1.1);
+  }
+  100% {
+    transform: scale(1);
+  }
+}
+
+.successOverlay p {
+  margin: 0;
+  font-size: 18px;
+  font-weight: 600;
+  color: white;
+}

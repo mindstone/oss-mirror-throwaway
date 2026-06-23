@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>View Expired</title>
+  <style>
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      min-height: 120px;
+      padding: 32px;
+      background: #fff;
+      color: #1a1a1a;
+    }
+
+    body.dark {
+      background: #1a1a1a;
+      color: #f0f0f0;
+    }
+
+    @media (prefers-color-scheme: dark) {
+      body:not(.light) {
+        background: #1a1a1a;
+        color: #f0f0f0;
+      }
+    }
+
+    .message {
+      text-align: center;
+    }
+
+    .icon {
+      font-size: 28px;
+      margin-bottom: 12px;
+      opacity: 0.4;
+    }
+
+    .title {
+      font-size: 14px;
+      font-weight: 600;
+      margin-bottom: 6px;
+    }
+
+    .subtitle {
+      font-size: 13px;
+      color: #888;
+    }
+  </style>
+</head>
+<body>
+  <div class="message">
+    <div class="icon">&#9202;</div>
+    <div class="title">This view has expired</div>
+    <div class="subtitle">Ask again to regenerate it.</div>
+  </div>
+
+  <script>
+    try {
+      var ctx = window.__REBEL_HOST_CONTEXT__;
+      if (ctx && ctx.theme === 'dark') {
+        document.body.classList.add('dark');
+      } else if (ctx && ctx.theme === 'light') {
+        document.body.classList.add('light');
+      }
+    } catch (_) { /* fallback to prefers-color-scheme */ }
+
+    var rafPending = false;
+    function reportHeight() {
+      if (rafPending) return;
+      rafPending = true;
+      requestAnimationFrame(function () {
+        rafPending = false;
+        var h = document.documentElement.scrollHeight;
+        window.parent.postMessage({ jsonrpc: '2.0', method: 'ui/resize', params: { height: h } }, '*');
+      });
+    }
+    reportHeight();
+    new ResizeObserver(reportHeight).observe(document.body);
+  </script>
+</body>
+</html>

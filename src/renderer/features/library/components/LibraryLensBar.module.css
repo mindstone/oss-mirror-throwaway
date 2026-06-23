@@ -1,0 +1,431 @@
+.root {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr);
+  grid-auto-rows: auto;
+  position: relative;
+  gap: var(--space-2);
+  container-type: inline-size;
+  container-name: library-lens;
+}
+
+.axisRow {
+  grid-column: 1;
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: var(--space-4);
+}
+
+.controlsRow {
+  grid-column: 1;
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: var(--space-3);
+  min-width: 0;
+}
+
+.axisGroup {
+  display: flex;
+  align-items: center;
+  gap: var(--space-3);
+  min-width: 0;
+}
+
+.axisLabel {
+  color: var(--color-text-secondary);
+  font-size: 0.75rem;
+  font-weight: 600;
+  line-height: 1;
+  white-space: nowrap;
+}
+
+.segmentedFrame {
+  display: inline-flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: var(--space-3);
+  padding: var(--space-1);
+  border-radius: var(--radius-md);
+  border: 1px solid color-mix(in srgb, var(--color-border) 80%, transparent);
+  background: color-mix(in srgb, var(--color-surface-muted) 88%, transparent);
+}
+
+.segmentedChip {
+  padding: var(--space-2) var(--space-3) !important;
+  border-radius: var(--radius-sm) !important;
+  border: none !important;
+  background: transparent !important;
+  color: var(--color-text-secondary) !important;
+  transition: none;
+}
+
+.segmentedChip:hover {
+  background: color-mix(in srgb, var(--color-text-muted) 12%, transparent) !important;
+  color: var(--color-text-primary) !important;
+}
+
+.segmentedChipActive,
+.segmentedChipActive:hover {
+  color: var(--color-text-primary) !important;
+  background: var(--color-brand-indigo-soft) !important;
+}
+
+.segmentedChip:focus-visible,
+.segmentedChip:focus {
+  outline: 2px solid var(--color-brand-indigo);
+  outline-offset: 2px;
+  box-shadow: none !important;
+  --tw-ring-shadow: 0 0 #0000;
+  --tw-ring-offset-shadow: 0 0 #0000;
+}
+
+.segmentedChipIcon {
+  flex-shrink: 0;
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  .segmentedChip {
+    transition:
+      color var(--motion-duration-fast) var(--motion-ease-out),
+      background var(--motion-duration-fast) var(--motion-ease-out),
+      box-shadow var(--motion-duration-fast) var(--motion-ease-out);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .segmentedChip {
+    transition: none;
+  }
+}
+
+.searchField {
+  position: relative;
+  min-width: 240px;
+  flex: 1 1 0;
+}
+
+.actionsSlot {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-2);
+  flex-shrink: 0;
+  margin-left: auto;
+}
+
+.primaryActionsSlot {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-1);
+}
+
+.actionsDivider {
+  width: 1px;
+  height: 24px;
+  background: color-mix(in srgb, var(--color-border) 65%, transparent);
+  flex-shrink: 0;
+  margin: 0 var(--space-1);
+}
+
+.overflowInlineActions {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-1);
+}
+
+.overflowMenuSlot {
+  display: none;
+  align-items: center;
+}
+
+.overflowActionSpinning svg {
+  animation: libraryLensSpin 1s linear infinite;
+}
+
+.overflowActionIndexing {
+  animation: libraryLensGlowIndexing 2.5s ease-in-out infinite;
+}
+
+.overflowMenu {
+  z-index: 9999;
+  min-width: 200px;
+  padding: var(--space-1);
+  border-radius: 10px;
+  background: color-mix(in srgb, var(--color-surface-elevated) 92%, black 8%);
+  border: 1px solid color-mix(in srgb, var(--color-border) 75%, transparent);
+  box-shadow:
+    0 12px 32px rgba(2, 6, 23, 0.45),
+    0 0 0 1px color-mix(in srgb, var(--color-brand-indigo) 10%, transparent);
+  backdrop-filter: blur(var(--glass-overlay-blur));
+}
+
+.overflowMenuItem {
+  display: flex;
+  align-items: center;
+  gap: var(--space-2);
+  width: 100%;
+  border: none;
+  background: transparent;
+  border-radius: var(--radius-sm);
+  color: var(--color-text-primary);
+  text-align: left;
+  padding: var(--space-2) var(--space-3);
+  cursor: pointer;
+  font-size: 0.82rem;
+  font-weight: 500;
+}
+
+.overflowMenuItem:hover:not(:disabled) {
+  background: color-mix(in srgb, var(--color-brand-indigo) 12%, transparent);
+}
+
+.overflowMenuItemActive {
+  background: color-mix(in srgb, var(--color-brand-indigo) 16%, transparent);
+}
+
+.overflowMenuItem:focus-visible {
+  outline: 2px solid var(--color-brand-indigo);
+  outline-offset: 2px;
+}
+
+.overflowMenuItem:disabled {
+  opacity: 0.45;
+  cursor: not-allowed;
+}
+
+.overflowMenuItemIcon {
+  flex-shrink: 0;
+  opacity: 0.75;
+}
+
+.overflowMenuItemLabel {
+  flex: 1;
+  min-width: 0;
+}
+
+.overflowMenuIndicator {
+  font-size: 0.68rem;
+  line-height: 1;
+  color: var(--color-text-muted);
+  border: 1px solid color-mix(in srgb, var(--color-border) 70%, transparent);
+  border-radius: 999px;
+  padding: 0.125rem 0.4rem;
+}
+
+.searchInput {
+  width: 100%;
+  padding-left: 32px !important;
+  padding-right: 132px !important;
+}
+
+.searchInputWithoutFilter {
+  padding-right: 12px !important;
+}
+
+.searchIcon {
+  position: absolute;
+  left: 10px;
+  top: 50%;
+  transform: translateY(-50%);
+  color: var(--color-text-muted);
+  pointer-events: none;
+}
+
+.filterTrigger {
+  position: absolute !important;
+  right: 6px;
+  top: 50%;
+  transform: translateY(-50%);
+  display: inline-flex !important;
+  align-items: center;
+  gap: var(--space-1);
+  max-width: 160px;
+  overflow: hidden;
+  white-space: nowrap;
+  padding: var(--space-1) var(--space-2) !important;
+  border-radius: var(--radius-sm) !important;
+  border: 1px solid color-mix(in srgb, var(--color-border) 70%, transparent) !important;
+  background: color-mix(in srgb, var(--color-surface-muted) 80%, transparent) !important;
+  color: var(--color-text-secondary) !important;
+  font-size: 0.75rem !important;
+  font-weight: 600 !important;
+  cursor: pointer;
+}
+
+.filterTriggerActive {
+  color: var(--color-text-primary) !important;
+  background: var(--color-brand-indigo-soft) !important;
+  border-color: color-mix(in srgb, var(--color-brand-indigo) 35%, transparent) !important;
+}
+
+.filterTriggerLabel {
+  flex: 1;
+  min-width: 0;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.filterTrigger:hover:not(:disabled) {
+  background: color-mix(in srgb, var(--color-text-muted) 12%, transparent) !important;
+  color: var(--color-text-primary) !important;
+}
+
+.filterTrigger:focus-visible {
+  outline: 2px solid var(--color-brand-indigo);
+  outline-offset: 2px;
+}
+
+.filterTriggerChevron {
+  flex-shrink: 0;
+  transition: transform var(--motion-duration-fast) var(--motion-ease-out);
+}
+
+.filterTriggerChevronOpen {
+  transform: rotate(180deg);
+}
+
+.filterPopover {
+  z-index: 9999;
+  min-width: 240px;
+  max-width: min(420px, calc(100vw - 32px));
+  max-height: min(60vh, 420px);
+  overflow-y: auto;
+  padding: var(--space-3);
+  border-radius: 10px;
+  background: color-mix(in srgb, var(--color-surface-elevated) 92%, black 8%);
+  border: 1px solid color-mix(in srgb, var(--color-border) 75%, transparent);
+  box-shadow:
+    0 12px 32px rgba(2, 6, 23, 0.45),
+    0 0 0 1px color-mix(in srgb, var(--color-brand-indigo) 10%, transparent);
+  backdrop-filter: blur(var(--glass-overlay-blur));
+}
+
+.filterPopoverHeader {
+  font-size: 0.7rem;
+  font-weight: 600;
+  color: var(--color-text-muted);
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+  margin-bottom: var(--space-2);
+}
+
+.filterPopoverChips {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-2);
+}
+
+.sortField {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-2);
+}
+
+.sortLabel {
+  color: var(--color-text-secondary);
+  font-size: 0.75rem;
+  font-weight: 600;
+  white-space: nowrap;
+}
+
+.sortSelect {
+  min-width: 170px;
+}
+
+.screenReaderStatus {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  margin: -1px;
+  padding: 0;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  border: 0;
+}
+
+@media (max-width: 1100px) {
+  .axisRow {
+    gap: var(--space-3);
+  }
+}
+
+@keyframes libraryLensSpin {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+@keyframes libraryLensGlowIndexing {
+  0%,
+  100% {
+    box-shadow: 0 0 4px color-mix(in srgb, var(--color-brand-indigo) 35%, transparent);
+  }
+  50% {
+    box-shadow:
+      0 0 10px color-mix(in srgb, var(--color-brand-indigo) 55%, transparent),
+      0 0 16px color-mix(in srgb, var(--color-brand-indigo) 25%, transparent);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .overflowActionSpinning svg {
+    animation: none;
+  }
+
+  .overflowActionIndexing {
+    animation: none;
+    box-shadow: 0 0 6px color-mix(in srgb, var(--color-brand-indigo) 40%, transparent);
+  }
+}
+
+@container library-lens (max-width: 640px) {
+  .axisRow {
+    gap: var(--space-2);
+  }
+
+  .controlsRow {
+    gap: var(--space-2);
+  }
+
+  .searchField {
+    flex: 1 1 170px;
+    min-width: 130px;
+  }
+
+  .searchInput:not(.searchInputWithoutFilter) {
+    padding-right: 90px !important;
+  }
+
+  .filterTrigger {
+    max-width: 84px;
+  }
+
+  .sortLabel {
+    display: none;
+  }
+
+  .sortSelect {
+    min-width: 132px;
+  }
+
+  .overflowInlineActions {
+    display: none;
+  }
+
+  .overflowMenuSlot {
+    display: inline-flex;
+  }
+}
+
+@container library-lens (max-width: 520px) {
+  .filterTriggerLabel {
+    display: none;
+  }
+
+  .searchInput:not(.searchInputWithoutFilter) {
+    padding-right: 64px !important;
+  }
+}

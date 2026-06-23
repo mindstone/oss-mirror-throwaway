@@ -1,0 +1,193 @@
+.tabs {
+  display: inline-flex;
+  align-items: stretch;
+  gap: 6px;
+  padding: 2px 0;
+  border-radius: 0;
+  background: transparent;
+  box-shadow: none;
+  flex: 1 1 auto;
+  min-width: 0;
+  overflow-x: auto;
+  scrollbar-width: none;
+  -ms-overflow-style: none;
+}
+
+.tabs::-webkit-scrollbar {
+  display: none;
+}
+
+.newChatButton {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  width: 28px;
+  height: 28px;
+  padding: 0;
+  border: 1px solid rgba(148, 163, 184, 0.15);
+  border-radius: 6px;
+  background: rgba(148, 163, 184, 0.06);
+  color: rgba(148, 163, 184, 0.7);
+  cursor: pointer;
+  transition:
+    color 0.2s ease,
+    background 0.2s ease,
+    border-color 0.2s ease,
+    transform 0.15s ease;
+}
+
+.newChatButton:hover {
+  color: rgba(203, 213, 225, 0.9);
+  background: rgba(148, 163, 184, 0.1);
+  border-color: rgba(148, 163, 184, 0.25);
+}
+
+.newChatButton:active {
+  transform: scale(0.95);
+}
+
+.tab {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  white-space: nowrap;
+  max-width: none;
+  padding: 5px 10px;
+  font-size: 0.68rem;
+  font-weight: 500;
+  letter-spacing: 0.01em;
+  border: 1px solid rgba(148, 163, 184, 0.15);
+  border-radius: 6px;
+  background: rgba(148, 163, 184, 0.06);
+  color: rgba(148, 163, 184, 0.7);
+  cursor: pointer;
+  transition: 
+    color 0.2s ease,
+    background 0.2s ease,
+    border-color 0.2s ease,
+    box-shadow 0.2s ease,
+    padding 0.15s ease,
+    transform 0.15s ease;
+}
+
+.tab:hover {
+  padding-right: 24px;
+  color: rgba(203, 213, 225, 0.9);
+  background: rgba(148, 163, 184, 0.1);
+  border-color: rgba(148, 163, 184, 0.25);
+}
+
+.tab:active {
+  transform: scale(0.98);
+}
+
+.tabActive {
+  color: rgba(243, 244, 246, 0.95);
+  background: rgba(99, 102, 241, 0.16);
+  border: none;
+  box-shadow: inset 0 0 0 1px rgba(99, 102, 241, 0.65);
+}
+
+.tabActive:hover {
+  background: rgba(99, 102, 241, 0.2);
+  border: none;
+  box-shadow: inset 0 0 0 1px rgba(99, 102, 241, 0.7);
+}
+
+.title {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  min-width: 0;
+  max-width: 24ch;
+}
+
+.pin {
+  position: absolute;
+  right: 4px;
+  top: 50%;
+  transform: translateY(-50%);
+  border: none;
+  background: inherit;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 20px;
+  height: 20px;
+  padding: 0;
+  border-radius: 999px;
+  color: rgba(148, 163, 184, 0.5);
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.15s ease, color 0.15s ease;
+  cursor: pointer;
+}
+
+.tab:hover .pin {
+  opacity: 1;
+  pointer-events: auto;
+}
+
+.pin:hover {
+  color: #a78bfa;
+}
+
+.pin svg {
+  width: 12px;
+  height: 12px;
+  fill: currentColor;
+  stroke: currentColor;
+  stroke-width: 2;
+  transform: rotate(-16deg);
+}
+
+/* ─────────────────────────────────────────────────────────────
+   Light Mode Overrides
+   ───────────────────────────────────────────────────────────── */
+
+:global(body.light) .newChatButton {
+  color: var(--color-text-secondary, rgba(15, 23, 42, 0.7));
+  background: rgba(255, 255, 255, 0.45);
+  border-color: rgba(148, 163, 184, 0.25);
+  backdrop-filter: blur(var(--glass-overlay-blur));
+}
+
+:global(body.light) .newChatButton:hover {
+  color: var(--color-text-primary, #0f172a);
+  background: rgba(255, 255, 255, 0.6);
+  border-color: rgba(148, 163, 184, 0.35);
+}
+
+:global(body.light) .tab {
+  color: var(--color-text-secondary, rgba(15, 23, 42, 0.7));
+  background: rgba(255, 255, 255, 0.45);
+  border-color: rgba(148, 163, 184, 0.25);
+  backdrop-filter: blur(var(--glass-overlay-blur));
+}
+
+:global(body.light) .tab:hover {
+  color: var(--color-text-primary, #0f172a);
+  background: rgba(255, 255, 255, 0.6);
+  border-color: rgba(148, 163, 184, 0.35);
+}
+
+:global(body.light) .tabActive {
+  color: var(--color-brand-indigo, #4f46e5);
+  background: rgba(255, 255, 255, 0.6);
+  border: none;
+  box-shadow: inset 0 0 0 1px rgba(139, 92, 246, 0.35);
+}
+
+:global(body.light) .tabActive:hover {
+  background: rgba(255, 255, 255, 0.7);
+  border: none;
+  box-shadow: inset 0 0 0 1px rgba(139, 92, 246, 0.45);
+}
+
+:global(body.light) .pin {
+  color: var(--color-text-muted, rgba(30, 41, 59, 0.55));
+}
+
+:global(body.light) .pin:hover {
+  color: var(--color-brand-indigo, #4f46e5);
+}

@@ -1,0 +1,3 @@
+# Maestro configuration for Rebel mobile app
+# Run flows: maestro test mobile/.maestro/
+# Run single: maestro test mobile/.maestro/login.yaml

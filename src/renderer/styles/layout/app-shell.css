@@ -1,0 +1,2293 @@
+:root {
+  --sessions-panel-width: 0px;
+  --insights-drawer-width: 0px;
+  --flow-panels-top-gap: 0px;
+  --flow-column-chrome-height: 50px;
+}
+
+/* Global starry aurora background for dark mode (visible behind app shell) */
+html,
+body.dark {
+  background:
+    radial-gradient(1200px 800px at 20% 10%, rgba(135, 80, 255, 0.21) 0%, rgba(135, 80, 255, 0.0) 55%),
+    radial-gradient(1000px 700px at 80% 90%, rgba(0, 220, 255, 0.21) 0%, rgba(0, 220, 255, 0.0) 55%),
+    linear-gradient(180deg, rgba(10,10,14,0.92) 0%, rgba(6,6,10,0.96) 100%);
+}
+
+/* Light mode: brand purple-to-cyan aurora (matching dark mode spectrum) */
+body.light {
+  background:
+    /* Brand purple - top left (matching dark mode) */
+    radial-gradient(1200px 800px at 5% -5%, rgba(135, 80, 255, 0.19) 0%, transparent 45%),
+    /* Brand indigo - top right */
+    radial-gradient(1000px 700px at 95% 5%, rgba(79, 70, 229, 0.15) 0%, transparent 45%),
+    /* Brand blue - mid left */
+    radial-gradient(800px 600px at -5% 50%, rgba(37, 99, 235, 0.17) 0%, transparent 45%),
+    /* Cyan (matching dark mode) - bottom right */
+    radial-gradient(1100px 750px at 90% 95%, rgba(0, 220, 255, 0.15) 0%, transparent 45%),
+    /* Brand cyan accent - bottom right corner */
+    radial-gradient(700px 500px at 100% 90%, rgba(14, 165, 233, 0.17) 0%, transparent 40%),
+    /* Purple accent - bottom left */
+    radial-gradient(900px 650px at 10% 90%, rgba(147, 51, 234, 0.12) 0%, transparent 45%),
+    /* Base gradient - soft neutral with hint of violet-gray */
+    linear-gradient(165deg, #ede9fe 0%, #eef2ff 35%, #f5f7ff 65%, #fafbff 100%);
+}
+
+body.dark::before {
+  content: '';
+  position: fixed;
+  inset: 0;
+  background:
+    /* Purple glow - bottom left (like onboarding) */
+    radial-gradient(800px 600px at 5% 95%, rgba(135, 80, 255, 0.30), transparent 50%),
+    /* Subtle indigo wash - top */
+    radial-gradient(1000px 400px at 50% 0%, rgba(99, 102, 241, 0.10), transparent 60%);
+  filter: blur(80px);
+  opacity: 1;
+  pointer-events: none;
+  z-index: 0;
+}
+
+/* Light mode: static gradient glow - brand purple-to-cyan spectrum */
+body.light::before {
+  content: '';
+  position: fixed;
+  inset: 0;
+  background:
+    /* Purple glow - bottom left */
+    radial-gradient(700px 500px at 5% 95%, rgba(135, 80, 255, 0.17), transparent 50%),
+    /* Subtle indigo wash - top */
+    radial-gradient(900px 350px at 50% 0%, rgba(99, 102, 241, 0.07), transparent 60%);
+  filter: blur(80px);
+  opacity: 1;
+  pointer-events: none;
+  z-index: 0;
+}
+
+/* Beta app orange gradient background */
+body.dark[data-beta="true"] {
+  background:
+    radial-gradient(1200px 800px at 20% 10%, rgba(255, 140, 50, 0.21) 0%, rgba(255, 140, 50, 0.0) 55%),
+    radial-gradient(1000px 700px at 80% 90%, rgba(255, 90, 0, 0.21) 0%, rgba(255, 90, 0, 0.0) 55%),
+    linear-gradient(180deg, rgba(14,10,10,0.92) 0%, rgba(10,6,6,0.96) 100%);
+}
+
+body.dark[data-beta="true"]::before {
+  background:
+    /* Orange glow - bottom left */
+    radial-gradient(800px 600px at 5% 95%, rgba(249, 115, 22, 0.30), transparent 50%),
+    /* Amber glow - bottom right */
+    radial-gradient(700px 500px at 95% 90%, rgba(251, 146, 60, 0.26), transparent 50%),
+    /* Subtle orange wash - top */
+    radial-gradient(1000px 400px at 50% 0%, rgba(234, 88, 12, 0.10), transparent 60%);
+  filter: blur(80px);
+}
+
+/* Gradients are always visible (no animation to pause).
+   The data-show-aurora attribute is kept for compatibility but has no effect
+   since we now use static gradients instead of animated aurora. */
+
+.glass-panel {
+  background: var(--glass-panel-bg);
+  border: 1px solid var(--glass-panel-border);
+  border-radius: var(--shell-radius);
+  box-shadow: var(--glass-panel-shadow);
+  backdrop-filter: blur(var(--glass-panel-blur));
+}
+
+/* Minimal loading splash shown while settings initialize */
+.app-loading-splash {
+  position: fixed;
+  inset: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 1000;
+  background: transparent;
+  animation: splashFadeIn 300ms ease-out;
+}
+
+.app-loading-splash--homepage {
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 24px 32px;
+  gap: 14px;
+  overflow-y: auto;
+}
+
+/*
+ * Fallback escape hatch for unexpected empty states after settings have loaded.
+ * The homepage skeleton is reserved for the initial settings-loading path; this
+ * button fades in only after a delay so short re-renders stay visually quiet.
+ */
+.app-loading-splash__fallback {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 8px;
+  text-align: center;
+
+  opacity: 0;
+  animation: splashFallbackReveal 200ms ease-out 6s forwards;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .app-loading-splash__fallback {
+    animation-duration: 1ms;
+  }
+}
+
+@keyframes splashFallbackReveal {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+@media (max-width: 900px) {
+  .app-loading-splash--homepage {
+    padding: 20px 16px;
+  }
+}
+
+@keyframes splashFadeIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+.app-wrapper {
+  position: fixed;
+  inset: var(--shell-inset);
+  display: flex;
+  justify-content: center;
+  align-items: stretch;
+  z-index: 1;
+  opacity: 0;
+  transform: translateY(42px) scale(0.98);
+  filter: blur(20px);
+  transition: opacity 640ms var(--motion-ease-out),
+    transform 640ms var(--motion-ease-out),
+    filter 580ms var(--motion-ease-out);
+  pointer-events: none;
+}
+
+.app-wrapper.visible {
+  opacity: 1;
+  transform: translateY(0) scale(1);
+  filter: blur(0px);
+  pointer-events: auto;
+}
+
+/* ─────────────────────────────────────────────────────────────
+   Focus Mode - Full-screen immersive view
+   ───────────────────────────────────────────────────────────── */
+
+.app-wrapper.focus-mode {
+  inset: 0;
+  transition: inset 320ms var(--motion-ease-out),
+    opacity 640ms var(--motion-ease-out),
+    transform 640ms var(--motion-ease-out),
+    filter 580ms var(--motion-ease-out);
+}
+
+.app-shell {
+  position: relative;
+  width: min(var(--app-max-width), 100%);
+  max-width: 100%;
+  height: 100%;
+  display: grid;
+  grid-template-columns: minmax(var(--sidebar-width-min), clamp(22vw, var(--sidebar-width-preferred), var(--sidebar-width-max))) 1fr;
+  grid-template-rows: auto 1fr auto;
+  gap: 0;
+  /* Semi-transparent to let body gradients show through - no blur for performance */
+  background: linear-gradient(
+    180deg,
+    rgba(13, 17, 28, 0.75) 0%,
+    rgba(13, 17, 28, 0.88) 34%,
+    rgba(13, 17, 28, 0.94) 100%
+  );
+  border-radius: var(--shell-radius);
+  box-shadow: 0 44px 94px -40px rgba(2, 6, 23, 0.6);
+  /* No backdrop-filter - expensive on large container */
+  /*
+   * `clip`, not `hidden`. `overflow: hidden` still makes this a scroll
+   * container, so a descendant `scrollIntoView()` / `focus()` (e.g. the
+   * "just added" model row in Settings → Agent & Voice, which appends below
+   * the fold) could programmatically scroll the whole shell — pushing the
+   * header off-screen with no scrollbar to recover, persisting until restart
+   * (REBEL-68G / FOX-3493). `overflow: clip` clips identically but is NOT a
+   * scroll container, so the shell can never be displaced. Inner regions
+   * (.settingsContent, transcript, flow-body) own their own scrolling.
+   */
+  overflow: clip;
+  opacity: 0;
+  transform: translateY(32px) scale(0.98);
+  filter: blur(18px);
+  transition: opacity 520ms var(--motion-ease-out),
+    transform 520ms var(--motion-ease-out),
+    filter 520ms var(--motion-ease-out);
+  pointer-events: none;
+}
+
+.app-shell.visible {
+  opacity: 1;
+  transform: translateY(0) scale(1);
+  filter: blur(0px);
+  pointer-events: auto;
+}
+
+.app-shell::before {
+  content: '';
+  position: absolute;
+  inset: -40%;
+  background: radial-gradient(circle at 40% 30%, rgba(99, 102, 241, 0.15), transparent 60%),
+    radial-gradient(circle at 75% 80%, rgba(59, 130, 246, 0.14), transparent 65%);
+  opacity: 0;
+  transform: translate3d(-20%, 12%, 0) scale(0.85);
+  filter: blur(18px);
+  pointer-events: none;
+}
+
+.app-shell.visible::before {
+  animation: shell-glow 900ms ease-out forwards;
+}
+
+/* Abstract flowing gradients throughout the app shell */
+.app-shell::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  /* Abstract organic shapes flowing throughout the interface
+     Note: Right-side and bottom-right gradients removed to avoid stacking
+     with body::before glows (which already provide cyan at 95% 90%) */
+  background: 
+    /* Large purple flow - top left, extends down */
+    radial-gradient(ellipse 800px 600px at 8% 12%, rgba(135, 80, 255, 0.19) 0%, transparent 65%),
+    /* Cyan accent - top right, diagonal flow */
+    radial-gradient(ellipse 600px 450px at 92% 8%, rgba(0, 195, 255, 0.15) 0%, transparent 60%),
+    /* Indigo wash - center top */
+    radial-gradient(ellipse 1000px 350px at 50% 5%, rgba(99, 102, 241, 0.12) 0%, transparent 55%),
+    /* Cyan wash - left side flowing down */
+    radial-gradient(ellipse 450px 600px at 3% 35%, rgba(56, 189, 248, 0.10) 0%, transparent 60%),
+    /* Bottom purple glow - anchors the gradient */
+    radial-gradient(ellipse 700px 400px at 15% 95%, rgba(135, 80, 255, 0.14) 0%, transparent 60%);
+  filter: blur(60px);
+  pointer-events: none;
+  z-index: 1;
+  opacity: 1;
+}
+
+.app-shell.visible .app-header,
+.app-shell.visible .agent-session-sidebar,
+.app-shell.visible .agent-session-pane,
+.app-shell.visible .recorder-strip {
+  animation: panel-rise 520ms var(--motion-ease-out) forwards;
+  opacity: 0;
+}
+
+.app-shell.visible .app-header {
+  animation-delay: 120ms;
+}
+
+.app-shell.visible .agent-session-sidebar {
+  animation-delay: 200ms;
+}
+
+.app-shell.visible .agent-session-pane {
+  animation-delay: 260ms;
+}
+
+.app-shell.visible .recorder-strip {
+  animation-delay: 320ms;
+}
+
+.app-shell.flow-mode {
+  display: flex;
+  flex-direction: column;
+  grid-template-columns: none;
+  grid-template-rows: none;
+  /* Use wider layout in flow mode for more balanced side padding */
+  width: min(var(--app-max-width-flow), 100%);
+}
+
+.app-shell.flow-mode .flow-stage {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  min-height: 0;
+  min-width: 0;
+  width: 100%;
+  position: relative;
+  /*
+   * `clip`, not `hidden` — same reasoning as `.app-shell` above (REBEL-68G).
+   * `.flow-stage` is a flex layout wrapper around the transcript, composer, and
+   * compaction overlay; it is NOT meant to scroll (the transcript's own
+   * `.sessionLog` owns scrolling). `overflow: hidden` still makes it a scroll
+   * container, so a descendant `scrollIntoView()` / `focus()` on below-the-fold
+   * content could programmatically scroll the whole conversation surface with no
+   * scrollbar to recover. `overflow: clip` clips identically but is not a scroll
+   * container, so it can never be displaced.
+   */
+  overflow: clip;
+}
+
+.app-shell.flow-mode .agent-session-pane {
+  flex: 1;
+  width: 100%;
+}
+
+.app-shell.flow-mode .recorder-strip {
+  border-radius: 0 0 var(--shell-radius) var(--shell-radius);
+}
+
+/* Focus mode app-shell overrides */
+.app-shell.app-shell--focus-mode {
+  border-radius: 0;
+  width: 100%;
+  max-width: 100%;
+}
+
+.app-shell.app-shell--focus-mode .recorder-strip {
+  border-radius: 0;
+}
+
+/* ─────────────────────────────────────────────────────────────
+   Reduced Chrome Mode
+   Dims sidebar, nav tabs, and header controls for a focused experience.
+   Reusable for presentation/focus modes.
+   ───────────────────────────────────────────────────────────── */
+.app-shell[data-chrome-mode='reduced'] .flow-column--sessions,
+.app-shell[data-chrome-mode='reduced'] .flow-content-nav,
+.app-shell[data-chrome-mode='reduced'] .header-center,
+.app-shell[data-chrome-mode='reduced'] .header-actions {
+  opacity: 0.25;
+  transition: opacity 400ms ease;
+}
+
+.app-shell[data-chrome-mode='reduced'] .app-header {
+  position: relative;
+  z-index: 10;
+}
+
+.app-shell[data-chrome-mode='reduced'] .history-nozzle {
+  display: none;
+}
+
+/* Homepage visible behind conversation during reduced chrome — frosted glass effect.
+   Base .flow-surface hides inactive surfaces with opacity:0/visibility:hidden.
+   We must restore opacity + visibility so the blurred homepage is visible underneath. */
+.app-shell[data-chrome-mode='reduced'] .flow-surface--home {
+  content-visibility: visible;
+  visibility: visible;
+  opacity: 1;
+  pointer-events: none;
+  filter: blur(12px) saturate(0.6) brightness(0.7);
+  z-index: 0;
+  transition: filter 400ms ease;
+}
+
+.app-shell[data-chrome-mode='reduced'] .flow-surface--sessions {
+  z-index: 1;
+}
+
+/* Light mode: softer dimming */
+:root body.light .app-shell[data-chrome-mode='reduced'] .flow-surface--home {
+  filter: blur(12px) saturate(0.8) brightness(0.85);
+}
+
+/* Reduced motion: no transitions */
+@media (prefers-reduced-motion: reduce) {
+  .app-shell[data-chrome-mode='reduced'] .flow-column--sessions,
+  .app-shell[data-chrome-mode='reduced'] .flow-content-nav,
+  .app-shell[data-chrome-mode='reduced'] .header-center,
+  .app-shell[data-chrome-mode='reduced'] .header-actions,
+  .app-shell[data-chrome-mode='reduced'] .flow-surface--home {
+    transition: none;
+  }
+}
+
+.flow-body {
+  flex: 1;
+  display: grid;
+  /* Both sidebars are now absolutely positioned (floating glass panels), so they don't take grid space */
+  grid-template-columns: minmax(0, 1fr);
+  gap: 0;
+  padding: var(--flow-panels-top-gap) 0 0;
+  /* Reserve space for floating sidebar so content doesn't hide behind it */
+  /* Formula: left-margin(16px) + collapsed-control(36px) + row-gap(8px) - nav-inner-padding(8px) = 52px */
+  padding-left: 52px;
+  /* Reserve space for floating right drawer when open */
+  /* Formula: right-margin(16px) + gap(16px) = 32px base */
+  padding-right: 16px;
+  min-height: 0;
+  min-width: 0;
+  position: relative;
+  z-index: 2;
+  /* Smooth reflow when sidebar opens/closes so content adapts fluidly */
+  transition: padding-left 280ms var(--motion-ease-out, cubic-bezier(0.16, 1, 0.3, 1)),
+              padding-right 280ms var(--motion-ease-out, cubic-bezier(0.16, 1, 0.3, 1));
+}
+
+/* Gradient glow layer behind the sidebar - creates onboarding-like ambient glow */
+.flow-body::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 550px;
+  height: 100%;
+  /* Purple/cyan gradient orbs like onboarding screens */
+  background: 
+    radial-gradient(400px 350px at 80px 15%, rgba(135, 80, 255, 0.24) 0%, transparent 60%),
+    radial-gradient(350px 300px at 280px 85%, rgba(0, 180, 255, 0.19) 0%, transparent 60%),
+    radial-gradient(300px 280px at 180px 50%, rgba(99, 102, 241, 0.15) 0%, transparent 55%);
+  filter: blur(40px);
+  pointer-events: none;
+  z-index: 10;
+  opacity: 0;
+  /* Instant - no transition */
+  transition: none;
+}
+
+/* Show gradient when sidebar is open */
+.app-shell--sessions-open .flow-body::before {
+  opacity: 1;
+}
+
+/* When sidebar is open, reserve full sidebar width + margins */
+/* Formula: left-margin(16px) + sidebar-width + gap(16px) */
+.app-shell--sessions-open .flow-body {
+  padding-left: calc(var(--sessions-panel-width, 320px) + 32px);
+}
+
+/* When insights drawer is open, reserve full drawer width + margins */
+/* Formula: right-margin(16px) + drawer-width + gap(16px) */
+.app-shell--insights-open .flow-body {
+  padding-right: calc(var(--insights-drawer-width, 400px) + 32px);
+}
+
+/* When Library editor is open, reserve space for the floating editor panel */
+/* Formula: right-margin(16px) + editor-width + gap(16px) */
+.app-shell--library-editor-open .flow-body {
+  padding-right: calc(var(--library-editor-width, 50%) + 32px);
+}
+
+/* No gradient glow for right drawer - solid panel design */
+
+.flow-main {
+  display: flex;
+  flex-direction: column;
+  min-height: 0;
+  min-width: 0;
+  width: 100%;
+  position: relative;
+  z-index: 2;
+}
+
+/* ─────────────────────────────────────────────────────────────
+   Content Navigation Bar (tabs below header)
+   ───────────────────────────────────────────────────────────── */
+
+.flow-content-nav {
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+  /* Horizontal spacing from sidebar, 24px below tabs - align right edge with header actions */
+  /* Header has 24px padding-right; flow-body has 16px, so use 8px here to match */
+  padding: 8px 8px 24px 8px;
+  background: transparent;
+  flex-shrink: 0;
+}
+
+/* Reduced bottom padding when sidebar is collapsed (pinned conversation tabs visible below) */
+.app-shell:not(.app-shell--sessions-open) .flow-content-nav {
+  padding-bottom: 12px;
+}
+
+/* ─────────────────────────────────────────────────────────────
+   Segment Control Container
+   Quiet app-shell navigation container
+   ───────────────────────────────────────────────────────────── */
+
+.flow-segment-control {
+  display: flex;
+  align-items: center;
+  position: relative;
+  width: 100%;
+  background: color-mix(in srgb, var(--color-surface-1) 66%, transparent);
+  backdrop-filter: blur(var(--glass-overlay-blur));
+  -webkit-backdrop-filter: blur(var(--glass-overlay-blur));
+  border: 1px solid var(--color-border-soft);
+  border-radius: var(--radius-button);
+  padding: var(--space-1) var(--space-2);
+  gap: var(--space-1);
+  box-shadow: var(--shadow-soft);
+}
+
+body[data-active-work='true'] .flow-segment-control {
+  background: color-mix(in srgb, var(--color-surface-1) 74%, transparent);
+}
+
+/* Light mode container - glass panel matching sessions sidebar */
+body.light .flow-segment-control {
+  background: color-mix(in srgb, var(--color-surface-glass) 72%, transparent);
+  backdrop-filter: blur(var(--glass-overlay-blur));
+  -webkit-backdrop-filter: blur(var(--glass-overlay-blur));
+  border: 1px solid var(--color-border-soft);
+  box-shadow: var(--shadow-soft);
+}
+
+body.light[data-active-work='true'] .flow-segment-control {
+  background: color-mix(in srgb, var(--color-surface-glass) 80%, transparent);
+}
+
+/* ── Tier 1: Compact — tighter spacing when tabs are squeezed ── */
+.flow-segment-control--compact {
+  padding: var(--space-1);
+  gap: var(--space-1);
+}
+
+.flow-segment-control--compact .flow-chip {
+  padding: var(--space-1) var(--space-2);
+  gap: var(--space-1);
+  font-size: 0.7rem;
+}
+
+/* ── Tier 2: Scroll — horizontal overflow when compact isn't enough ── */
+.flow-segment-control--scroll {
+  overflow-x: auto;
+  overflow-y: hidden;
+  scrollbar-width: thin;
+  scrollbar-color: rgba(148, 163, 184, 0.25) transparent;
+}
+
+.flow-segment-control--scroll::-webkit-scrollbar {
+  height: 4px;
+}
+
+.flow-segment-control--scroll::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+.flow-segment-control--scroll::-webkit-scrollbar-thumb {
+  background: rgba(148, 163, 184, 0.25);
+  border-radius: 2px;
+}
+
+.flow-segment-control--scroll .flow-chip {
+  flex-shrink: 0;
+}
+
+/* Light mode scroll tier */
+body.light .flow-segment-control--scroll::-webkit-scrollbar-thumb {
+  background: rgba(100, 116, 139, 0.2);
+}
+
+.flow-content-panels {
+  display: grid;
+  grid-template-areas: "surface";
+  flex: 1;
+  min-height: 0;
+  min-width: 0;
+}
+
+.flow-surface {
+  grid-area: surface;
+  display: flex;
+  flex-direction: column;
+  min-height: 0;
+  min-width: 0;
+  flex: 1;
+  gap: 16px;
+  width: 100%;
+  opacity: 0;
+  visibility: hidden;
+  pointer-events: none;
+  /* Skip style/layout for hidden surfaces — prevents CSS recalculation storms */
+  content-visibility: hidden;
+  transition: none;
+}
+
+.flow-surface[data-active='true'] {
+  opacity: 1;
+  visibility: visible;
+  pointer-events: auto;
+  content-visibility: visible;
+  transition: none;
+  animation: flow-surface-enter var(--motion-duration-medium) var(--motion-ease-out);
+}
+
+.flow-surface--tasks,
+.flow-surface--automations,
+.flow-surface--library {
+  justify-content: flex-start;
+}
+
+.flow-surface--library {
+  gap: 0;
+}
+
+.flow-surface--settings {
+  gap: 0;
+}
+
+@keyframes flow-surface-enter {
+  from {
+    opacity: 0;
+    transform: translateY(4px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.flow-column--surface,
+.flow-column--tasks-standalone {
+  width: 100%;
+}
+
+.flow-column {
+  display: flex;
+  flex-direction: column;
+  min-height: 0;
+  min-width: 0;
+  border-radius: 20px;
+  border: 1px solid rgba(148, 163, 184, 0.22);
+  background: linear-gradient(180deg, rgba(13, 17, 28, 0.88), rgba(12, 16, 26, 0.94));
+  box-shadow: 0 10px 18px rgba(2, 6, 23, 0.45);
+  overflow: hidden;
+  position: relative;
+  opacity: 0;
+  visibility: hidden;
+  pointer-events: none;
+  transition: opacity 220ms ease, transform 220ms ease;
+}
+
+/* ─────────────────────────────────────────────────────────────
+   Sessions Sidebar - Floating Glass Panel
+   Detached floating card over gradient background (like onboarding wizard)
+   ───────────────────────────────────────────────────────────── */
+.flow-column--sessions {
+  position: absolute;
+  /* Detached from all edges - true floating card */
+  left: 16px;
+  top: 8px;
+  bottom: 16px;
+  width: var(--sessions-panel-width, 320px);
+  z-index: 20;
+  /* Darker glass panel for better contrast */
+  background: rgba(18, 22, 32, 0.72);
+  backdrop-filter: blur(var(--glass-panel-blur));
+  -webkit-backdrop-filter: blur(var(--glass-panel-blur));
+  /* Fully rounded corners on all sides */
+  border-radius: 24px;
+  /* Border on all sides */
+  border: 1px solid rgba(148, 163, 184, 0.14);
+  box-shadow: 0 40px 120px rgba(2, 6, 23, 0.6);
+  /* Instant - no transition */
+  transition: none;
+}
+
+body[data-active-work='true'] .flow-column--sessions {
+  background: rgba(18, 22, 32, 0.82);
+}
+
+
+.flow-surface-panel {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  min-height: 0;
+  width: 100%;
+  padding: 0;
+  margin: 0;
+  border: none;
+  border-radius: 0;
+  background: transparent;
+  box-shadow: none;
+  gap: 0;
+}
+
+.flow-surface-panel--settings {
+  flex: 1;
+}
+
+.flow-surface-panel__body {
+  flex: 1;
+  min-height: 0;
+  display: flex;
+}
+
+.flow-surface-panel__body > * {
+  flex: 1;
+  min-height: 0;
+  width: 100%;
+}
+
+.settings-surface-panel {
+  padding: 0;
+  background: transparent;
+}
+
+.settings-surface-panel > * {
+  width: 100%;
+}
+
+.library-surface {
+  flex: 1;
+  display: flex;
+  min-height: 0;
+  width: 100%;
+}
+
+.library-surface > * {
+  flex: 1;
+  min-height: 0;
+}
+
+.flow-column[data-open='true'] {
+  opacity: 1;
+  visibility: visible;
+  pointer-events: auto;
+}
+
+/* Open state - full width glass panel */
+.flow-column--sessions[data-open='true'] {
+  width: var(--sessions-panel-width, 320px);
+}
+
+/* Closed state - compact floating button aligned with tabs row */
+/* Must override base .flow-column visibility rules to keep panel visible when collapsed */
+.flow-column--sessions[data-open='false'] {
+  width: 36px;
+  /* Match the visual height of the top navigation chrome. */
+  height: 36px;
+  /* Top-align with the top navigation bar. */
+  top: 8px;
+  bottom: auto;
+  transform: none;
+  background: rgba(13, 17, 28, 0.85);
+  backdrop-filter: blur(var(--glass-overlay-blur));
+  -webkit-backdrop-filter: blur(var(--glass-overlay-blur));
+  border: 1px solid var(--color-border-soft);
+  border-radius: var(--radius-button);
+  box-shadow: var(--shadow-soft);
+  /* Hide any overflow content */
+  overflow: hidden;
+  /* Keep the collapsed panel visible (override base .flow-column hidden state) */
+  opacity: 1;
+  visibility: visible;
+  pointer-events: auto;
+}
+
+/* Hide the gradient glow when sidebar is collapsed */
+.flow-column--sessions[data-open='false']::before {
+  opacity: 0;
+}
+
+/* Content visibility during open/close */
+/* overflow: visible allows the nozzle button to extend beyond the panel edge */
+.flow-column--sessions {
+  overflow: visible;
+}
+
+/* Hide content when closed, but keep the toggle button visible */
+.flow-column--sessions > *:not(.history-nozzle) {
+  transform: translateX(0);
+  opacity: 1;
+  /* Instant - no transition */
+  transition: none;
+}
+
+.flow-column--sessions[data-open='false'] > *:not(.history-nozzle) {
+  transform: translateX(-40px);
+  opacity: 0;
+  visibility: hidden;
+  pointer-events: none;
+}
+
+/* Respect reduced motion preference */
+@media (prefers-reduced-motion: reduce) {
+  .flow-body,
+  .flow-column--sessions,
+  .flow-column--sessions > *:not(.history-nozzle) {
+    transition: none;
+  }
+}
+
+/* ─────────────────────────────────────────────────────────────
+   Right Insights Drawer - Floating Glass Panel
+   Mirrors left sidebar pattern but positioned on the right
+   ───────────────────────────────────────────────────────────── */
+
+.flow-column--insights {
+  position: absolute;
+  /* Detached from all edges - true floating card (mirrors left sidebar) */
+  right: 16px;
+  top: 8px;
+  bottom: 16px;
+  width: var(--insights-drawer-width, 400px);
+  z-index: 20;
+  /* Solid dark panel - no transparency */
+  background: rgb(18, 22, 33);
+  /* Fully rounded corners on all sides */
+  border-radius: 24px;
+  /* Border on all sides */
+  border: 1px solid rgba(148, 163, 184, 0.18);
+  box-shadow: 0 40px 120px rgba(2, 6, 23, 0.6);
+  /* Instant - no transition */
+  transition: none;
+  /* Allow resize handle to extend beyond panel edge */
+  overflow: visible;
+}
+
+/* Disable transition while actively resizing for smooth drag */
+.flow-column--insights[data-resizing='true'] {
+  transition: none;
+}
+
+/* Closed state - slide out to the right and fade */
+.flow-column--insights[data-open='false'] {
+  width: 0;
+  opacity: 0;
+  transform: translateX(20px);
+  overflow: hidden;
+  pointer-events: none;
+}
+
+/* Open state - full width glass panel */
+.flow-column--insights[data-open='true'] {
+  opacity: 1;
+  visibility: visible;
+  pointer-events: auto;
+  transform: translateX(0);
+}
+
+/* Document preview focus mode - expand to near-full width */
+.flow-column--insights:has(.library-editor-panel[data-focus-mode='true']) {
+  width: calc(100% - 32px);
+  left: 16px;
+}
+
+/* Adjust flow body padding when document preview is in focus mode */
+.app-shell--insights-open:has(.library-editor-panel[data-focus-mode='true']) .flow-body {
+  padding-right: 16px;
+}
+
+/* ─────────────────────────────────────────────────────────────
+   Insights Drawer Resize Handle
+   Positioned on left edge of floating panel for resize dragging
+   ───────────────────────────────────────────────────────────── */
+
+.insights-drawer-resize-handle {
+  position: absolute;
+  /* Extend slightly outside the panel for easier grabbing */
+  left: -4px;
+  top: 24px;
+  bottom: 24px;
+  width: 10px;
+  cursor: col-resize;
+  z-index: 30;
+  background: transparent;
+  border-radius: 5px;
+  transition: background 0.15s ease;
+}
+
+.insights-drawer-resize-handle::before {
+  content: '';
+  position: absolute;
+  left: 4px;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 2px;
+  height: 48px;
+  background: rgba(148, 163, 184, 0);
+  border-radius: 1px;
+  transition: background 0.15s ease, height 0.15s ease;
+}
+
+.insights-drawer-resize-handle:hover::before,
+.insights-drawer-resize-handle:active::before {
+  background: rgba(148, 163, 184, 0.4);
+  height: 64px;
+}
+
+.insights-drawer-resize-handle:hover {
+  background: rgba(139, 92, 246, 0.08);
+}
+
+.insights-drawer-resize-handle:active {
+  background: rgba(139, 92, 246, 0.15);
+}
+
+/* ─────────────────────────────────────────────────────────────
+   Library Editor Panel - Floating Glass Panel
+   Positioned similarly to insights drawer for visual consistency
+   ───────────────────────────────────────────────────────────── */
+
+/* When Library editor is open, allow the editor pane to escape normal flow */
+.app-shell--library-editor-open .flow-surface--library,
+.app-shell--library-editor-open .flow-surface--library .flow-surface-panel,
+.app-shell--library-editor-open .flow-surface--library .flow-surface-panel__body,
+.app-shell--library-editor-open .flow-surface--library .library-surface {
+  overflow: visible;
+}
+
+/* .flow-main has position: relative for z-index stacking (z-index: 2).
+   When library editor floats, we must reset to static so the editor panel's
+   absolute positioning can escape to .flow-body (the intended containing block).
+   Note: z-index becomes ineffective when position is static, but this is acceptable
+   because the editor panel has its own z-index: 20. */
+.app-shell--library-editor-open .flow-main {
+  position: static;
+}
+
+/* Library editor pane - positioned absolutely relative to .flow-body */
+/* Uses position: absolute to escape the Library surface content area */
+.app-shell--library-editor-open .library-editor-panel {
+  position: absolute;
+  /* Match insights drawer positioning - absolute relative to .flow-body */
+  right: 16px;
+  top: 8px;
+  bottom: 16px;
+  width: var(--library-editor-width, 50%);
+  max-width: calc(100vw - 400px);
+  min-width: 400px;
+  z-index: 20;
+  /* Solid dark panel - matches insights drawer */
+  background: rgb(18, 22, 33);
+  /* Fully rounded corners */
+  border-radius: 24px;
+  /* Border on all sides */
+  border: 1px solid rgba(148, 163, 184, 0.18);
+  box-shadow: 0 40px 120px rgba(2, 6, 23, 0.6);
+  /* Allow resize handle to extend beyond panel edge */
+  overflow: hidden;
+}
+
+/* Light mode styling for Library editor panel */
+:global(body.light) .app-shell--library-editor-open .library-editor-panel {
+  background: rgb(255, 255, 255);
+  border: 1px solid rgba(148, 163, 184, 0.2);
+  box-shadow: 0 40px 120px rgba(0, 0, 0, 0.15);
+}
+
+/* Focus mode - expand editor panel to near-full width */
+.app-shell--library-editor-open .library-editor-panel[data-focus-mode='true'] {
+  width: calc(100% - 32px);
+  left: 16px;
+  max-width: none;
+}
+
+.app-shell--library-editor-open .library-editor-panel[data-kiosk-level='wide'] {
+  left: calc(32px + var(--library-kiosk-rail-width, 260px));
+  width: auto;
+  max-width: none;
+  min-width: min(420px, calc(100% - 48px));
+}
+
+.app-shell--library-editor-open .library-editor-panel[data-kiosk-level='zen'] {
+  left: 16px;
+  width: auto;
+  max-width: none;
+  min-width: min(420px, calc(100% - 32px));
+}
+
+/* Focus mode - adjust flow body padding when editor is expanded */
+.app-shell--library-editor-open:has(.library-editor-panel[data-focus-mode='true']) .flow-body {
+  padding-right: 16px;
+}
+
+.insights-drawer-resize-handle:active::before {
+  background: rgba(139, 92, 246, 0.6);
+}
+
+/* Respect reduced motion preference for insights drawer */
+@media (prefers-reduced-motion: reduce) {
+  .flow-column--insights {
+    transition: none;
+  }
+}
+
+.flow-column--tasks-standalone {
+  margin: 0;
+  flex: 1;
+}
+
+.flow-column__chrome {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 10px;
+  padding: 12px 16px 8px;
+  min-height: var(--flow-column-chrome-height);
+  border-bottom: 1px solid rgba(148, 163, 184, 0.18);
+  background: rgba(13, 17, 28, 0.9);
+}
+
+.flow-column__chrome--sessions {
+  gap: 6px;
+  border-bottom: none;
+  padding: 0 20px 8px;
+  min-height: unset;
+  background: transparent;
+  justify-content: flex-end;
+}
+
+/* Insights drawer chrome - transparent like sessions sidebar */
+.flow-column__chrome--insights {
+  gap: 6px;
+  border-bottom: none;
+  padding: 16px 20px 8px;
+  min-height: unset;
+  background: transparent;
+}
+
+.flow-column__badge {
+  min-width: 24px;
+  padding: 4px 10px;
+  border-radius: 999px;
+  background: var(--color-muted);
+  color: var(--color-primary);
+  font-size: 0.78rem;
+  font-weight: 600;
+  text-align: center;
+}
+
+.flow-column__badge--inline {
+  margin-left: 8px;
+}
+
+.flow-column__title {
+  font-size: 0.85rem;
+  font-weight: 600;
+  letter-spacing: 0.18em;
+  text-transform: none;
+  color: var(--color-muted-foreground);
+}
+
+/* Sidebar chrome action buttons container */
+.sidebar-chrome-actions {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.sidebar-new-chat-button {
+  flex-shrink: 0;
+}
+
+.flow-column--sessions .agent-session-sidebar {
+  flex: 1;
+  border: none;
+  border-radius: 0;
+  box-shadow: none;
+  padding: 8px 16px 16px;
+  gap: 0;
+  background: transparent;
+}
+
+.flow-column--sessions .session-search-box {
+  padding: 0;
+  background: transparent;
+  border-bottom: none;
+}
+
+.flow-column--sessions .agent-session-sidebar__body {
+  padding: 0 0 12px;
+  gap: 6px;
+}
+
+.flow-column--sessions .agent-session-sidebar__body .scroll-fade-top {
+  height: 8px;
+  margin-top: 0;
+}
+.flow-column--sessions .agent-session-sidebar__header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  font-size: 0.8rem;
+  padding: 4px 0;
+}
+
+.flow-column--sessions .agent-session-sidebar__header h2 {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  letter-spacing: 0.28em;
+  color: rgba(226, 232, 240, 0.75);
+  font-size: 0.7rem;
+}
+
+.flow-column--sessions .agent-session-sidebar__list {
+  gap: 6px;
+}
+
+.flow-column--sessions .agent-session-sidebar__list li {
+  margin-bottom: 0;
+}
+
+.flow-column--sessions .agent-session-sidebar__entry {
+  padding: 10px 12px;
+  border-radius: 14px;
+}
+
+
+.flow-column--sessions .ghost-button,
+.flow-column--sessions .ghost-pill,
+.flow-column--sessions .primary-button {
+  border-radius: 999px;
+}
+
+
+.flow-column__chrome .ghost-button {
+  border-radius: 999px;
+  border: 1px solid rgba(148, 163, 184, 0.45);
+  padding: 5px 11px;
+  background: rgba(255, 255, 255, 0.85);
+  color: #4c1d95;
+  font-size: 0.78rem;
+  font-weight: 500;
+}
+
+.flow-column__chrome .ghost-button:hover {
+  background: rgba(99, 102, 241, 0.1);
+  border-color: rgba(99, 102, 241, 0.6);
+}
+
+.flow-column--sessions .agent-session-sidebar__header .ghost-button {
+  border-radius: 999px;
+  border: 1px solid rgba(148, 163, 184, 0.45);
+  padding: 4px 10px;
+  background: rgba(255, 255, 255, 0.92);
+  color: #4338ca;
+  font-size: 0.74rem;
+}
+
+
+.flow-main > .error-banner {
+  margin: 0 0 16px;
+}
+
+@keyframes panel-rise {
+  0% {
+    transform: translateY(32px);
+    opacity: 0;
+  }
+  100% {
+    transform: translateY(0);
+    opacity: 1;
+  }
+}
+
+@keyframes shell-glow {
+  0% {
+    opacity: 0;
+    transform: translate3d(-20%, 12%, 0) scale(0.85);
+  }
+  45% {
+    opacity: 0.38;
+  }
+  100% {
+    opacity: 0;
+    transform: translate3d(22%, -8%, 0) scale(1.2);
+  }
+}
+
+.app-header {
+  grid-column: 1 / -1;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+  padding: 12px 24px;
+  min-height: 56px;
+  /* Transparent header - no blur for performance */
+  background: transparent;
+  /* No border - cleaner look with segment control tabs */
+  border-bottom: none;
+  border-radius: var(--shell-radius) var(--shell-radius) 0 0;
+  position: relative;
+  z-index: 2;
+}
+
+/* Header left section (brand) */
+.header-left {
+  display: flex;
+  align-items: center;
+  flex-shrink: 0;
+}
+
+/* Header center section (meeting status, etc) */
+.header-center {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex: 1;
+  min-width: 0;
+  /* Protected middle slot: the meeting indicator must never overlap the brand
+     (left) or the action cluster (right) at narrow / split-screen widths.
+     Clip within our own slot and expose an inline-size container so the
+     indicator can truncate-and-shed against the real available space. */
+  overflow: hidden;
+  container-type: inline-size;
+  container-name: header-center;
+}
+
+/* Header actions (right side of header) */
+.header-actions {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  flex-shrink: 0;
+}
+
+/* Header divider - visual separator between button groups */
+.header-divider {
+  width: 1px;
+  height: 20px;
+  background: rgba(148, 163, 184, 0.25);
+  margin: 0 6px;
+  flex-shrink: 0;
+}
+
+body.light .header-divider {
+  background: rgba(148, 163, 184, 0.35);
+}
+
+/* ─────────────────────────────────────────────────────────────
+   Demo Mode Header Styling
+   Subtle purple tint - dark enough for logo contrast
+   ───────────────────────────────────────────────────────────── */
+.app-header[data-demo-mode='true'] {
+  background: linear-gradient(135deg, rgba(99, 102, 241, 0.15) 0%, rgba(139, 92, 246, 0.2) 100%);
+  border-bottom-color: rgba(139, 92, 246, 0.3);
+  border-radius: 0; /* Remove rounded corners in demo mode */
+}
+
+.demo-mode-indicator {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  margin-left: 12px;
+  padding: 4px 10px;
+  background: rgba(255, 255, 255, 0.15);
+  border-radius: 6px;
+  color: white;
+}
+
+.demo-mode-indicator__icon {
+  font-size: 14px;
+}
+
+.demo-mode-indicator__text {
+  font-size: 12px;
+  font-weight: 600;
+  letter-spacing: 0.02em;
+}
+
+.demo-mode-exit-button {
+  background: rgba(255, 255, 255, 0.15) !important;
+  border: 1px solid rgba(255, 255, 255, 0.25) !important;
+  color: white !important;
+}
+
+.demo-mode-exit-button:hover:not(:disabled) {
+  background: rgba(255, 255, 255, 0.25) !important;
+}
+
+.demo-mode-exit-button:disabled {
+  opacity: 0.6;
+}
+
+/* Light mode: use dark text and purple-tinted backgrounds for visibility */
+body.light .app-header[data-demo-mode='true'] {
+  background: linear-gradient(135deg, rgba(99, 102, 241, 0.18) 0%, rgba(139, 92, 246, 0.22) 100%);
+  border-bottom: 1px solid rgba(139, 92, 246, 0.25);
+}
+
+body.light .demo-mode-indicator {
+  background: rgba(99, 102, 241, 0.12);
+  color: var(--color-text);
+}
+
+body.light .demo-mode-exit-button {
+  background: rgba(99, 102, 241, 0.1) !important;
+  border: 1px solid rgba(99, 102, 241, 0.25) !important;
+  color: var(--color-text) !important;
+}
+
+body.light .demo-mode-exit-button:hover:not(:disabled) {
+  background: rgba(99, 102, 241, 0.18) !important;
+}
+
+.header-actions__main {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.brand {
+  font-size: 0.75rem;
+  font-weight: 500;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: var(--color-muted-foreground);
+}
+
+.brand-version {
+  font-size: 0.65rem;
+  font-weight: 500;
+  color: var(--color-muted-foreground);
+  opacity: 0.6;
+  letter-spacing: 0.01em;
+  cursor: pointer;
+  transition: opacity 150ms ease;
+}
+
+.brand-version:hover {
+  opacity: 0.8;
+}
+
+.brand-version-button {
+  font-size: 0.65rem;
+  font-weight: 500;
+  color: var(--color-muted-foreground);
+  opacity: 0.55;
+  letter-spacing: 0.01em;
+  cursor: pointer;
+  transition: opacity 150ms ease, background 150ms ease;
+  border: none;
+  background: transparent;
+  padding: 4px 6px;
+  border-radius: 4px;
+  line-height: 1;
+  /* Subtle visual separator from the brand */
+  margin-left: 2px;
+}
+
+.brand-version-button:hover {
+  opacity: 0.75;
+  background: rgba(79, 70, 229, 0.06);
+}
+
+.brand-version-button:focus-visible {
+  outline: none;
+  opacity: 0.75;
+  box-shadow: 0 0 0 2px rgba(139, 92, 246, 0.4);
+}
+
+.brand-cluster {
+  display: inline-flex;
+  align-items: baseline;
+  gap: 6px;
+  position: relative;
+}
+
+.brand-home-button {
+  display: inline-flex;
+  align-items: baseline;
+  gap: 6px;
+  border: none;
+  background: transparent;
+  padding: 6px 8px;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: background 150ms ease;
+}
+
+.brand-home-button:hover {
+  background: rgba(79, 70, 229, 0.08);
+}
+
+.brand-home-button:focus-visible {
+  outline: none;
+  box-shadow: 0 0 0 2px rgba(139, 92, 246, 0.4);
+}
+
+/* Beta badge in brand cluster */
+.brand-home-button .beta-badge {
+  margin-left: 8px;
+  background: linear-gradient(135deg, rgba(249, 115, 22, 0.9) 0%, rgba(234, 88, 12, 0.9) 100%);
+  color: #ffffff;
+  font-weight: 600;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  box-shadow: 0 2px 8px rgba(249, 115, 22, 0.3);
+}
+
+.brand-logo {
+  height: 18px;
+  display: block;
+  /* Align logo baseline visually with "REBEL" text */
+  position: relative;
+  top: 4px;
+}
+
+/* Header icon buttons - unified styling for all header action icons */
+.header-icon-button {
+  width: 32px !important;
+  height: 32px !important;
+  border-radius: 8px !important;
+  border: 1px solid rgba(148, 163, 184, 0.15) !important;
+  background: rgba(148, 163, 184, 0.08) !important;
+  color: var(--color-muted-foreground) !important;
+  opacity: 0.7;
+  transition: opacity 150ms ease, background 150ms ease, border-color 150ms ease !important;
+}
+
+.header-icon-button:hover {
+  opacity: 1;
+  color: var(--color-foreground) !important;
+  background: rgba(79, 70, 229, 0.08) !important;
+  border-color: rgba(139, 92, 246, 0.25) !important;
+}
+
+/* Notification bell button with badge */
+.notification-bell-button {
+  position: relative;
+  overflow: visible !important;
+}
+
+/* Has pending notifications (icon swaps to BellRing) — subtle tint */
+.notification-bell-button--has-pending {
+  color: #a78bfa !important;
+}
+
+/* Panel is open with pending notifications — matches notification card border/glow */
+.notification-bell-button--active {
+  opacity: 1;
+  color: #a78bfa !important;
+  background: rgba(139, 92, 246, 0.18) !important;
+  border-color: rgba(139, 92, 246, 0.8) !important;
+  box-shadow:
+    0 0 0 1px rgba(139, 92, 246, 0.4),
+    0 0 16px rgba(139, 92, 246, 0.3) !important;
+}
+
+.notification-bell-badge {
+  position: absolute;
+  top: -2px;
+  right: -4px;
+  min-width: 14px;
+  height: 14px;
+  padding: 0 3px;
+  background: linear-gradient(135deg, #8b5cf6 0%, #6366f1 100%);
+  border: none;
+  border-radius: 7px;
+  font-size: 0.55rem;
+  font-weight: 700;
+  color: white;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0 1px 4px rgba(139, 92, 246, 0.4);
+  line-height: 1;
+  pointer-events: none;
+}
+
+/* Pulse animation on badge when panel is closed — draws user attention.
+   Plays 3 times then stops so it's noticeable without being distracting. */
+.notification-bell-badge--attention {
+  animation: bell-badge-pulse 2.5s ease-in-out 3;
+}
+
+@keyframes bell-badge-pulse {
+  0%, 100% {
+    box-shadow: 0 1px 4px rgba(139, 92, 246, 0.4);
+  }
+  50% {
+    box-shadow: 0 0 0 3px rgba(139, 92, 246, 0.15), 0 1px 6px rgba(139, 92, 246, 0.5);
+  }
+}
+
+body.light .notification-bell-button--has-pending {
+  color: #6366f1 !important;
+}
+
+body.light .notification-bell-button--active {
+  color: #6366f1 !important;
+  background: rgba(99, 102, 241, 0.14) !important;
+  border-color: rgba(99, 102, 241, 0.65) !important;
+  box-shadow:
+    0 0 0 1px rgba(99, 102, 241, 0.25),
+    0 0 12px rgba(99, 102, 241, 0.2) !important;
+}
+
+body.light .notification-bell-badge {
+  background: linear-gradient(135deg, #7c3aed 0%, #6366f1 100%);
+  border: none;
+  box-shadow: 0 1px 4px rgba(99, 102, 241, 0.35);
+}
+
+body.light .notification-bell-badge--attention {
+  animation: bell-badge-pulse-light 2.5s ease-in-out 3;
+}
+
+@keyframes bell-badge-pulse-light {
+  0%, 100% {
+    box-shadow: 0 1px 4px rgba(99, 102, 241, 0.35);
+  }
+  50% {
+    box-shadow: 0 0 0 3px rgba(99, 102, 241, 0.12), 0 1px 6px rgba(99, 102, 241, 0.4);
+  }
+}
+
+/* Hover/focus styles are provided by ghost-button */
+
+/* ─────────────────────────────────────────────────────────────
+   Flow Chips (Navigation Tabs in Segment Control)
+   Quiet shell navigation items with direct selected state
+   ───────────────────────────────────────────────────────────── */
+
+.flow-chip {
+  position: relative;
+  z-index: 1;
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  border: none;
+  border-radius: var(--radius-pill);
+  padding: 7px 12px;
+  font-size: 0.76rem;
+  font-weight: 500;
+  letter-spacing: 0.01em;
+  white-space: nowrap;
+  background: transparent;
+  color: var(--color-text-muted);
+  cursor: pointer;
+  transition:
+    color var(--motion-duration-fast) var(--motion-ease-out),
+    background var(--motion-duration-fast) var(--motion-ease-out);
+  isolation: isolate;
+}
+
+/* Hover state - subtle background on hover */
+.flow-chip:hover {
+  color: var(--color-foreground);
+  background: color-mix(in srgb, var(--color-primary) 8%, transparent);
+}
+
+/* Active state - highlight directly on the tab */
+.flow-chip.active {
+  color: var(--color-text-primary);
+  font-weight: 600;
+  background: color-mix(in srgb, var(--color-primary) 8%, transparent);
+  box-shadow: inset 0 0 0 1px color-mix(in srgb, var(--color-primary) 22%, transparent);
+}
+
+/* Keep same style on hover when active */
+.flow-chip.active:hover {
+  background: color-mix(in srgb, var(--color-primary) 10%, transparent);
+}
+
+/* Focus visible for accessibility */
+.flow-chip:focus-visible {
+  outline: 2px solid var(--color-ring, var(--color-primary));
+  outline-offset: 2px;
+  border-radius: var(--radius-pill);
+}
+
+.flow-segment-control .flow-chip {
+  gap: var(--space-1);
+  border-radius: var(--radius-sm);
+  padding: var(--space-1) var(--space-3);
+}
+
+.flow-segment-control .flow-chip:hover {
+  background: color-mix(in srgb, var(--color-text-muted) 10%, transparent);
+}
+
+.flow-segment-control .flow-chip.active {
+  background: color-mix(in srgb, var(--color-brand-indigo) 13%, transparent);
+  box-shadow: inset 0 0 0 1px color-mix(in srgb, var(--color-brand-indigo) 24%, transparent);
+}
+
+.flow-segment-control .flow-chip.active:hover {
+  background: color-mix(in srgb, var(--color-brand-indigo) 15%, transparent);
+}
+
+.flow-segment-control .flow-chip:focus-visible {
+  border-radius: var(--radius-sm);
+}
+
+/* Badge styling */
+.flow-chip__badge {
+  min-width: 1.25rem;
+  height: 1.25rem;
+  padding: 0 0.38rem;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: var(--radius-pill);
+  font-size: 0.68rem;
+  font-weight: 600;
+  line-height: 1;
+  color: var(--color-text-secondary);
+  background: color-mix(in srgb, var(--color-text-muted) 16%, transparent);
+  transition:
+    color var(--motion-duration-fast) var(--motion-ease-out),
+    background var(--motion-duration-fast) var(--motion-ease-out);
+}
+
+/* Badge in active tab */
+.flow-chip.active .flow-chip__badge {
+  color: var(--color-primary-foreground);
+  background: color-mix(in srgb, var(--color-primary) 72%, transparent);
+}
+
+.flow-segment-control .flow-chip.active .flow-chip__badge {
+  color: var(--color-text-primary);
+  background: color-mix(in srgb, var(--color-brand-indigo) 22%, transparent);
+}
+
+/* Dimmed tab (experimental features) */
+.flow-chip--dimmed {
+  opacity: 0.65;
+}
+
+.flow-chip--dimmed:hover,
+.flow-chip--dimmed.active {
+  opacity: 1;
+}
+
+/* Light mode tabs */
+body.light .flow-chip {
+  color: var(--color-text-muted);
+}
+
+body.light .flow-chip:hover {
+  color: var(--color-text-primary);
+}
+
+body.light .flow-chip.active {
+  color: var(--color-text-primary);
+  background: color-mix(in srgb, var(--color-primary) 7%, transparent);
+  box-shadow: inset 0 0 0 1px color-mix(in srgb, var(--color-primary) 18%, transparent);
+}
+
+body.light .flow-chip.active:hover {
+  background: color-mix(in srgb, var(--color-primary) 9%, transparent);
+}
+
+body.light .flow-segment-control .flow-chip.active {
+  background: color-mix(in srgb, var(--color-brand-indigo) 8%, transparent);
+  box-shadow: inset 0 0 0 1px color-mix(in srgb, var(--color-brand-indigo) 18%, transparent);
+}
+
+body.light .flow-segment-control .flow-chip.active:hover {
+  background: color-mix(in srgb, var(--color-brand-indigo) 10%, transparent);
+}
+
+/* Plugins dropdown trigger (replaces overflow three-dot icon) */
+.flow-chip--plugins {
+  align-self: stretch;
+}
+
+/* Active state for plugins dropdown when open or a hidden plugin tab is selected */
+.flow-chip--plugins.active {
+  background: color-mix(in srgb, var(--color-primary) 10%, transparent);
+  border-radius: var(--radius-sm);
+}
+
+/* Legacy overflow class — kept for backwards compatibility */
+.flow-chip--overflow {
+  padding: var(--space-2, 8px) var(--space-2, 8px);
+  align-self: stretch;
+  justify-content: center;
+}
+
+.flow-chip--overflow svg {
+  margin-top: 1px;
+}
+
+.flow-chip--overflow.active {
+  background: color-mix(in srgb, var(--color-primary) 10%, transparent);
+  border-radius: var(--radius-sm);
+}
+
+/* Overflow menu dropdown */
+.flow-overflow-menu {
+  background: var(--color-background-elevated, #1e1e2e);
+  border: 1px solid var(--color-border, rgba(255, 255, 255, 0.1));
+  border-radius: var(--radius-md, 8px);
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.3);
+  padding: 4px;
+  min-width: 180px;
+  z-index: 1000;
+}
+
+.flow-overflow-menu__item {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  width: 100%;
+  padding: 8px 12px;
+  border: none;
+  border-radius: var(--radius-sm, 4px);
+  background: transparent;
+  color: var(--color-text-secondary, rgba(248, 250, 255, 0.7));
+  font-size: 0.875rem;
+  font-weight: 450;
+  cursor: pointer;
+  transition: background 0.15s ease, color 0.15s ease;
+  text-align: left;
+}
+
+.flow-overflow-menu__item:hover {
+  background: rgba(139, 92, 246, 0.12);
+  color: var(--color-primary, #8b5cf6);
+}
+
+.flow-overflow-menu__item--active {
+  color: var(--color-primary, #8b5cf6);
+}
+
+/* Light mode */
+body.light .flow-overflow-menu {
+  background: var(--color-background-elevated, #ffffff);
+  border-color: var(--color-border, rgba(0, 0, 0, 0.1));
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.12);
+}
+
+body.light .flow-overflow-menu__item {
+  color: var(--color-text-secondary, rgba(0, 0, 0, 0.7));
+}
+
+body.light .flow-overflow-menu__item:hover {
+  background: rgba(139, 92, 246, 0.08);
+}
+
+.history-toggle {
+  border: none;
+  width: 30px;
+  height: 30px;
+  border-radius: 999px;
+  background: rgba(255, 255, 255, 0.12);
+  color: rgba(248, 250, 255, 0.85);
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: background 0.2s ease, color 0.2s ease, transform 0.2s ease;
+}
+
+.history-toggle:hover {
+  background: rgba(99, 102, 241, 0.18);
+  color: rgba(79, 70, 229, 0.95);
+  transform: translateY(-1px);
+}
+
+/* History nozzle - toggle button on glass panel edge */
+.history-nozzle {
+  position: absolute;
+  /* Position on the right edge of the glass panel */
+  right: -16px;
+  top: 50%;
+  transform: translateY(-50%);
+  z-index: 25;
+  border: none;
+  width: 32px;
+  height: 32px;
+  border-radius: 999px;
+  /* Solid button - no blur for performance */
+  background: rgba(13, 17, 28, 0.92);
+  color: rgba(226, 232, 240, 0.9);
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  font-size: 1.05rem;
+  line-height: 1;
+  padding-bottom: 3px;
+  box-shadow: 
+    0 4px 12px rgba(2, 6, 23, 0.35),
+    inset 0 0 0 1px rgba(148, 163, 184, 0.25);
+  /* Instant - no transition for position changes */
+  transition: none;
+}
+
+/* When panel is closed, nozzle centers in the compact button */
+.flow-column--sessions[data-open='false'] .history-nozzle {
+  /* Fill the collapsed shell control so hit area and chrome stay aligned. */
+  inset: 0;
+  transform: none;
+  width: 100%;
+  height: 100%;
+  /* Remove separate background - collapsed button itself is the background */
+  background: transparent;
+  backdrop-filter: none;
+  -webkit-backdrop-filter: none;
+  box-shadow: none;
+  border-radius: inherit;
+  padding-bottom: 0;
+  padding-top: 0;
+  transform: translateY(-1px);
+}
+
+.flow-column--sessions[data-open='false'] .history-nozzle:hover,
+.flow-column--sessions[data-open='false'] .history-nozzle:focus-visible {
+  background: color-mix(in srgb, var(--color-text-muted) 12%, transparent);
+  color: var(--color-text-primary);
+  box-shadow: none;
+}
+
+.history-nozzle:hover,
+.history-nozzle:focus-visible {
+  background: rgba(99, 102, 241, 0.25);
+  color: rgba(167, 139, 250, 1);
+  box-shadow: 
+    0 6px 20px rgba(99, 102, 241, 0.3),
+    inset 0 0 0 1px rgba(139, 92, 246, 0.4);
+}
+
+.history-nozzle:focus-visible {
+  outline: none;
+  box-shadow: 
+    0 0 0 2px rgba(139, 92, 246, 0.5),
+    0 6px 20px rgba(99, 102, 241, 0.3),
+    inset 0 0 0 1px rgba(139, 92, 246, 0.4);
+}
+
+.history-dropdown {
+  position: fixed;
+  min-width: 260px;
+  padding: 14px;
+  border-radius: 18px;
+  background: rgba(13, 17, 28, 0.95);
+  border: 1px solid rgba(148, 163, 184, 0.22);
+  box-shadow: 0 22px 48px rgba(2, 6, 23, 0.6);
+  z-index: 120;
+  opacity: 0;
+  transform: translateY(-8px);
+  pointer-events: none;
+  transition: opacity 0.2s ease, transform 0.2s ease;
+}
+
+.history-dropdown.open {
+  opacity: 1;
+  transform: translateY(0);
+  pointer-events: auto;
+}
+
+.history-list {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  max-height: 280px;
+  overflow-y: auto;
+}
+
+.history-entry {
+  width: 100%;
+  border: none;
+  background: transparent;
+  padding: 10px 12px;
+  text-align: left;
+  border-radius: 14px;
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  cursor: pointer;
+  transition: background 0.2s ease, transform 0.2s ease;
+}
+
+.history-entry:hover {
+  background: rgba(99, 102, 241, 0.1);
+  transform: translateY(-1px);
+}
+
+.history-entry__title {
+  font-size: 0.9rem;
+  font-weight: 600;
+  color: var(--color-foreground);
+}
+
+.history-entry__meta {
+  font-size: 0.76rem;
+  color: var(--color-muted-foreground);
+}
+
+.error-banner {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  background: linear-gradient(135deg, rgba(248, 113, 113, 0.16), rgba(254, 215, 215, 0.18));
+  border: 1px solid rgba(248, 113, 113, 0.28);
+  color: #f87171;
+  padding: 12px 16px 12px 24px;
+  font-size: 0.88rem;
+  border-radius: 18px;
+}
+
+.error-banner-text {
+  flex: 1;
+}
+
+.error-banner-dismiss {
+  flex-shrink: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 28px;
+  height: 28px;
+  padding: 0;
+  border: none;
+  background: rgba(248, 113, 113, 0.15);
+  color: #f87171;
+  font-size: 0.9rem;
+  cursor: pointer;
+  border-radius: 8px;
+  transition: all 0.15s ease;
+}
+
+.error-banner-dismiss:hover {
+  background: rgba(248, 113, 113, 0.3);
+  color: #fca5a5;
+}
+
+.error-banner-actions {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  flex-shrink: 0;
+}
+
+.error-banner-retry {
+  color: #f87171 !important;
+  border-color: rgba(248, 113, 113, 0.3) !important;
+  font-size: 0.82rem !important;
+}
+
+.error-banner-retry:hover {
+  background: rgba(248, 113, 113, 0.15) !important;
+  color: #fca5a5 !important;
+}
+
+.error-banner-detail {
+  font-size: 0.8rem;
+  color: var(--color-muted-foreground);
+  opacity: 1;
+  margin-top: 4px;
+  line-height: 1.4;
+}
+
+.error-banner-cta {
+  color: var(--color-destructive) !important;
+  border-color: color-mix(in srgb, var(--color-destructive) 30%, transparent) !important;
+  font-size: 0.82rem !important;
+  white-space: nowrap;
+}
+
+.error-banner-cta:hover {
+  background: color-mix(in srgb, var(--color-destructive) 12%, transparent) !important;
+  color: var(--color-destructive-hover) !important;
+}
+
+.error-banner-attachment-hint {
+  opacity: 0.8;
+  font-style: italic;
+}
+
+/* Claude usage warning banner — amber variant of error-banner pattern */
+.usage-warning-banner {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  background: linear-gradient(135deg, color-mix(in srgb, var(--color-warning) 16%, transparent), color-mix(in srgb, var(--color-warning) 10%, transparent));
+  border: 1px solid color-mix(in srgb, var(--color-warning) 28%, transparent);
+  color: var(--color-warning);
+  padding: 12px 16px 12px 24px;
+  font-size: 0.88rem;
+  border-radius: 18px;
+}
+
+.usage-warning-banner-text {
+  flex: 1;
+}
+
+.usage-warning-banner-actions {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  flex-shrink: 0;
+}
+
+.usage-warning-banner-dismiss {
+  flex-shrink: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 28px;
+  height: 28px;
+  padding: 0;
+  border: none;
+  background: color-mix(in srgb, var(--color-warning) 15%, transparent);
+  color: var(--color-warning);
+  font-size: 0.9rem;
+  cursor: pointer;
+  border-radius: 8px;
+  transition: all 0.15s ease;
+}
+
+.usage-warning-banner-dismiss:hover {
+  background: color-mix(in srgb, var(--color-warning) 30%, transparent);
+}
+
+.usage-warning-banner-cta {
+  color: var(--color-warning) !important;
+  border-color: color-mix(in srgb, var(--color-warning) 30%, transparent) !important;
+  font-size: 0.82rem !important;
+  white-space: nowrap;
+}
+
+.usage-warning-banner-cta:hover {
+  background: color-mix(in srgb, var(--color-warning) 12%, transparent) !important;
+}
+
+.flow-main > .usage-warning-banner {
+  margin: 0 0 16px;
+}
+
+body.light .usage-warning-banner {
+  background: linear-gradient(135deg, color-mix(in srgb, var(--color-warning) 12%, transparent), color-mix(in srgb, var(--color-warning) 8%, transparent));
+  border-color: color-mix(in srgb, var(--color-warning) 25%, transparent);
+}
+
+body.light .usage-warning-banner-dismiss {
+  background: color-mix(in srgb, var(--color-warning) 10%, transparent);
+}
+
+body.light .usage-warning-banner-dismiss:hover {
+  background: color-mix(in srgb, var(--color-warning) 20%, transparent);
+}
+
+body.light .usage-warning-banner-cta:hover {
+  background: color-mix(in srgb, var(--color-warning) 8%, transparent) !important;
+}
+
+@media (max-width: 1080px) {
+  .flow-column {
+    border-radius: 24px;
+  }
+
+  .steps-drawer {
+    right: 16px;
+    width: min(320px, calc(100% - 32px));
+    top: 72px;
+    bottom: 48px;
+  }
+}
+
+/* ─────────────────────────────────────────────────────────────
+   Additional Light Mode Button and UI Overrides
+   ───────────────────────────────────────────────────────────── */
+
+body.light .history-toggle {
+  background: rgba(139, 92, 246, 0.1);
+  color: #7c3aed;
+}
+
+body.light .history-toggle:hover {
+  background: rgba(139, 92, 246, 0.18);
+  color: #6d28d9;
+}
+
+body.light .error-banner {
+  background: linear-gradient(135deg, rgba(248, 113, 113, 0.12), rgba(254, 202, 202, 0.15));
+  border: 1px solid rgba(248, 113, 113, 0.25);
+}
+
+body.light .error-banner-dismiss {
+  background: rgba(248, 113, 113, 0.1);
+}
+
+body.light .error-banner-dismiss:hover {
+  background: rgba(248, 113, 113, 0.2);
+}
+
+body.light .error-banner-retry {
+  color: #dc2626 !important;
+  border-color: rgba(220, 38, 38, 0.3) !important;
+}
+
+body.light .error-banner-retry:hover {
+  background: rgba(220, 38, 38, 0.12) !important;
+  color: #b91c1c !important;
+}
+
+/* ─────────────────────────────────────────────────────────────
+   Light Mode Overrides for App Shell Components
+   Restores theme-aware styling using CSS variables for light mode
+   (base styles use hardcoded dark values for dark mode aesthetic)
+   ───────────────────────────────────────────────────────────── */
+
+body.light .app-shell {
+  /* Semi-opaque - no blur for performance, gradients still show through */
+  background: linear-gradient(
+    180deg,
+    rgba(255, 255, 255, 0.75) 0%,
+    rgba(255, 255, 255, 0.85) 34%,
+    rgba(255, 255, 255, 0.92) 100%
+  );
+  box-shadow: var(--shadow-large, 0 44px 94px -40px rgba(0, 0, 0, 0.2));
+}
+
+/* Light mode abstract gradients - softer, more subtle
+   Note: Right-side and bottom-right gradients removed to match dark mode
+   and avoid stacking with body.light::before glows */
+body.light .app-shell::after {
+  background: 
+    /* Large purple flow - top left */
+    radial-gradient(ellipse 800px 600px at 8% 12%, rgba(139, 92, 246, 0.12) 0%, transparent 65%),
+    /* Blue accent - top right */
+    radial-gradient(ellipse 600px 450px at 92% 8%, rgba(59, 130, 246, 0.10) 0%, transparent 60%),
+    /* Indigo wash - center top */
+    radial-gradient(ellipse 1000px 350px at 50% 5%, rgba(99, 102, 241, 0.08) 0%, transparent 55%),
+    /* Sky wash - left side */
+    radial-gradient(ellipse 450px 600px at 3% 35%, rgba(56, 189, 248, 0.07) 0%, transparent 60%),
+    /* Bottom purple glow */
+    radial-gradient(ellipse 700px 400px at 15% 95%, rgba(139, 92, 246, 0.09) 0%, transparent 60%);
+  opacity: 0.85;
+}
+
+body.light .flow-column {
+  border: 1px solid var(--color-border);
+  background: var(--color-card);
+  box-shadow: var(--shadow-medium, 0 10px 18px rgba(0, 0, 0, 0.1));
+}
+
+/* Light mode floating glass sidebar - semi-transparent to let gradients show through */
+body.light .flow-column--sessions {
+  /* Glass panel - transparent enough to see gradients */
+  background: rgba(255, 255, 255, 0.55);
+  backdrop-filter: blur(var(--glass-panel-blur));
+  -webkit-backdrop-filter: blur(var(--glass-panel-blur));
+  /* Border on all sides (detached floating panel) */
+  border: 1px solid rgba(148, 163, 184, 0.25);
+  box-shadow: 
+    0 40px 100px rgba(0, 0, 0, 0.12),
+    0 0 0 1px rgba(255, 255, 255, 0.5) inset;
+}
+
+body.light[data-active-work='true'] .flow-column--sessions {
+  background: rgba(255, 255, 255, 0.65);
+}
+
+body.light .flow-column--sessions[data-open='false'] {
+  background: rgba(255, 255, 255, 0.65);
+  backdrop-filter: blur(var(--glass-overlay-blur));
+  -webkit-backdrop-filter: blur(var(--glass-overlay-blur));
+  border: 1px solid var(--color-border-soft);
+}
+
+/* Light mode header text needs dark color for contrast */
+body.light .flow-column--sessions .agent-session-sidebar__header h2 {
+  color: rgba(71, 85, 105, 0.75);
+}
+
+/* Light mode gradient glow - softer colors */
+body.light .flow-body::before {
+  background: 
+    radial-gradient(400px 350px at 80px 15%, rgba(139, 92, 246, 0.15) 0%, transparent 60%),
+    radial-gradient(350px 300px at 280px 85%, rgba(59, 130, 246, 0.12) 0%, transparent 60%),
+    radial-gradient(300px 280px at 180px 50%, rgba(99, 102, 241, 0.10) 0%, transparent 55%);
+}
+
+body.light .flow-column--insights {
+  /* Solid panel - matches dark mode (no blur for performance) */
+  background: rgb(255, 255, 255);
+  /* Border on all sides (floating panel) */
+  border: 1px solid rgba(148, 163, 184, 0.25);
+  box-shadow: 
+    0 40px 100px rgba(0, 0, 0, 0.12),
+    0 0 0 1px rgba(255, 255, 255, 0.5) inset;
+}
+
+body.light .flow-column__chrome {
+  border-bottom: 1px solid var(--color-border);
+  background: var(--color-card);
+}
+
+body.light .app-header {
+  /* Glass header: transparent to let body gradients show through app-shell */
+  background: transparent;
+  border-bottom: none;
+}
+
+body.light .history-nozzle {
+  background: rgba(255, 255, 255, 0.9);
+  color: var(--color-muted-foreground);
+  box-shadow: 
+    0 4px 12px rgba(0, 0, 0, 0.1),
+    inset 0 0 0 1px rgba(148, 163, 184, 0.2);
+}
+
+body.light .history-nozzle:hover,
+body.light .history-nozzle:focus-visible {
+  background: rgba(139, 92, 246, 0.12);
+  color: var(--color-primary);
+  box-shadow: 
+    0 6px 20px rgba(139, 92, 246, 0.2),
+    inset 0 0 0 1px rgba(139, 92, 246, 0.3);
+}
+
+body.light .history-dropdown {
+  background: var(--color-popover);
+  border: 1px solid var(--color-border);
+  box-shadow: var(--shadow-large, 0 22px 48px rgba(0, 0, 0, 0.15));
+}
+
+/* ─────────────────────────────────────────────────────────────
+   Prefers Reduced Motion - Accessibility
+   Disable decorative animations for users who prefer reduced motion.
+   Uses animation: none (not paused) because these users explicitly
+   want NO animation, not just paused animation.
+   ───────────────────────────────────────────────────────────── */
+
+@media (prefers-reduced-motion: reduce) {
+  /* Disable body aurora animations */
+  body.dark::before,
+  body.light::before {
+    animation: none !important;
+  }
+
+  /* Disable surface transitions */
+  .flow-surface {
+    transition: none !important;
+    animation: none !important;
+  }
+
+  .flow-chip,
+  .flow-chip__badge {
+    transition: none !important;
+  }
+}
+
+/* ─────────────────────────────────────────────────────────────
+   Onboarding Coach - Later Button
+   Layer 2 fallback button in header for when completion marker is missed.
+   Subtle styling - users shouldn't skip unless truly stuck.
+   ───────────────────────────────────────────────────────────── */
+
+.onboarding-skip-button {
+  opacity: 0.5;
+  transition: opacity 0.2s ease;
+}
+
+.onboarding-skip-button:hover {
+  opacity: 0.8;
+}

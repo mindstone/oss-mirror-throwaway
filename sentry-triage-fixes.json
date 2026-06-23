@@ -1,0 +1,37 @@
+{
+  "triage_date": "2026-06-10T21:03:51Z",
+  "issues": [
+    {
+      "id": "REBEL-WC",
+      "url": "https://mindstone.sentry.io/issues/REBEL-WC",
+      "title": "Error: EMFILE: too many open files, open '…\\mindstone-rebel\\mcp\\super-mcp-router.json'",
+      "error_type": "exception",
+      "message": "Anchor issue for the EMFILE fd-exhaustion class: the Rebel desktop process runs out of file descriptors on current builds (0.4.45), after which every fs.open/spawn fails. Same-user cross-fingerprint correlation confirmed (user 324218bb… hit EMFILE on super-mcp config read, analytics-storage.json, model calls, and fluidaudiocli spawn within the same hours on 2026-06-10).",
+      "stacktrace": "at describeMcpConfiguration (src/main/services/mcpService)",
+      "affected_files": [
+        "src/main/services/mcpService.ts"
+      ],
+      "users_affected": 18,
+      "occurrences_24h": 40,
+      "occurrences_total": 1615,
+      "first_seen": "2026-03-04",
+      "last_seen": "2026-06-10",
+      "severity_reason": "Escalated this run, overriding prior env-noise classification: events on current stable 0.4.45 the day of triage, multi-user (60+ across sibling fingerprints REBEL-52P/5Q6/5CZ/52A/5CR/632/67J/67H/67G), win32+darwin, and cascades into user-visible failures (transcription start fails, model turns fail). Investigate the fd leak (or add fd-count diagnostics at the EMFILE capture sites); siblings should close with the same fix."
+    },
+    {
+      "id": "REBEL-67H",
+      "url": "https://mindstone.sentry.io/issues/REBEL-67H",
+      "title": "Error: spawn /Applications/Mindstone Rebel.app/Contents/Resources/fluidaudiocli EMFILE",
+      "error_type": "exception",
+      "message": "New 2026-06-10 member of the EMFILE class: spawning the bundled fluidaudiocli fails with EMFILE, surfacing 'Failed to start transcription' to the user (REBEL-67G toast). Same user/time window as the REBEL-WC burst — symptom of the shared fd-exhaustion root cause, listed here for the user-visible repro path.",
+      "stacktrace": "at ChildProcess._handle.onexit (child_process)",
+      "affected_files": [],
+      "users_affected": 1,
+      "occurrences_24h": 10,
+      "occurrences_total": 10,
+      "first_seen": "2026-06-10",
+      "last_seen": "2026-06-10",
+      "severity_reason": "User-visible failure path of the EMFILE class (transcription won't start, error toast). Fix via the REBEL-WC class investigation, not separately."
+    }
+  ]
+}

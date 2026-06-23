@@ -1,0 +1,67 @@
+%% System Prompt Assembly Flow
+%% Shows how the composite system prompt is constructed from multiple sources
+%% Related files:
+%% - src/main/services/mcpService.ts (resolveSystemPrompt)
+%% - src/main/services/promptTemplateService.ts (renderCompositePrompt)
+%% - rebel-system/AGENTS.md (template source)
+
+flowchart TB
+    subgraph sources["📂 Source Files"]
+        RS["🔒 rebel-system/AGENTS.md<br/><i>Platform instructions (template)</i>"]
+        COS["👤 Chief-of-Staff/README.md<br/><i>User instructions</i>"]
+        ENV["⚙️ Runtime Environment<br/><i>Generated at turn start</i>"]
+    end
+
+    subgraph resolution["🔧 Resolution Process"]
+        direction TB
+        READ_RS["Read platform template"]
+        STRIP["Strip IDE fallback blocks<br/><code>stripExternalIdeFallback()</code>"]
+        READ_COS["Read user instructions<br/><i>Chief-of-Staff/README.md</i>"]
+        GEN_ENV["Generate EnvContext<br/><code>generateEnvContext()</code>"]
+        TIME_BUCKET["Compute time bucket<br/><i>late_night|morning|afternoon|evening|night</i>"]
+        SPACES["Scan available spaces<br/><code>buildSpaceSummaries()</code>"]
+    end
+
+    subgraph rendering["🎨 Template Rendering"]
+        CTX["Build CompositePromptContext<br/><code>{ rebelSystemMd, chiefOfStaffMd, env }</code>"]
+        NUNJUCKS["Render via Nunjucks<br/><code>nunjucksEnv.renderString()</code>"]
+    end
+
+    subgraph output["📤 Final Output"]
+        PROMPT["Composite System Prompt<br/>~10-15k tokens"]
+        SDK["Pass to Rebel Core<br/><code>queryOptions.systemPrompt</code>"]
+    end
+    
+    subgraph sideeffect["🔄 Side Effect (Separate Step)"]
+        SYNC["Sync to .claude/agents/<br/><i>For Claude Code compatibility</i>"]
+    end
+
+    RS --> READ_RS
+    READ_RS --> STRIP
+    COS --> READ_COS
+    ENV --> GEN_ENV
+    GEN_ENV --> TIME_BUCKET
+    GEN_ENV --> SPACES
+
+    STRIP --> CTX
+    READ_COS --> CTX
+    TIME_BUCKET --> CTX
+    SPACES --> CTX
+
+    CTX --> NUNJUCKS
+    NUNJUCKS --> PROMPT
+
+    PROMPT --> SDK
+    PROMPT -.->|On change| SYNC
+
+    classDef sourceFile fill:#e1f5fe,stroke:#01579b
+    classDef process fill:#fff3e0,stroke:#e65100
+    classDef render fill:#f3e5f5,stroke:#7b1fa2
+    classDef output fill:#e8f5e9,stroke:#2e7d32
+    classDef sideeffect fill:#fce4ec,stroke:#c2185b
+
+    class RS,COS,ENV sourceFile
+    class READ_RS,STRIP,READ_COS,GEN_ENV,TIME_BUCKET,SPACES process
+    class CTX,NUNJUCKS render
+    class PROMPT,SDK output
+    class SYNC sideeffect

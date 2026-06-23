@@ -1,0 +1,7 @@
+{
+  "name": "02_multi-chip-kinds",
+  "description": "Single-paragraph draft containing one of each MentionAttrs kind — command (@CHIEF_DESIGNER), file (@`path`), conversation (@[Title](rebel://...)), and model (@model:`...`). Token shapes mirror tokenForMention() in src/renderer/features/composer/utils/promptDoc.ts. Exercises mixed-chip serialisation and round-trip stability.",
+  "input": "Use @CHIEF_DESIGNER to review the layout. Reference @`docs/project/UI_OVERVIEW.md` and pull from @[Sprint Planning](rebel://conversation/abc-123). Try @model:`Claude Sonnet 4` for the synthesis.",
+  "expectedSanitised": "Use @CHIEF_DESIGNER to review the layout. Reference @`docs/project/UI_OVERVIEW.md` and pull from @[Sprint Planning](rebel://conversation/abc-123). Try @model:`Claude Sonnet 4` for the synthesis.",
+  "expectedDocShape": ""
+}

@@ -1,0 +1,1198 @@
+.steps {
+  margin: 0 0 12px;
+  padding: 14px 16px 14px 12px;
+  border-radius: 10px;
+  background: rgba(0, 0, 0, 0.18);
+  border: 1px solid rgba(148, 163, 184, 0.08);
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  width: 100%;
+  max-width: 100%;
+  box-sizing: border-box;
+  transition: background 0.15s ease, border-color 0.15s ease;
+  --chip-files-bg: rgba(148, 163, 184, 0.06);
+  --chip-files-text: rgba(148, 163, 184, 0.75);
+  --chip-files-border: rgba(148, 163, 184, 0.12);
+  --chip-shell-bg: rgba(148, 163, 184, 0.06);
+  --chip-shell-text: rgba(148, 163, 184, 0.75);
+  --chip-shell-border: rgba(148, 163, 184, 0.12);
+  --chip-network-bg: rgba(148, 163, 184, 0.06);
+  --chip-network-text: rgba(148, 163, 184, 0.75);
+  --chip-network-border: rgba(148, 163, 184, 0.12);
+  --chip-planning-bg: rgba(148, 163, 184, 0.06);
+  --chip-planning-text: rgba(148, 163, 184, 0.75);
+  --chip-planning-border: rgba(148, 163, 184, 0.12);
+  --chip-default-bg: rgba(148, 163, 184, 0.06);
+  --chip-default-text: rgba(148, 163, 184, 0.75);
+  --chip-default-border: rgba(148, 163, 184, 0.12);
+}
+
+.steps:hover {
+  background: rgba(0, 0, 0, 0.22);
+  border-color: rgba(148, 163, 184, 0.1);
+}
+
+/* High contrast mode - uses same unified neutral scheme */
+.highContrast {
+  --chip-files-bg: rgba(148, 163, 184, 0.2);
+  --chip-files-text: rgba(248, 250, 255, 0.95);
+  --chip-files-border: rgba(148, 163, 184, 0.4);
+  --chip-shell-bg: rgba(148, 163, 184, 0.2);
+  --chip-shell-text: rgba(248, 250, 255, 0.95);
+  --chip-shell-border: rgba(148, 163, 184, 0.4);
+  --chip-network-bg: rgba(148, 163, 184, 0.2);
+  --chip-network-text: rgba(248, 250, 255, 0.95);
+  --chip-network-border: rgba(148, 163, 184, 0.4);
+  --chip-planning-bg: rgba(148, 163, 184, 0.2);
+  --chip-planning-text: rgba(248, 250, 255, 0.95);
+  --chip-planning-border: rgba(148, 163, 184, 0.4);
+  --chip-default-bg: rgba(148, 163, 184, 0.2);
+  --chip-default-text: rgba(248, 250, 255, 0.95);
+  --chip-default-border: rgba(148, 163, 184, 0.4);
+}
+
+.header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 12px;
+}
+
+.eyebrow {
+  font-size: 0.72rem;
+  text-transform: uppercase;
+  letter-spacing: 0.12em;
+  color: rgba(203, 213, 225, 0.65);
+}
+
+.elapsed {
+  font-size: 0.65rem;
+  font-weight: 500;
+  letter-spacing: 0.03em;
+  color: rgba(148, 163, 184, 0.5);
+  margin-left: auto;
+  white-space: nowrap;
+}
+
+.thinking .eyebrow {
+  text-transform: none;
+  letter-spacing: 0;
+  font-size: 0.72rem;
+  font-weight: 500;
+  color: rgba(226, 232, 240, 0.8);
+  display: inline-flex;
+  align-items: flex-start;
+  gap: 5px;
+}
+
+/* Router phase icons for delightful status feedback */
+.routerIcon {
+  width: 14px;
+  height: 14px;
+  flex-shrink: 0;
+  transition: color 0.2s ease, transform 0.2s ease;
+}
+
+.routerIconEvaluating {
+  color: #60a5fa; /* blue-400 - thoughtful, considering */
+  animation: gentlePulse 2s ease-in-out infinite;
+}
+
+.routerIconDirect {
+  color: #34d399; /* emerald-400 - quick, confident */
+  animation: quickFlash 0.4s ease-out;
+}
+
+.routerIconResearch {
+  color: #f59e0b; /* amber-500 - searching, investigating */
+  animation: searchPulse 1.5s ease-in-out infinite;
+}
+
+.routerIconFound {
+  color: #34d399; /* emerald-400 - success */
+  animation: popIn 0.3s ease-out;
+}
+
+@keyframes gentlePulse {
+  0%, 100% { opacity: 0.7; transform: scale(1); }
+  50% { opacity: 1; transform: scale(1.05); }
+}
+
+@keyframes quickFlash {
+  0% { opacity: 0; transform: scale(0.8); }
+  50% { opacity: 1; transform: scale(1.1); }
+  100% { opacity: 1; transform: scale(1); }
+}
+
+@keyframes searchPulse {
+  0%, 100% { transform: translateX(0); }
+  25% { transform: translateX(2px); }
+  75% { transform: translateX(-2px); }
+}
+
+@keyframes popIn {
+  0% { transform: scale(0); opacity: 0; }
+  70% { transform: scale(1.2); opacity: 1; }
+  100% { transform: scale(1); opacity: 1; }
+}
+
+/* Respect user preference for reduced motion */
+@media (prefers-reduced-motion: reduce) {
+  .routerIconEvaluating,
+  .routerIconDirect,
+  .routerIconResearch,
+  .routerIconFound {
+    animation: none;
+  }
+}
+
+/* Direct answer headline gets a subtle highlight */
+.headlineTextDirect {
+  color: #34d399; /* emerald-400 */
+}
+
+/* Tip headlines during the waiting-state rotation get a subtle indigo accent
+   to distinguish them from persona quips.
+   See docs/plans/260418_empty_state_contextual_targeting_tip_styling.md. */
+.headlineTextTip {
+  color: rgba(129, 140, 248, 0.85);
+  font-style: normal;
+}
+
+.headlineTipIcon {
+  width: 14px;
+  height: 14px;
+  flex-shrink: 0;
+  color: rgba(129, 140, 248, 0.75);
+}
+
+.thinkingGif {
+  width: 16px;
+  height: 16px;
+  flex-shrink: 0;
+  object-fit: contain;
+  margin-top: 1px;
+}
+
+.headlineText {
+  /* Allow text to wrap naturally for longer tips */
+  white-space: normal;
+  line-height: 1.4;
+  position: relative;
+}
+
+
+.headlineText strong {
+  font-weight: 600;
+}
+
+.controls {
+  display: inline-flex;
+  gap: 8px;
+  flex-wrap: wrap;
+}
+
+.control {
+  border: 1px solid rgba(148, 163, 184, 0.28);
+  background: rgba(13, 17, 28, 0.9);
+  color: rgba(226, 232, 240, 0.9);
+  border-radius: 999px;
+  padding: 6px 14px;
+  font-size: 0.75rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background 0.2s ease, border-color 0.2s ease, transform 0.2s ease;
+}
+
+.control[aria-pressed='true'] {
+  background: rgba(99, 102, 241, 0.16);
+  border-color: rgba(99, 102, 241, 0.55);
+}
+
+.control:hover {
+  transform: translateY(-1px);
+}
+
+.toggle {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  background: transparent;
+  border: none;
+  padding: 0;
+  margin: 0;
+  border-radius: 0;
+  cursor: pointer;
+  color: inherit;
+  font: inherit;
+  width: 100%;
+  text-align: left;
+}
+
+.collapsed {
+  padding: 10px 16px 10px 12px;
+  cursor: pointer;
+  transition: background 0.15s ease, border-color 0.15s ease;
+}
+
+.collapsed:hover {
+  background: rgba(30, 41, 59, 0.6);
+  border-color: rgba(148, 163, 184, 0.2);
+}
+
+.chevron {
+  width: 14px;
+  height: 14px;
+  color: rgba(148, 163, 184, 0.4);
+  flex-shrink: 0;
+  margin-left: auto;
+}
+
+.collapsed .header {
+  margin-bottom: 0;
+}
+
+.collapsed .eyebrow {
+  text-transform: none;
+  font-size: 11px;
+  letter-spacing: 0;
+  color: rgba(148, 163, 184, 0.55);
+}
+
+.collapsedAgentSummary {
+  font-size: 0.68rem;
+  color: rgba(148, 163, 184, 0.45);
+  padding-left: 4px;
+}
+
+.thinkingDots {
+  display: inline-flex;
+  margin-left: 4px;
+}
+
+.thinkingDots span {
+  animation: thinkingDot 1.4s infinite ease-in-out both;
+}
+
+.thinkingDots span:nth-child(1) {
+  animation-delay: 0s;
+}
+
+.thinkingDots span:nth-child(2) {
+  animation-delay: 0.2s;
+}
+
+.thinkingDots span:nth-child(3) {
+  animation-delay: 0.4s;
+}
+
+@keyframes thinkingDot {
+  0%, 80%, 100% {
+    opacity: 0.3;
+  }
+  40% {
+    opacity: 1;
+  }
+}
+
+.legend {
+  border: 1px dashed rgba(148, 163, 184, 0.35);
+  border-radius: 14px;
+  padding: 12px;
+  background: rgba(13, 17, 28, 0.92);
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.legendGrid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+  gap: 10px;
+}
+
+.legendItem {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  font-size: 0.78rem;
+  color: rgba(226, 232, 240, 0.78);
+}
+
+.legendItem p {
+  margin: 0;
+  line-height: 1.3;
+}
+
+.legendStatuses {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px;
+}
+
+.legendStatus {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 4px 10px;
+  border-radius: 999px;
+  background: rgba(148, 163, 184, 0.18);
+  font-size: 0.78rem;
+  color: rgba(248, 250, 255, 0.9);
+}
+
+.legendStatusText span {
+  display: block;
+  font-weight: 500;
+}
+
+.legendStatusText strong {
+  display: block;
+  font-size: 0.78rem;
+}
+
+/* ─────────────────────────────────────────────────────────────
+   Scrollable Container with Fade Effects
+   ───────────────────────────────────────────────────────────── */
+
+.scrollContainer {
+  max-height: 150px;
+  overflow-y: auto;
+  overflow-x: hidden;
+  scrollbar-width: thin;
+  scrollbar-color: rgba(148, 163, 184, 0.3) transparent;
+  
+  /* Note: scroll-behavior is controlled programmatically in TurnStepsInline.tsx
+     to allow instant vs smooth scrolling based on context */
+  
+  /* Base mask - no fade */
+  mask-image: linear-gradient(to bottom, black, black);
+  -webkit-mask-image: linear-gradient(to bottom, black, black);
+}
+
+.scrollContainer::-webkit-scrollbar {
+  width: 8px;
+  background: transparent;
+}
+
+.scrollContainer::-webkit-scrollbar-track {
+  background: transparent;
+  margin: 4px 0;
+}
+
+.scrollContainer::-webkit-scrollbar-thumb {
+  background: rgba(148, 163, 184, 0.15);
+  border-radius: 999px;
+  border: 2px solid transparent;
+  background-clip: padding-box;
+  min-height: 40px;
+}
+
+.scrollContainer::-webkit-scrollbar-thumb:hover {
+  background: rgba(148, 163, 184, 0.3);
+  border: 2px solid transparent;
+  background-clip: padding-box;
+}
+
+/* Fade bottom only (when scrolled to top) */
+.scrollFadeBottom {
+  mask-image: linear-gradient(to bottom, black 0%, black calc(100% - 32px), transparent 100%);
+  -webkit-mask-image: linear-gradient(to bottom, black 0%, black calc(100% - 32px), transparent 100%);
+}
+
+/* Fade top only (when scrolled to bottom) */
+.scrollFadeTop {
+  mask-image: linear-gradient(to bottom, transparent 0%, black 32px, black 100%);
+  -webkit-mask-image: linear-gradient(to bottom, transparent 0%, black 32px, black 100%);
+}
+
+/* Fade both top and bottom (when scrolled in middle) */
+.scrollFadeBoth {
+  mask-image: linear-gradient(to bottom, transparent 0%, black 32px, black calc(100% - 32px), transparent 100%);
+  -webkit-mask-image: linear-gradient(to bottom, transparent 0%, black 32px, black calc(100% - 32px), transparent 100%);
+}
+
+.list {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  padding-inline-start: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+/* Step entrance animation */
+@keyframes stepEntrance {
+  0% {
+    opacity: 0;
+    transform: translateX(-12px);
+  }
+  100% {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
+.step {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  animation: stepEntrance 250ms var(--motion-ease-out, cubic-bezier(0.16, 1, 0.3, 1)) backwards;
+}
+
+/* Stagger step animations based on position */
+.step:nth-child(1) { animation-delay: 0ms; }
+.step:nth-child(2) { animation-delay: 30ms; }
+.step:nth-child(3) { animation-delay: 60ms; }
+.step:nth-child(4) { animation-delay: 90ms; }
+.step:nth-child(5) { animation-delay: 120ms; }
+.step:nth-child(n+6) { animation-delay: 150ms; }
+
+/* Respect reduced motion preference */
+@media (prefers-reduced-motion: reduce) {
+  .step {
+    animation: none;
+  }
+}
+
+.modelLabel {
+  font-size: 10px;
+  font-weight: 500;
+  color: var(--color-text-muted, rgba(148, 163, 184, 0.6));
+  letter-spacing: 0.02em;
+  line-height: 1;
+  padding: 1px 0;
+  align-self: flex-end;
+  user-select: none;
+}
+
+.modelLabelContinuation {
+  font-size: 9px;
+  opacity: 0.4;
+}
+
+.stepSubagent {
+  margin: 4px 0;
+}
+
+.stepPending {
+  /* pending state styling */
+}
+
+.stepHighlighted .select {
+  color: #a78bfa;
+}
+
+.select {
+  background: transparent;
+  border: none;
+  border-radius: 0;
+  padding: 2px 0;
+  display: flex;
+  align-items: flex-start;
+  gap: 6px;
+  cursor: pointer;
+  text-align: left;
+  color: rgba(248, 250, 255, 0.6);
+  transition: color 0.15s ease;
+}
+
+.select:hover {
+  color: rgba(248, 250, 255, 1);
+}
+
+.selectActive {
+  color: #a78bfa;
+}
+
+.count {
+  color: rgba(148, 163, 184, 0.35);
+  font-weight: 500;
+  font-size: 11px;
+  min-width: 14px;
+  flex-shrink: 0;
+}
+
+.snippet {
+  flex: 1;
+  font-size: 11px;
+  color: rgba(248, 250, 255, 0.55);
+  line-height: 1.4;
+}
+
+.subagents {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  padding-left: 22px;
+}
+
+.stepPending .subagents {
+  padding-left: 0;
+}
+
+.tools {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 4px;
+  padding-left: 0;
+}
+
+.toolsList {
+  list-style: none;
+  margin: 2px 0 0 0;
+  padding: 0;
+  padding-inline-start: 22px;
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.toolItem {
+  display: flex;
+  align-items: center;
+  gap: 3px;
+  font-size: 11px;
+  color: rgba(148, 163, 184, 0.6);
+  line-height: 1.3;
+  min-width: 0;
+}
+
+.toolItemError {
+  color: #f87171;
+}
+
+.toolItemSubtle {
+  opacity: 0.6;
+}
+
+.toolIcon {
+  display: none;
+}
+
+.toolLabel {
+  flex: 0 1 auto;
+  min-width: 0;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.toolDots {
+  display: inline;
+  margin-left: 1px;
+}
+
+.toolDots span {
+  animation: toolDotPulse 1.4s infinite ease-in-out both;
+}
+
+.toolDots span:nth-child(1) {
+  animation-delay: 0s;
+}
+
+.toolDots span:nth-child(2) {
+  animation-delay: 0.2s;
+}
+
+.toolDots span:nth-child(3) {
+  animation-delay: 0.4s;
+}
+
+@keyframes toolDotPulse {
+  0%, 80%, 100% { opacity: 0.2; }
+  40% { opacity: 0.8; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .toolDots span {
+    animation: none;
+    opacity: 0.5;
+  }
+}
+
+/*
+ * Safety-eval progress subline. Appears next to the running tool label while
+ * the Safety Prompt evaluator is in flight. Deliberately subtle — should hint
+ * "something's still happening" without overpowering the tool name.
+ *
+ * See: docs/plans/260417_safety_eval_silent_lock_bugfix.md
+ */
+.toolSafetyEvalSubline {
+  margin-left: 8px;
+  font-size: 12px;
+  color: rgba(148, 163, 184, 0.75);
+  font-style: italic;
+  font-weight: 400;
+}
+
+.toolSeparator {
+  color: rgba(148, 163, 184, 0.45);
+  flex-shrink: 0;
+  padding: 0 4px;
+}
+
+.toolDetail {
+  color: rgba(148, 163, 184, 0.68);
+  flex: 1 1 0;
+  min-width: 0;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.toolItemError .toolSeparator {
+  color: rgba(248, 113, 113, 0.62);
+}
+
+.toolItemError .toolDetail {
+  color: rgba(248, 113, 113, 0.82);
+}
+
+.toolCount {
+  display: none;
+}
+
+.repeatCount {
+  color: rgba(148, 163, 184, 0.35);
+  font-size: 10px;
+  font-weight: 500;
+  letter-spacing: 0.01em;
+}
+
+.statusIcon {
+  width: 8px;
+  height: 8px;
+  flex-shrink: 0;
+  opacity: 0.5;
+}
+
+.statusIconSpacer {
+  width: 8px;
+  height: 8px;
+  flex-shrink: 0;
+}
+
+/* Tool completion pulse - plays once when tool finishes */
+@keyframes toolCompletePulse {
+  0% {
+    transform: scale(1);
+    filter: drop-shadow(0 0 0 currentColor);
+  }
+  50% {
+    transform: scale(1.3);
+    filter: drop-shadow(0 0 6px currentColor);
+  }
+  100% {
+    transform: scale(1);
+    filter: drop-shadow(0 0 0 currentColor);
+  }
+}
+
+.statusIconSuccess {
+  color: rgba(148, 163, 184, 0.4);
+}
+
+.statusIconError {
+  color: #f87171;
+  animation: toolCompletePulse 400ms var(--motion-ease-out, cubic-bezier(0.16, 1, 0.3, 1)) backwards;
+}
+
+.statusIconRunning {
+  color: rgba(148, 163, 184, 0.45);
+  animation: spin 1.5s linear infinite;
+}
+
+@keyframes spin {
+  from { transform: rotate(0deg); }
+  to { transform: rotate(360deg); }
+}
+
+/* Respect reduced motion preference */
+@media (prefers-reduced-motion: reduce) {
+  .statusIconSuccess,
+  .statusIconError {
+    animation: none;
+  }
+  .statusIconRunning {
+    animation: none;
+  }
+}
+
+/* ─────────────────────────────────────────────────────────────
+   Parallel Tool Batch (multi-tool steps)
+   ───────────────────────────────────────────────────────────── */
+
+.parallelBatch {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  padding-left: 6px;
+  border-left: 2px solid color-mix(in srgb, var(--color-tertiary, #6366f1) 25%, transparent);
+  margin: 2px 0;
+}
+
+.parallelLabel {
+  font-size: 10px;
+  color: var(--color-muted-foreground);
+  opacity: 0.5;
+  letter-spacing: 0.02em;
+  padding-bottom: 1px;
+}
+
+.divider {
+  border: none;
+  border-top: 1px solid rgba(148, 163, 184, 0.06);
+  margin: 6px 0 0 0;
+}
+
+/* ─────────────────────────────────────────────────────────────
+   Queued Todos (upcoming work, ghost styling)
+   ───────────────────────────────────────────────────────────── */
+
+.queuedSection {
+  margin-top: 12px;
+  padding-top: 10px;
+  border-top: 1px solid rgba(148, 163, 184, 0.08);
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.queuedHeader {
+  font-size: 11px;
+  font-weight: 500;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+  color: rgba(148, 163, 184, 0.4);
+  margin-bottom: 2px;
+}
+
+.queuedItem {
+  display: flex;
+  align-items: flex-start;
+  gap: 8px;
+  font-size: 13px;
+  color: rgba(148, 163, 184, 0.45);
+  line-height: 1.4;
+}
+
+.queuedDot {
+  flex-shrink: 0;
+  width: 14px;
+  text-align: center;
+}
+
+.queuedContent {
+  flex: 1;
+}
+
+.queuedMore {
+  font-size: 12px;
+  color: rgba(148, 163, 184, 0.35);
+  padding-left: 22px;
+}
+
+/* ─────────────────────────────────────────────────────────────
+   Mission Context Card
+   ───────────────────────────────────────────────────────────── */
+
+.missionCard {
+  border-left: 3px solid rgba(99, 102, 241, 0.5);
+  background: rgba(99, 102, 241, 0.06);
+  border-radius: 6px;
+  padding: 10px 12px;
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  animation: stepEntrance 250ms var(--motion-ease-out, cubic-bezier(0.16, 1, 0.3, 1)) backwards;
+}
+
+.missionGoal {
+  margin: 0;
+  font-size: 13px;
+  font-weight: 600;
+  color: rgba(248, 250, 255, 0.9);
+  line-height: 1.4;
+}
+
+.missionMeta {
+  margin: 0;
+  font-size: 12px;
+  color: rgba(148, 163, 184, 0.65);
+  line-height: 1.4;
+}
+
+.missionMetaLabel {
+  font-weight: 500;
+  color: rgba(148, 163, 184, 0.8);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .missionCard {
+    animation: none;
+  }
+}
+
+/* ─────────────────────────────────────────────────────────────
+   Task Progress Checklist
+   ───────────────────────────────────────────────────────────── */
+
+.taskSection {
+  margin-top: 12px;
+  padding-top: 10px;
+  border-top: 1px solid rgba(148, 163, 184, 0.08);
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.taskHeader {
+  font-size: 11px;
+  font-weight: 500;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+  color: rgba(148, 163, 184, 0.4);
+  margin-bottom: 2px;
+}
+
+.taskItem {
+  display: flex;
+  align-items: flex-start;
+  gap: 8px;
+  font-size: 13px;
+  color: rgba(248, 250, 255, 0.85);
+  line-height: 1.4;
+  transition: opacity 0.3s ease, color 0.3s ease;
+}
+
+.taskItemCompleted {
+  color: rgba(148, 163, 184, 0.45);
+}
+
+.taskItemBlocked {
+  color: rgba(148, 163, 184, 0.45);
+}
+
+.taskItemInProgress {
+  color: rgba(248, 250, 255, 0.95);
+}
+
+.taskIndicator {
+  flex-shrink: 0;
+  width: 14px;
+  text-align: center;
+  font-size: 13px;
+  line-height: 1.4;
+}
+
+.taskIndicator_pending {
+  color: rgba(148, 163, 184, 0.5);
+}
+
+.taskIndicator_in_progress {
+  color: #60a5fa;
+  animation: taskPulse 2s ease-in-out infinite;
+}
+
+.taskIndicator_completed {
+  color: #34d399;
+}
+
+.taskIndicator_blocked {
+  color: rgba(248, 113, 113, 0.7);
+}
+
+@keyframes taskPulse {
+  0%, 100% { opacity: 0.7; }
+  50% { opacity: 1; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .taskIndicator_in_progress {
+    animation: none;
+  }
+}
+
+.taskTitle {
+  flex: 1;
+}
+
+.taskMore {
+  font-size: 12px;
+  color: rgba(148, 163, 184, 0.35);
+  padding-left: 22px;
+}
+
+/* ─────────────────────────────────────────────────────────────
+   Light Mode Overrides
+   ───────────────────────────────────────────────────────────── */
+
+:global(body.light) .steps {
+  background: linear-gradient(135deg, rgba(238, 242, 255, 0.85) 0%, rgba(224, 231, 255, 0.75) 100%);
+  border-color: rgba(99, 102, 241, 0.15);
+}
+
+:global(body.light) .steps:hover {
+  background: linear-gradient(135deg, rgba(238, 242, 255, 0.95) 0%, rgba(224, 231, 255, 0.88) 100%);
+  border-color: rgba(99, 102, 241, 0.22);
+}
+
+:global(body.light) .eyebrow {
+  color: var(--color-muted-foreground);
+}
+
+:global(body.light) .elapsed {
+  color: var(--color-muted-foreground);
+}
+
+:global(body.light) .thinking .eyebrow {
+  color: var(--color-foreground);
+}
+
+:global(body.light) .collapsed .eyebrow {
+  color: var(--color-muted-foreground);
+}
+
+:global(body.light) .collapsedAgentSummary {
+  color: var(--color-muted-foreground);
+}
+
+:global(body.light) .collapsed:hover {
+  background: rgba(99, 102, 241, 0.08);
+  border-color: rgba(99, 102, 241, 0.18);
+}
+
+:global(body.light) .chevron {
+  color: var(--color-muted-foreground);
+}
+
+:global(body.light) .control {
+  background: var(--color-card);
+  border-color: var(--color-border);
+  color: var(--color-foreground);
+}
+
+:global(body.light) .control[aria-pressed='true'] {
+  background: rgba(99, 102, 241, 0.12);
+  border-color: rgba(99, 102, 241, 0.4);
+  color: #6366f1;
+}
+
+:global(body.light) .control:hover {
+  border-color: rgba(99, 102, 241, 0.35);
+}
+
+:global(body.light) .legend {
+  background: var(--color-card);
+  border-color: var(--color-border);
+}
+
+:global(body.light) .legendItem {
+  color: var(--color-foreground);
+}
+
+:global(body.light) .legendStatus {
+  background: color-mix(in srgb, var(--color-primary) 10%, transparent);
+  color: var(--color-foreground);
+}
+
+:global(body.light) .select {
+  color: var(--color-muted-foreground);
+}
+
+:global(body.light) .select:hover {
+  color: var(--color-foreground);
+}
+
+:global(body.light) .selectActive {
+  color: var(--color-primary);
+}
+
+:global(body.light) .stepHighlighted .select {
+  color: var(--color-primary);
+}
+
+:global(body.light) .count {
+  color: var(--color-muted-foreground);
+}
+
+:global(body.light) .snippet {
+  color: var(--color-muted-foreground);
+}
+
+:global(body.light) .toolItem {
+  color: var(--color-muted-foreground);
+}
+
+:global(body.light) .toolIcon {
+  opacity: 0.95;
+}
+
+:global(body.light) .toolItemSubtle {
+  opacity: 0.62;
+}
+
+:global(body.light) .toolSeparator {
+  color: rgba(100, 116, 139, 0.55);
+}
+
+:global(body.light) .toolDetail {
+  color: rgba(100, 116, 139, 0.82);
+}
+
+:global(body.light) .repeatCount {
+  color: rgba(100, 116, 139, 0.4);
+}
+
+:global(body.light) .toolItemError .toolSeparator {
+  color: rgba(239, 68, 68, 0.62);
+}
+
+:global(body.light) .toolItemError .toolDetail {
+  color: rgba(239, 68, 68, 0.8);
+}
+
+:global(body.light) .parallelBatch {
+  border-left-color: color-mix(in srgb, var(--color-tertiary, #6366f1) 30%, transparent);
+}
+
+:global(body.light) .divider {
+  border-top-color: var(--color-border);
+}
+
+:global(body.light) .statusIconSuccess {
+  color: rgba(100, 116, 139, 0.4);
+}
+
+:global(body.light) .statusIconRunning {
+  color: rgba(100, 116, 139, 0.45);
+}
+
+:global(body.light) .queuedSection {
+  border-top-color: var(--color-border);
+}
+
+:global(body.light) .queuedHeader {
+  color: rgba(100, 116, 139, 0.5);
+}
+
+:global(body.light) .queuedItem {
+  color: rgba(100, 116, 139, 0.5);
+}
+
+:global(body.light) .queuedMore {
+  color: rgba(100, 116, 139, 0.4);
+}
+
+/* Light mode: Router phase icons */
+:global(body.light) .routerIconEvaluating {
+  color: #3b82f6; /* blue-500 */
+}
+
+:global(body.light) .routerIconDirect {
+  color: #10b981; /* emerald-500 */
+}
+
+:global(body.light) .routerIconResearch {
+  color: #d97706; /* amber-600 */
+}
+
+:global(body.light) .routerIconFound {
+  color: #10b981; /* emerald-500 */
+}
+
+:global(body.light) .headlineTextDirect {
+  color: #10b981; /* emerald-500 */
+}
+
+:global(body.light) .headlineTextTip {
+  color: rgba(79, 70, 229, 0.78);
+}
+
+:global(body.light) .headlineTipIcon {
+  color: rgba(79, 70, 229, 0.65);
+}
+
+/* Light mode: Scroll container */
+:global(body.light) .scrollContainer {
+  scrollbar-color: rgba(100, 116, 139, 0.25) transparent;
+}
+
+:global(body.light) .scrollContainer::-webkit-scrollbar-thumb {
+  background: rgba(100, 116, 139, 0.15);
+  border: 2px solid transparent;
+  background-clip: padding-box;
+}
+
+:global(body.light) .scrollContainer::-webkit-scrollbar-thumb:hover {
+  background: rgba(100, 116, 139, 0.3);
+  border: 2px solid transparent;
+  background-clip: padding-box;
+}
+
+/* Light mode: Mission Card */
+:global(body.light) .missionCard {
+  border-left-color: rgba(99, 102, 241, 0.4);
+  background: rgba(99, 102, 241, 0.06);
+}
+
+:global(body.light) .missionGoal {
+  color: var(--color-foreground);
+}
+
+:global(body.light) .missionMeta {
+  color: var(--color-muted-foreground);
+}
+
+:global(body.light) .missionMetaLabel {
+  color: rgba(100, 116, 139, 0.9);
+}
+
+/* Light mode: Task Progress Checklist */
+:global(body.light) .taskSection {
+  border-top-color: var(--color-border);
+}
+
+:global(body.light) .taskHeader {
+  color: rgba(100, 116, 139, 0.5);
+}
+
+:global(body.light) .taskItem {
+  color: var(--color-foreground);
+}
+
+:global(body.light) .taskItemCompleted {
+  color: rgba(100, 116, 139, 0.5);
+}
+
+:global(body.light) .taskItemBlocked {
+  color: rgba(100, 116, 139, 0.5);
+}
+
+:global(body.light) .taskItemInProgress {
+  color: var(--color-foreground);
+}
+
+:global(body.light) .taskIndicator_pending {
+  color: rgba(100, 116, 139, 0.5);
+}
+
+:global(body.light) .taskIndicator_in_progress {
+  color: #3b82f6;
+}
+
+:global(body.light) .taskIndicator_completed {
+  color: #10b981;
+}
+
+:global(body.light) .taskIndicator_blocked {
+  color: rgba(239, 68, 68, 0.7);
+}
+
+:global(body.light) .taskMore {
+  color: rgba(100, 116, 139, 0.4);
+}

@@ -1,0 +1,177 @@
+.boundary {
+  width: 100%;
+  max-width: min(calc(756px + 48px), 86%);
+  margin: 8px 0 24px;
+  display: flex;
+  flex-direction: column;
+  gap: 0;
+}
+
+/* Large screens: align with centered conversation content */
+@media (min-width: 1800px) {
+  .boundary {
+    grid-column: 2;
+  }
+}
+
+.divider {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  width: 100%;
+  padding: 0 4px;
+}
+
+.line {
+  flex: 1;
+  height: 1px;
+  background: linear-gradient(
+    90deg,
+    transparent 0%,
+    rgba(99, 102, 241, 0.3) 20%,
+    rgba(99, 102, 241, 0.4) 50%,
+    rgba(99, 102, 241, 0.3) 80%,
+    transparent 100%
+  );
+}
+
+.label {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 6px 14px;
+  background: linear-gradient(135deg, rgba(99, 102, 241, 0.12) 0%, rgba(99, 102, 241, 0.08) 100%);
+  border: 1px solid rgba(99, 102, 241, 0.2);
+  border-radius: 20px;
+  color: rgba(165, 180, 252, 0.9);
+  font-size: 0.75rem;
+  font-weight: 500;
+  letter-spacing: 0.02em;
+  white-space: nowrap;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.label:hover {
+  background: linear-gradient(135deg, rgba(99, 102, 241, 0.18) 0%, rgba(99, 102, 241, 0.12) 100%);
+  border-color: rgba(99, 102, 241, 0.3);
+}
+
+.labelIcon {
+  width: 14px;
+  height: 14px;
+  opacity: 0.8;
+}
+
+.chevron {
+  width: 12px;
+  height: 12px;
+  opacity: 0.6;
+  transition: transform 0.2s ease;
+}
+
+.chevron[data-expanded="true"] {
+  transform: rotate(180deg);
+}
+
+.summaryPanel {
+  margin-top: 12px;
+  padding: 16px 20px;
+  background: linear-gradient(135deg, rgba(17, 24, 39, 0.9) 0%, rgba(15, 23, 42, 0.95) 100%);
+  border: 1px solid rgba(99, 102, 241, 0.15);
+  border-radius: 12px;
+  color: rgba(203, 213, 225, 0.85);
+  font-size: 0.85rem;
+  line-height: 1.6;
+  animation: expandIn 0.25s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+  overflow: hidden;
+}
+
+@keyframes expandIn {
+  0% {
+    opacity: 0;
+    max-height: 0;
+    margin-top: 0;
+    padding-top: 0;
+    padding-bottom: 0;
+  }
+  100% {
+    opacity: 1;
+    max-height: 400px;
+    margin-top: 12px;
+    padding-top: 16px;
+    padding-bottom: 16px;
+  }
+}
+
+.summaryHeader {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-bottom: 10px;
+  color: rgba(165, 180, 252, 0.9);
+  font-size: 0.72rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+}
+
+.summaryText {
+  white-space: pre-wrap;
+  word-break: break-word;
+  max-height: 300px;
+  overflow-y: auto;
+}
+
+.depthBadge {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 2px 6px;
+  background: rgba(99, 102, 241, 0.15);
+  border-radius: 4px;
+  font-size: 0.68rem;
+  font-weight: 600;
+  color: rgba(165, 180, 252, 0.8);
+}
+
+/* ─────────────────────────────────────────────────────────────
+   Light Mode Overrides
+   ───────────────────────────────────────────────────────────── */
+
+:global(body.light) .line {
+  background: linear-gradient(
+    90deg,
+    transparent 0%,
+    rgba(139, 92, 246, 0.25) 20%,
+    rgba(139, 92, 246, 0.35) 50%,
+    rgba(139, 92, 246, 0.25) 80%,
+    transparent 100%
+  );
+}
+
+:global(body.light) .label {
+  background: linear-gradient(135deg, color-mix(in srgb, var(--color-primary) 10%, transparent) 0%, color-mix(in srgb, var(--color-primary) 6%, transparent) 100%);
+  border: 1px solid color-mix(in srgb, var(--color-primary) 20%, transparent);
+  color: var(--color-primary);
+}
+
+:global(body.light) .label:hover {
+  background: linear-gradient(135deg, color-mix(in srgb, var(--color-primary) 15%, transparent) 0%, color-mix(in srgb, var(--color-primary) 10%, transparent) 100%);
+  border-color: color-mix(in srgb, var(--color-primary) 30%, transparent);
+}
+
+:global(body.light) .summaryPanel {
+  background: linear-gradient(135deg, var(--color-card) 0%, var(--color-muted) 100%);
+  border: 1px solid color-mix(in srgb, var(--color-primary) 15%, transparent);
+  color: var(--color-foreground);
+}
+
+:global(body.light) .summaryHeader {
+  color: var(--color-primary);
+}
+
+:global(body.light) .depthBadge {
+  background: color-mix(in srgb, var(--color-primary) 12%, transparent);
+  color: var(--color-primary);
+}

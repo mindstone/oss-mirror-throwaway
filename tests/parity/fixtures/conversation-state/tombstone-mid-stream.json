@@ -1,0 +1,35 @@
+{
+  "name": "tombstone-mid-stream",
+  "input": [
+    {
+      "id": "u14",
+      "turnId": "t14",
+      "role": "user",
+      "text": "Keep this user prompt visible.",
+      "createdAt": 14001
+    },
+    {
+      "id": "a14-old",
+      "turnId": "t14",
+      "role": "assistant",
+      "text": "Old assistant chunk (tombstoned).",
+      "createdAt": 14002,
+      "deletedAt": 14999
+    },
+    {
+      "id": "a14-new",
+      "turnId": "t14",
+      "role": "assistant",
+      "text": "Replacement assistant chunk.",
+      "createdAt": 14003
+    }
+  ],
+  "expected": {
+    "visibleIds": ["u14", "a14-new"],
+    "messagesByTurnIds": {
+      "t14": ["u14", "a14-new"]
+    },
+    "activeTurnId": "t14",
+    "isBusy": true
+  }
+}

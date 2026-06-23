@@ -1,0 +1,201 @@
+.scrollWrapper {
+  flex: 1;
+  overflow-y: auto;
+  min-height: 0;
+}
+
+.scrollWrapper::-webkit-scrollbar {
+  width: 8px;
+  background: transparent;
+}
+
+.scrollWrapper::-webkit-scrollbar-track {
+  background: transparent;
+  margin: 4px 0;
+}
+
+.scrollWrapper::-webkit-scrollbar-thumb {
+  background: rgba(148, 163, 184, 0.15);
+  border-radius: 999px;
+  border: 2px solid transparent;
+  background-clip: padding-box;
+  min-height: 40px;
+}
+
+.scrollWrapper::-webkit-scrollbar-thumb:hover {
+  background: rgba(148, 163, 184, 0.3);
+  border: 2px solid transparent;
+  background-clip: padding-box;
+}
+
+.container {
+  padding: 4px 0 48px;
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-5);
+  max-width: 680px;
+  width: 100%;
+  margin: 0 auto;
+}
+
+/* ── Header ── */
+
+.backButton {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  padding: 4px 8px;
+  margin-left: -8px;
+  border: none;
+  background: none;
+  border-radius: var(--radius-sm);
+  font-size: 0.8125rem;
+  color: var(--color-muted-foreground);
+  cursor: pointer;
+  transition: color 0.15s ease, background 0.15s ease;
+}
+
+.backButton:hover {
+  color: var(--color-foreground);
+  background: var(--color-muted);
+}
+
+.backButton:focus-visible {
+  outline: 2px solid var(--color-ring);
+  outline-offset: 2px;
+}
+
+.pageHeader {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-2);
+}
+
+.titleRow {
+  display: flex;
+  align-items: center;
+  gap: var(--space-3);
+}
+
+.pageTitle {
+  margin: 0;
+  font-size: 1.25rem;
+  font-weight: 600;
+  color: var(--color-foreground);
+  letter-spacing: -0.02em;
+}
+
+.privacyBadge {
+  font-size: 0.65rem;
+  padding: 2px 7px;
+  gap: 3px;
+}
+
+.pageDescription {
+  margin: 0;
+  font-size: 0.875rem;
+  color: var(--color-muted-foreground);
+  line-height: 1.55;
+}
+
+/* ── Completion indicator ── */
+
+.completionRow {
+  display: flex;
+  align-items: center;
+  gap: var(--space-2);
+}
+
+.completionRing {
+  width: 28px;
+  height: 28px;
+  flex-shrink: 0;
+}
+
+.completionSvg {
+  width: 100%;
+  height: 100%;
+}
+
+.completionText {
+  font-size: 0.8125rem;
+  font-weight: 600;
+  color: var(--color-foreground);
+}
+
+.completionHint {
+  font-size: 0.75rem;
+  color: var(--color-muted-foreground);
+}
+
+/* ── Interview CTA ── */
+
+.interviewBlock {
+  display: flex;
+  align-items: center;
+  gap: var(--space-3);
+  flex-wrap: wrap;
+}
+
+.interviewExplainer {
+  margin: 0;
+  font-size: 0.75rem;
+  color: var(--color-muted-foreground);
+  line-height: 1.5;
+}
+
+/* ── Footer links ── */
+
+.footerLinks {
+  display: flex;
+  align-items: center;
+  gap: var(--space-4);
+}
+
+.footerLink {
+  font-size: 0.75rem;
+  color: var(--color-muted-foreground);
+  opacity: 0.8;
+}
+
+.footerLink:hover {
+  opacity: 1;
+}
+
+/* ── Section heading ── */
+
+.sectionHeader {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: var(--space-3);
+}
+
+.sectionTitle {
+  margin: 0;
+  font-size: 0.8125rem;
+  font-weight: 500;
+  color: var(--color-muted-foreground);
+}
+
+.sectionCount {
+  font-size: 0.75rem;
+  color: var(--color-muted-foreground);
+  opacity: 0.7;
+}
+
+/* ── Section cards list ── */
+
+.sections {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-2);
+}
+
+/* ── Loading ── */
+
+.loadingState {
+  font-size: 0.875rem;
+  color: var(--color-muted-foreground);
+  padding: var(--space-5) 0;
+}

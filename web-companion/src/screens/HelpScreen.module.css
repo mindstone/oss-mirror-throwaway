@@ -1,0 +1,292 @@
+/* HelpScreen.module.css */
+
+.container {
+  padding: var(--space-lg) 0;
+}
+
+.title {
+  font-size: 1.75rem;
+  font-weight: 700;
+  color: var(--color-text-primary);
+  letter-spacing: -0.02em;
+  margin: 0 0 var(--space-lg);
+}
+
+/* Cards */
+.card {
+  background: var(--color-surface);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-md);
+  padding: var(--space-md);
+  margin-bottom: var(--space-md);
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.cardLabel {
+  font-size: 0.75rem;
+  font-weight: 700;
+  color: var(--color-text-tertiary);
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+}
+
+/* Picker buttons (type + urgency) */
+.pickerRow {
+  display: flex;
+  gap: var(--space-xs);
+  flex-wrap: wrap;
+}
+
+.pickerButton {
+  padding: 8px 14px;
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-sm);
+  background: none;
+  color: var(--color-text-secondary);
+  font-size: 0.875rem;
+  font-weight: 600;
+  font-family: var(--font-sans);
+  cursor: pointer;
+  transition: border-color var(--transition-fast), color var(--transition-fast),
+    background var(--transition-fast);
+}
+
+.pickerButton:hover:not(.pickerButtonActive) {
+  border-color: var(--color-text-secondary);
+}
+
+.pickerButtonActive {
+  border-color: var(--color-accent);
+  color: var(--color-accent);
+  background: var(--color-accent-bg, transparent);
+}
+
+/* Field groups */
+.fieldGroup {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.fieldLabel {
+  font-size: 0.8125rem;
+  font-weight: 600;
+  color: var(--color-text-secondary);
+}
+
+.textarea {
+  background: var(--color-surface);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-sm);
+  padding: 10px 12px;
+  font-size: 0.9375rem;
+  color: var(--color-text-primary);
+  font-family: var(--font-sans);
+  resize: vertical;
+  min-height: 44px;
+  outline: none;
+  transition: border-color var(--transition-fast);
+}
+
+.textarea::placeholder {
+  color: var(--color-text-tertiary);
+}
+
+.textarea:focus {
+  border-color: var(--color-accent);
+}
+
+/* Submit button */
+.submitButton {
+  width: 100%;
+  padding: 12px;
+  border: none;
+  border-radius: var(--radius-md);
+  background: var(--color-accent);
+  color: #fff;
+  font-size: 1rem;
+  font-weight: 600;
+  font-family: var(--font-sans);
+  cursor: pointer;
+  transition: background var(--transition-fast), opacity var(--transition-fast);
+  margin-top: var(--space-xs);
+}
+
+.submitButton:hover:not(:disabled) {
+  background: var(--color-accent-hover);
+}
+
+.submitButton:disabled {
+  opacity: 0.4;
+  cursor: not-allowed;
+}
+
+/* Success / error messages */
+.successMessage {
+  font-size: 0.9375rem;
+  color: var(--color-text-secondary);
+  margin: var(--space-sm) 0 0;
+}
+
+.errorMessage {
+  font-size: 0.875rem;
+  color: var(--color-error);
+  margin: 0;
+}
+
+/* Community link */
+.communityLink {
+  display: flex;
+  align-items: center;
+  gap: var(--space-xs);
+  font-size: 0.9375rem;
+  font-weight: 600;
+  color: var(--color-accent);
+  text-decoration: none;
+  transition: opacity var(--transition-fast);
+}
+
+.communityLink:hover {
+  opacity: 0.8;
+}
+
+.externalArrow {
+  font-size: 0.75rem;
+}
+
+/* Connection status */
+.connectionRow {
+  display: flex;
+  align-items: center;
+  gap: var(--space-sm);
+}
+
+.connectedDot {
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  background: #16a34a;
+  flex-shrink: 0;
+}
+
+.connectionText {
+  font-size: 0.9375rem;
+  color: var(--color-text-secondary);
+  word-break: break-all;
+}
+
+.connectionText strong {
+  color: var(--color-text-primary);
+  font-weight: 600;
+}
+
+/* Info rows */
+.infoRow {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.infoLabel {
+  font-size: 0.9375rem;
+  color: var(--color-text-secondary);
+}
+
+.infoValue {
+  font-size: 0.9375rem;
+  color: var(--color-text-primary);
+  font-weight: 500;
+}
+
+/* Disconnect button */
+.disconnectButton {
+  width: 100%;
+  padding: 14px;
+  border: 1px solid var(--color-error);
+  border-radius: var(--radius-md);
+  background: none;
+  color: var(--color-error);
+  font-size: 1rem;
+  font-weight: 600;
+  font-family: var(--font-sans);
+  cursor: pointer;
+  margin-top: var(--space-md);
+  transition: background var(--transition-fast), opacity var(--transition-fast);
+}
+
+.disconnectButton:hover:not(:disabled) {
+  background: var(--color-error-bg);
+}
+
+.disconnectButton:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+/* Confirmation card */
+.confirmCard {
+  background: var(--color-error-bg);
+  border: 1px solid var(--color-error);
+  border-radius: var(--radius-md);
+  padding: var(--space-md);
+  margin-top: var(--space-md);
+}
+
+.confirmText {
+  font-size: 0.9375rem;
+  color: var(--color-error);
+  margin: 0 0 var(--space-md);
+  text-align: center;
+}
+
+.confirmActions {
+  display: flex;
+  gap: var(--space-sm);
+  justify-content: center;
+}
+
+.cancelButton {
+  padding: 10px 20px;
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-sm);
+  background: none;
+  color: var(--color-text-secondary);
+  font-size: 0.875rem;
+  font-weight: 600;
+  font-family: var(--font-sans);
+  cursor: pointer;
+  transition: border-color var(--transition-fast);
+}
+
+.cancelButton:hover:not(:disabled) {
+  border-color: var(--color-text-secondary);
+}
+
+.cancelButton:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+.confirmDisconnect {
+  padding: 10px 20px;
+  border: none;
+  border-radius: var(--radius-sm);
+  background: var(--color-error);
+  color: #fff;
+  font-size: 0.875rem;
+  font-weight: 600;
+  font-family: var(--font-sans);
+  cursor: pointer;
+  transition: opacity var(--transition-fast);
+}
+
+.confirmDisconnect:hover:not(:disabled) {
+  opacity: 0.85;
+}
+
+.confirmDisconnect:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}

@@ -1,0 +1,27 @@
+{
+  "name": "rebel-cloud-service",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "build": "node build.mjs",
+    "start": "node dist/server.mjs",
+    "dev": "node --import tsx src/server.ts",
+    "lint": "cd .. && eslint cloud-service/src/"
+  },
+  "dependencies": {
+    "@huggingface/transformers": "^3.8.1",
+    "@lancedb/lancedb": "0.22.3",
+    "@sentry/node": "10.38.0",
+    "expo-server-sdk": "^6.1.0",
+    "graceful-fs": "4.2.11",
+    "onnxruntime-node": "1.21.0",
+    "tar": "^7.5.2",
+    "ws": "^8.18.0"
+  },
+  "devDependencies": {
+    "esbuild": "0.24.2",
+    "tsx": "^4.7.0",
+    "typescript": "^5.7.0"
+  }
+}

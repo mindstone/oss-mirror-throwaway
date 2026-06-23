@@ -1,0 +1,67 @@
+/* Done(N) subsection disclosure row — a quiet, in-list group header that sits
+   beneath a folder's active conversations. Borrows the FolderHeaderRow chevron
+   pattern but is intentionally lighter: no icon, no actions, not a drop target. */
+
+.doneSubheader {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  width: 100%;
+  height: 28px;
+  /* 16px child indent (matches .folderChildDropZone) + the header's own inset */
+  padding: 0 12px 0 16px;
+  border: none;
+  border-radius: 8px;
+  background: transparent;
+  cursor: pointer;
+  transition: background 0.15s ease;
+  user-select: none;
+  text-align: left;
+}
+
+.doneSubheader:hover {
+  background: rgba(255, 255, 255, 0.04);
+}
+
+.doneSubheader:focus-visible {
+  outline: 2px solid rgba(79, 70, 229, 0.6);
+  outline-offset: -2px;
+}
+
+.chevron {
+  flex-shrink: 0;
+  width: 13px;
+  height: 13px;
+  color: rgba(148, 163, 184, 0.55);
+  transition: transform 0.15s ease;
+}
+
+.chevronExpanded {
+  transform: rotate(90deg);
+}
+
+.label {
+  flex: 1;
+  min-width: 0;
+  font-size: 0.73rem;
+  font-weight: 500;
+  letter-spacing: 0.01em;
+  color: rgba(148, 163, 184, 0.75);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+/* ─── Light Mode ─────────────────────────────────────────────────────────── */
+
+:global(body.light) .doneSubheader:hover {
+  background: rgba(0, 0, 0, 0.04);
+}
+
+:global(body.light) .chevron {
+  color: rgba(100, 116, 139, 0.55);
+}
+
+:global(body.light) .label {
+  color: rgba(71, 85, 105, 0.85);
+}

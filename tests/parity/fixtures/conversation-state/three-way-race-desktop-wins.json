@@ -1,0 +1,63 @@
+{
+  "name": "three-way-race-desktop-wins",
+  "input": [
+    {
+      "id": "u10",
+      "turnId": "t10",
+      "role": "user",
+      "text": "Apply winner metadata and continue.",
+      "createdAt": 10001
+    },
+    {
+      "id": "a10",
+      "turnId": "t10",
+      "role": "assistant",
+      "text": "Resolving three-way race...",
+      "createdAt": 10002
+    },
+    {
+      "id": "r10",
+      "turnId": "t10",
+      "role": "result",
+      "text": "Desktop candidate applied.",
+      "createdAt": 10003
+    }
+  ],
+  "expected": {
+    "visibleIds": ["u10", "r10"],
+    "messagesByTurnIds": {
+      "t10": ["u10", "a10", "r10"]
+    },
+    "activeTurnId": null,
+    "isBusy": false
+  },
+  "tiebreaker": {
+    "scenario": "three-way-race-desktop-wins",
+    "writes": [
+      {
+        "surface": "desktop",
+        "field": "title",
+        "value": "desktop-value",
+        "changedAt": 1700000000000
+      },
+      {
+        "surface": "mobile",
+        "field": "title",
+        "value": "mobile-value",
+        "changedAt": 1700000000050
+      },
+      {
+        "surface": "cloud",
+        "field": "title",
+        "value": "cloud-value",
+        "changedAt": 1700000000075
+      }
+    ],
+    "now": 1700000000075,
+    "expected": {
+      "winnerSurface": "desktop",
+      "winnerValue": "desktop-value",
+      "reason": "within-race-window"
+    }
+  }
+}

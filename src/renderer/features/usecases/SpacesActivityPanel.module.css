@@ -1,0 +1,1042 @@
+/* SpacesActivityPanel - Activity across spaces */
+
+.container {
+  display: flex;
+  flex-direction: column;
+}
+
+/* Header */
+.header {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 12px;
+  margin-bottom: 20px;
+}
+
+.title {
+  font-size: 1.1rem;
+  font-weight: 600;
+  color: rgba(248, 250, 255, 0.95);
+  margin: 0;
+}
+
+.headerTimestamp {
+  font-size: 0.72rem;
+  color: rgba(148, 163, 184, 0.45);
+  flex-shrink: 0;
+}
+
+.subtitle {
+  font-size: 0.82rem;
+  color: rgba(148, 163, 184, 0.65);
+  margin: 0;
+}
+
+/* Space List */
+.spaceList {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 16px;
+}
+
+@media (min-width: 900px) {
+  .spaceList {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 20px;
+  }
+}
+
+/* Space Card */
+.spaceCard {
+  background: 
+    linear-gradient(135deg, rgba(255, 255, 255, 0.04) 0%, rgba(255, 255, 255, 0.01) 100%),
+    rgba(15, 23, 42, 0.4);
+  border: 1px solid rgba(148, 163, 184, 0.12);
+  border-radius: 14px;
+  overflow: hidden;
+}
+
+.spaceHeader {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 14px 16px 10px;
+}
+
+.spaceName {
+  font-size: 0.88rem;
+  font-weight: 600;
+  color: rgba(248, 250, 255, 0.92);
+}
+
+.spaceTime {
+  font-size: 0.72rem;
+  color: rgba(148, 163, 184, 0.5);
+}
+
+/* Activity List */
+.activityList {
+  display: flex;
+  flex-direction: column;
+}
+
+.activityItem {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  width: 100%;
+  padding: 10px 16px;
+  background: none;
+  border: none;
+  border-top: 1px solid rgba(148, 163, 184, 0.06);
+  cursor: pointer;
+  text-align: left;
+  transition: background 0.15s ease;
+}
+
+.activityItem:hover {
+  background: rgba(99, 179, 237, 0.06);
+}
+
+.activityItem:first-child {
+  border-top: 1px solid rgba(148, 163, 184, 0.08);
+}
+
+.activityIcon {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  color: rgba(165, 210, 255, 0.6);
+}
+
+.activityText {
+  flex: 1;
+  font-size: 0.8rem;
+  color: rgba(248, 250, 255, 0.85);
+  line-height: 1.4;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.activityTime {
+  font-size: 0.68rem;
+  color: rgba(148, 163, 184, 0.45);
+  flex-shrink: 0;
+}
+
+.activityArrow {
+  color: rgba(148, 163, 184, 0.3);
+  flex-shrink: 0;
+  opacity: 0;
+  transition: opacity 0.15s ease;
+}
+
+.activityItem:hover .activityArrow {
+  opacity: 1;
+}
+
+/* Rebel's actions (memory saves) - subtly muted to distinguish from user activity */
+.rebelAction {
+  opacity: 0.8;
+}
+
+.rebelAction .activityIcon {
+  color: rgba(148, 163, 184, 0.5);
+}
+
+.rebelAction .activityText {
+  color: rgba(248, 250, 255, 0.7);
+}
+
+/* More Indicator */
+.moreIndicator {
+  padding: 8px 16px 12px;
+  font-size: 0.72rem;
+  color: rgba(148, 163, 184, 0.5);
+  text-align: center;
+}
+
+/* Footer */
+.footer {
+  margin-top: 20px;
+  padding-top: 12px;
+}
+
+.footerText {
+  font-size: 0.7rem;
+  color: rgba(148, 163, 184, 0.35);
+  text-align: center;
+  margin: 0;
+}
+
+/* ═══════════════════════════════════════════════════════════
+   Onboarding - First time experience
+   ═══════════════════════════════════════════════════════════ */
+
+.onboarding {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  padding: 60px 24px;
+  animation: fadeIn 400ms ease-out;
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.onboardingIntro {
+  font-size: 1rem;
+  color: rgba(248, 250, 255, 0.85);
+  margin: 0 0 28px;
+  line-height: 1.6;
+}
+
+.onboardingForm {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 16px;
+  width: 100%;
+  max-width: 400px;
+}
+
+.onboardingLabel {
+  font-size: 0.95rem;
+  font-weight: 500;
+  color: rgba(248, 250, 255, 0.95);
+}
+
+.onboardingHint {
+  font-size: 0.82rem;
+  color: rgba(148, 163, 184, 0.65);
+  margin: 0;
+  line-height: 1.5;
+}
+
+.onboardingInput {
+  width: 100%;
+}
+
+.onboardingButton {
+  margin-top: 8px;
+}
+
+/* ═══════════════════════════════════════════════════════════
+   Edit Focus
+   ═══════════════════════════════════════════════════════════ */
+
+.editFocus {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  padding: 24px;
+}
+
+.editFocusLabel {
+  font-size: 0.85rem;
+  color: rgba(148, 163, 184, 0.7);
+}
+
+.editFocusInput {
+  width: 100%;
+}
+
+.editFocusActions {
+  display: flex;
+  gap: 8px;
+  margin-top: 8px;
+}
+
+/* ═══════════════════════════════════════════════════════════
+   Synthesis Card
+   ═══════════════════════════════════════════════════════════ */
+
+.synthesisCard {
+  margin-bottom: 24px;
+  animation: fadeIn 300ms ease-out;
+}
+
+.synthesisHeader {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  margin-bottom: 12px;
+}
+
+.synthesisHeaderLeft {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.synthesisLabel {
+  font-size: 0.78rem;
+  color: rgba(148, 163, 184, 0.6);
+}
+
+.synthesisSubtitle {
+  font-size: 0.72rem;
+  color: rgba(148, 163, 184, 0.45);
+}
+
+.synthesisActions {
+  display: flex;
+  gap: 4px;
+  opacity: 0;
+  transition: opacity 0.15s ease;
+}
+
+.synthesisCard:hover .synthesisActions {
+  opacity: 1;
+}
+
+.synthesisAction {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 28px;
+  height: 28px;
+  background: transparent;
+  border: none;
+  border-radius: 6px;
+  color: rgba(148, 163, 184, 0.5);
+  cursor: pointer;
+  transition: all 0.15s ease;
+}
+
+.synthesisAction:hover {
+  background: rgba(148, 163, 184, 0.1);
+  color: rgba(165, 210, 255, 0.9);
+}
+
+.synthesisHook {
+  font-size: 0.95rem;
+  color: rgba(248, 250, 255, 0.92);
+  line-height: 1.7;
+  margin: 0 0 16px;
+}
+
+.synthesisHook :global(.markdown-body) {
+  font-size: inherit;
+  line-height: inherit;
+  color: inherit;
+}
+
+.synthesisHook :global(.markdown-body p) {
+  margin: 0 0 8px;
+}
+
+.synthesisHook :global(.markdown-body p:last-child) {
+  margin-bottom: 0;
+}
+
+.synthesisHook :global(.markdown-body strong) {
+  color: rgba(248, 250, 255, 0.98);
+}
+
+.expandToggle {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  padding: 0;
+  background: none;
+  border: none;
+  font-size: 0.82rem;
+  color: rgba(165, 210, 255, 0.7);
+  cursor: pointer;
+  transition: color 0.15s ease;
+}
+
+.expandToggle:hover {
+  color: rgba(165, 210, 255, 0.95);
+}
+
+.expandIcon {
+  transition: transform 0.2s ease;
+}
+
+.expandIconRotated {
+  transform: rotate(90deg);
+}
+
+.synthesisDetail {
+  margin-top: 16px;
+  padding-top: 16px;
+  border-top: 1px solid rgba(148, 163, 184, 0.1);
+  animation: expandIn 200ms ease-out;
+}
+
+@keyframes expandIn {
+  from {
+    opacity: 0;
+    transform: translateY(-8px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.synthesisDetail :global(.markdown-body) {
+  font-size: 0.88rem;
+  color: rgba(248, 250, 255, 0.8);
+  line-height: 1.65;
+}
+
+.synthesisDetail :global(.markdown-body p) {
+  margin: 0 0 14px;
+}
+
+.synthesisDetail :global(.markdown-body p:last-child) {
+  margin-bottom: 0;
+}
+
+.synthesisDetail :global(.markdown-body ul),
+.synthesisDetail :global(.markdown-body ol) {
+  margin: 0 0 14px;
+  padding-left: 20px;
+}
+
+.synthesisDetail :global(.markdown-body li) {
+  margin-bottom: 6px;
+}
+
+.synthesisDetail :global(.markdown-body strong) {
+  color: rgba(248, 250, 255, 0.95);
+}
+
+.synthesisDetail :global(.markdown-body h1),
+.synthesisDetail :global(.markdown-body h2),
+.synthesisDetail :global(.markdown-body h3),
+.synthesisDetail :global(.markdown-body h4) {
+  font-size: 0.92rem;
+  font-weight: 600;
+  color: rgba(248, 250, 255, 0.95);
+  margin: 16px 0 8px;
+}
+
+.synthesisDetail :global(.markdown-body h1:first-child),
+.synthesisDetail :global(.markdown-body h2:first-child),
+.synthesisDetail :global(.markdown-body h3:first-child),
+.synthesisDetail :global(.markdown-body h4:first-child) {
+  margin-top: 0;
+}
+
+/* Thinking state */
+.synthesisThinking {
+  margin-bottom: 24px;
+  padding: 20px 0;
+}
+
+.thinkingMessage {
+  font-size: 0.88rem;
+  color: rgba(165, 210, 255, 0.7);
+  margin: 0;
+  animation: thinkingPulse 2s ease-in-out infinite;
+}
+
+@keyframes thinkingPulse {
+  0%, 100% {
+    opacity: 0.5;
+  }
+  50% {
+    opacity: 1;
+  }
+}
+
+/* Activity Section */
+.activitySection {
+  margin-top: 8px;
+}
+
+.activitySectionTitle {
+  font-size: 0.78rem;
+  font-weight: 500;
+  color: rgba(148, 163, 184, 0.5);
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  margin: 0 0 12px;
+}
+
+/* Loading State */
+.loadingState {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  height: 200px;
+}
+
+.loadingDot {
+  width: 5px;
+  height: 5px;
+  border-radius: 50%;
+  background: rgba(165, 210, 255, 0.4);
+  animation: pulse 1.4s ease-in-out infinite;
+}
+
+.loadingDot:nth-child(2) {
+  animation-delay: 0.2s;
+}
+
+.loadingDot:nth-child(3) {
+  animation-delay: 0.4s;
+}
+
+@keyframes pulse {
+  0%, 80%, 100% {
+    opacity: 0.3;
+    transform: scale(0.8);
+  }
+  40% {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+/* Empty State */
+.emptyState {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  padding: 48px 24px;
+}
+
+.emptyIcon {
+  color: rgba(148, 163, 184, 0.25);
+  margin-bottom: 14px;
+}
+
+.emptyTitle {
+  font-size: 0.92rem;
+  font-weight: 500;
+  color: rgba(248, 250, 255, 0.75);
+  margin: 0 0 6px;
+}
+
+.emptyDescription {
+  font-size: 0.8rem;
+  color: rgba(148, 163, 184, 0.55);
+  margin: 0;
+  max-width: 260px;
+  line-height: 1.5;
+}
+
+/* Light Mode */
+:global(body.light) .title {
+  color: var(--color-foreground);
+}
+
+:global(body.light) .headerTimestamp {
+  color: var(--color-muted-foreground);
+  opacity: 0.7;
+}
+
+:global(body.light) .subtitle {
+  color: var(--color-muted-foreground);
+}
+
+:global(body.light) .spaceCard {
+  background: rgba(255, 255, 255, 0.7);
+  border-color: rgba(148, 163, 184, 0.15);
+}
+
+:global(body.light) .spaceName {
+  color: var(--color-foreground);
+}
+
+:global(body.light) .spaceTime {
+  color: var(--color-muted-foreground);
+}
+
+:global(body.light) .activityItem {
+  border-top-color: rgba(148, 163, 184, 0.08);
+}
+
+:global(body.light) .activityItem:first-child {
+  border-top-color: rgba(148, 163, 184, 0.1);
+}
+
+:global(body.light) .activityItem:hover {
+  background: rgba(99, 179, 237, 0.05);
+}
+
+:global(body.light) .activityIcon {
+  color: var(--color-primary);
+  opacity: 0.7;
+}
+
+:global(body.light) .activityText {
+  color: var(--color-foreground);
+}
+
+:global(body.light) .activityTime {
+  color: var(--color-muted-foreground);
+}
+
+:global(body.light) .activityArrow {
+  color: var(--color-muted-foreground);
+}
+
+:global(body.light) .rebelAction {
+  opacity: 0.75;
+}
+
+:global(body.light) .rebelAction .activityIcon {
+  color: var(--color-muted-foreground);
+  opacity: 0.6;
+}
+
+:global(body.light) .rebelAction .activityText {
+  color: var(--color-muted-foreground);
+}
+
+:global(body.light) .moreIndicator {
+  color: var(--color-muted-foreground);
+}
+
+:global(body.light) .footerText {
+  color: var(--color-muted-foreground);
+  opacity: 0.6;
+}
+
+:global(body.light) .loadingDot {
+  background: var(--color-primary);
+}
+
+:global(body.light) .emptyIcon {
+  color: var(--color-muted-foreground);
+  opacity: 0.5;
+}
+
+:global(body.light) .emptyTitle {
+  color: var(--color-foreground);
+}
+
+:global(body.light) .emptyDescription {
+  color: var(--color-muted-foreground);
+}
+
+/* Light Mode - Onboarding */
+:global(body.light) .onboardingIntro {
+  color: var(--color-foreground);
+}
+
+:global(body.light) .onboardingLabel {
+  color: var(--color-foreground);
+}
+
+:global(body.light) .onboardingHint {
+  color: var(--color-muted-foreground);
+}
+
+/* Light Mode - Edit Focus */
+:global(body.light) .editFocusLabel {
+  color: var(--color-muted-foreground);
+}
+
+/* Light Mode - Synthesis */
+:global(body.light) .synthesisLabel {
+  color: var(--color-muted-foreground);
+}
+
+:global(body.light) .synthesisSubtitle {
+  color: var(--color-muted-foreground);
+  opacity: 0.7;
+}
+
+:global(body.light) .synthesisAction {
+  color: var(--color-muted-foreground);
+}
+
+:global(body.light) .synthesisAction:hover {
+  background: rgba(0, 0, 0, 0.05);
+  color: var(--color-primary);
+}
+
+:global(body.light) .synthesisHook {
+  color: var(--color-foreground);
+}
+
+:global(body.light) .expandToggle {
+  color: var(--color-primary);
+}
+
+:global(body.light) .expandToggle:hover {
+  color: var(--color-primary);
+  opacity: 0.8;
+}
+
+:global(body.light) .synthesisDetail {
+  border-top-color: rgba(148, 163, 184, 0.15);
+}
+
+:global(body.light) .synthesisHook :global(.markdown-body),
+:global(body.light) .synthesisDetail :global(.markdown-body) {
+  color: var(--color-foreground);
+}
+
+:global(body.light) .synthesisHook :global(.markdown-body strong),
+:global(body.light) .synthesisDetail :global(.markdown-body strong) {
+  color: var(--color-foreground);
+}
+
+:global(body.light) .synthesisDetail :global(.markdown-body h1),
+:global(body.light) .synthesisDetail :global(.markdown-body h2),
+:global(body.light) .synthesisDetail :global(.markdown-body h3),
+:global(body.light) .synthesisDetail :global(.markdown-body h4) {
+  color: var(--color-foreground);
+}
+
+:global(body.light) .thinkingMessage {
+  color: var(--color-primary);
+}
+
+/* ═══════════════════════════════════════════════════════════
+   Thank You Board
+   ═══════════════════════════════════════════════════════════ */
+
+.thankYouBoard {
+  margin-bottom: 20px;
+  padding: 12px 16px;
+  background: linear-gradient(135deg, rgba(236, 72, 153, 0.08) 0%, rgba(168, 85, 247, 0.05) 100%);
+  border: 1px solid rgba(236, 72, 153, 0.15);
+  border-radius: 10px;
+  animation: fadeIn 300ms ease-out;
+}
+
+.thankYouHeader {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  margin-bottom: 6px;
+}
+
+.thankYouIcon {
+  color: rgba(236, 72, 153, 0.7);
+}
+
+.thankYouTitle {
+  font-size: 0.75rem;
+  font-weight: 500;
+  color: rgba(236, 72, 153, 0.8);
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+}
+
+.thankYouList {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 10px;
+}
+
+/* 2-column layout on wider screens */
+@media (min-width: 400px) {
+  .thankYouList {
+    grid-template-columns: 1fr 1fr;
+    gap: 12px 16px;
+  }
+}
+
+.thankYouContributor {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.thankYouName {
+  font-size: 0.8rem;
+  font-weight: 500;
+  color: rgba(248, 250, 255, 0.9);
+}
+
+.thankYouSkills {
+  font-size: 0.7rem;
+  color: rgba(248, 250, 255, 0.5);
+  line-height: 1.3;
+}
+
+.thankYouVerb {
+  color: rgba(236, 72, 153, 0.6);
+  font-style: italic;
+}
+
+/* Light Mode - Thank You Board */
+:global(body.light) .thankYouBoard {
+  background: linear-gradient(135deg, rgba(236, 72, 153, 0.06) 0%, rgba(168, 85, 247, 0.04) 100%);
+  border-color: rgba(236, 72, 153, 0.2);
+}
+
+:global(body.light) .thankYouIcon {
+  color: rgba(219, 39, 119, 0.7);
+}
+
+:global(body.light) .thankYouTitle {
+  color: rgba(219, 39, 119, 0.8);
+}
+
+:global(body.light) .thankYouName {
+  color: var(--color-foreground);
+}
+
+:global(body.light) .thankYouSkills {
+  color: var(--color-foreground);
+  opacity: 0.6;
+}
+
+:global(body.light) .thankYouVerb {
+  color: rgba(219, 39, 119, 0.7);
+}
+
+/* ═══════════════════════════════════════════════════════════
+   Company Values Section
+   ═══════════════════════════════════════════════════════════ */
+
+/* Inline values prompt - subtle, woven into synthesis */
+.valuesInlinePrompt {
+  margin: 12px 0 20px;
+  padding: 10px 14px;
+  font-size: 0.85rem;
+  font-style: italic;
+  color: rgba(148, 163, 184, 0.7);
+  background: rgba(99, 179, 237, 0.04);
+  border-left: 2px solid rgba(99, 179, 237, 0.25);
+  border-radius: 0 6px 6px 0;
+}
+
+.valuesSpaceRef {
+  font-style: normal;
+  font-weight: 500;
+  color: rgba(248, 250, 255, 0.85);
+}
+
+.valuesInlineLink {
+  font-style: normal;
+  font-weight: 500;
+  color: rgba(99, 179, 237, 0.85);
+  background: none;
+  border: none;
+  padding: 0;
+  cursor: pointer;
+  transition: color 0.15s ease;
+}
+
+.valuesInlineLink:hover {
+  color: rgba(99, 179, 237, 1);
+}
+
+/* Everything toggle button */
+.everythingToggle {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  width: 100%;
+  padding: 10px 0;
+  font-size: 0.78rem;
+  font-weight: 500;
+  color: rgba(148, 163, 184, 0.6);
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  background: none;
+  border: none;
+  cursor: pointer;
+  transition: color 0.15s ease;
+}
+
+.everythingToggle:hover {
+  color: rgba(148, 163, 184, 0.9);
+}
+
+.everythingIcon {
+  transition: transform 0.2s ease;
+}
+
+.everythingIconExpanded {
+  transform: rotate(90deg);
+}
+
+.everythingCount {
+  font-weight: 400;
+  color: rgba(148, 163, 184, 0.4);
+  margin-left: auto;
+}
+
+/* Legacy values section (kept for reference) */
+.valuesSection {
+  margin-bottom: 20px;
+  padding: 12px 16px;
+  background: linear-gradient(135deg, rgba(99, 179, 237, 0.08) 0%, rgba(99, 179, 237, 0.03) 100%);
+  border: 1px solid rgba(99, 179, 237, 0.18);
+  border-radius: 10px;
+}
+
+.valuesSectionHeader {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  margin-bottom: 10px;
+}
+
+.valuesSectionIcon {
+  color: rgba(99, 179, 237, 0.75);
+}
+
+.valuesSectionTitle {
+  font-size: 0.75rem;
+  font-weight: 500;
+  color: rgba(99, 179, 237, 0.85);
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+}
+
+.valuesList {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.valuesCard {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  width: 100%;
+  padding: 10px 12px;
+  background: rgba(255, 255, 255, 0.04);
+  border: 1px solid rgba(99, 179, 237, 0.12);
+  border-radius: 8px;
+  cursor: pointer;
+  transition: all 0.15s ease;
+  text-align: left;
+}
+
+.valuesCard:hover {
+  background: rgba(99, 179, 237, 0.1);
+  border-color: rgba(99, 179, 237, 0.25);
+}
+
+.valuesCardContent {
+  flex: 1;
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.valuesSpaceName {
+  font-size: 0.82rem;
+  font-weight: 500;
+  color: rgba(248, 250, 255, 0.9);
+}
+
+.valuesStatus {
+  font-size: 0.72rem;
+  color: rgba(148, 163, 184, 0.7);
+}
+
+.valuesStaleIcon {
+  color: rgba(251, 191, 36, 0.8);
+  flex-shrink: 0;
+}
+
+.valuesArrow {
+  color: rgba(148, 163, 184, 0.4);
+  flex-shrink: 0;
+  transition: transform 0.15s ease;
+}
+
+.valuesCard:hover .valuesArrow {
+  color: rgba(99, 179, 237, 0.7);
+  transform: translateX(2px);
+}
+
+/* Light Mode - Values Section */
+:global(body.light) .valuesSection {
+  background: linear-gradient(135deg, rgba(59, 130, 246, 0.06) 0%, rgba(59, 130, 246, 0.02) 100%);
+  border-color: rgba(59, 130, 246, 0.15);
+}
+
+:global(body.light) .valuesSectionIcon {
+  color: rgba(59, 130, 246, 0.7);
+}
+
+:global(body.light) .valuesSectionTitle {
+  color: rgba(59, 130, 246, 0.8);
+}
+
+:global(body.light) .valuesCard {
+  background: rgba(255, 255, 255, 0.5);
+  border-color: rgba(59, 130, 246, 0.1);
+}
+
+:global(body.light) .valuesCard:hover {
+  background: rgba(59, 130, 246, 0.08);
+  border-color: rgba(59, 130, 246, 0.2);
+}
+
+:global(body.light) .valuesSpaceName {
+  color: var(--color-foreground);
+}
+
+:global(body.light) .valuesStatus {
+  color: var(--color-muted-foreground);
+}
+
+:global(body.light) .valuesStaleIcon {
+  color: rgba(180, 130, 0, 0.8);
+}
+
+:global(body.light) .valuesCard:hover .valuesArrow {
+  color: rgba(59, 130, 246, 0.7);
+}
+
+/* Light Mode - Inline Values Prompt */
+:global(body.light) .valuesInlinePrompt {
+  color: var(--color-muted-foreground);
+  background: rgba(59, 130, 246, 0.03);
+  border-left-color: rgba(59, 130, 246, 0.2);
+}
+
+:global(body.light) .valuesSpaceRef {
+  color: var(--color-foreground);
+}
+
+:global(body.light) .valuesInlineLink {
+  color: rgba(59, 130, 246, 0.8);
+}
+
+:global(body.light) .valuesInlineLink:hover {
+  color: rgba(59, 130, 246, 1);
+}
+
+/* Light Mode - Everything Toggle */
+:global(body.light) .everythingToggle {
+  color: var(--color-muted-foreground);
+}
+
+:global(body.light) .everythingToggle:hover {
+  color: var(--color-foreground);
+}
+
+:global(body.light) .everythingCount {
+  color: rgba(148, 163, 184, 0.5);
+}
+
+/* Light Mode - Activity Section */
+:global(body.light) .activitySectionTitle {
+  color: var(--color-muted-foreground);
+}

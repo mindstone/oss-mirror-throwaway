@@ -1,0 +1,59 @@
+{
+  "fixture": "10-context-overflow",
+  "steps": [
+    {
+      "index": 0,
+      "eventType": "turn_started",
+      "state": {
+        "isSending": false,
+        "streamingText": "",
+        "statusText": null,
+        "activeTurnId": "turn-1",
+        "completedSteps": [],
+        "missionContext": null,
+        "taskProgress": [],
+        "subAgentItems": [],
+        "error": null,
+        "hasMissionSet": false,
+        "touchedTaskIds": [],
+        "userQuestionEventsByTurn": {}
+      }
+    },
+    {
+      "index": 1,
+      "eventType": "context_overflow",
+      "state": {
+        "isSending": false,
+        "streamingText": "",
+        "statusText": null,
+        "activeTurnId": "turn-1",
+        "completedSteps": [],
+        "missionContext": null,
+        "taskProgress": [],
+        "subAgentItems": [],
+        "error": null,
+        "hasMissionSet": false,
+        "touchedTaskIds": [],
+        "userQuestionEventsByTurn": {}
+      }
+    },
+    {
+      "index": 2,
+      "eventType": "result",
+      "state": {
+        "isSending": false,
+        "streamingText": "",
+        "statusText": null,
+        "activeTurnId": null,
+        "completedSteps": [],
+        "missionContext": null,
+        "taskProgress": [],
+        "subAgentItems": [],
+        "error": null,
+        "hasMissionSet": false,
+        "touchedTaskIds": [],
+        "userQuestionEventsByTurn": {}
+      }
+    }
+  ]
+}

@@ -1,0 +1,20 @@
+{
+  "name": "profitsage-mcp-server",
+  "version": "0.1.0",
+  "private": true,
+  "description": "ProfitSage (ProfitSword) Data Portal v3 MCP server — hospitality BI",
+  "type": "module",
+  "main": "build/index.js",
+  "scripts": {
+    "build": "tsc",
+    "dev": "tsc --watch",
+    "start": "node build/index.js"
+  },
+  "dependencies": {
+    "@modelcontextprotocol/sdk": "^1.0.0"
+  },
+  "devDependencies": {
+    "@types/node": "^20.11.24",
+    "typescript": "^5.3.3"
+  }
+}

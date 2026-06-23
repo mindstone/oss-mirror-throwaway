@@ -1,0 +1,142 @@
+{
+  "fixture": "04-todowrite-then-tasklist",
+  "steps": [
+    {
+      "index": 0,
+      "eventType": "turn_started",
+      "state": {
+        "isSending": false,
+        "streamingText": "",
+        "statusText": null,
+        "activeTurnId": "turn-1",
+        "completedSteps": [],
+        "missionContext": null,
+        "taskProgress": [],
+        "subAgentItems": [],
+        "error": null,
+        "hasMissionSet": false,
+        "touchedTaskIds": [],
+        "userQuestionEventsByTurn": {}
+      }
+    },
+    {
+      "index": 1,
+      "eventType": "tool",
+      "state": {
+        "isSending": false,
+        "streamingText": "",
+        "statusText": "Using TodoWrite...",
+        "activeTurnId": "turn-1",
+        "completedSteps": [],
+        "missionContext": null,
+        "taskProgress": [
+          {
+            "id": "todo-1",
+            "title": "Legacy",
+            "status": "in_progress"
+          }
+        ],
+        "subAgentItems": [],
+        "error": null,
+        "hasMissionSet": false,
+        "touchedTaskIds": [
+          "todo-1"
+        ],
+        "userQuestionEventsByTurn": {}
+      }
+    },
+    {
+      "index": 2,
+      "eventType": "tool",
+      "state": {
+        "isSending": false,
+        "streamingText": "",
+        "statusText": null,
+        "activeTurnId": "turn-1",
+        "completedSteps": [
+          {
+            "label": "TodoWrite",
+            "timestamp": 3000,
+            "toolName": "TodoWrite",
+            "detail": "{\"todos\":[{\"id\":\"todo-1\",\"content\":\"Legacy\",\"status\":\"in_progress\"}]}"
+          }
+        ],
+        "missionContext": null,
+        "taskProgress": [
+          {
+            "id": "todo-1",
+            "title": "Legacy",
+            "status": "in_progress"
+          }
+        ],
+        "subAgentItems": [],
+        "error": null,
+        "hasMissionSet": false,
+        "touchedTaskIds": [
+          "todo-1"
+        ],
+        "userQuestionEventsByTurn": {}
+      }
+    },
+    {
+      "index": 3,
+      "eventType": "tool",
+      "state": {
+        "isSending": false,
+        "streamingText": "",
+        "statusText": "Using TodoWrite...",
+        "activeTurnId": "turn-1",
+        "completedSteps": [
+          {
+            "label": "TodoWrite",
+            "timestamp": 3000,
+            "toolName": "TodoWrite",
+            "detail": "{\"todos\":[{\"id\":\"todo-1\",\"content\":\"Legacy\",\"status\":\"in_progress\"}]}"
+          }
+        ],
+        "missionContext": null,
+        "taskProgress": [
+          {
+            "id": "todo-2",
+            "title": "Ignore",
+            "status": "completed"
+          }
+        ],
+        "subAgentItems": [],
+        "error": null,
+        "hasMissionSet": false,
+        "touchedTaskIds": [
+          "todo-2"
+        ],
+        "userQuestionEventsByTurn": {}
+      }
+    },
+    {
+      "index": 4,
+      "eventType": "result",
+      "state": {
+        "isSending": false,
+        "streamingText": "",
+        "statusText": null,
+        "activeTurnId": null,
+        "completedSteps": [
+          {
+            "label": "TodoWrite",
+            "timestamp": 3000,
+            "toolName": "TodoWrite",
+            "detail": "{\"todos\":[{\"id\":\"todo-1\",\"content\":\"Legacy\",\"status\":\"in_progress\"}]}"
+          }
+        ],
+        "missionContext": null,
+        "taskProgress": [],
+        "subAgentItems": [],
+        "error": null,
+        "hasMissionSet": false,
+        "touchedTaskIds": [
+          "todo-2"
+        ],
+        "userQuestionEventsByTurn": {}
+      }
+    }
+  ]
+}

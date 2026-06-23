@@ -1,0 +1,502 @@
+{
+  "generatedAt": "2026-06-19T09:21:23.821Z",
+  "families": [
+    {
+      "id": "buttons",
+      "title": "Buttons",
+      "storyTitle": "Design System/Atoms/Buttons",
+      "status": "shared",
+      "atomicLevel": "atom",
+      "summary": "Primary shared button primitive for text actions and clear CTA hierarchy. Icon-only utility actions are tracked separately under Icon Button.",
+      "sourceFiles": [
+        "src/renderer/components/ui/Button.tsx",
+        "src/renderer/features/composer/components/MentionHeroInput.tsx"
+      ],
+      "appUsageFiles": [
+        "src/renderer/features/composer/AgentComposer.tsx",
+        "src/renderer/features/settings/components/tabs/CloudTab.tsx",
+        "src/renderer/features/composer/components/MentionHeroInput.tsx"
+      ],
+      "notes": [
+        "Use `Button` for text actions and CTA hierarchy. Use the separate `Icon Button` atom for icon-only utility actions."
+      ]
+    },
+    {
+      "id": "inputs",
+      "title": "Inputs",
+      "storyTitle": "Design System/Atoms/Inputs",
+      "status": "shared",
+      "atomicLevel": "atom",
+      "summary": "Shared text inputs and selects, plus the current embedded icon/button input pattern used in the app.",
+      "sourceFiles": [
+        "src/renderer/components/ui/Input.tsx",
+        "src/renderer/components/ui/Select.tsx",
+        "src/renderer/features/composer/components/MentionHeroInput.tsx"
+      ],
+      "appUsageFiles": [
+        "src/renderer/features/settings/components/tabs/SystemTab.tsx",
+        "src/renderer/features/homepage/components/HomepageChat.tsx",
+        "src/renderer/features/composer/components/MentionHeroInput.tsx"
+      ]
+    },
+    {
+      "id": "select-family",
+      "title": "Select Family",
+      "storyTitle": "Design System/Atoms/Inputs/Select Family",
+      "status": "shared",
+      "atomicLevel": "atom",
+      "summary": "Shared select atom family review page covering `Select` and `RichSelect`, plus where each belongs.",
+      "sourceFiles": [
+        "src/renderer/components/ui/Select.tsx",
+        "src/renderer/components/ui/RichSelect.tsx",
+        "src/renderer/components/ui/SelectFamily.stories.tsx"
+      ],
+      "appUsageFiles": [
+        "src/renderer/features/settings/components/tabs/VoiceTab.tsx",
+        "src/renderer/features/settings/components/BtsTaskOverrides.tsx",
+        "src/renderer/features/settings/components/tabs/SafetyTab.tsx"
+      ],
+      "notes": [
+        "`Select` is for low-ambiguity choices; `RichSelect` is for choices where descriptions matter.",
+        "If visible option comparison is the point, use a decision-card molecule instead."
+      ]
+    },
+    {
+      "id": "tabs",
+      "title": "Tabs",
+      "storyTitle": "Design System/Atoms/Tabs",
+      "status": "shared",
+      "atomicLevel": "atom",
+      "summary": "Shared content tabs. App navigation and filter-style controls are reviewed separately so the visual family stays aligned without overloading the atom.",
+      "sourceFiles": [
+        "src/renderer/components/ui/Tabs.tsx"
+      ],
+      "appUsageFiles": [
+        "src/renderer/features/settings/components/SettingsSurface.tsx",
+        "src/renderer/features/agent-session/diagnostics/DiagnosticsPanel.tsx",
+        "src/renderer/components/AchievementHub.tsx"
+      ],
+      "notes": [
+        "Use for in-surface content switching.",
+        "Review app-shell navigation chips and filter controls under `Navigation Controls`."
+      ]
+    },
+    {
+      "id": "chips-pills",
+      "title": "Chips & Pills",
+      "storyTitle": "Design System/Mixed/Chips & Pills",
+      "status": "app-pattern",
+      "atomicLevel": "mixed",
+      "summary": "Repeated pill and chip patterns used across onboarding, browser context, connection state, and metadata surfaces.",
+      "sourceFiles": [
+        "src/renderer/features/app-bridge/BrowserContextChip.tsx",
+        "src/renderer/features/onboarding/components/StepPill.tsx",
+        "src/renderer/features/settings/components/ConnectionChip.tsx",
+        "src/renderer/features/library/components/FrontmatterPill.tsx",
+        "src/renderer/features/composer/components/ComposerContextChip.tsx",
+        "src/renderer/features/composer/components/ComposerContextChip.stories.tsx",
+        "src/renderer/features/composer/components/TipTapPromptEditor.stories.tsx"
+      ],
+      "appUsageFiles": [
+        "src/renderer/features/homepage/HomepagePanel.tsx",
+        "src/renderer/features/onboarding/OnboardingWizard.tsx",
+        "src/renderer/features/settings/components/UnifiedConnectionsPanel.tsx",
+        "src/renderer/features/composer/AgentComposer.tsx",
+        "src/renderer/features/composer/components/TipTapPromptEditor.tsx"
+      ],
+      "notes": [
+        "These are currently exact app patterns but not yet a unified shared family.",
+        "`ComposerContextChip` covers removable in-field context tokens for prompt entry, including mode, folder/file, and conversation references.",
+        "`TipTapPromptEditor` (Stage 1 of `docs/plans/260429_composer_rich_chips_input.md`, flag-gated) renders the chips inline within the prompt as TipTap mention nodes."
+      ]
+    },
+    {
+      "id": "message-markdown-links",
+      "title": "Message Markdown Links",
+      "storyTitle": "Components/MessageMarkdown/Links",
+      "status": "app-pattern",
+      "atomicLevel": "mixed",
+      "summary": "Transcript and document markdown link treatment covering external links, internal file references, scope metadata, truncation, and dense prose/list contexts.",
+      "sourceFiles": [
+        "src/renderer/components/MessageMarkdown.tsx",
+        "src/renderer/styles/foundations/typography.css",
+        "src/renderer/components/ui/MessageMarkdownLinks.stories.tsx"
+      ],
+      "appUsageFiles": [
+        "src/renderer/features/agent-session/components/MessageItem.tsx",
+        "src/renderer/features/document-editor/components/DocumentRenderers.tsx",
+        "src/renderer/features/inbox/components/InboxItemDetailModal.tsx"
+      ],
+      "notes": [
+        "This is an intentionally local markdown-renderer app pattern, not a shared Badge or Link primitive.",
+        "Internal file-reference filenames should stay in the normal markdown link family; scope/privacy labels are supporting metadata."
+      ]
+    },
+    {
+      "id": "navigation-controls",
+      "title": "Navigation Controls",
+      "storyTitle": "Design System/Molecules/Navigation Controls",
+      "status": "app-pattern",
+      "atomicLevel": "molecule",
+      "summary": "Human-readable review page for navigation and filter controls that should share one visual language while keeping separate product semantics.",
+      "sourceFiles": [
+        "src/renderer/styles/layout/app-shell.css",
+        "src/renderer/components/ui/Tabs.tsx",
+        "src/renderer/features/agent-session/components/AgentSessionSidebar.tsx",
+        "src/renderer/features/library/components/LibraryLensBar.tsx",
+        "src/renderer/features/library/components/LibraryLensBar.stories.tsx",
+        "src/renderer/features/library/components/views/FoldersView.tsx",
+        "src/renderer/features/library/components/views/FoldersView.stories.tsx",
+        "src/renderer/features/library/components/views/CardsView.tsx",
+        "src/renderer/features/library/components/views/CardsView.stories.tsx",
+        "src/renderer/features/library/components/views/AtlasView.tsx",
+        "src/renderer/features/library/components/views/AtlasView.stories.tsx"
+      ],
+      "appUsageFiles": [
+        "src/renderer/features/flow-panels/FlowPanelsShell.tsx",
+        "src/renderer/features/agent-session/components/AgentSessionSidebar.tsx",
+        "src/renderer/features/library/components/LibraryCommandShelf.tsx",
+        "src/renderer/features/library/components/LibraryLensEmptyState.tsx",
+        "src/renderer/features/settings/components/SettingsSurface.tsx",
+        "src/renderer/features/settings/components/tabs/UsageTab.tsx"
+      ],
+      "notes": [
+        "`flow-chip` shell tabs are a separate product pattern from `ui/Tabs`, but their radius, active state, icon scale, badge treatment, and focus treatment should visually rhyme with content tabs and filter tabs.",
+        "Use this page as the comparison surface before creating or changing any segmented/tab-like local control.",
+        "Composer icon buttons live under `Icon Button` and `Hero Input`; frontmatter pills live under `Chips & Pills`."
+      ]
+    },
+    {
+      "id": "hero-input",
+      "title": "Hero Input",
+      "storyTitle": "Design System/Molecules/Hero Input",
+      "status": "shared",
+      "atomicLevel": "molecule",
+      "summary": "Shared prompt-entry molecule built from text entry plus inline actions, submit behavior, and optional mention/attachment affordances.",
+      "sourceFiles": [
+        "src/renderer/features/composer/components/MentionHeroInput.tsx",
+        "src/renderer/features/composer/components/MentionHeroInput.module.css",
+        "src/renderer/components/ui/HeroInput.stories.tsx"
+      ],
+      "appUsageFiles": [
+        "src/renderer/features/homepage/components/HomepageChat.tsx",
+        "src/renderer/features/automations/components/AutomationsPanel.tsx"
+      ],
+      "notes": [
+        "This is a molecule, not a plain input atom.",
+        "Keep generic Input/Textarea atoms separate from this prompt-entry family."
+      ]
+    },
+    {
+      "id": "dialogs-feedback",
+      "title": "Dialogs & Feedback",
+      "storyTitle": "Design System/Mixed/Dialogs & Feedback",
+      "status": "shared",
+      "atomicLevel": "mixed",
+      "summary": "Shared dialog, tooltip, and loading/feedback primitives.",
+      "sourceFiles": [
+        "src/renderer/components/ui/Dialog.tsx",
+        "src/renderer/components/ui/Tooltip.tsx",
+        "src/renderer/components/ui/Spinner.tsx"
+      ],
+      "appUsageFiles": [
+        "src/renderer/components/DemoModeDialog.tsx",
+        "src/renderer/features/settings/components/RenameWorkspaceDialog.tsx",
+        "src/renderer/features/inbox/components/InboxItemDetailModal.tsx"
+      ]
+    },
+    {
+      "id": "loading-indicators",
+      "title": "Loading Indicators",
+      "storyTitle": "Design System/Mixed/Loading Indicators",
+      "status": "shared",
+      "atomicLevel": "mixed",
+      "summary": "Loading taxonomy for utility spinners, mascot-spinner Rebel thinking states, and skeleton placeholders.",
+      "sourceFiles": [
+        "src/renderer/components/ui/Spinner.tsx",
+        "src/renderer/components/ui/RebelLoadingIndicator.tsx",
+        "src/renderer/assets/animations/loading.gif",
+        "src/renderer/components/HomepageLoadingSkeleton.tsx",
+        "src/renderer/components/ui/LoadingIndicators.stories.tsx"
+      ],
+      "appUsageFiles": [
+        "src/renderer/features/agent-session/components/ContextualProgressCard.tsx",
+        "src/renderer/features/onboarding/steps/WelcomeStep.tsx",
+        "src/renderer/components/HomepageLoadingSkeleton.tsx",
+        "src/renderer/features/settings/components/ConnectSlackCard.tsx"
+      ],
+      "notes": [
+        "Use `Spinner` for compact utility waits.",
+        "Use `RebelLoadingIndicator` when the product moment is Rebel visibly thinking, preparing, or generating.",
+        "`RebelLoadingIndicator` respects reduced-motion preferences by default.",
+        "Use fill-only skeletons when the destination content shape is known; skeleton shapes should not have strokes."
+      ]
+    },
+    {
+      "id": "registry",
+      "title": "Registry",
+      "storyTitle": "Design System/Registry",
+      "status": "shared",
+      "atomicLevel": "mixed",
+      "summary": "Machine-readable and human-readable source-of-truth pages backing the catalog.",
+      "sourceFiles": [
+        "src/renderer/components/ui/storybookManifest.ts",
+        "src/renderer/components/ui/manifests/ui_component_token_inventory.json"
+      ],
+      "appUsageFiles": []
+    },
+    {
+      "id": "toggles",
+      "title": "Toggles",
+      "storyTitle": "Design System/Atoms/Toggles",
+      "status": "shared",
+      "atomicLevel": "atom",
+      "summary": "Shared toggle atom now exists, alongside a review page that documents the larger toggle realities still being unified.",
+      "sourceFiles": [
+        "src/renderer/components/ui/Toggle.tsx",
+        "src/renderer/features/settings/components/sections/FocusToggleSection.tsx",
+        "src/renderer/features/settings/components/sections/SystemExperimentalFeaturesSection.tsx"
+      ],
+      "appUsageFiles": [
+        "src/renderer/features/settings/components/sections/SystemAccountPreferencesSections.tsx",
+        "src/renderer/features/settings/components/SettingsDestinationViews.tsx"
+      ],
+      "notes": [
+        "The atom is shared, but row-level and surface-level toggle realities still need consolidation.",
+        "Keep the Storybook page honest about unresolved larger patterns."
+      ]
+    },
+    {
+      "id": "icon-button",
+      "title": "Icon Button",
+      "storyTitle": "Design System/Atoms/Buttons/Icon Button",
+      "status": "shared",
+      "atomicLevel": "atom",
+      "summary": "Shared icon-only action atom, plus review context for the local realities it is starting to replace.",
+      "sourceFiles": [
+        "src/renderer/components/ui/IconButton.tsx",
+        "src/renderer/features/composer/components/MentionHeroInput.tsx",
+        "src/renderer/features/library/components/LibraryCommandShelf.tsx",
+        "src/renderer/features/document-editor/components/DocumentHeader.tsx",
+        "src/renderer/features/agent-session/components/SessionListItemActions.tsx"
+      ],
+      "appUsageFiles": [
+        "src/renderer/features/homepage/components/HomepageChat.tsx",
+        "src/renderer/features/library/components/LibraryCommandShelf.tsx",
+        "src/renderer/features/document-editor/components/DocumentHeader.tsx",
+        "src/renderer/features/agent-session/components/AgentSessionSidebar.tsx"
+      ],
+      "notes": [
+        "This is now a shared atom in code, but Storybook should continue to show the local realities it is unifying.",
+        "Do not force all icon-shaped interactions into IconButton if their semantics belong to another family."
+      ]
+    },
+    {
+      "id": "icon-tile",
+      "title": "Icon Tile",
+      "storyTitle": "Design System/Atoms/Icon Tile",
+      "status": "shared",
+      "atomicLevel": "atom",
+      "summary": "Non-interactive square category marker for cards, rows, and dashboard summaries. Icon-only actions remain `IconButton`.",
+      "sourceFiles": [
+        "src/renderer/components/ui/IconTile.tsx",
+        "src/renderer/components/ui/IconTile.module.css",
+        "src/renderer/components/ui/IconTile.stories.tsx"
+      ],
+      "appUsageFiles": [
+        "src/renderer/features/homepage/components/TodaySection.tsx",
+        "src/renderer/features/homepage/components/FocusDiscoveryCard.tsx"
+      ],
+      "notes": [
+        "`IconTile` communicates category or source. It must not be used for interactive controls.",
+        "Use tone names when they carry product meaning; use semantic fallback tones for generic success/warning states."
+      ]
+    },
+    {
+      "id": "settings-rows",
+      "title": "Settings Rows",
+      "storyTitle": "Design System/Molecules/Settings Rows",
+      "status": "app-pattern",
+      "atomicLevel": "molecule",
+      "summary": "Review page for the repeatable row structure used across Settings: labels, descriptions, badges, helper copy, and controls.",
+      "sourceFiles": [
+        "src/renderer/features/settings/components/SettingRow.tsx",
+        "src/renderer/features/settings/components/SettingSection.tsx"
+      ],
+      "appUsageFiles": [
+        "src/renderer/features/settings/components/tabs/CloudTab.tsx",
+        "src/renderer/features/settings/components/tabs/MeetingsTab.tsx",
+        "src/renderer/features/settings/components/sections/SystemExperimentalFeaturesSection.tsx"
+      ],
+      "notes": [
+        "Settings rows are molecules, not atoms.",
+        "The review page should focus on hierarchy and trust, not just control styling."
+      ]
+    },
+    {
+      "id": "headers",
+      "title": "Headers",
+      "storyTitle": "Design System/Molecules/Headers",
+      "status": "shared",
+      "atomicLevel": "molecule",
+      "summary": "Shared page and section hierarchy components for title/subtitle blocks.",
+      "sourceFiles": [
+        "src/renderer/components/ui/PageHeader.tsx",
+        "src/renderer/components/ui/PageHeader.module.css",
+        "src/renderer/components/ui/SectionHeader.tsx",
+        "src/renderer/components/ui/SectionHeader.module.css",
+        "src/renderer/components/ui/Headers.stories.tsx"
+      ],
+      "appUsageFiles": [
+        "src/renderer/features/homepage/HomepagePanel.tsx",
+        "src/renderer/features/homepage/components/TodaySection.tsx"
+      ],
+      "notes": [
+        "Use these for hierarchy, not for every card title.",
+        "Card-internal headers can remain local when they carry bespoke layout or interaction needs."
+      ]
+    },
+    {
+      "id": "decision-card-group",
+      "title": "Decision Card Group",
+      "storyTitle": "Design System/Molecules/Decision Card Group",
+      "status": "app-pattern",
+      "atomicLevel": "molecule",
+      "summary": "Visible comparison group for a small number of meaningful choices, such as meeting join behavior and cloud continuity.",
+      "sourceFiles": [
+        "src/renderer/components/ui/DecisionCardGroup.tsx",
+        "src/renderer/components/ui/DecisionCardGroup.module.css",
+        "src/renderer/components/ui/DecisionCardGroup.stories.tsx",
+        "src/renderer/features/settings/components/tabs/MeetingsTab.tsx",
+        "src/renderer/features/settings/components/tabs/CloudTab.tsx",
+        "src/renderer/features/settings/components/tabs/DiagnosticsTab.tsx"
+      ],
+      "appUsageFiles": [
+        "src/renderer/features/settings/components/tabs/MeetingsTab.tsx",
+        "src/renderer/features/settings/components/tabs/CloudTab.tsx",
+        "src/renderer/features/settings/components/tabs/DiagnosticsTab.tsx"
+      ],
+      "notes": [
+        "Use for visible comparison, not low-ambiguity form choices.",
+        "Should stay calmer than marketing cards or pricing tables."
+      ]
+    },
+    {
+      "id": "notice",
+      "title": "Notice",
+      "storyTitle": "Design System/Molecules/Notice",
+      "status": "shared",
+      "atomicLevel": "molecule",
+      "summary": "Persistent in-flow status, attention, and prerequisite primitive for messages that should stay near the surface they affect.",
+      "sourceFiles": [
+        "src/renderer/components/ui/Notice.tsx",
+        "src/renderer/components/ui/Notice.module.css",
+        "src/renderer/components/ui/Notice.stories.tsx",
+        "src/renderer/components/ui/Feedback.stories.tsx"
+      ],
+      "appUsageFiles": [
+        "src/renderer/features/settings/components/OfficeSidecarStatusSection.tsx",
+        "src/renderer/features/settings/components/tabs/MeetingsTab.tsx",
+        "src/renderer/features/settings/components/sections/SystemAccountPreferencesSections.tsx",
+        "src/renderer/features/settings/components/sections/SystemAdvancedOperationsSection.tsx",
+        "src/renderer/features/settings/components/sections/SystemExperimentalFeaturesSection.tsx"
+      ],
+      "notes": [
+        "Use for persistent in-flow feedback; keep transient floating feedback on Toast.",
+        "Tone should be carried by icon, border, and subtle surface tint rather than heavy alert chrome."
+      ]
+    },
+    {
+      "id": "conversation-pill",
+      "title": "Conversation & Suggestion Pills",
+      "storyTitle": "Design System/Molecules/Conversation Pill",
+      "status": "shared",
+      "atomicLevel": "molecule",
+      "summary": "Compact recent-conversation shortcut molecule, with adjacent suggestion-chip patterns kept as app-pattern context.",
+      "sourceFiles": [
+        "src/renderer/components/ui/ConversationPill.tsx",
+        "src/renderer/components/ui/ConversationPill.module.css",
+        "src/renderer/components/ui/ConversationPill.stories.tsx",
+        "src/renderer/features/homepage/components/HomepageChat.tsx"
+      ],
+      "appUsageFiles": [
+        "src/renderer/features/homepage/HomepagePanel.tsx",
+        "src/renderer/features/homepage/components/HomepageChat.tsx"
+      ],
+      "notes": [
+        "`ConversationPill` is not a generic badge.",
+        "Prompt suggestion chips may still deserve a separate molecule if they diverge from recent-conversation shortcuts."
+      ]
+    },
+    {
+      "id": "connector-chips",
+      "title": "Connector Chips",
+      "storyTitle": "Design System/Molecules/Connector Chips",
+      "status": "app-pattern",
+      "atomicLevel": "molecule",
+      "summary": "Connector-chip taxonomy review page for provider, identity, status, and attention semantics in trust-sensitive Settings surfaces.",
+      "sourceFiles": [
+        "src/renderer/components/ui/ConnectorChips.stories.tsx",
+        "src/renderer/features/settings/components/ConnectionChip.tsx",
+        "docs/plans/260423_connector_chip_taxonomy_judgment_doc.md"
+      ],
+      "appUsageFiles": [
+        "src/renderer/features/settings/components/UnifiedConnectionsPanel.tsx",
+        "src/renderer/features/settings/components/tabs/ToolsTab.tsx",
+        "src/renderer/features/onboarding/steps/ToolAuthStep.tsx"
+      ],
+      "notes": [
+        "This is a taxonomy review page, not a new shared chip atom.",
+        "A connector chip should answer one question clearly; if it answers provider, identity, status, and attention at once, split the composition."
+      ]
+    },
+    {
+      "id": "composer-suggestion-chips",
+      "title": "Composer Suggestion Chips",
+      "storyTitle": "Design System/Molecules/Composer Suggestion Chips",
+      "status": "app-pattern",
+      "atomicLevel": "molecule",
+      "summary": "Quick-start chips near the composer input that help users start work without leaving the scan flow.",
+      "sourceFiles": [
+        "src/renderer/components/ui/ComposerSuggestionChips.stories.tsx",
+        "src/renderer/features/homepage/components/HomepageChat.tsx",
+        "src/renderer/features/homepage/components/HomepageChat.module.css"
+      ],
+      "appUsageFiles": [
+        "src/renderer/features/homepage/HomepagePanel.tsx",
+        "src/renderer/features/homepage/components/HomepageChat.tsx"
+      ],
+      "notes": [
+        "These are not generic chips or tabs.",
+        "Their role is quick-start prompting near the composer.",
+        "`ConversationPill` now covers recent conversation shortcuts; suggestion chips remain an adjacent app pattern."
+      ]
+    },
+    {
+      "id": "dashboard-patterns",
+      "title": "Dashboard Patterns",
+      "storyTitle": "Design System/Organisms/Dashboard Patterns",
+      "status": "app-pattern",
+      "atomicLevel": "organism",
+      "summary": "Homepage/dashboard review surface for Home activation attention cards, recent conversation strips, stat pills, and coach carousel mechanics.",
+      "sourceFiles": [
+        "src/renderer/components/ui/DashboardPatterns.stories.tsx",
+        "src/renderer/features/homepage/HomepagePanel.tsx",
+        "src/renderer/features/homepage/components/TodaySection.tsx",
+        "src/renderer/features/homepage/components/CoachSection.tsx"
+      ],
+      "appUsageFiles": [
+        "src/renderer/features/homepage/HomepagePanel.tsx",
+        "src/renderer/features/homepage/components/HomepageChat.tsx",
+        "src/renderer/features/homepage/components/TodaySection.tsx",
+        "src/renderer/features/homepage/components/CoachSection.tsx"
+      ],
+      "notes": [
+        "This is a review surface for organisms and product patterns, not a promise that every dashboard piece is shared.",
+        "Home activation belongs in the Today attention-card family unless the product intentionally creates a larger activation surface.",
+        "`AttentionCard`, `RecentConversationStrip`, `StatPill`, and `CoachCarousel` should stay app-patterns until reuse pressure proves their contracts.",
+        "Carousel pagination and arrows belong inside `CoachCarousel` first; split them out only when another surface needs the same mechanism."
+      ]
+    }
+  ]
+}

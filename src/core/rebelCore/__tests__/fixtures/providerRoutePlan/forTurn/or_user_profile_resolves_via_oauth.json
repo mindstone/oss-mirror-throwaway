@@ -1,0 +1,37 @@
+{
+  "description": "OpenRouter user-added profile (profileSource 'user', no per-profile key) resolves via the shared account OAuth token — the 260611 fix; previously dead-ended at missing-profile-credentials",
+  "input": {
+    "model": "profile:or-user-profile",
+    "settings": {
+      "activeProvider": "anthropic",
+      "models": {
+        "apiKey": "sk-ant-test",
+        "authMethod": "api-key",
+        "model": "claude-sonnet-4-6",
+        "oauthToken": null
+      },
+      "localModel": {
+        "activeProfileId": null,
+        "profiles": [
+          {
+            "createdAt": 0,
+            "id": "or-user-profile",
+            "model": "anthropic/claude-sonnet-4.6",
+            "name": "OR User Profile",
+            "profileSource": "user",
+            "providerType": "openrouter",
+            "serverUrl": "https://openrouter.ai/api/v1"
+          }
+        ]
+      },
+      "openRouter": {
+        "enabled": true,
+        "oauthToken": "or-token",
+        "selectedModel": "anthropic/claude-sonnet-4.6"
+      },
+      "providerKeys": {}
+    },
+    "codexConnectivity": "unknown"
+  },
+  "name": "or_user_profile_resolves_via_oauth"
+}

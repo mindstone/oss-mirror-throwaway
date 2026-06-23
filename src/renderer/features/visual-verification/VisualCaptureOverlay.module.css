@@ -1,0 +1,230 @@
+.overlay {
+  position: fixed;
+  inset: 0;
+  z-index: var(--z-permission-banner);
+  pointer-events: none;
+  --visual-capture-aura-duration: calc(var(--motion-duration-slow) * 3);
+  --visual-capture-drift-duration: calc(var(--motion-duration-slow) * 4);
+  --visual-capture-pill-duration: calc(var(--motion-duration-slow) * 2);
+  --visual-capture-dot-duration: calc(var(--motion-duration-slow) * 2);
+  --visual-capture-sparkle-duration: calc(var(--motion-duration-slow) * 5);
+}
+
+.frame {
+  position: absolute;
+  inset: 0;
+  border-radius: var(--radius-xl);
+  opacity: 0.76;
+  background:
+    radial-gradient(
+      ellipse at 50% 0%,
+      color-mix(in srgb, var(--color-info) 22%, transparent),
+      transparent 42%
+    ),
+    radial-gradient(
+      ellipse at 100% 50%,
+      color-mix(in srgb, var(--color-primary) 18%, transparent),
+      transparent 42%
+    ),
+    radial-gradient(
+      ellipse at 50% 100%,
+      color-mix(in srgb, var(--color-info) 26%, transparent),
+      transparent 46%
+    ),
+    radial-gradient(
+      ellipse at 0% 50%,
+      color-mix(in srgb, var(--color-primary) 16%, transparent),
+      transparent 44%
+    ),
+    radial-gradient(
+      ellipse at 50% 100%,
+      color-mix(in srgb, var(--color-primary) 16%, transparent),
+      transparent 58%
+    ),
+    radial-gradient(
+      circle at 78% 18%,
+      color-mix(in srgb, var(--color-brand-pink) 10%, transparent),
+      transparent 30%
+    );
+  box-shadow:
+    inset 0 0 var(--space-12) color-mix(in srgb, var(--color-info) 12%, transparent),
+    inset 0 0 calc(var(--space-12) * 2) color-mix(in srgb, var(--color-primary) 10%, transparent);
+  animation: visualCaptureAuraPulse var(--visual-capture-aura-duration) var(--motion-ease-in-out) infinite alternate;
+  will-change: opacity, transform;
+}
+
+.frame::before {
+  content: '';
+  position: absolute;
+  inset: var(--space-4);
+  border-radius: inherit;
+  box-shadow:
+    inset 0 0 var(--space-10) color-mix(in srgb, var(--color-info) 16%, transparent),
+    inset 0 0 calc(var(--space-12) * 2) color-mix(in srgb, var(--color-primary) 14%, transparent);
+  filter: blur(var(--space-2));
+  opacity: 0.44;
+  animation: visualCaptureAuraDrift var(--visual-capture-drift-duration) var(--motion-ease-in-out) infinite alternate;
+  will-change: opacity, transform;
+}
+
+.frame::after {
+  content: '';
+  position: absolute;
+  inset: var(--space-9) var(--space-8);
+  border-radius: inherit;
+  background-image:
+    radial-gradient(circle, color-mix(in srgb, var(--color-info) 74%, transparent) 0 1px, transparent 1px),
+    radial-gradient(circle, color-mix(in srgb, var(--color-primary) 58%, transparent) 0 1px, transparent 1px);
+  background-position:
+    12% 72%,
+    84% 24%;
+  background-repeat: no-repeat;
+  background-size:
+    var(--space-10) var(--space-10),
+    var(--space-12) var(--space-12);
+  opacity: 0.54;
+  animation: visualCaptureSparkle var(--visual-capture-sparkle-duration) var(--motion-ease-in-out) infinite alternate;
+}
+
+.pill {
+  position: absolute;
+  bottom: calc(var(--space-7) + env(safe-area-inset-bottom, 0px));
+  left: 50%;
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-3);
+  max-width: min(70ch, calc(100vw - var(--space-10)));
+  padding: var(--space-2) var(--space-3) var(--space-2) var(--space-2);
+  border: 1px solid transparent;
+  border-radius: var(--radius-pill);
+  background:
+    linear-gradient(
+      135deg,
+      color-mix(in srgb, var(--glass-panel-bg) 92%, transparent),
+      color-mix(in srgb, var(--color-info) 8%, var(--glass-panel-bg)) 52%,
+      color-mix(in srgb, var(--glass-panel-bg) 90%, transparent)
+    );
+  background-size: 220% 100%;
+  color: var(--color-text-primary);
+  box-shadow:
+    var(--shadow-hard),
+    0 var(--space-2) var(--space-8) color-mix(in srgb, var(--color-info) 10%, transparent);
+  font-size: var(--font-size-sm);
+  line-height: 1.2;
+  transform: translateX(-50%);
+  -webkit-backdrop-filter: blur(var(--glass-overlay-blur));
+  backdrop-filter: blur(var(--glass-overlay-blur));
+  pointer-events: auto;
+  animation:
+    visualCapturePillFloat var(--visual-capture-pill-duration) var(--motion-ease-in-out) infinite alternate,
+    visualCapturePillSheen var(--visual-capture-drift-duration) var(--motion-ease-in-out) infinite alternate;
+}
+
+.cameraCue {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  flex: 0 0 auto;
+}
+
+.message {
+  min-width: 0;
+  overflow: hidden;
+  font-weight: 500;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.pulse {
+  position: absolute;
+  right: 0;
+  bottom: 0;
+  width: var(--space-1);
+  height: var(--space-1);
+  border-radius: var(--radius-pill);
+  background: var(--color-info);
+  box-shadow: 0 0 0 0 color-mix(in srgb, var(--color-info) 45%, transparent);
+  animation: visualCaptureDotPulse var(--visual-capture-dot-duration) var(--motion-ease-in-out) infinite;
+  flex: 0 0 auto;
+}
+
+.stopButton {
+  flex: 0 0 auto;
+}
+
+.pill[data-phase='captured'] .pulse {
+  background: var(--color-success);
+  box-shadow: 0 0 0 0 color-mix(in srgb, var(--color-success) 45%, transparent);
+}
+
+@keyframes visualCaptureAuraPulse {
+  from {
+    opacity: 0.5;
+    transform: scale(0.998);
+  }
+  to {
+    opacity: 0.86;
+    transform: scale(1);
+  }
+}
+
+@keyframes visualCaptureAuraDrift {
+  from {
+    opacity: 0.3;
+    transform: scale(0.996);
+  }
+  to {
+    opacity: 0.62;
+    transform: scale(1);
+  }
+}
+
+@keyframes visualCaptureSparkle {
+  from {
+    opacity: 0.26;
+    transform: translate3d(0, var(--space-1), 0);
+  }
+  to {
+    opacity: 0.68;
+    transform: translate3d(0, calc(var(--space-1) * -1), 0);
+  }
+}
+
+@keyframes visualCapturePillFloat {
+  from {
+    transform: translate(-50%, 0);
+  }
+  to {
+    transform: translate(-50%, calc(var(--space-1) * -1));
+  }
+}
+
+@keyframes visualCapturePillSheen {
+  from {
+    background-position: 0% 50%;
+  }
+  to {
+    background-position: 100% 50%;
+  }
+}
+
+@keyframes visualCaptureDotPulse {
+  0% {
+    box-shadow: 0 0 0 0 color-mix(in srgb, var(--color-info) 42%, transparent);
+  }
+  70%,
+  100% {
+    box-shadow: 0 0 0 var(--space-2) transparent;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .frame,
+  .frame::before,
+  .frame::after,
+  .pill,
+  .pulse {
+    animation: none;
+  }
+}

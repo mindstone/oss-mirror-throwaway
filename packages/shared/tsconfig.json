@@ -1,0 +1,26 @@
+{
+  "extends": "../../tsconfig.base.json",
+  "compilerOptions": {
+    "rootDir": "../..",
+    "outDir": "dist",
+    "declaration": true,
+    "noEmit": true,
+    "strict": true,
+    "paths": {
+      "@rebel/cloud-client": ["../../cloud-client/src"],
+      "@rebel/cloud-client/*": ["../../cloud-client/src/*"],
+      "@rebel/shared": ["./src"],
+      "@rebel/shared/*": ["./src/*"],
+      "@core/*": ["../../src/core/*"]
+    }
+  },
+  "include": ["src", "../../src/core/appBridge/shared/**/*"],
+  "exclude": [
+    "src/**/__tests__/**/*",
+    "src/**/*.test.ts",
+    "src/**/*.spec.ts",
+    "../../src/core/appBridge/shared/**/__tests__/**/*",
+    "../../src/core/appBridge/shared/**/*.test.ts",
+    "../../src/core/appBridge/shared/**/*.spec.ts"
+  ]
+}

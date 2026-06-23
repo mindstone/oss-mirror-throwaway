@@ -1,0 +1,58 @@
+.root {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-3);
+  color: var(--color-text-primary);
+}
+
+.stacked {
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: var(--space-3);
+  text-align: center;
+}
+
+.image {
+  display: block;
+  flex: none;
+  width: var(--space-10);
+  height: var(--space-10);
+  object-fit: contain;
+}
+
+.imageSm {
+  width: var(--space-6);
+  height: var(--space-6);
+}
+
+.imageMd {
+  width: var(--space-10);
+  height: var(--space-10);
+}
+
+.imageLg {
+  width: var(--space-12);
+  height: var(--space-12);
+}
+
+.copy {
+  display: grid;
+  gap: var(--space-1);
+}
+
+.label {
+  margin: 0;
+  color: var(--color-text-primary);
+  font-size: 0.875rem;
+  font-weight: 600;
+  line-height: 1.35;
+}
+
+.description {
+  margin: 0;
+  color: var(--color-text-secondary);
+  font-size: 0.8125rem;
+  line-height: 1.45;
+  max-width: 32ch;
+}

@@ -1,0 +1,27 @@
+{
+  "description": "BTS missing Anthropic credentials",
+  "input": {
+    "model": "claude-haiku-4-5",
+    "settings": {
+      "activeProvider": "anthropic",
+      "models": {
+        "apiKey": null,
+        "authMethod": "api-key",
+        "model": "claude-sonnet-4-6",
+        "oauthToken": null
+      },
+      "localModel": {
+        "activeProfileId": null,
+        "profiles": []
+      },
+      "openRouter": {
+        "enabled": false,
+        "oauthToken": null,
+        "selectedModel": "anthropic/claude-sonnet-4.6"
+      },
+      "providerKeys": {}
+    },
+    "codexConnectivity": "unknown"
+  },
+  "name": "bts_anthropic_missing"
+}

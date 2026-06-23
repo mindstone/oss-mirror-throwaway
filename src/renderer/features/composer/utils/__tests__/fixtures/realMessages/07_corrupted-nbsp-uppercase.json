@@ -1,0 +1,7 @@
+{
+  "name": "07_corrupted-nbsp-uppercase",
+  "description": "Uppercase '&NBSP;' HTML entity (case-insensitive variant). The sanitiser regex must be case-insensitive to catch this — exists in the wild from older copy-paste sources.",
+  "input": "foo&NBSP;bar",
+  "expectedSanitised": "foo bar",
+  "expectedDocShape": ""
+}

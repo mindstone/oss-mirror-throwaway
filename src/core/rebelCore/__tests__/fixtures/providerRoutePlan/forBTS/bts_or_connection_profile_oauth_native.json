@@ -1,0 +1,37 @@
+{
+  "description": "BTS OpenRouter connection-managed native Claude profile uses OAuth token via OR proxy",
+  "input": {
+    "model": "profile:or-connection-bts-native",
+    "settings": {
+      "activeProvider": "anthropic",
+      "models": {
+        "apiKey": "sk-ant-test",
+        "authMethod": "api-key",
+        "model": "claude-sonnet-4-6",
+        "oauthToken": null
+      },
+      "localModel": {
+        "activeProfileId": null,
+        "profiles": [
+          {
+            "createdAt": 0,
+            "id": "or-connection-bts-native",
+            "model": "claude-sonnet-4-6",
+            "name": "OR Connection BTS Native",
+            "profileSource": "connection",
+            "providerType": "openrouter",
+            "serverUrl": "https://openrouter.ai/api/v1"
+          }
+        ]
+      },
+      "openRouter": {
+        "enabled": true,
+        "oauthToken": "or-token",
+        "selectedModel": "anthropic/claude-sonnet-4.6"
+      },
+      "providerKeys": {}
+    },
+    "codexConnectivity": "unknown"
+  },
+  "name": "bts_or_connection_profile_oauth_native"
+}

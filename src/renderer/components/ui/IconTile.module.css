@@ -1,0 +1,74 @@
+.tile {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  border-radius: var(--radius-sm, 8px);
+  background: color-mix(in srgb, var(--icon-tile-color) 12%, transparent);
+  color: color-mix(in srgb, var(--icon-tile-color) 82%, white);
+}
+
+.tile svg {
+  width: var(--icon-tile-icon-size);
+  height: var(--icon-tile-icon-size);
+  stroke: currentColor;
+}
+
+.sizeSm {
+  width: 26px;
+  height: 26px;
+  --icon-tile-icon-size: 14px;
+}
+
+.sizeMd {
+  width: 32px;
+  height: 32px;
+  --icon-tile-icon-size: 16px;
+}
+
+.sizeLg {
+  width: 40px;
+  height: 40px;
+  border-radius: var(--radius-md, 10px);
+  --icon-tile-icon-size: 18px;
+}
+
+.toneDefault,
+.toneMeeting,
+.toneFocus {
+  --icon-tile-color: var(--color-primary);
+}
+
+.toneNeutral {
+  --icon-tile-color: var(--color-text-secondary);
+}
+
+.toneInbox {
+  --icon-tile-color: var(--color-info, #38bdf8);
+}
+
+.toneAutomation,
+.toneOnboarding {
+  --icon-tile-color: var(--color-primary);
+}
+
+.toneRole {
+  --icon-tile-color: var(--color-brand-indigo, #4f46e5);
+}
+
+.toneWarning {
+  --icon-tile-color: var(--color-warning, #f59e0b);
+}
+
+.toneConnector {
+  --icon-tile-color: var(--color-brand-indigo, #4f46e5);
+}
+
+.toneSuccess {
+  --icon-tile-color: var(--color-success, #10b981);
+}
+
+:global(body.light) .tile {
+  background: color-mix(in srgb, var(--icon-tile-color) 9%, transparent);
+  color: color-mix(in srgb, var(--icon-tile-color) 82%, #0f172a);
+}

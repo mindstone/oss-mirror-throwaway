@@ -1,0 +1,88 @@
+.root {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 4px 6px;
+  border-radius: 6px;
+  color: rgba(148, 163, 184, 0.6);
+  cursor: pointer;
+  font-size: 0.68rem;
+  font-weight: 500;
+  line-height: 1;
+  white-space: nowrap;
+  transition:
+    background var(--motion-duration-fast, 120ms) ease,
+    color var(--motion-duration-fast, 120ms) ease,
+    opacity var(--motion-duration-fast, 120ms) ease;
+}
+
+.root:hover {
+  background: rgba(148, 163, 184, 0.08);
+  color: rgba(148, 163, 184, 0.88);
+}
+
+.checked {
+  color: rgba(139, 92, 246, 0.88);
+}
+
+.checked:hover {
+  color: rgba(139, 92, 246, 1);
+  background: rgba(139, 92, 246, 0.08);
+}
+
+.disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+.disabled:hover {
+  background: transparent;
+}
+
+.toggle {
+  width: 22px;
+  height: 12px;
+  min-width: 22px;
+  pointer-events: none;
+}
+
+.toggle::after {
+  width: 8px;
+  height: 8px;
+  top: 2px;
+  left: 2px;
+}
+
+.toggle:checked::after {
+  transform: translateX(10px);
+}
+
+.label {
+  white-space: nowrap;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .root,
+  .toggle,
+  .toggle::after {
+    transition: none;
+  }
+}
+
+:global(body.light) .root {
+  color: rgba(71, 85, 105, 0.72);
+}
+
+:global(body.light) .root:hover {
+  background: rgba(100, 116, 139, 0.08);
+  color: rgba(30, 41, 59, 0.92);
+}
+
+:global(body.light) .checked {
+  color: rgba(109, 40, 217, 0.9);
+}
+
+:global(body.light) .checked:hover {
+  background: rgba(139, 92, 246, 0.08);
+  color: rgba(109, 40, 217, 1);
+}

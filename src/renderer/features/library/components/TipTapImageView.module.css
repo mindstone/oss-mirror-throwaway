@@ -1,0 +1,142 @@
+/* TipTap Image NodeView Styles (FOX-2790 Stage 2) */
+
+.wrapper {
+  display: inline-block;
+  max-width: 100%;
+  vertical-align: middle;
+  line-height: 0;
+  position: relative;
+}
+
+/* --- Loaded image --- */
+
+.image {
+  display: block;
+  max-width: 100%;
+  height: auto;
+  border-radius: 6px;
+  object-fit: contain;
+}
+
+/* --- Loading placeholder --- */
+
+.loading {
+  display: inline-block;
+  padding: 6px 12px;
+  border-radius: 6px;
+  background-color: var(--color-muted, rgba(30, 41, 59, 0.5));
+  color: var(--color-muted-foreground, rgba(148, 163, 184, 0.6));
+  font-size: 0.85em;
+  line-height: 1.4;
+  animation: pulse 1.5s ease-in-out infinite;
+}
+
+@keyframes pulse {
+  0%,
+  100% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 0.5;
+  }
+}
+
+/* --- Error placeholder --- */
+
+.error {
+  display: inline-block;
+  padding: 6px 12px;
+  border-radius: 6px;
+  border: 1px dashed var(--color-border, rgba(148, 163, 184, 0.3));
+  color: var(--color-muted-foreground, rgba(148, 163, 184, 0.6));
+  font-size: 0.85em;
+  line-height: 1.4;
+}
+
+.error::before {
+  content: "🖼 ";
+}
+
+/* --- Remove affordance --- */
+
+.removeButton {
+  position: absolute;
+  top: var(--space-2);
+  right: var(--space-2);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: var(--space-1);
+  background-color: var(--color-surface-glass);
+  color: var(--color-text-primary);
+  border: 1px solid var(--color-border-soft);
+  border-radius: var(--radius-sm);
+  cursor: pointer;
+  box-shadow: var(--shadow-soft);
+  opacity: 0;
+  pointer-events: none;
+  transition:
+    background var(--motion-duration-fast) ease,
+    color var(--motion-duration-fast) ease,
+    border-color var(--motion-duration-fast) ease,
+    opacity var(--motion-duration-fast) ease;
+  z-index: var(--z-base);
+}
+
+.wrapper:hover .removeButton,
+.wrapper:focus-within .removeButton,
+.wrapper:global(.ProseMirror-selectednode) .removeButton,
+.removeButton:focus-visible {
+  opacity: 1;
+  pointer-events: auto;
+}
+
+/* Also fallback tied to ProseMirror contenteditable state if editor.isEditable doesn't cover edge cases */
+:global(.ProseMirror[contenteditable="false"]) .removeButton {
+  display: none !important;
+}
+
+.removeButton:hover {
+  background-color: var(--color-destructive);
+  color: var(--color-destructive-foreground);
+  border-color: var(--color-destructive);
+}
+
+.removeButton:focus-visible {
+  outline: 2px solid var(--color-ring);
+  outline-offset: calc(var(--space-1) / 2);
+}
+
+/* --- Light mode overrides --- */
+
+:global(body.light) .loading {
+  background-color: var(--color-muted, rgba(248, 250, 252, 0.8));
+  color: var(--color-muted-foreground, rgba(51, 65, 85, 0.6));
+}
+
+:global(body.light) .error {
+  border-color: var(--color-border, rgba(100, 116, 139, 0.3));
+  color: var(--color-muted-foreground, rgba(51, 65, 85, 0.6));
+}
+
+:global(body.light) .removeButton {
+  background-color: var(--color-surface-glass);
+  color: var(--color-text-primary);
+  border-color: var(--color-border-soft);
+}
+
+:global(body.light) .removeButton:hover {
+  background-color: var(--color-destructive);
+  color: var(--color-destructive-foreground);
+  border-color: var(--color-destructive);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .loading {
+    animation: none;
+  }
+
+  .removeButton {
+    transition: none;
+  }
+}

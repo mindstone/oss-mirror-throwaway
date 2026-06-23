@@ -1,0 +1,143 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=1280, height=720">
+  <title>Rebel Avatar - URL Fragment Test</title>
+  <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    body {
+      width: 1280px;
+      height: 720px;
+      background: linear-gradient(135deg, #1a1a2e 0%, #16213e 100%);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+      color: white;
+      overflow: hidden;
+    }
+    .test-container {
+      text-align: center;
+      max-width: 800px;
+    }
+    .test-title {
+      font-size: 32px;
+      font-weight: 600;
+      margin-bottom: 32px;
+    }
+    .test-result {
+      font-size: 48px;
+      font-weight: bold;
+      padding: 24px 48px;
+      border-radius: 12px;
+      margin-bottom: 32px;
+    }
+    .test-result.success {
+      background: rgba(107, 196, 109, 0.2);
+      color: #6bc46d;
+    }
+    .test-result.failure {
+      background: rgba(196, 74, 74, 0.2);
+      color: #c44a4a;
+    }
+    .test-result.partial {
+      background: rgba(196, 166, 74, 0.2);
+      color: #c4a64a;
+    }
+    .details {
+      background: rgba(255,255,255,0.1);
+      border-radius: 8px;
+      padding: 24px;
+      text-align: left;
+      font-family: monospace;
+      font-size: 14px;
+      line-height: 1.8;
+    }
+    .details .label {
+      color: #888;
+      display: inline-block;
+      width: 140px;
+    }
+    .details .value {
+      color: #fff;
+      word-break: break-all;
+    }
+    .details .value.success { color: #6bc46d; }
+    .details .value.failure { color: #c44a4a; }
+    .instructions {
+      margin-top: 32px;
+      font-size: 14px;
+      opacity: 0.6;
+      line-height: 1.6;
+    }
+  </style>
+</head>
+<body>
+  <div class="test-container">
+    <div class="test-title">URL Fragment Preservation Test</div>
+    <div class="test-result" id="result">Testing...</div>
+    <div class="details" id="details">
+      Loading...
+    </div>
+    <div class="instructions">
+      <strong>Expected:</strong> URL should be loaded with <code>#token=test123</code> fragment<br>
+      <strong>Test URL:</strong> <code>https://your-domain.pages.dev/fragment-test.html#token=test123</code>
+    </div>
+  </div>
+
+  <script>
+    const result = document.getElementById('result');
+    const details = document.getElementById('details');
+    
+    // Get URL components
+    const fullUrl = window.location.href;
+    const hash = window.location.hash;
+    const search = window.location.search;
+    const pathname = window.location.pathname;
+    
+    // Parse fragment
+    const fragmentParams = new URLSearchParams(hash.slice(1)); // Remove leading #
+    const token = fragmentParams.get('token');
+    
+    // Build details HTML
+    let detailsHtml = `
+      <div><span class="label">Full URL:</span> <span class="value">${fullUrl}</span></div>
+      <div><span class="label">Pathname:</span> <span class="value">${pathname}</span></div>
+      <div><span class="label">Query string:</span> <span class="value">${search || '(empty)'}</span></div>
+      <div><span class="label">Hash/Fragment:</span> <span class="value ${hash ? 'success' : 'failure'}">${hash || '(empty)'}</span></div>
+      <div><span class="label">Token value:</span> <span class="value ${token ? 'success' : 'failure'}">${token || '(not found)'}</span></div>
+    `;
+    details.innerHTML = detailsHtml;
+    
+    // Determine test result
+    if (token === 'test123') {
+      result.textContent = '✓ FRAGMENT PRESERVED';
+      result.className = 'test-result success';
+      console.log('[Spike Test] SUCCESS: URL fragment preserved correctly');
+      console.log('[Spike Test] Token:', token);
+    } else if (hash) {
+      result.textContent = '⚠ PARTIAL - Fragment exists but token missing';
+      result.className = 'test-result partial';
+      console.log('[Spike Test] PARTIAL: Fragment exists but token not found');
+      console.log('[Spike Test] Hash:', hash);
+    } else {
+      result.textContent = '✗ FRAGMENT STRIPPED';
+      result.className = 'test-result failure';
+      console.log('[Spike Test] FAILURE: URL fragment was stripped');
+      console.log('[Spike Test] Full URL:', fullUrl);
+    }
+    
+    // Also log for debugging
+    console.log('[Spike Test] fragment-test.html loaded');
+    console.log('[Spike Test] URL components:', {
+      fullUrl,
+      pathname,
+      search,
+      hash,
+      token
+    });
+  </script>
+</body>
+</html>

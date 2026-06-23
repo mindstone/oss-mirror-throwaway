@@ -1,0 +1,195 @@
+{
+  "fixture": "14-foreground-background-concurrent",
+  "steps": [
+    {
+      "index": 0,
+      "eventType": "turn_started",
+      "state": {
+        "isSending": false,
+        "streamingText": "",
+        "statusText": null,
+        "activeTurnId": "turn-1",
+        "completedSteps": [],
+        "missionContext": null,
+        "taskProgress": [],
+        "subAgentItems": [],
+        "error": null,
+        "hasMissionSet": false,
+        "touchedTaskIds": [],
+        "userQuestionEventsByTurn": {}
+      }
+    },
+    {
+      "index": 1,
+      "eventType": "tool",
+      "state": {
+        "isSending": false,
+        "streamingText": "",
+        "statusText": "Using Task...",
+        "activeTurnId": "turn-1",
+        "completedSteps": [],
+        "missionContext": null,
+        "taskProgress": [],
+        "subAgentItems": [
+          {
+            "id": "bg-1",
+            "toolUseId": "bg-1",
+            "label": "Background",
+            "subagentType": "background",
+            "status": "running",
+            "isBackground": false,
+            "startedAt": 2000
+          }
+        ],
+        "error": null,
+        "hasMissionSet": false,
+        "touchedTaskIds": [],
+        "userQuestionEventsByTurn": {}
+      }
+    },
+    {
+      "index": 2,
+      "eventType": "tool",
+      "state": {
+        "isSending": false,
+        "streamingText": "",
+        "statusText": null,
+        "activeTurnId": "turn-1",
+        "completedSteps": [
+          {
+            "label": "Task",
+            "timestamp": 3000,
+            "toolName": "Task",
+            "detail": "{\"subagent_type\":\"background\"}",
+            "toolUseId": "bg-1"
+          }
+        ],
+        "missionContext": null,
+        "taskProgress": [],
+        "subAgentItems": [
+          {
+            "id": "bg-1",
+            "toolUseId": "bg-1",
+            "label": "Background",
+            "subagentType": "background",
+            "status": "running",
+            "isBackground": true,
+            "startedAt": 2000
+          }
+        ],
+        "error": null,
+        "hasMissionSet": false,
+        "touchedTaskIds": [],
+        "userQuestionEventsByTurn": {}
+      }
+    },
+    {
+      "index": 3,
+      "eventType": "answer_phase_started",
+      "state": {
+        "isSending": false,
+        "streamingText": "",
+        "statusText": null,
+        "activeTurnId": "turn-1",
+        "completedSteps": [
+          {
+            "label": "Task",
+            "timestamp": 3000,
+            "toolName": "Task",
+            "detail": "{\"subagent_type\":\"background\"}",
+            "toolUseId": "bg-1"
+          }
+        ],
+        "missionContext": null,
+        "taskProgress": [],
+        "subAgentItems": [
+          {
+            "id": "bg-1",
+            "toolUseId": "bg-1",
+            "label": "Background",
+            "subagentType": "background",
+            "status": "running",
+            "isBackground": true,
+            "startedAt": 2000
+          }
+        ],
+        "error": null,
+        "hasMissionSet": false,
+        "touchedTaskIds": [],
+        "userQuestionEventsByTurn": {}
+      }
+    },
+    {
+      "index": 4,
+      "eventType": "assistant_delta",
+      "state": {
+        "isSending": false,
+        "streamingText": "Still here",
+        "statusText": null,
+        "activeTurnId": "turn-1",
+        "completedSteps": [
+          {
+            "label": "Task",
+            "timestamp": 3000,
+            "toolName": "Task",
+            "detail": "{\"subagent_type\":\"background\"}",
+            "toolUseId": "bg-1"
+          }
+        ],
+        "missionContext": null,
+        "taskProgress": [],
+        "subAgentItems": [
+          {
+            "id": "bg-1",
+            "toolUseId": "bg-1",
+            "label": "Background",
+            "subagentType": "background",
+            "status": "running",
+            "isBackground": true,
+            "startedAt": 2000
+          }
+        ],
+        "error": null,
+        "hasMissionSet": false,
+        "touchedTaskIds": [],
+        "userQuestionEventsByTurn": {}
+      }
+    },
+    {
+      "index": 5,
+      "eventType": "result",
+      "state": {
+        "isSending": false,
+        "streamingText": "Still here",
+        "statusText": null,
+        "activeTurnId": null,
+        "completedSteps": [
+          {
+            "label": "Task",
+            "timestamp": 3000,
+            "toolName": "Task",
+            "detail": "{\"subagent_type\":\"background\"}",
+            "toolUseId": "bg-1"
+          }
+        ],
+        "missionContext": null,
+        "taskProgress": [],
+        "subAgentItems": [
+          {
+            "id": "bg-1",
+            "toolUseId": "bg-1",
+            "label": "Background",
+            "subagentType": "background",
+            "status": "running",
+            "isBackground": true,
+            "startedAt": 2000
+          }
+        ],
+        "error": null,
+        "hasMissionSet": false,
+        "touchedTaskIds": [],
+        "userQuestionEventsByTurn": {}
+      }
+    }
+  ]
+}

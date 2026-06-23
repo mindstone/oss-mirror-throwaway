@@ -1,0 +1,45 @@
+{
+  "extends": "expo/tsconfig.base",
+  "compilerOptions": {
+    "strict": true,
+    "noFallthroughCasesInSwitch": true,
+    "baseUrl": ".",
+    "ignoreDeprecations": "6.0",
+    "paths": {
+      "@shared/*": ["../src/shared/*"],
+      "@core/*": ["../src/core/*"],
+      "@rebel/shared": ["../packages/shared/src"],
+      "@rebel/shared/*": ["../packages/shared/src/*"],
+      "@rebel/cloud-client": ["../cloud-client/src"],
+      "@rebel/cloud-client/*": ["../cloud-client/src/*"],
+      "@/*": ["./src/*"]
+    }
+  },
+  "include": [
+    "**/*.ts",
+    "**/*.tsx",
+    "app/**/*.ts",
+    "app/**/*.tsx",
+    "src/**/*.ts",
+    "src/**/*.tsx"
+  ],
+  "exclude": [
+    "types/**",
+    "**/__tests__/**/*",
+    "**/*.test.ts",
+    "**/*.test.tsx",
+    "**/*.spec.ts",
+    "**/*.spec.tsx",
+    "../src/shared/**/__tests__/**/*",
+    "../src/shared/**/*.test.ts",
+    "../src/shared/**/*.spec.ts",
+    "../src/core/**/__tests__/**/*",
+    "../src/core/**/*.test.ts",
+    "../src/core/**/*.spec.ts",
+    "../cloud-client/src/**/__tests__/**/*",
+    "../cloud-client/src/**/*.test.ts",
+    "../cloud-client/src/**/*.test.tsx",
+    "../cloud-client/src/**/*.spec.ts",
+    "../cloud-client/src/**/*.spec.tsx"
+  ]
+}

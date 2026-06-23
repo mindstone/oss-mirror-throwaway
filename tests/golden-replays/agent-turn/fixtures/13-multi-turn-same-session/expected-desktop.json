@@ -1,0 +1,143 @@
+{
+  "fixture": "13-multi-turn-same-session",
+  "steps": [
+    {
+      "index": 0,
+      "eventType": "turn_started",
+      "state": {
+        "messages": [],
+        "activeTurnId": "turn-1",
+        "isBusy": true,
+        "lastError": null,
+        "runtime": {
+          "activeTurnId": "turn-1",
+          "terminated": false
+        }
+      }
+    },
+    {
+      "index": 1,
+      "eventType": "assistant",
+      "state": {
+        "messages": [
+          {
+            "turnId": "turn-1",
+            "role": "assistant",
+            "text": "One",
+            "isWarning": false,
+            "isHidden": false
+          }
+        ],
+        "activeTurnId": "turn-1",
+        "isBusy": true,
+        "lastError": null,
+        "runtime": {
+          "activeTurnId": "turn-1",
+          "terminated": false
+        }
+      }
+    },
+    {
+      "index": 2,
+      "eventType": "result",
+      "state": {
+        "messages": [
+          {
+            "turnId": "turn-1",
+            "role": "result",
+            "text": "One",
+            "isWarning": false,
+            "isHidden": false
+          }
+        ],
+        "activeTurnId": null,
+        "isBusy": false,
+        "lastError": null,
+        "runtime": {
+          "activeTurnId": null,
+          "terminated": true
+        }
+      }
+    },
+    {
+      "index": 3,
+      "eventType": "turn_started",
+      "state": {
+        "messages": [
+          {
+            "turnId": "turn-1",
+            "role": "result",
+            "text": "One",
+            "isWarning": false,
+            "isHidden": false
+          }
+        ],
+        "activeTurnId": "turn-2",
+        "isBusy": true,
+        "lastError": null,
+        "runtime": {
+          "activeTurnId": "turn-2",
+          "terminated": false
+        }
+      }
+    },
+    {
+      "index": 4,
+      "eventType": "assistant",
+      "state": {
+        "messages": [
+          {
+            "turnId": "turn-1",
+            "role": "result",
+            "text": "One",
+            "isWarning": false,
+            "isHidden": false
+          },
+          {
+            "turnId": "turn-2",
+            "role": "assistant",
+            "text": "Two",
+            "isWarning": false,
+            "isHidden": false
+          }
+        ],
+        "activeTurnId": "turn-2",
+        "isBusy": true,
+        "lastError": null,
+        "runtime": {
+          "activeTurnId": "turn-2",
+          "terminated": false
+        }
+      }
+    },
+    {
+      "index": 5,
+      "eventType": "result",
+      "state": {
+        "messages": [
+          {
+            "turnId": "turn-1",
+            "role": "result",
+            "text": "One",
+            "isWarning": false,
+            "isHidden": false
+          },
+          {
+            "turnId": "turn-2",
+            "role": "result",
+            "text": "Two",
+            "isWarning": false,
+            "isHidden": false
+          }
+        ],
+        "activeTurnId": null,
+        "isBusy": false,
+        "lastError": null,
+        "runtime": {
+          "activeTurnId": null,
+          "terminated": true
+        }
+      }
+    }
+  ]
+}

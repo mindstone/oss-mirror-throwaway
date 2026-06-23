@@ -1,0 +1,12 @@
+/**
+ * FocusDiscoveryCard styles
+ *
+ * Card layout uses TodaySection.module.css classes (`.card`, `.cardBody`, etc.)
+ * for visual consistency with the connector-nudge pattern.
+ *
+ * Icon color and meta line-clamp for `data-type="focus-nudge"` are added to
+ * TodaySection.module.css alongside the other data-type selectors.
+ *
+ * This file is reserved for any FocusDiscoveryCard-specific overrides.
+ * Currently empty — all styling flows through TodaySection card classes.
+ */

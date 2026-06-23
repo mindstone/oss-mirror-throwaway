@@ -1,0 +1,37 @@
+{
+  "description": "Working OpenAI profile routes direct compatible HTTP",
+  "input": {
+    "codexConnectivity": "unknown",
+    "settings": {
+      "activeProvider": "anthropic",
+      "models": {
+        "apiKey": "sk-ant-test",
+        "authMethod": "api-key",
+        "model": "claude-sonnet-4-6",
+        "oauthToken": null,
+        "workingProfileId": "openai-main"
+      },
+      "localModel": {
+        "activeProfileId": "openai-main",
+        "profiles": [
+          {
+            "apiKey": "sk-profile-openai",
+            "createdAt": 0,
+            "id": "openai-main",
+            "model": "gpt-5.5",
+            "name": "Openai Main",
+            "providerType": "openai",
+            "serverUrl": "https://api.openai.com/v1"
+          }
+        ]
+      },
+      "openRouter": {
+        "enabled": false,
+        "oauthToken": null,
+        "selectedModel": "anthropic/claude-sonnet-4.6"
+      },
+      "providerKeys": {}
+    }
+  },
+  "name": "working_profile_openai"
+}

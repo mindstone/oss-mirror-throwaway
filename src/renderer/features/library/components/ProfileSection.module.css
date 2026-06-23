@@ -1,0 +1,241 @@
+.card {
+  background: rgba(255, 255, 255, 0.03);
+  border: 1px solid var(--color-border);
+  border-radius: 12px;
+  overflow: hidden;
+  transition:
+    border-color var(--motion-duration-fast) ease,
+    background var(--motion-duration-fast) ease;
+}
+
+:global(body.light) .card {
+  background: rgba(255, 255, 255, 0.6);
+}
+
+.card:hover {
+  border-color: rgba(148, 163, 184, 0.2);
+}
+
+.cardExpanded {
+  border-color: rgba(139, 92, 246, 0.25);
+  background: rgba(255, 255, 255, 0.04);
+}
+
+:global(body.light) .cardExpanded {
+  border-color: rgba(139, 92, 246, 0.2);
+  background: rgba(255, 255, 255, 0.8);
+}
+
+.cardFilled {
+  border-color: rgba(34, 197, 94, 0.15);
+}
+
+.cardFilled:hover {
+  border-color: rgba(34, 197, 94, 0.25);
+}
+
+/* ── Header ── */
+
+.header {
+  display: flex;
+  align-items: center;
+  gap: var(--space-2);
+  padding: 12px 16px;
+  width: 100%;
+  background: transparent;
+  border: none;
+  cursor: pointer;
+  text-align: left;
+  color: inherit;
+  font: inherit;
+  transition: background var(--motion-duration-fast) ease;
+}
+
+.header:hover {
+  background: rgba(148, 163, 184, 0.06);
+}
+
+:global(body.light) .header:hover {
+  background: rgba(148, 163, 184, 0.08);
+}
+
+.header:focus-visible {
+  outline: 2px solid var(--color-ring);
+  outline-offset: -2px;
+}
+
+/* ── Icons ── */
+
+.sectionIcon {
+  color: var(--color-muted-foreground);
+  flex-shrink: 0;
+  opacity: 0.55;
+  transition: opacity var(--motion-duration-fast) ease;
+}
+
+.cardExpanded .sectionIcon {
+  color: var(--color-primary);
+  opacity: 0.85;
+}
+
+.filledBadge {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 18px;
+  height: 18px;
+  border-radius: 50%;
+  background: rgba(34, 197, 94, 0.15);
+  color: rgb(34, 197, 94);
+  flex-shrink: 0;
+}
+
+:global(body.light) .filledBadge {
+  background: rgba(22, 163, 74, 0.12);
+  color: rgb(22, 163, 74);
+}
+
+/* ── Text ── */
+
+.heading {
+  font-size: 0.8125rem;
+  font-weight: 600;
+  color: var(--color-card-foreground);
+  white-space: nowrap;
+  flex-shrink: 0;
+}
+
+.preview {
+  flex: 1;
+  font-size: 0.75rem;
+  color: var(--color-muted-foreground);
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  min-width: 0;
+  opacity: 0.8;
+}
+
+.previewEmpty {
+  flex: 1;
+  font-size: 0.75rem;
+  color: var(--color-muted-foreground);
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  min-width: 0;
+  font-style: italic;
+  opacity: 0.5;
+}
+
+.previewSubtitle {
+  flex: 1;
+  font-size: 0.75rem;
+  color: var(--color-primary);
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  min-width: 0;
+  opacity: 0.75;
+}
+
+.chevron {
+  color: var(--color-muted-foreground);
+  flex-shrink: 0;
+  opacity: 0.5;
+  transition: transform var(--motion-duration-fast) ease;
+}
+
+.chevronExpanded {
+  transform: rotate(180deg);
+}
+
+/* ── Body ── */
+
+.body {
+  padding: 0 16px 16px;
+  animation: slideDown var(--motion-duration-fast) ease-out;
+}
+
+.subtitle {
+  font-size: 0.75rem;
+  color: var(--color-primary);
+  margin: 0 0 var(--space-1);
+  line-height: 1.5;
+  opacity: 0.85;
+}
+
+.prompt {
+  font-size: 0.8125rem;
+  color: var(--color-muted-foreground);
+  margin: 0 0 var(--space-2);
+  line-height: 1.5;
+}
+
+.textarea {
+  width: 100%;
+  min-height: 72px;
+  padding: 10px 12px;
+  background: var(--color-background);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-sm);
+  color: var(--color-foreground);
+  font-family: inherit;
+  font-size: 0.8125rem;
+  line-height: 1.6;
+  resize: none;
+  overflow: hidden;
+  transition: border-color var(--motion-duration-fast) ease;
+  box-sizing: border-box;
+}
+
+.textarea::placeholder {
+  color: var(--color-muted-foreground);
+  opacity: 0.45;
+}
+
+.textarea:focus {
+  outline: none;
+  border-color: var(--color-ring);
+}
+
+.actions {
+  display: flex;
+  gap: var(--space-2);
+  margin-top: var(--space-2);
+  justify-content: flex-end;
+}
+
+.interviewHint {
+  margin: var(--space-2) 0 0;
+  font-size: 0.75rem;
+  color: var(--color-muted-foreground);
+  line-height: 1.5;
+}
+
+.interviewLink {
+  background: none;
+  border: none;
+  padding: 0;
+  color: var(--color-primary);
+  font: inherit;
+  font-size: inherit;
+  cursor: pointer;
+  text-decoration: underline;
+  text-underline-offset: 2px;
+}
+
+.interviewLink:hover {
+  opacity: 0.8;
+}
+
+@keyframes slideDown {
+  from {
+    opacity: 0;
+    transform: translateY(-4px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}

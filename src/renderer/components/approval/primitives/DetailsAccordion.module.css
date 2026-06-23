@@ -1,0 +1,128 @@
+/**
+ * DetailsAccordion.module.css
+ *
+ * Shared expandable technical details styles extracted from UnifiedApprovalCard.
+ * Shows tool name and JSON parameters in a collapsible section.
+ */
+
+/* Toggle link (inside context section) */
+.toggle {
+  display: inline-flex;
+  align-items: center;
+  gap: 2px;
+  margin-top: 4px;
+  padding: 0;
+  font-size: 0.68rem;
+  font-weight: 500;
+  color: rgba(129, 140, 248, 0.85);
+  background: none;
+  border: none;
+  cursor: pointer;
+  text-decoration: underline;
+  text-decoration-style: dotted;
+  text-underline-offset: 2px;
+  transition: color 0.15s ease;
+}
+
+.toggle:hover {
+  color: #a5b4fc;
+  text-decoration-style: solid;
+}
+
+.chevron {
+  transition: transform 0.2s ease;
+  flex-shrink: 0;
+}
+
+.chevronOpen {
+  transform: rotate(90deg);
+}
+
+/* Details panel */
+.details {
+  padding: 10px 12px;
+  border-radius: 8px;
+  background: rgba(0, 0, 0, 0.1);
+  border: 1px solid rgba(99, 102, 241, 0.1);
+  animation: fadeIn 0.15s ease-out;
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(-4px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.row {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  margin-bottom: 10px;
+}
+
+.row:last-child {
+  margin-bottom: 0;
+}
+
+.label {
+  font-size: 0.68rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  color: var(--color-muted-foreground);
+}
+
+.code {
+  font-family: var(--font-family-mono, 'SF Mono', monospace);
+  font-size: 0.72rem;
+  padding: 4px 8px;
+  border-radius: 4px;
+  background: rgba(0, 0, 0, 0.15);
+  color: var(--color-foreground);
+  word-break: break-all;
+}
+
+.pre {
+  font-family: var(--font-family-mono, 'SF Mono', monospace);
+  font-size: 0.68rem;
+  padding: 8px;
+  border-radius: 4px;
+  background: rgba(0, 0, 0, 0.15);
+  color: var(--color-foreground);
+  overflow-x: auto;
+  max-height: 180px;
+  overflow-y: auto;
+  margin: 0;
+  white-space: pre-wrap;
+  word-break: break-word;
+}
+
+/* ─────────────────────────────────────────────────────────────
+   Light Mode
+   ───────────────────────────────────────────────────────────── */
+
+:global(body.light) .toggle {
+  color: #4f46e5;
+}
+
+:global(body.light) .toggle:hover {
+  color: #6366f1;
+}
+
+:global(body.light) .details {
+  background: rgba(0, 0, 0, 0.02);
+  border-color: rgba(99, 102, 241, 0.1);
+}
+
+:global(body.light) .code {
+  background: rgba(0, 0, 0, 0.04);
+}
+
+:global(body.light) .pre {
+  background: rgba(0, 0, 0, 0.04);
+}

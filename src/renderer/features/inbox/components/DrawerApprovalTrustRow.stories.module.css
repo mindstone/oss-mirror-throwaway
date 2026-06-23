@@ -1,0 +1,84 @@
+.page {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(360px, 1fr));
+  gap: var(--space-4);
+  padding: var(--space-5);
+}
+
+.themeColumn {
+  display: grid;
+  gap: var(--space-3);
+  align-content: start;
+  padding: var(--space-3);
+  border: 1px solid color-mix(in srgb, var(--color-border) 60%, transparent);
+  border-radius: var(--radius-md);
+  background: color-mix(in srgb, var(--color-surface-elevated) 46%, transparent);
+}
+
+.themeLabel {
+  margin: 0;
+  font-size: 0.74rem;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--color-text-muted);
+}
+
+.cardList {
+  display: grid;
+  gap: var(--space-3);
+}
+
+.card {
+  width: 330px;
+  max-width: 100%;
+  padding: var(--space-3);
+  border: 1px solid color-mix(in srgb, var(--color-border) 62%, transparent);
+  border-radius: var(--radius-sm);
+  background: var(--color-surface-base);
+}
+
+.header {
+  display: grid;
+  gap: var(--space-1);
+  margin-bottom: var(--space-3);
+}
+
+.timeRow {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-1);
+  min-width: 0;
+}
+
+.time {
+  font-size: 0.7rem;
+  color: var(--color-text-muted);
+}
+
+.riskHint {
+  font-size: 0.7rem;
+  color: var(--color-text-secondary);
+}
+
+.title {
+  margin: 0;
+  color: var(--color-text-primary);
+  font-size: 0.8rem;
+  font-weight: 600;
+  line-height: 1.35;
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+
+.actions {
+  margin-top: var(--space-3);
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: var(--space-2);
+}
+
+.actions button:last-child {
+  grid-column: 1 / -1;
+}

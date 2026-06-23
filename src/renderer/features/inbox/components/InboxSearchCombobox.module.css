@@ -1,0 +1,265 @@
+/* InboxSearchCombobox - Unified search + tag filter combobox
+   Follows the Library toolbar search pattern (LibraryCommandShelf) */
+
+.container {
+  position: relative;
+  flex: 1;
+  min-width: 200px;
+}
+
+/* Input row — matches Library .searchInputContainer */
+.inputRow {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  padding: 0 8px;
+  border: 1px solid rgba(148, 163, 184, 0.15);
+  border-radius: 10px;
+  background: transparent;
+  transition: all 0.2s ease;
+  min-height: 38px;
+}
+
+.inputRowOpen {
+  border-color: rgba(139, 92, 246, 0.45);
+  background: rgba(139, 92, 246, 0.04);
+  box-shadow: 0 0 0 3px rgba(139, 92, 246, 0.06);
+}
+
+.inputRow:hover:not(.inputRowOpen) {
+  border-color: rgba(148, 163, 184, 0.25);
+}
+
+.searchIcon {
+  flex-shrink: 0;
+  margin-left: 4px;
+  color: rgba(148, 163, 184, 0.5);
+}
+
+.input {
+  flex: 1;
+  min-width: 60px;
+  padding: 8px 8px 8px 6px !important;
+  font-size: 0.85rem;
+  border: none !important;
+  background: transparent !important;
+  color: rgba(248, 250, 255, 0.95);
+  font-family: inherit;
+  outline: none;
+  box-shadow: none !important;
+}
+
+.input:focus {
+  border-color: transparent !important;
+  box-shadow: none !important;
+}
+
+.input::placeholder {
+  color: rgba(148, 163, 184, 0.5);
+}
+
+/* Selected tag chips inside the input row */
+.selectedChips {
+  display: flex;
+  align-items: center;
+  gap: 3px;
+  flex-shrink: 0;
+  max-width: 180px;
+  overflow: hidden;
+}
+
+.chip {
+  display: inline-flex;
+  align-items: center;
+  gap: 3px;
+  padding: 2px 6px;
+  font-size: 0.68rem;
+  font-weight: 500;
+  color: rgba(199, 210, 254, 0.95);
+  background: rgba(99, 102, 241, 0.2);
+  border-radius: 4px;
+  white-space: nowrap;
+}
+
+.chipRemove {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 12px;
+  height: 12px;
+  padding: 0;
+  border: none;
+  border-radius: 2px;
+  background: transparent;
+  color: rgba(199, 210, 254, 0.7);
+  cursor: pointer;
+  transition: color 0.1s ease;
+}
+
+.chipRemove:hover {
+  color: rgba(248, 250, 255, 0.95);
+}
+
+/* Clear all button — matches Library .searchClear */
+.clearButton {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 20px;
+  height: 20px;
+  flex-shrink: 0;
+  padding: 0;
+  border: none;
+  border-radius: 50%;
+  background: rgba(148, 163, 184, 0.15);
+  color: rgba(148, 163, 184, 0.7);
+  cursor: pointer;
+  transition: all 0.15s ease;
+  margin-right: 4px;
+}
+
+.clearButton:hover {
+  background: rgba(148, 163, 184, 0.25);
+  color: rgba(248, 250, 255, 0.9);
+}
+
+/* Dropdown panel */
+.dropdown {
+  position: absolute;
+  top: calc(100% + 4px);
+  left: 0;
+  right: 0;
+  z-index: 50;
+  padding: 8px;
+  background: rgba(20, 25, 40, 0.98);
+  border: 1px solid rgba(148, 163, 184, 0.15);
+  border-radius: 10px;
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.3);
+  backdrop-filter: blur(var(--glass-overlay-blur));
+}
+
+.dropdownLabel {
+  padding: 0 4px 6px;
+  font-size: 0.65rem;
+  font-weight: 600;
+  color: rgba(148, 163, 184, 0.5);
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+}
+
+.tagList {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 4px;
+}
+
+.tagOption {
+  font-size: 0.7rem;
+  font-weight: 500;
+  color: rgba(148, 163, 184, 0.8);
+  background: rgba(148, 163, 184, 0.1);
+  border: 1px solid rgba(148, 163, 184, 0.12);
+  border-radius: 6px;
+  padding: 3px 10px;
+  cursor: pointer;
+  transition: all 0.12s ease;
+}
+
+.tagOption:hover {
+  background: rgba(148, 163, 184, 0.18);
+  border-color: rgba(148, 163, 184, 0.2);
+}
+
+.tagOptionSelected {
+  background: rgba(99, 102, 241, 0.15);
+  border-color: rgba(99, 102, 241, 0.3);
+  color: rgba(199, 210, 254, 0.95);
+}
+
+.tagOptionSelected:hover {
+  background: rgba(99, 102, 241, 0.22);
+}
+
+/* ─────────────────────────────────────────────────────────────
+   Light Mode — matches Library .searchInputContainer light mode
+   ───────────────────────────────────────────────────────────── */
+
+:global(body.light) .inputRow {
+  border: 1px solid rgba(148, 163, 184, 0.18);
+  background: transparent;
+}
+
+:global(body.light) .inputRowOpen {
+  border-color: rgba(139, 92, 246, 0.4);
+  background: rgba(139, 92, 246, 0.03);
+  box-shadow: 0 0 0 3px rgba(139, 92, 246, 0.06);
+}
+
+:global(body.light) .inputRow:hover:not(.inputRowOpen) {
+  border-color: color-mix(in srgb, var(--color-border) 80%, var(--color-foreground));
+}
+
+:global(body.light) .searchIcon {
+  color: var(--color-muted-foreground);
+}
+
+:global(body.light) .input {
+  color: var(--color-foreground);
+}
+
+:global(body.light) .input::placeholder {
+  color: var(--color-muted-foreground);
+}
+
+:global(body.light) .chip {
+  color: var(--color-primary);
+  background: color-mix(in srgb, var(--color-primary) 12%, transparent);
+}
+
+:global(body.light) .chipRemove {
+  color: color-mix(in srgb, var(--color-primary) 60%, transparent);
+}
+
+:global(body.light) .chipRemove:hover {
+  color: var(--color-primary);
+}
+
+:global(body.light) .clearButton {
+  background: var(--color-muted);
+  color: var(--color-muted-foreground);
+}
+
+:global(body.light) .clearButton:hover {
+  background: color-mix(in srgb, var(--color-muted-foreground) 30%, transparent);
+  color: var(--color-foreground);
+}
+
+:global(body.light) .dropdown {
+  background: white;
+  border-color: var(--color-border);
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.1);
+}
+
+:global(body.light) .dropdownLabel {
+  color: var(--color-muted-foreground);
+}
+
+:global(body.light) .tagOption {
+  color: var(--color-muted-foreground);
+  background: var(--color-muted);
+  border-color: var(--color-border);
+}
+
+:global(body.light) .tagOption:hover {
+  background: color-mix(in srgb, var(--color-muted-foreground) 15%, transparent);
+}
+
+:global(body.light) .tagOptionSelected {
+  background: color-mix(in srgb, var(--color-primary) 12%, transparent);
+  border-color: color-mix(in srgb, var(--color-primary) 30%, transparent);
+  color: var(--color-primary);
+}
+
+:global(body.light) .tagOptionSelected:hover {
+  background: color-mix(in srgb, var(--color-primary) 18%, transparent);
+}

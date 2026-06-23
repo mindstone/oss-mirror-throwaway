@@ -1,0 +1,28 @@
+{
+  "description": "Council route preserves OpenRouter provider identity",
+  "input": {
+    "model": "anthropic/claude-sonnet-4.6",
+    "routeScope": "council",
+    "settings": {
+      "activeProvider": "openrouter",
+      "models": {
+        "apiKey": "sk-ant-test",
+        "authMethod": "api-key",
+        "model": "claude-sonnet-4-6",
+        "oauthToken": null
+      },
+      "localModel": {
+        "activeProfileId": null,
+        "profiles": []
+      },
+      "openRouter": {
+        "enabled": true,
+        "oauthToken": "or-token",
+        "selectedModel": "anthropic/claude-sonnet-4.6"
+      },
+      "providerKeys": {}
+    },
+    "codexConnectivity": "unknown"
+  },
+  "name": "council_openrouter"
+}

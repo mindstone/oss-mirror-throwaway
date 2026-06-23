@@ -1,0 +1,64 @@
+# Star vs Done lifecycle controls on the Conversations LIST
+# (CHIEF_ENGINEER2 run 260614_done-state-rename, Stage 4 mobile fix — Phase 8 QA).
+#
+# GREEN flow covering the list-screen behaviours that pass on-device:
+#   B1: row STAR icon reflects starredAt (pre-starred row shows the star token;
+#       a plain active row does not).
+#   B2: long-press "Add to Starred" sets the favourite (row stays active);
+#       "Remove from Starred" clears it.
+#   B3 (list): long-press "Mark as done" removes the row from the active list.
+#   B5: a Star action survives a pull-to-refresh refetch.
+#
+# NOT covered here (verified separately, see the QA report):
+#   - Swipe label↔action correspondence (B4) — the swipe panel label is crossed
+#     with its handler (left/"Star" panel fires Done; right/"Done" panel fires
+#     Star). Documented as a bug in 260615_0700_mobile-maestro-qa.md.
+#   - Detail-view Mark-as-done⇄Reopen toggle (B3 detail) — see
+#     conversation_detail_done_toggle.yaml and the QA report.
+#
+# Maestro matching note: RN concatenates a row's text into one accessibilityText
+# ("Already starred, Starred, Seeded reply..."), so regex `text:` and the stable
+# per-row testID `conversations-item-<id>` are used.
+#
+# PREREQUISITE: reset + seed a PLAIN active conv + a PRE-STARRED active conv
+# (the seed endpoint accepts `starredAt`, added for this QA):
+#   curl -X POST .../__e2e/reset -d '{}'
+#   curl -X POST .../__e2e/seed/conversation -d '{"id":"e2e-plain","title":"Plain conversation"}'
+#   curl -X POST .../__e2e/seed/conversation -d '{"id":"e2e-starred","title":"Already starred","starredAt":1700000000000}'
+#
+# Run: maestro test mobile/.maestro/star_done_list_controls.yaml
+appId: com.mindstone.rebel.mobile
+---
+- launchApp
+- extendedWaitUntil: { visible: { id: "home-screen" }, timeout: 30000 }
+- tapOn: "Conversations"
+- extendedWaitUntil: { visible: { id: "conversations-screen" }, timeout: 15000 }
+- swipe: { from: { id: "conversations-screen" }, direction: DOWN }
+- waitForAnimationToEnd
+- extendedWaitUntil: { visible: { id: "conversations-item-e2e-starred" }, timeout: 15000 }
+# B1: starred row shows star token; plain row does not
+- assertVisible: { text: "Already starred, Starred.*" }
+- assertVisible: { text: "Plain conversation, Seeded.*" }
+- assertNotVisible: { text: "Plain conversation, Starred.*" }
+# B2: long-press Add to Starred on plain → starred, stays active
+- longPressOn: { id: "conversations-item-e2e-plain" }
+- extendedWaitUntil: { visible: { text: "Add to Starred" }, timeout: 8000 }
+- tapOn: { text: "Add to Starred" }
+- waitForAnimationToEnd
+- extendedWaitUntil: { visible: { text: "Plain conversation, Starred.*" }, timeout: 10000 }
+# B5: survives refresh
+- swipe: { from: { id: "conversations-screen" }, direction: DOWN }
+- waitForAnimationToEnd
+- extendedWaitUntil: { visible: { text: "Plain conversation, Starred.*" }, timeout: 15000 }
+# B2 cont: Remove from Starred
+- longPressOn: { id: "conversations-item-e2e-plain" }
+- extendedWaitUntil: { visible: { text: "Remove from Starred" }, timeout: 8000 }
+- tapOn: { text: "Remove from Starred" }
+- waitForAnimationToEnd
+- assertNotVisible: { text: "Plain conversation, Starred.*" }
+# B3: long-press Mark as done on starred → leaves active list
+- longPressOn: { id: "conversations-item-e2e-starred" }
+- extendedWaitUntil: { visible: { text: "Mark as done" }, timeout: 8000 }
+- tapOn: { text: "Mark as done" }
+- waitForAnimationToEnd
+- extendedWaitUntil: { notVisible: { id: "conversations-item-e2e-starred" }, timeout: 15000 }

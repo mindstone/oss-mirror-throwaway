@@ -1,0 +1,11 @@
+{
+  "overrides": [
+    {
+      "files": ["*.json", "*.json5", "*.code-workspace"],
+      "options": {
+        "useTabs": false,
+        "tabWidth": 2
+      }
+    }
+  ]
+}

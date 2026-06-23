@@ -1,0 +1,299 @@
+/* InboxSelectionBar — sticky bar shown when items are selected */
+.bar {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 8px 14px;
+  background: rgba(99, 102, 241, 0.12);
+  border: 1px solid rgba(99, 102, 241, 0.25);
+  border-radius: 10px;
+  animation: barSlideIn 200ms ease-out;
+}
+
+@keyframes barSlideIn {
+  from {
+    opacity: 0;
+    transform: translateY(-4px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.count {
+  font-size: 0.78rem;
+  font-weight: 600;
+  color: rgba(196, 181, 253, 0.95);
+  white-space: nowrap;
+}
+
+.actions {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  flex: 1;
+}
+
+.actionButton {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  padding: 5px 12px;
+  font-size: 0.75rem;
+  font-weight: 600;
+  border-radius: 6px;
+  border: 1px solid rgba(99, 102, 241, 0.3);
+  background: rgba(99, 102, 241, 0.15);
+  color: rgba(196, 181, 253, 0.95);
+  cursor: pointer;
+  transition: all 0.15s ease;
+  white-space: nowrap;
+}
+
+.actionButton:hover {
+  background: rgba(99, 102, 241, 0.25);
+  border-color: rgba(99, 102, 241, 0.45);
+}
+
+.actionButton:focus-visible {
+  outline: 2px solid rgba(99, 102, 241, 0.5);
+  outline-offset: 2px;
+}
+
+.actionButtonDanger {
+  border-color: rgba(248, 113, 113, 0.25);
+  background: rgba(248, 113, 113, 0.1);
+  color: rgba(252, 165, 165, 0.95);
+}
+
+.actionButtonDanger:hover {
+  background: rgba(248, 113, 113, 0.2);
+  border-color: rgba(248, 113, 113, 0.4);
+}
+
+.selectAllLink {
+  font-size: 0.78rem;
+  font-weight: 500;
+  background: none;
+  border: none;
+  padding: 0;
+  color: rgba(196, 181, 253, 0.8);
+  cursor: pointer;
+  text-decoration: underline;
+  text-underline-offset: 2px;
+}
+
+.selectAllLink:hover {
+  color: rgba(226, 232, 240, 0.95);
+}
+
+.clearButton {
+  padding: 4px 8px;
+  font-size: 0.72rem;
+  font-weight: 500;
+  border: none;
+  border-radius: 4px;
+  background: transparent;
+  color: rgba(148, 163, 184, 0.7);
+  cursor: pointer;
+  transition: color 0.15s ease;
+  margin-left: auto;
+  white-space: nowrap;
+}
+
+.clearButton:hover {
+  color: rgba(226, 232, 240, 0.9);
+}
+
+.clearButton:focus-visible {
+  outline: 2px solid rgba(99, 102, 241, 0.5);
+  outline-offset: 2px;
+}
+
+/* Priority dropdown in selection bar */
+.priorityDropdown {
+  position: relative;
+}
+
+.priorityMenu {
+  position: absolute;
+  bottom: calc(100% + 6px);
+  left: 0;
+  z-index: 50;
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  padding: 4px;
+  border-radius: 8px;
+  border: 1px solid rgba(148, 163, 184, 0.15);
+  background: rgba(15, 23, 42, 0.95);
+  backdrop-filter: blur(var(--glass-overlay-blur));
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.3);
+  min-width: 130px;
+  animation: menuFadeUp 120ms ease-out;
+}
+
+@keyframes menuFadeUp {
+  from { opacity: 0; transform: translateY(4px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+.priorityMenuItem {
+  display: flex;
+  align-items: center;
+  padding: 5px 10px;
+  border: none;
+  border-radius: 5px;
+  background: transparent;
+  font-size: 0.72rem;
+  font-weight: 500;
+  cursor: pointer;
+  white-space: nowrap;
+  transition: background 0.1s ease;
+}
+
+.priorityMenuItem:hover {
+  background: rgba(148, 163, 184, 0.1);
+}
+
+.priority_high {
+  color: rgba(167, 139, 250, 0.9);
+}
+
+.priority_medium {
+  color: rgba(148, 163, 184, 0.65);
+}
+
+.priority_low {
+  color: rgba(148, 163, 184, 0.45);
+}
+
+/* Schedule dropdown in selection bar */
+.scheduleDropdown {
+  position: relative;
+}
+
+.scheduleMenu {
+  position: absolute;
+  bottom: calc(100% + 6px);
+  left: 0;
+  z-index: 50;
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  padding: 4px;
+  border-radius: 8px;
+  border: 1px solid rgba(148, 163, 184, 0.15);
+  background: rgba(15, 23, 42, 0.95);
+  backdrop-filter: blur(var(--glass-overlay-blur));
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.3);
+  min-width: 130px;
+  animation: menuFadeUp 120ms ease-out;
+}
+
+.scheduleMenuItem {
+  display: flex;
+  align-items: center;
+  padding: 5px 10px;
+  border: none;
+  border-radius: 5px;
+  background: transparent;
+  font-size: 0.72rem;
+  font-weight: 500;
+  color: rgba(148, 163, 184, 0.85);
+  cursor: pointer;
+  white-space: nowrap;
+  transition: background 0.1s ease;
+}
+
+.scheduleMenuItem:hover {
+  background: rgba(148, 163, 184, 0.1);
+}
+
+/* ─────────────────────────────────────────────────────────────
+   Light Mode Overrides
+   ───────────────────────────────────────────────────────────── */
+
+:global(body.light) .bar {
+  background: color-mix(in srgb, var(--color-primary) 8%, white);
+  border-color: color-mix(in srgb, var(--color-primary) 20%, transparent);
+}
+
+:global(body.light) .count {
+  color: var(--color-primary);
+}
+
+:global(body.light) .actionButton {
+  border-color: color-mix(in srgb, var(--color-primary) 25%, transparent);
+  background: color-mix(in srgb, var(--color-primary) 10%, transparent);
+  color: var(--color-primary);
+}
+
+:global(body.light) .actionButton:hover {
+  background: color-mix(in srgb, var(--color-primary) 18%, transparent);
+  border-color: color-mix(in srgb, var(--color-primary) 40%, transparent);
+}
+
+:global(body.light) .actionButtonDanger {
+  border-color: color-mix(in srgb, var(--color-destructive) 20%, transparent);
+  background: color-mix(in srgb, var(--color-destructive) 8%, transparent);
+  color: var(--color-destructive);
+}
+
+:global(body.light) .actionButtonDanger:hover {
+  background: color-mix(in srgb, var(--color-destructive) 15%, transparent);
+  border-color: color-mix(in srgb, var(--color-destructive) 35%, transparent);
+}
+
+:global(body.light) .selectAllLink {
+  color: var(--color-primary);
+}
+
+:global(body.light) .selectAllLink:hover {
+  color: var(--color-foreground);
+}
+
+:global(body.light) .clearButton {
+  color: var(--color-muted-foreground);
+}
+
+:global(body.light) .clearButton:hover {
+  color: var(--color-foreground);
+}
+
+:global(body.light) .priorityMenu {
+  background: rgba(255, 255, 255, 0.97);
+  border-color: rgba(148, 163, 184, 0.2);
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.1);
+}
+
+:global(body.light) .priorityMenuItem:hover {
+  background: rgba(148, 163, 184, 0.1);
+}
+
+:global(body.light) .priority_high {
+  color: #7c3aed;
+}
+
+:global(body.light) .priority_medium {
+  color: #64748b;
+}
+
+:global(body.light) .priority_low {
+  color: #94a3b8;
+}
+
+:global(body.light) .scheduleMenu {
+  background: rgba(255, 255, 255, 0.97);
+  border-color: rgba(148, 163, 184, 0.2);
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.1);
+}
+
+:global(body.light) .scheduleMenuItem {
+  color: #475569;
+}
+
+:global(body.light) .scheduleMenuItem:hover {
+  background: rgba(148, 163, 184, 0.1);
+}

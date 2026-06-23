@@ -1,0 +1,601 @@
+/* WhatsNewWidget - Sidebar widget for update highlights
+   More prominent than session cards to draw attention */
+
+.widget {
+  margin: 8px 0 16px 0;
+  padding: 0;
+  position: relative;
+  background: linear-gradient(
+    135deg,
+    rgba(99, 102, 241, 0.12) 0%,
+    rgba(139, 92, 246, 0.10) 50%,
+    rgba(99, 102, 241, 0.14) 100%
+  );
+  border: 1px solid rgba(139, 92, 246, 0.35);
+  border-radius: 16px;
+  overflow: hidden;
+  box-shadow: 
+    0 0 0 1px rgba(139, 92, 246, 0.15),
+    0 8px 32px -4px rgba(99, 102, 241, 0.3),
+    0 4px 16px -2px rgba(139, 92, 246, 0.15),
+    inset 0 1px 0 rgba(255, 255, 255, 0.08);
+  animation: widgetFadeIn 0.35s ease-out;
+}
+
+@keyframes widgetFadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(-10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* Animated gradient border glow */
+.widget::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  padding: 1px;
+  background: linear-gradient(
+    135deg,
+    rgba(139, 92, 246, 0.4) 0%,
+    rgba(99, 102, 241, 0.15) 50%,
+    rgba(167, 139, 250, 0.35) 100%
+  );
+  -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+  mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+  -webkit-mask-composite: xor;
+  mask-composite: exclude;
+  pointer-events: none;
+  opacity: 0.6;
+  transition: opacity 0.3s ease;
+}
+
+.widget:hover::before {
+  opacity: 1;
+}
+
+/* Header */
+.header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  width: 100%;
+  padding: 14px 14px 0 16px;
+  background: transparent;
+  position: relative;
+  z-index: 1;
+}
+
+.headerLeft {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.headerIcon {
+  color: rgba(203, 213, 225, 0.85);
+  flex-shrink: 0;
+}
+
+.headerCharacter {
+  width: 24px;
+  height: 24px;
+  object-fit: contain;
+  flex-shrink: 0;
+  /* Nudge up to align with text baseline */
+  margin-top: -2px;
+  /* Subtle animation on hover */
+  transition: transform 0.2s ease;
+}
+
+.widget:hover .headerCharacter {
+  transform: scale(1.08);
+}
+
+.title {
+  font-size: 0.88rem;
+  font-weight: 700;
+  color: rgba(248, 250, 255, 0.98);
+  letter-spacing: 0.01em;
+}
+
+/* Community-driven subcopy */
+.subcopy {
+  font-size: 0.68rem;
+  font-weight: 500;
+  color: rgba(148, 163, 184, 0.6);
+  margin: 6px 0 0 0;
+  padding: 0 16px;
+  letter-spacing: 0.01em;
+}
+
+.dismissButton {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 22px;
+  height: 22px;
+  background: rgba(148, 163, 184, 0.08);
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+  color: rgba(148, 163, 184, 0.5);
+  transition: all 0.2s ease;
+  flex-shrink: 0;
+}
+
+.dismissButton:hover {
+  background: rgba(148, 163, 184, 0.15);
+  color: rgba(203, 213, 225, 0.8);
+}
+
+.dismissButton:focus-visible {
+  outline: 2px solid rgba(167, 139, 250, 0.5);
+  outline-offset: 2px;
+}
+
+.dismissButton:active {
+  transform: scale(0.92);
+}
+
+/* Version badge - subtle grey text next to title */
+.versionBadge {
+  font-size: 0.72rem;
+  font-weight: 500;
+  color: rgba(148, 163, 184, 0.55);
+  letter-spacing: 0.01em;
+}
+
+/* Content area */
+.content {
+  padding: 10px 12px 14px;
+  position: relative;
+  z-index: 1;
+}
+
+/* Highlight cards */
+.highlightCards {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+/* Card container - non-interactive wrapper */
+.highlightCard {
+  position: relative;
+  display: flex;
+  align-items: stretch;
+  width: 100%;
+  background: rgba(255, 255, 255, 0.04);
+  border: 1px solid rgba(139, 92, 246, 0.15);
+  border-radius: 10px;
+  overflow: hidden;
+  transition: all 0.2s ease;
+  /* For exit animation */
+  transform-origin: center left;
+}
+
+/* Exit animation - smooth slide out with GPU acceleration */
+.highlightCardExiting {
+  animation: cardSlideOut 280ms cubic-bezier(0.4, 0, 0.2, 1) forwards;
+  pointer-events: none;
+  will-change: transform, opacity;
+}
+
+@keyframes cardSlideOut {
+  0% {
+    opacity: 1;
+    transform: translate3d(0, 0, 0) scale(1);
+  }
+  100% {
+    opacity: 0;
+    transform: translate3d(50px, 0, 0) scale(0.97);
+  }
+}
+
+/* Accessibility: Reduced motion preference */
+@media (prefers-reduced-motion: reduce) {
+  .highlightCardExiting {
+    animation: cardFadeOut 150ms ease-out forwards;
+  }
+  
+  @keyframes cardFadeOut {
+    from { opacity: 1; }
+    to { opacity: 0; }
+  }
+}
+
+.highlightCard:hover {
+  background: rgba(139, 92, 246, 0.08);
+  border-color: rgba(139, 92, 246, 0.25);
+  transform: translateY(-1px);
+  box-shadow: 0 4px 12px -2px rgba(139, 92, 246, 0.15);
+}
+
+/* Main clickable area - the primary button inside the card */
+.cardMainAction {
+  flex: 1;
+  display: flex;
+  align-items: flex-start;
+  padding: 10px 12px;
+  background: transparent;
+  border: none;
+  cursor: pointer;
+  text-align: left;
+  min-width: 0;
+}
+
+.cardMainAction:focus-visible {
+  outline: 2px solid rgba(167, 139, 250, 0.6);
+  outline-offset: -2px;
+}
+
+.cardMainAction:active {
+  transform: scale(0.99);
+}
+
+.cardContent {
+  flex: 1;
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 3px;
+}
+
+/* Badge - left aligned above title */
+.cardBadge {
+  display: inline-flex;
+  align-self: flex-start;
+  padding: 2px 7px;
+  font-size: 0.58rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+  color: rgba(148, 163, 184, 0.7);
+  background: rgba(148, 163, 184, 0.12);
+  border-radius: 4px;
+  margin-bottom: 2px;
+}
+
+/* "For you" badge variant - more prominent purple */
+.cardBadgeForYou {
+  color: #a78bfa;
+  background: rgba(139, 92, 246, 0.2);
+}
+
+.cardTitle {
+  display: inline-flex;
+  /* flex-start so the (i) aligns with the title's first line when the title
+     wraps to two lines (see .cardTitleText clamp below). */
+  align-items: flex-start;
+  gap: 5px;
+  min-width: 0;
+  font-size: 0.82rem;
+  font-weight: 600;
+  color: rgba(248, 250, 255, 0.95);
+  line-height: 1.35;
+}
+
+/* Title text — clamps to 2 lines with an ellipsis instead of hard-clipping a
+   long title mid-word. The (i) icon is a flex-shrink:0 sibling, so it stays
+   visible at any title length. */
+.cardTitleText {
+  min-width: 0;
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+
+/* Detail info icon for tooltip */
+.detailIcon {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  /* nudge down to sit on the title's first-line baseline */
+  margin-top: 2px;
+  color: rgba(148, 163, 184, 0.5);
+  opacity: 0.7;
+  transition: opacity 0.15s ease, color 0.15s ease;
+  cursor: help;
+  flex-shrink: 0;
+}
+
+.detailIcon:hover,
+.detailIcon:focus {
+  opacity: 1;
+  color: #a78bfa;
+}
+
+.cardDescription {
+  font-size: 0.72rem;
+  color: rgba(203, 213, 225, 0.6);
+  line-height: 1.45;
+  /* Fixed 2 lines - prevents layout shift on hover */
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+
+/* Author attribution */
+.authorAttribution {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  margin-top: 6px;
+}
+
+.authorAvatar {
+  width: 18px;
+  height: 18px;
+  border-radius: 50%;
+  object-fit: cover;
+  flex-shrink: 0;
+  background: rgba(139, 92, 246, 0.15);
+}
+
+.authorName {
+  font-size: 0.68rem;
+  font-weight: 500;
+  color: rgba(148, 163, 184, 0.7);
+  letter-spacing: 0.01em;
+}
+
+/* ─────────────────────────────────────────────────────────────
+   Hover Actions - appears on card hover like agent sidebar cards
+   ───────────────────────────────────────────────────────────── */
+
+.hoverActions {
+  position: absolute;
+  /* Anchored bottom-right (not vertical-center) so the pill never lands on the
+     title row + its inline (i) tooltip. Cards always stack badge → title →
+     2-line description, so bottom-right clears the title by construction. */
+  bottom: 8px;
+  right: 8px;
+  display: inline-flex;
+  flex-direction: row;
+  align-items: center;
+  gap: 4px;
+  opacity: 0;
+  transform: scale(0.96);
+  transition: opacity 0.18s ease, transform 0.18s ease;
+  pointer-events: none;
+  z-index: 5;
+}
+
+.highlightCard:hover .hoverActions,
+.highlightCard:focus-within .hoverActions {
+  opacity: 1;
+  transform: scale(1);
+  pointer-events: auto;
+}
+
+/* Action button (external link icon) */
+.hoverActionButton {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 26px;
+  height: 26px;
+  border-radius: 6px;
+  color: rgba(203, 213, 225, 0.7);
+  background: transparent;
+  border: none;
+  cursor: pointer;
+  transition: all 0.15s ease;
+}
+
+.hoverActionButton:hover {
+  color: #a78bfa;
+  background: rgba(139, 92, 246, 0.15);
+}
+
+.hoverActionButton:focus-visible {
+  outline: 2px solid rgba(167, 139, 250, 0.6);
+  outline-offset: 1px;
+}
+
+/* "Try it" button */
+.tryItButton {
+  display: flex;
+  align-items: center;
+  gap: 2px;
+  padding: 5px 10px 5px 12px;
+  font-size: 0.72rem;
+  font-weight: 600;
+  color: #a78bfa;
+  background: rgba(139, 92, 246, 0.18);
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+  transition: all 0.15s ease;
+}
+
+.tryItButton:hover {
+  background: rgba(139, 92, 246, 0.3);
+}
+
+.tryItButton:focus-visible {
+  outline: 2px solid rgba(167, 139, 250, 0.6);
+  outline-offset: 1px;
+}
+
+.highlightCard:hover .tryItButton {
+  background: rgba(139, 92, 246, 0.25);
+}
+
+/* See All - clear link style */
+.seeAllButton {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 4px;
+  width: 100%;
+  margin-top: 10px;
+  padding: 8px 0 2px;
+  background: transparent;
+  border: none;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.seeAllButton:focus-visible {
+  outline: 2px solid rgba(167, 139, 250, 0.6);
+  outline-offset: 2px;
+  border-radius: 4px;
+}
+
+.seeAllText {
+  font-size: 0.72rem;
+  font-weight: 500;
+  color: rgba(167, 139, 250, 0.8);
+}
+
+.seeAllChevron {
+  color: rgba(167, 139, 250, 0.65);
+  transition: all 0.2s ease;
+}
+
+.seeAllButton:hover .seeAllText {
+  color: #a78bfa;
+}
+
+.seeAllButton:hover .seeAllChevron {
+  color: #a78bfa;
+  transform: translateX(2px);
+}
+
+/* ─────────────────────────────────────────────────────────────
+   Light Mode Overrides
+   ───────────────────────────────────────────────────────────── */
+
+:global(body.light) .widget {
+  background: linear-gradient(
+    135deg,
+    rgba(99, 102, 241, 0.08) 0%,
+    rgba(139, 92, 246, 0.05) 50%,
+    rgba(99, 102, 241, 0.08) 100%
+  );
+  border: 1px solid rgba(139, 92, 246, 0.2);
+  box-shadow: 
+    0 0 0 1px rgba(139, 92, 246, 0.05),
+    0 6px 20px -4px rgba(99, 102, 241, 0.15);
+}
+
+:global(body.light) .widget::before {
+  background: linear-gradient(
+    135deg,
+    rgba(139, 92, 246, 0.25) 0%,
+    rgba(99, 102, 241, 0.08) 50%,
+    rgba(167, 139, 250, 0.2) 100%
+  );
+}
+
+:global(body.light) .headerIcon {
+  color: rgba(71, 85, 105, 0.75);
+}
+
+:global(body.light) .title {
+  color: var(--color-foreground);
+}
+
+:global(body.light) .subcopy {
+  color: var(--color-muted-foreground);
+}
+
+:global(body.light) .dismissButton {
+  background: rgba(100, 116, 139, 0.06);
+  color: rgba(100, 116, 139, 0.45);
+}
+
+:global(body.light) .dismissButton:hover {
+  background: rgba(100, 116, 139, 0.12);
+  color: rgba(71, 85, 105, 0.8);
+}
+
+:global(body.light) .versionBadge {
+  color: rgba(100, 116, 139, 0.55);
+}
+
+:global(body.light) .highlightCard {
+  background: rgba(255, 255, 255, 0.6);
+  border-color: rgba(139, 92, 246, 0.12);
+}
+
+:global(body.light) .highlightCard:hover {
+  background: rgba(139, 92, 246, 0.06);
+  border-color: rgba(139, 92, 246, 0.25);
+}
+
+:global(body.light) .cardBadge {
+  color: rgba(100, 116, 139, 0.65);
+  background: rgba(100, 116, 139, 0.1);
+}
+
+:global(body.light) .cardBadgeForYou {
+  color: #7c3aed;
+  background: rgba(139, 92, 246, 0.15);
+}
+
+:global(body.light) .cardTitle {
+  color: var(--color-foreground);
+}
+
+:global(body.light) .detailIcon {
+  color: rgba(100, 116, 139, 0.5);
+}
+
+:global(body.light) .detailIcon:hover,
+:global(body.light) .detailIcon:focus {
+  color: #7c3aed;
+}
+
+:global(body.light) .cardDescription {
+  color: var(--color-muted-foreground);
+}
+
+:global(body.light) .authorAvatar {
+  background: rgba(139, 92, 246, 0.1);
+}
+
+:global(body.light) .authorName {
+  color: rgba(100, 116, 139, 0.7);
+}
+
+:global(body.light) .seeAllText {
+  color: #7c3aed;
+}
+
+:global(body.light) .seeAllChevron {
+  color: rgba(124, 58, 237, 0.6);
+}
+
+:global(body.light) .seeAllButton:hover .seeAllText,
+:global(body.light) .seeAllButton:hover .seeAllChevron {
+  color: #6d28d9;
+}
+
+/* Light mode - Hover actions */
+:global(body.light) .hoverActionButton {
+  color: var(--color-muted-foreground);
+}
+
+:global(body.light) .hoverActionButton:hover {
+  background: rgba(139, 92, 246, 0.12);
+  color: #7c3aed;
+}
+
+:global(body.light) .tryItButton {
+  color: #7c3aed;
+  background: rgba(139, 92, 246, 0.12);
+}
+
+:global(body.light) .highlightCard:hover .tryItButton {
+  background: rgba(139, 92, 246, 0.2);
+}

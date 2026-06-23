@@ -1,0 +1,181 @@
+/* SettingSection — consistent section grouping for settings tabs */
+
+.section {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-3);
+  scroll-margin-top: var(--settings-secondary-nav-offset, 60px);
+  padding: var(--space-4);
+  background:
+    linear-gradient(
+      180deg,
+      color-mix(in srgb, var(--color-primary) 5%, transparent) 0%,
+      transparent 100%
+    ),
+    color-mix(in srgb, var(--color-card, #111827) 58%, var(--color-surface-1, #0d111c) 42%);
+  border: 1px solid color-mix(in srgb, var(--color-border-soft) 92%, var(--color-primary) 8%);
+  border-radius: var(--radius-lg);
+  box-shadow: none;
+}
+
+.section + .section {
+  margin-top: var(--space-5);
+}
+
+/* Section header */
+.header {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-2);
+  margin-bottom: var(--space-1);
+  max-width: var(--settings-readable-width, 756px);
+}
+
+.titleRow {
+  display: flex;
+  align-items: center;
+  gap: var(--space-2);
+}
+
+.icon {
+  flex-shrink: 0;
+  color: var(--color-text-secondary);
+}
+
+.title {
+  margin: 0;
+  font-size: 1.05rem;
+  font-weight: 600;
+  color: var(--color-text-primary);
+}
+
+.description {
+  margin: 0;
+  font-size: 0.9rem;
+  color: var(--color-text-secondary);
+  line-height: 1.5;
+  max-width: 100%;
+}
+
+/* Children container */
+.content {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-3);
+}
+
+/* Nested sections: tighter spacing for provider cards, sub-groups, etc. */
+.section .section {
+  padding: var(--space-3) 0 0;
+  gap: var(--space-3);
+  margin-top: var(--space-3);
+  background: transparent;
+  border: none;
+  border-top: 1px solid color-mix(in srgb, var(--color-border-soft) 94%, var(--color-primary) 6%);
+  border-radius: 0;
+  box-shadow: none;
+}
+
+.section .section:first-of-type {
+  padding-top: 0;
+  margin-top: 0;
+  border-top: none;
+}
+
+.section .section .header {
+  margin-bottom: 0;
+}
+
+.section .section .advancedToggle {
+  padding: var(--space-1) 0;
+}
+
+.section .section .title {
+  font-size: 0.95rem;
+}
+
+.section .section .advancedTitle {
+  font-size: 0.95rem;
+}
+
+/* Advanced (collapsible) variant */
+.advancedToggle {
+  display: flex;
+  align-items: center;
+  gap: var(--space-2);
+  padding: var(--space-2) 0 0;
+  background: none;
+  border: none;
+  cursor: pointer;
+  width: 100%;
+  text-align: left;
+  color: var(--color-text-muted);
+  font-size: 0.875rem;
+  transition: color 150ms ease;
+}
+
+.advancedToggle:hover {
+  color: var(--color-text-primary);
+}
+
+.advancedChevron {
+  display: inline-flex;
+  align-items: center;
+  transition: transform 200ms ease;
+}
+
+.advancedChevronExpanded {
+  transform: rotate(90deg);
+}
+
+.advancedTitle {
+  font-weight: 600;
+  font-size: 1rem;
+}
+
+.advancedDescription {
+  margin: calc(-1 * var(--space-3)) 0 0;
+  font-size: 0.85rem;
+  color: var(--color-text-secondary);
+  line-height: 1.5;
+  padding-left: 26px; /* align with text after chevron + gap */
+  max-width: var(--settings-readable-width, 756px);
+}
+
+.advancedDescriptionNoChevron {
+  padding-left: 0;
+}
+
+.advancedContent {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-3);
+  padding-top: var(--space-2);
+}
+
+/* Indent nested accordion content to align with text after chevron + gap */
+.section .section .advancedContent {
+  padding-left: 26px;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .advancedToggle {
+    transition: none;
+  }
+
+  .advancedChevron {
+    transition: none;
+  }
+}
+
+:global(body.light) .section {
+  background:
+    linear-gradient(
+      180deg,
+      color-mix(in srgb, var(--color-primary) 5%, transparent) 0%,
+      transparent 100%
+    ),
+    color-mix(in srgb, var(--color-card, #ffffff) 97%, var(--color-primary) 3%);
+  border-color: color-mix(in srgb, var(--color-border, var(--color-border-soft)) 92%, var(--color-primary) 8%);
+  box-shadow: none;
+}

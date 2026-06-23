@@ -1,0 +1,44 @@
+{
+  "commits": [
+    {
+      "hash": "1111111111111111111111111111111111111111",
+      "subject": "feat(homepage): Added a clearer Today summary card",
+      "body": "Surfaces upcoming meetings and action items in one glance."
+    },
+    {
+      "hash": "2222222222222222222222222222222222222222",
+      "subject": "fix(settings): Prevented notification toggles from resetting",
+      "body": "Fixes a persistence bug when switching tabs."
+    },
+    {
+      "hash": "3333333333333333333333333333333333333333",
+      "subject": "style(meetings): Tightened transcript spacing in compact mode",
+      "body": "Improves scanability during office hours."
+    },
+    {
+      "hash": "4444444444444444444444444444444444444444",
+      "subject": "perf(search): Reduced latency for repeated deep-search queries",
+      "body": "Caches intermediate ranking results."
+    },
+    {
+      "hash": "5555555555555555555555555555555555555555",
+      "subject": "feat(ui): Added explicit empty-state copy for Notes tab",
+      "body": "Guides first-time users to capture their first note."
+    },
+    {
+      "hash": "6666666666666666666666666666666666666666",
+      "subject": "fix(voice): Stopped duplicate recorder chips from rendering",
+      "body": "Regression from the previous recorder refactor."
+    },
+    {
+      "hash": "7777777777777777777777777777777777777777",
+      "subject": "chore(ci): Updated release cache key",
+      "body": ""
+    },
+    {
+      "hash": "8888888888888888888888888888888888888888",
+      "subject": "docs(project): Updated architecture signposting",
+      "body": ""
+    }
+  ]
+}

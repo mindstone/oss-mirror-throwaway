@@ -1,0 +1,147 @@
+flowchart TB
+  %% High-level, user-centered onboarding journey focused on screens and decisions.
+  %% Keep linear flow readable; optional steps are clearly marked.
+
+  subgraph Wizard["Onboarding wizard (full-screen overlay)"]
+    subgraph S0["Welcome"]
+      W0["Welcome
+• Short intro
+• Primary: Get started"]
+    end
+
+    %% Save location with decision
+    subgraph S1["Step 1 — Save location"]
+      W1A["Choose workspace folder"]
+      W1D{"Folder selected?"}
+      W1E["Choose a folder to continue"]
+    end
+
+    %% Shared drives with decision (optional)
+    subgraph S2["Step 2 — Shared Drives (optional)"]
+      W2A["Select Google Drive Shared Drives"]
+      W2D{"At least one selected?"}
+      W2E["Select at least one drive or Skip"]
+      W2L["Auto-create links on Continue"]
+    end
+
+    %% API keys with decisions
+    subgraph S3["Step 3 — API keys"]
+      W3A["Enter Claude key"]
+      W3D1{"Claude key provided?"}
+      W3E1["Add a Claude key"]
+      W3B["Select voice provider + key"]
+      W3D2{"Voice key provided?"}
+      W3E2["Add voice key"]
+    end
+
+    %% Klavis setup (optional)
+    subgraph S4["Step 4 — Klavis (optional)"]
+      W4A["Paste Klavis JSON (managed MCP)\nAuto‑discover MCP"]
+      W4D{"Valid JSON pasted?"}
+      W4E["Invalid JSON — fix or set up later"]
+    end
+
+    %% Tool auth (optional) with decision
+    subgraph S5["Step 5 — Tool authentication (optional)"]
+      W5A["Generate auth links (email / calendar / chat)"]
+      W5B["Click Connect → OAuth in browser"]
+      W5C["Auto-verify (polling)"]
+      W5D{"Email connected?"}
+      W5E["Connect your email (required)"]
+    end
+
+    %% Permissions with decision
+    subgraph S6["Step 6 — Permissions"]
+      W6A["Workspace access required\nMicrophone optional\nOpen System Settings links\nAuto re-check status"]
+      W6D{"Workspace access granted?"}
+      W6E["Grant workspace access"]
+    end
+
+    subgraph S7["Finish"]
+      W7["Save settings\nMark onboarding completed"]
+    end
+  end
+
+  subgraph Main["Main app surfaces"]
+    A0["Audio intro (short)
+• Short push-to-talk experience"]
+    A1["Conversation view
+• Voice and text ready"]
+    A2["Permission banner (only if needed later)
+• Quick link to System Settings"]
+  end
+
+  %% Background system settings sync (non-blocking)
+  subgraph System["Background startup (non‑blocking)"]
+    SSync["Startup: Sync system settings\n• Dev: local submodule 'rebel-system'\n• Prod: download tagged ZIP from GitHub\n• Cached read‑only in App Support"]
+    SSymlink["Create workspace symlink 'rebel-system/'\n• If workspace set now; otherwise after selection"]
+    SSync --> SSymlink
+  end
+
+  %% Primary path
+  Start["Launch app"] --> W0 -->|Continue| W1A --> W1D
+  W1D -->|No| W1E --> W1D
+  W1D -->|Yes| W2A --> W2D
+  W2D -->|No| W2E --> W2D
+  W2A -. "Skip" .-> W3A
+  W2D -->|Yes| W2L --> W3A
+  W3A --> W3D1
+  W3D1 -->|No| W3E1 --> W3D1
+  W3D1 -->|Yes| W3B --> W3D2
+  W3D2 -->|No| W3E2 --> W3D2
+  W3D2 -->|Yes| W4A
+  W4A --> W4D
+  W4D -->|No| W4E -. "Later in Settings" .-> W5A
+  W4D -->|Yes| W5A
+  W5A --> W5B --> W5C --> W5D
+  W5D -->|No| W5E --> W5B
+  W5D -. "Later in Settings" .-> W6A
+  W5D -->|Yes| W6A
+  W6A --> W6D
+  W6D -->|No| W6E --> W6A
+  W6D -->|Yes| W7 --> A0 -->|"warp‑speed transition"| A1
+
+  %% Optional skips/laters (keep edges light)
+  A1 -. "If permissions missing later" .-> A2
+
+  %% System settings sync relations
+  Start -. "runs in background" .-> SSync
+  SSymlink -. "after choosing workspace" .-> W1
+
+  %% Escape hatch (secret hotkey)
+  EH["Escape hatch (secret hotkey)\nCmd/Ctrl + Shift + Alt + E\nShows confirm dialog"]:::optional
+  W0 -. "Hotkey" .-> EH
+  W1A -. "Hotkey" .-> EH
+  W2A -. "Hotkey" .-> EH
+  W3A -. "Hotkey" .-> EH
+  W4A -. "Hotkey" .-> EH
+  W5A -. "Hotkey" .-> EH
+  W6A -. "Hotkey" .-> EH
+  EH -->|"Confirm skip"| W7
+
+  %% Optional macOS first-open context (out-of-band)
+  MacGate["macOS Gatekeeper first-open
+• Right-click Open OR
+• System Settings → Open Anyway"] -. "first launch only" .-> Start
+
+  %% Styling
+  classDef primary fill:#f39c12,stroke:#7a4e00,color:#111;
+  classDef optional fill:#d7f7d2,stroke:#3a8f3a,color:#111;
+  classDef main fill:#cfe8ff,stroke:#1b4f72,color:#111;
+  classDef macos fill:#a97142,stroke:#6e3f1f,color:#fff;
+  classDef decision fill:#0f172a,stroke:#94a3b8,color:#e2e8f0;
+  classDef error fill:#7f1d1d,stroke:#dc2626,color:#fecaca;
+
+  class W0,W1A,W3A,W3B,W6A,W7 primary
+  class W2A,W4A,W5A,EH optional
+  class A0,A1,A2,SSync,SSymlink main
+  class MacGate macos
+  class W1D,W2D,W3D1,W3D2,W4D,W5D,W6D decision
+  class W1E,W2E,W3E1,W3E2,W4E,W5E,W6E error
+
+%% Mindstone Rebel — UI-first onboarding flow (simplified)
+%% Purpose: Give designers a crisp view of user-visible screens and choices.
+%% For technical details (IPC, handlers, permissions), see the detailed diagram:
+%% docs/diagrams/251127a_user_onboarding_flow.mermaid
+
+

@@ -1,0 +1,178 @@
+/* InboxItemExpanded — inline expand content (description, references, draft, clarifying question) */
+
+.expanded {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  padding-top: 8px;
+  border-top: 1px solid rgba(148, 163, 184, 0.1);
+}
+
+/* Full description */
+.description {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.descriptionParagraph {
+  font-size: 0.78rem;
+  color: rgba(226, 232, 240, 0.85);
+  line-height: 1.55;
+  margin: 0;
+  word-break: break-word;
+}
+
+/* Section labels */
+.sectionLabel {
+  font-size: 0.68rem;
+  font-weight: 600;
+  color: rgba(148, 163, 184, 0.7);
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+}
+
+.sectionSubtext {
+  font-size: 0.68rem;
+  color: rgba(148, 163, 184, 0.5);
+  margin-left: 6px;
+}
+
+/* References */
+.references {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.referenceChips {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 4px;
+}
+
+.referenceChip {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  padding: 3px 8px;
+  font-size: 0.68rem;
+  border-radius: 6px;
+  border: 1px solid rgba(148, 163, 184, 0.12);
+  background: rgba(15, 23, 42, 0.4);
+  color: rgba(226, 232, 240, 0.75);
+  max-width: 220px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.referenceChipClickable {
+  cursor: pointer;
+  transition: all 0.15s ease;
+}
+
+.referenceChipClickable:hover {
+  background: rgba(99, 102, 241, 0.1);
+  border-color: rgba(99, 102, 241, 0.2);
+  color: #c4b5fd;
+}
+
+.referenceChipLabel {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+/* Draft section */
+.draftSection {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.draftContent {
+  padding: 8px 10px;
+  border-radius: 6px;
+  border: 1px solid rgba(148, 163, 184, 0.12);
+  background: rgba(15, 23, 42, 0.4);
+}
+
+.draftParagraph {
+  font-size: 0.75rem;
+  color: rgba(226, 232, 240, 0.8);
+  line-height: 1.5;
+  margin: 0;
+}
+
+.draftParagraph + .draftParagraph {
+  margin-top: 4px;
+}
+
+/* Clarifying question */
+.clarifyingSection {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  padding: 6px 10px;
+  border-radius: 6px;
+  background: var(--color-muted);
+  border: 1px solid var(--color-border);
+}
+
+.clarifyingText {
+  font-size: 0.75rem;
+  color: rgba(226, 232, 240, 0.85);
+  line-height: 1.5;
+  margin: 0;
+}
+
+/* ─────────────────────────────────────────────────────────────
+   Light Mode Overrides
+   ───────────────────────────────────────────────────────────── */
+
+:global(body.light) .expanded {
+  border-top-color: var(--color-border);
+}
+
+:global(body.light) .descriptionParagraph {
+  color: var(--color-foreground);
+}
+
+:global(body.light) .sectionLabel {
+  color: var(--color-muted-foreground);
+}
+
+:global(body.light) .sectionSubtext {
+  color: var(--color-muted-foreground);
+}
+
+:global(body.light) .referenceChip {
+  background: var(--color-card);
+  border-color: var(--color-border);
+  color: var(--color-foreground);
+}
+
+:global(body.light) .referenceChipClickable:hover {
+  background: color-mix(in srgb, var(--color-primary) 8%, transparent);
+  border-color: var(--color-primary);
+  color: var(--color-primary);
+}
+
+:global(body.light) .draftContent {
+  background: var(--color-card);
+  border-color: var(--color-border);
+}
+
+:global(body.light) .draftParagraph {
+  color: var(--color-foreground);
+}
+
+:global(body.light) .clarifyingSection {
+  background: var(--color-muted);
+  border-color: var(--color-border);
+}
+
+:global(body.light) .clarifyingText {
+  color: var(--color-foreground);
+}

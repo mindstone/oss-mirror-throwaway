@@ -1,0 +1,29 @@
+{
+  "commits": [
+    {
+      "hash": "9999999999999999999999999999999999999999",
+      "subject": "fix(inbox): Restored keyboard focus after archive",
+      "body": "Prevents focus loss after quick triage actions."
+    },
+    {
+      "hash": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+      "subject": "style(settings): Reduced visual noise in advanced rows",
+      "body": "Removes duplicated helper text and aligns labels."
+    },
+    {
+      "hash": "bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb",
+      "subject": "fix(meetings): Corrected attendee count in recap card",
+      "body": "Count now excludes hidden bot participants."
+    },
+    {
+      "hash": "cccccccccccccccccccccccccccccccccccccccc",
+      "subject": "style(chat): Improved spacing for follow-up suggestions",
+      "body": ""
+    },
+    {
+      "hash": "dddddddddddddddddddddddddddddddddddddddd",
+      "subject": "docs(project): Clarified lint baseline policy",
+      "body": ""
+    }
+  ]
+}

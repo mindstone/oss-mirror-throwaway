@@ -1,0 +1,22 @@
+{
+  "extends": "../tsconfig.base.json",
+  "compilerOptions": {
+    "jsx": "react-jsx",
+    "types": ["node"],
+    "paths": {
+      "@rebel/shared": ["../packages/shared/src"],
+      "@rebel/shared/*": ["../packages/shared/src/*"],
+      "@shared/*": ["../src/shared/*"],
+      "@core/*": ["../src/core/*"]
+    }
+  },
+  "files": ["../packages/shared/src/diff-ambient.d.ts"],
+  "include": ["src/**/*"],
+  "exclude": [
+    "src/**/__tests__/**",
+    "src/**/*.test.ts",
+    "src/**/*.test.tsx",
+    "src/**/*.spec.ts",
+    "src/**/*.spec.tsx"
+  ]
+}

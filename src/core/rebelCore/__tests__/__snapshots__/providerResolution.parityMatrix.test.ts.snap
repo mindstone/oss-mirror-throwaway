@@ -1,0 +1,968 @@
+// Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
+
+exports[`provider resolution parity matrix > 'BTS role: OpenRouter BYO proxy' > BTS role: OpenRouter BYO proxy 1`] = `
+{
+  "authShape": "proxy-sentinel",
+  "baseURL": "http://127.0.0.1:48999",
+  "clientKind": "anthropic",
+  "credentialSource": "openrouter-oauth-token",
+  "defaultHeaders": {
+    "anthropic-version": "2023-06-01",
+    "authorization": "Bearer openrouter-test-token",
+    "content-type": "application/json",
+    "http-referer": "https://rebel.mindstone.com",
+    "x-openrouter-turn": "true",
+    "x-route-id": "normal-turn:anthropic/claude-haiku-4-5",
+    "x-route-tag": "rt1.0c521d29cee77730815050fcad44bc360f71308fea5fcabd04bdba2511c49729",
+    "x-route-wire-model": "anthropic/claude-haiku-4-5",
+    "x-title": "Rebel",
+  },
+  "dispatchPath": "local-proxy-passthrough",
+  "enableCompact": false,
+  "enableContextManagement": true,
+  "endpointURL": null,
+  "errorKind": null,
+  "maxRetries": null,
+  "messageClass": "none",
+  "providerLabel": "OpenRouter",
+  "providerTypeLabel": null,
+  "proxyBaseURL": "http://127.0.0.1:48999",
+  "resolvedAuthLabel": "openrouter",
+  "routeProvider": "openrouter",
+  "status": "client",
+  "wireModelId": "anthropic/claude-haiku-4-5",
+}
+`;
+
+exports[`provider resolution parity matrix > 'BTS role: stale profile reference san…' > BTS role: stale profile reference sanitizes to default fast model 1`] = `
+{
+  "authShape": "real-key",
+  "baseURL": null,
+  "clientKind": "anthropic",
+  "credentialSource": "anthropic-api-key",
+  "defaultHeaders": {},
+  "dispatchPath": "direct-provider",
+  "enableCompact": false,
+  "enableContextManagement": true,
+  "endpointURL": null,
+  "errorKind": null,
+  "maxRetries": null,
+  "messageClass": "none",
+  "providerLabel": null,
+  "providerTypeLabel": null,
+  "proxyBaseURL": null,
+  "resolvedAuthLabel": "api-key",
+  "routeProvider": "anthropic",
+  "status": "client",
+  "wireModelId": "claude-haiku-4-5",
+}
+`;
+
+exports[`provider resolution parity matrix > 'codex provider: Anthropic self-prefix…' > codex provider: Anthropic self-prefix model routes direct stripped 1`] = `
+{
+  "authShape": "real-key",
+  "baseURL": null,
+  "clientKind": "anthropic",
+  "credentialSource": "anthropic-api-key",
+  "defaultHeaders": {},
+  "dispatchPath": "direct-provider",
+  "enableCompact": false,
+  "enableContextManagement": true,
+  "endpointURL": null,
+  "errorKind": null,
+  "maxRetries": null,
+  "messageClass": "none",
+  "providerLabel": null,
+  "providerTypeLabel": null,
+  "proxyBaseURL": null,
+  "resolvedAuthLabel": "api-key",
+  "routeProvider": "anthropic",
+  "status": "client",
+  "wireModelId": "claude-opus-4-7",
+}
+`;
+
+exports[`provider resolution parity matrix > 'codex provider: native Anthropic mode…' > codex provider: native Anthropic model routes direct despite disconnected connectivity 1`] = `
+{
+  "authShape": "real-key",
+  "baseURL": null,
+  "clientKind": "anthropic",
+  "credentialSource": "anthropic-api-key",
+  "defaultHeaders": {},
+  "dispatchPath": "direct-provider",
+  "enableCompact": false,
+  "enableContextManagement": true,
+  "endpointURL": null,
+  "errorKind": null,
+  "maxRetries": null,
+  "messageClass": "none",
+  "providerLabel": null,
+  "providerTypeLabel": null,
+  "proxyBaseURL": null,
+  "resolvedAuthLabel": "api-key",
+  "routeProvider": "anthropic",
+  "status": "client",
+  "wireModelId": "claude-sonnet-4-20250514",
+}
+`;
+
+exports[`provider resolution parity matrix > 'codex terminal: disconnected connecti…' > codex terminal: disconnected connectivity 1`] = `
+{
+  "authShape": "no-key",
+  "baseURL": null,
+  "clientKind": "none",
+  "credentialSource": "missing-codex",
+  "defaultHeaders": {},
+  "dispatchPath": "none",
+  "enableCompact": null,
+  "enableContextManagement": null,
+  "endpointURL": null,
+  "errorKind": "auth",
+  "maxRetries": null,
+  "messageClass": "missing-codex-connection",
+  "providerLabel": "ChatGPT Pro",
+  "providerTypeLabel": null,
+  "proxyBaseURL": null,
+  "resolvedAuthLabel": "codex-subscription",
+  "routeProvider": "codex",
+  "status": "error",
+  "wireModelId": "gpt-5.5",
+}
+`;
+
+exports[`provider resolution parity matrix > 'codex terminal: unknown connectivity' > codex terminal: unknown connectivity 1`] = `
+{
+  "authShape": "no-key",
+  "baseURL": null,
+  "clientKind": "none",
+  "credentialSource": "missing-codex",
+  "defaultHeaders": {},
+  "dispatchPath": "none",
+  "enableCompact": null,
+  "enableContextManagement": null,
+  "endpointURL": null,
+  "errorKind": "auth",
+  "maxRetries": null,
+  "messageClass": "missing-codex-connection",
+  "providerLabel": "ChatGPT Pro",
+  "providerTypeLabel": null,
+  "proxyBaseURL": null,
+  "resolvedAuthLabel": "codex-subscription",
+  "routeProvider": "codex",
+  "status": "error",
+  "wireModelId": "gpt-5.5",
+}
+`;
+
+exports[`provider resolution parity matrix > 'codex terminal: unsupported app model' > codex terminal: unsupported app model 1`] = `
+{
+  "authShape": "no-key",
+  "baseURL": null,
+  "clientKind": "none",
+  "credentialSource": "missing-codex",
+  "defaultHeaders": {},
+  "dispatchPath": "none",
+  "enableCompact": null,
+  "enableContextManagement": null,
+  "endpointURL": null,
+  "errorKind": "auth",
+  "maxRetries": null,
+  "messageClass": "codex-unsupported-model",
+  "providerLabel": "ChatGPT Pro",
+  "providerTypeLabel": null,
+  "proxyBaseURL": null,
+  "resolvedAuthLabel": "codex-subscription",
+  "routeProvider": "codex",
+  "status": "error",
+  "wireModelId": "gpt-5.5-pro",
+}
+`;
+
+exports[`provider resolution parity matrix > 'fallback rebuild: alt-model stays on …' > fallback rebuild: alt-model stays on Codex provider 1`] = `
+{
+  "authShape": "no-key",
+  "baseURL": null,
+  "clientKind": "none",
+  "credentialSource": "missing-codex",
+  "defaultHeaders": {},
+  "dispatchPath": "none",
+  "enableCompact": null,
+  "enableContextManagement": null,
+  "endpointURL": null,
+  "errorKind": "auth",
+  "maxRetries": null,
+  "messageClass": "codex-unsupported-model",
+  "providerLabel": "ChatGPT Pro",
+  "providerTypeLabel": null,
+  "proxyBaseURL": null,
+  "resolvedAuthLabel": "codex-subscription",
+  "routeProvider": "codex",
+  "status": "error",
+  "wireModelId": "openai/gpt-5.5",
+}
+`;
+
+exports[`provider resolution parity matrix > 'fallback rebuild: codex rate-limit pr…' > fallback rebuild: codex rate-limit provider falls back to OpenRouter 1`] = `
+{
+  "authShape": "proxy-sentinel",
+  "baseURL": "http://127.0.0.1:48999",
+  "clientKind": "anthropic",
+  "credentialSource": "openrouter-oauth-token",
+  "defaultHeaders": {
+    "anthropic-version": "2023-06-01",
+    "authorization": "Bearer openrouter-test-token",
+    "content-type": "application/json",
+    "http-referer": "https://rebel.mindstone.com",
+    "x-openrouter-turn": "true",
+    "x-route-id": "normal-turn:gpt-5.5",
+    "x-route-tag": "rt1.d5fa39a0ebd4068c1e03825992339aaf05081ebe63796e1138b41c9ad9f5d104",
+    "x-route-wire-model": "gpt-5.5",
+    "x-title": "Rebel",
+  },
+  "dispatchPath": "local-proxy-passthrough",
+  "enableCompact": false,
+  "enableContextManagement": true,
+  "endpointURL": null,
+  "errorKind": null,
+  "maxRetries": null,
+  "messageClass": "none",
+  "providerLabel": "OpenRouter",
+  "providerTypeLabel": null,
+  "proxyBaseURL": "http://127.0.0.1:48999",
+  "resolvedAuthLabel": "openrouter",
+  "routeProvider": "openrouter",
+  "status": "client",
+  "wireModelId": "gpt-5.5",
+}
+`;
+
+exports[`provider resolution parity matrix > 'fallback rebuild: codex rate-limit ti…' > fallback rebuild: codex rate-limit tier uses working fallback 1`] = `
+{
+  "authShape": "proxy-sentinel",
+  "baseURL": "http://127.0.0.1:48999",
+  "clientKind": "anthropic",
+  "credentialSource": "openrouter-oauth-token",
+  "defaultHeaders": {
+    "anthropic-version": "2023-06-01",
+    "authorization": "Bearer openrouter-test-token",
+    "content-type": "application/json",
+    "http-referer": "https://rebel.mindstone.com",
+    "x-openrouter-turn": "true",
+    "x-route-id": "normal-turn:openai/gpt-5.5-mini",
+    "x-route-tag": "rt1.d03234b746a21ffe86cb8c46d6db4cd1f661eb588acb47de6df58a9bb0321a42",
+    "x-route-wire-model": "openai/gpt-5.5-mini",
+    "x-title": "Rebel",
+  },
+  "dispatchPath": "local-proxy-passthrough",
+  "enableCompact": false,
+  "enableContextManagement": true,
+  "endpointURL": null,
+  "errorKind": null,
+  "maxRetries": null,
+  "messageClass": "none",
+  "providerLabel": "OpenRouter",
+  "providerTypeLabel": null,
+  "proxyBaseURL": "http://127.0.0.1:48999",
+  "resolvedAuthLabel": "openrouter",
+  "routeProvider": "openrouter",
+  "status": "client",
+  "wireModelId": "openai/gpt-5.5-mini",
+}
+`;
+
+exports[`provider resolution parity matrix > 'fallback rebuild: configured-role thi…' > fallback rebuild: configured-role thinking fallback maps to planning role 1`] = `
+{
+  "authShape": "proxy-sentinel",
+  "baseURL": "http://127.0.0.1:48999",
+  "clientKind": "anthropic",
+  "credentialSource": "openrouter-oauth-token",
+  "defaultHeaders": {
+    "anthropic-version": "2023-06-01",
+    "authorization": "Bearer openrouter-test-token",
+    "content-type": "application/json",
+    "http-referer": "https://rebel.mindstone.com",
+    "x-openrouter-turn": "true",
+    "x-route-id": "normal-turn:anthropic/claude-opus-4-7",
+    "x-route-tag": "rt1.4a6207345fbe08ab884cdd3c9fbe4a3eda48f4ff5c76ec7d7f61e4438c0444f6",
+    "x-route-wire-model": "anthropic/claude-opus-4-7",
+    "x-title": "Rebel",
+  },
+  "dispatchPath": "local-proxy-passthrough",
+  "enableCompact": false,
+  "enableContextManagement": true,
+  "endpointURL": null,
+  "errorKind": null,
+  "maxRetries": null,
+  "messageClass": "none",
+  "providerLabel": "OpenRouter",
+  "providerTypeLabel": null,
+  "proxyBaseURL": "http://127.0.0.1:48999",
+  "resolvedAuthLabel": "openrouter",
+  "routeProvider": "openrouter",
+  "status": "client",
+  "wireModelId": "anthropic/claude-opus-4-7",
+}
+`;
+
+exports[`provider resolution parity matrix > 'fallback rebuild: long-context-profil…' > fallback rebuild: long-context-profile routes to explicit profile 1`] = `
+{
+  "authShape": "real-key",
+  "baseURL": "https://api.together.xyz/v1",
+  "clientKind": "openai",
+  "credentialSource": "profile-api-key",
+  "defaultHeaders": {},
+  "dispatchPath": "direct-provider",
+  "enableCompact": null,
+  "enableContextManagement": null,
+  "endpointURL": "https://api.together.xyz/v1",
+  "errorKind": null,
+  "maxRetries": null,
+  "messageClass": "none",
+  "providerLabel": "Together",
+  "providerTypeLabel": "together",
+  "proxyBaseURL": null,
+  "resolvedAuthLabel": "api-key",
+  "routeProvider": "profile",
+  "status": "client",
+  "wireModelId": "deepseek-chat",
+}
+`;
+
+exports[`provider resolution parity matrix > 'plan-mode alias: planner raw model at…' > plan-mode alias: planner raw model at resolver seam 1`] = `
+{
+  "authShape": "real-key",
+  "baseURL": null,
+  "clientKind": "anthropic",
+  "credentialSource": "anthropic-api-key",
+  "defaultHeaders": {},
+  "dispatchPath": "direct-provider",
+  "enableCompact": false,
+  "enableContextManagement": true,
+  "endpointURL": null,
+  "errorKind": null,
+  "maxRetries": null,
+  "messageClass": "none",
+  "providerLabel": null,
+  "providerTypeLabel": null,
+  "proxyBaseURL": null,
+  "resolvedAuthLabel": "api-key",
+  "routeProvider": "anthropic",
+  "status": "client",
+  "wireModelId": "planner",
+}
+`;
+
+exports[`provider resolution parity matrix > 'planning role: Anthropic direct' > planning role: Anthropic direct 1`] = `
+{
+  "authShape": "real-key",
+  "baseURL": null,
+  "clientKind": "anthropic",
+  "credentialSource": "anthropic-api-key",
+  "defaultHeaders": {},
+  "dispatchPath": "direct-provider",
+  "enableCompact": false,
+  "enableContextManagement": true,
+  "endpointURL": null,
+  "errorKind": null,
+  "maxRetries": null,
+  "messageClass": "none",
+  "providerLabel": null,
+  "providerTypeLabel": null,
+  "proxyBaseURL": null,
+  "resolvedAuthLabel": "api-key",
+  "routeProvider": "anthropic",
+  "status": "client",
+  "wireModelId": "claude-opus-4-7",
+}
+`;
+
+exports[`provider resolution parity matrix > 'planning role: OpenRouter proxy' > planning role: OpenRouter proxy 1`] = `
+{
+  "authShape": "proxy-sentinel",
+  "baseURL": "http://127.0.0.1:48999",
+  "clientKind": "anthropic",
+  "credentialSource": "openrouter-oauth-token",
+  "defaultHeaders": {
+    "anthropic-version": "2023-06-01",
+    "authorization": "Bearer openrouter-test-token",
+    "content-type": "application/json",
+    "http-referer": "https://rebel.mindstone.com",
+    "x-openrouter-turn": "true",
+    "x-route-id": "normal-turn:anthropic/claude-opus-4-7",
+    "x-route-tag": "rt1.4a6207345fbe08ab884cdd3c9fbe4a3eda48f4ff5c76ec7d7f61e4438c0444f6",
+    "x-route-wire-model": "anthropic/claude-opus-4-7",
+    "x-title": "Rebel",
+  },
+  "dispatchPath": "local-proxy-passthrough",
+  "enableCompact": false,
+  "enableContextManagement": true,
+  "endpointURL": null,
+  "errorKind": null,
+  "maxRetries": null,
+  "messageClass": "none",
+  "providerLabel": "OpenRouter",
+  "providerTypeLabel": null,
+  "proxyBaseURL": "http://127.0.0.1:48999",
+  "resolvedAuthLabel": "openrouter",
+  "routeProvider": "openrouter",
+  "status": "client",
+  "wireModelId": "anthropic/claude-opus-4-7",
+}
+`;
+
+exports[`provider resolution parity matrix > 'profile dispatch: Anthropic self-pref…' > profile dispatch: Anthropic self-prefix profile strips matching prefix 1`] = `
+{
+  "authShape": "real-key",
+  "baseURL": null,
+  "clientKind": "anthropic",
+  "credentialSource": "anthropic-api-key",
+  "defaultHeaders": {},
+  "dispatchPath": "direct-provider",
+  "enableCompact": false,
+  "enableContextManagement": true,
+  "endpointURL": null,
+  "errorKind": null,
+  "maxRetries": null,
+  "messageClass": "none",
+  "providerLabel": null,
+  "providerTypeLabel": null,
+  "proxyBaseURL": null,
+  "resolvedAuthLabel": "api-key",
+  "routeProvider": "anthropic",
+  "status": "client",
+  "wireModelId": "claude-opus-4-7",
+}
+`;
+
+exports[`provider resolution parity matrix > 'profile dispatch: Google profile BTS …' > profile dispatch: Google profile BTS uses OpenAI-compatible HTTP 1`] = `
+{
+  "authShape": "real-key",
+  "baseURL": "https://generativelanguage.googleapis.com/v1beta/openai",
+  "clientKind": "openai",
+  "credentialSource": "profile-api-key",
+  "defaultHeaders": {},
+  "dispatchPath": "direct-provider",
+  "enableCompact": null,
+  "enableContextManagement": null,
+  "endpointURL": "https://generativelanguage.googleapis.com/v1beta/openai",
+  "errorKind": null,
+  "maxRetries": null,
+  "messageClass": "none",
+  "providerLabel": "Google Gemini",
+  "providerTypeLabel": "other",
+  "proxyBaseURL": null,
+  "resolvedAuthLabel": "api-key",
+  "routeProvider": "profile",
+  "status": "client",
+  "wireModelId": "gemini-2.5-pro",
+}
+`;
+
+exports[`provider resolution parity matrix > 'profile dispatch: Google profile norm…' > profile dispatch: Google profile normal turn via anthropic-compatible proxy 1`] = `
+{
+  "authShape": "real-key",
+  "baseURL": "http://127.0.0.1:48999",
+  "clientKind": "anthropic",
+  "credentialSource": "profile-api-key",
+  "defaultHeaders": {
+    "anthropic-version": "2023-06-01",
+    "content-type": "application/json",
+    "x-route-id": "normal-turn:gemini-2.5-pro",
+    "x-route-tag": "rt1.76f339aeb36cdc7c44d3ad751baba57717dbea961762b6341572704883c7dc65",
+    "x-route-wire-model": "gemini-2.5-pro",
+  },
+  "dispatchPath": "local-proxy-passthrough",
+  "enableCompact": false,
+  "enableContextManagement": true,
+  "endpointURL": null,
+  "errorKind": null,
+  "maxRetries": null,
+  "messageClass": "none",
+  "providerLabel": null,
+  "providerTypeLabel": null,
+  "proxyBaseURL": "http://127.0.0.1:48999",
+  "resolvedAuthLabel": "api-key",
+  "routeProvider": "profile",
+  "status": "client",
+  "wireModelId": "gemini-2.5-pro",
+}
+`;
+
+exports[`provider resolution parity matrix > 'profile dispatch: OpenAI profile with…' > profile dispatch: OpenAI profile with profile key 1`] = `
+{
+  "authShape": "real-key",
+  "baseURL": "https://api.openai.com/v1",
+  "clientKind": "openai",
+  "credentialSource": "openai-api-key",
+  "defaultHeaders": {},
+  "dispatchPath": "direct-provider",
+  "enableCompact": null,
+  "enableContextManagement": null,
+  "endpointURL": "https://api.openai.com/v1",
+  "errorKind": null,
+  "maxRetries": null,
+  "messageClass": "none",
+  "providerLabel": "OpenAI",
+  "providerTypeLabel": "openai",
+  "proxyBaseURL": null,
+  "resolvedAuthLabel": "api-key",
+  "routeProvider": "profile",
+  "status": "client",
+  "wireModelId": "gpt-5.5",
+}
+`;
+
+exports[`provider resolution parity matrix > 'profile dispatch: cloud OpenAI-compat…' > profile dispatch: cloud OpenAI-compatible profile 1`] = `
+{
+  "authShape": "real-key",
+  "baseURL": "https://api.together.xyz/v1",
+  "clientKind": "openai",
+  "credentialSource": "profile-api-key",
+  "defaultHeaders": {},
+  "dispatchPath": "direct-provider",
+  "enableCompact": null,
+  "enableContextManagement": null,
+  "endpointURL": "https://api.together.xyz/v1",
+  "errorKind": null,
+  "maxRetries": null,
+  "messageClass": "none",
+  "providerLabel": "Together",
+  "providerTypeLabel": "together",
+  "proxyBaseURL": null,
+  "resolvedAuthLabel": "api-key",
+  "routeProvider": "profile",
+  "status": "client",
+  "wireModelId": "deepseek-chat",
+}
+`;
+
+exports[`provider resolution parity matrix > 'profile dispatch: local OpenAI-compat…' > profile dispatch: local OpenAI-compatible profile 1`] = `
+{
+  "authShape": "no-key",
+  "baseURL": "http://localhost:11434/v1",
+  "clientKind": "openai",
+  "credentialSource": "local-none",
+  "defaultHeaders": {},
+  "dispatchPath": "direct-provider",
+  "enableCompact": null,
+  "enableContextManagement": null,
+  "endpointURL": "http://localhost:11434/v1",
+  "errorKind": null,
+  "maxRetries": null,
+  "messageClass": "none",
+  "providerLabel": "Your model provider",
+  "providerTypeLabel": "other",
+  "proxyBaseURL": null,
+  "resolvedAuthLabel": "api-key",
+  "routeProvider": "local",
+  "status": "client",
+  "wireModelId": "llama-3.1-local",
+}
+`;
+
+exports[`provider resolution parity matrix > 'profile terminal routing guard: Anthr…' > profile terminal routing guard: Anthropic foreign profile cannot dispatch direct Anthropic 1`] = `
+{
+  "authShape": "no-key",
+  "baseURL": null,
+  "clientKind": "none",
+  "credentialSource": "anthropic-api-key",
+  "defaultHeaders": {},
+  "dispatchPath": "none",
+  "enableCompact": null,
+  "enableContextManagement": null,
+  "endpointURL": null,
+  "errorKind": "routing",
+  "maxRetries": null,
+  "messageClass": "proxy-dialect-in-direct-anthropic",
+  "providerLabel": "Anthropic",
+  "providerTypeLabel": null,
+  "proxyBaseURL": null,
+  "resolvedAuthLabel": "api-key",
+  "routeProvider": "anthropic",
+  "status": "error",
+  "wireModelId": "openai/gpt-5.5",
+}
+`;
+
+exports[`provider resolution parity matrix > 'profile terminal: Codex subscription …' > profile terminal: Codex subscription profile disconnected for BTS 1`] = `
+{
+  "authShape": "no-key",
+  "baseURL": null,
+  "clientKind": "none",
+  "credentialSource": "missing-codex",
+  "defaultHeaders": {},
+  "dispatchPath": "none",
+  "enableCompact": null,
+  "enableContextManagement": null,
+  "endpointURL": null,
+  "errorKind": "auth",
+  "maxRetries": null,
+  "messageClass": "codex-disconnected-bts-blocked",
+  "providerLabel": "ChatGPT Pro",
+  "providerTypeLabel": null,
+  "proxyBaseURL": null,
+  "resolvedAuthLabel": "codex-subscription",
+  "routeProvider": "codex",
+  "status": "error",
+  "wireModelId": "gpt-5.5",
+}
+`;
+
+exports[`provider resolution parity matrix > 'role-default: working-profile promoti…' > role-default: working-profile promotion with no explicit model 1`] = `
+{
+  "authShape": "real-key",
+  "baseURL": "https://api.openai.com/v1",
+  "clientKind": "openai",
+  "credentialSource": "openai-api-key",
+  "defaultHeaders": {},
+  "dispatchPath": "direct-provider",
+  "enableCompact": null,
+  "enableContextManagement": null,
+  "endpointURL": "https://api.openai.com/v1",
+  "errorKind": null,
+  "maxRetries": null,
+  "messageClass": "none",
+  "providerLabel": "OpenAI",
+  "providerTypeLabel": "openai",
+  "proxyBaseURL": null,
+  "resolvedAuthLabel": "api-key",
+  "routeProvider": "profile",
+  "status": "client",
+  "wireModelId": "gpt-5.5-mini",
+}
+`;
+
+exports[`provider resolution parity matrix > 'self-prefix normalize: direct Anthrop…' > self-prefix normalize: direct Anthropic strips matching anthropic/ prefix 1`] = `
+{
+  "authShape": "real-key",
+  "baseURL": null,
+  "clientKind": "anthropic",
+  "credentialSource": "anthropic-api-key",
+  "defaultHeaders": {},
+  "dispatchPath": "direct-provider",
+  "enableCompact": false,
+  "enableContextManagement": true,
+  "endpointURL": null,
+  "errorKind": null,
+  "maxRetries": null,
+  "messageClass": "none",
+  "providerLabel": null,
+  "providerTypeLabel": null,
+  "proxyBaseURL": null,
+  "resolvedAuthLabel": "api-key",
+  "routeProvider": "anthropic",
+  "status": "client",
+  "wireModelId": "claude-opus-4-7",
+}
+`;
+
+exports[`provider resolution parity matrix > 'subagent role: ad-hoc route-table coe…' > subagent role: ad-hoc route-table coercion 1`] = `
+{
+  "authShape": "proxy-sentinel",
+  "baseURL": "http://127.0.0.1:48999",
+  "clientKind": "anthropic",
+  "credentialSource": "anthropic-api-key",
+  "defaultHeaders": {
+    "anthropic-version": "2023-06-01",
+    "content-type": "application/json",
+    "x-proxy-auth": "proxy-auth-token",
+    "x-route-facts": "rf1.eyJyb3V0ZUlkIjoidHVybi1hZC1ob2MiLCJwcm92aWRlciI6ImFudGhyb3BpYyIsInRyYW5zcG9ydCI6ImFudGhyb3BpYy1jb21wYXRpYmxlLWxvY2FsLXByb3h5Iiwid2lyZU1vZGVsSWQiOiJjbGF1ZGUtb3B1cy00LTciLCJjcmVkZW50aWFsU291cmNlIjoiYW50aHJvcGljLWFwaS1rZXkiLCJiaWxsaW5nU291cmNlIjoicGF5LXBlci11c2UiLCJyb2xlIjoic3ViYWdlbnQiLCJwcm9maWxlSWQiOm51bGx9.3mgWFtnYH-TxWCSQHAg-eLr954kEFYTZDUcZdIUY6wI",
+    "x-route-id": "turn-ad-hoc",
+    "x-route-tag": "rt1.6a49451940570808219efcf8d217da37ba3dc358e2ed4a52571fccd808f576a7",
+    "x-route-wire-model": "claude-opus-4-7",
+    "x-routed-model": "claude-opus-4-7",
+    "x-routed-turn-id": "turn-ad-hoc",
+  },
+  "dispatchPath": "local-proxy-route-table",
+  "enableCompact": false,
+  "enableContextManagement": true,
+  "endpointURL": null,
+  "errorKind": null,
+  "maxRetries": null,
+  "messageClass": "none",
+  "providerLabel": null,
+  "providerTypeLabel": null,
+  "proxyBaseURL": "http://127.0.0.1:48999",
+  "resolvedAuthLabel": "api-key",
+  "routeProvider": "anthropic",
+  "status": "client",
+  "wireModelId": "claude-opus-4-7",
+}
+`;
+
+exports[`provider resolution parity matrix > 'subagent role: council route-table co…' > subagent role: council route-table coercion 1`] = `
+{
+  "authShape": "proxy-sentinel",
+  "baseURL": "http://127.0.0.1:48999",
+  "clientKind": "anthropic",
+  "credentialSource": "anthropic-api-key",
+  "defaultHeaders": {
+    "anthropic-version": "2023-06-01",
+    "content-type": "application/json",
+    "x-proxy-auth": "proxy-auth-token",
+    "x-route-facts": "rf1.eyJyb3V0ZUlkIjoidHVybi1jb3VuY2lsIiwicHJvdmlkZXIiOiJhbnRocm9waWMiLCJ0cmFuc3BvcnQiOiJhbnRocm9waWMtY29tcGF0aWJsZS1sb2NhbC1wcm94eSIsIndpcmVNb2RlbElkIjoiY2xhdWRlLXNvbm5ldC00LTIwMjUwNTE0IiwiY3JlZGVudGlhbFNvdXJjZSI6ImFudGhyb3BpYy1hcGkta2V5IiwiYmlsbGluZ1NvdXJjZSI6InBheS1wZXItdXNlIiwicm9sZSI6InN1YmFnZW50IiwicHJvZmlsZUlkIjpudWxsfQ.d6cXN5hbah5rfBNmIhpGU6hntEbcsez9zl5L6HUmV-E",
+    "x-route-id": "turn-council",
+    "x-route-tag": "rt1.d00eb16545a8f6ba2fd34916213fbf8727ac7cba2cc0bda43e289eecdcb4eacf",
+    "x-route-wire-model": "claude-sonnet-4-20250514",
+    "x-routed-model": "claude-sonnet-4-20250514",
+    "x-routed-turn-id": "turn-council",
+  },
+  "dispatchPath": "local-proxy-route-table",
+  "enableCompact": false,
+  "enableContextManagement": true,
+  "endpointURL": null,
+  "errorKind": null,
+  "maxRetries": null,
+  "messageClass": "none",
+  "providerLabel": null,
+  "providerTypeLabel": null,
+  "proxyBaseURL": "http://127.0.0.1:48999",
+  "resolvedAuthLabel": "api-key",
+  "routeProvider": "anthropic",
+  "status": "client",
+  "wireModelId": "claude-sonnet-4-20250514",
+}
+`;
+
+exports[`provider resolution parity matrix > 'terminal no credentials: Mindstone ma…' > terminal no credentials: Mindstone managed key missing 1`] = `
+{
+  "authShape": "no-key",
+  "baseURL": null,
+  "clientKind": "none",
+  "credentialSource": "missing-mindstone",
+  "defaultHeaders": {},
+  "dispatchPath": "none",
+  "enableCompact": null,
+  "enableContextManagement": null,
+  "endpointURL": null,
+  "errorKind": "auth",
+  "maxRetries": null,
+  "messageClass": "missing-mindstone-credentials",
+  "providerLabel": "Mindstone",
+  "providerTypeLabel": null,
+  "proxyBaseURL": null,
+  "resolvedAuthLabel": "mindstone-managed",
+  "routeProvider": "openrouter",
+  "status": "error",
+  "wireModelId": "openai/gpt-5.5",
+}
+`;
+
+exports[`provider resolution parity matrix > 'terminal no credentials: OpenRouter m…' > terminal no credentials: OpenRouter missing OAuth 1`] = `
+{
+  "authShape": "no-key",
+  "baseURL": null,
+  "clientKind": "none",
+  "credentialSource": "missing-openrouter",
+  "defaultHeaders": {},
+  "dispatchPath": "none",
+  "enableCompact": null,
+  "enableContextManagement": null,
+  "endpointURL": null,
+  "errorKind": "auth",
+  "maxRetries": null,
+  "messageClass": "missing-openrouter-credentials",
+  "providerLabel": "OpenRouter",
+  "providerTypeLabel": null,
+  "proxyBaseURL": null,
+  "resolvedAuthLabel": "openrouter",
+  "routeProvider": "openrouter",
+  "status": "error",
+  "wireModelId": "anthropic/claude-opus-4-7",
+}
+`;
+
+exports[`provider resolution parity matrix > 'terminal no credentials: direct Anthr…' > terminal no credentials: direct Anthropic missing credentials 1`] = `
+{
+  "authShape": "no-key",
+  "baseURL": null,
+  "clientKind": "none",
+  "credentialSource": "missing-anthropic",
+  "defaultHeaders": {},
+  "dispatchPath": "none",
+  "enableCompact": null,
+  "enableContextManagement": null,
+  "endpointURL": null,
+  "errorKind": "auth",
+  "maxRetries": null,
+  "messageClass": "missing-anthropic-credentials",
+  "providerLabel": "Anthropic",
+  "providerTypeLabel": null,
+  "proxyBaseURL": null,
+  "resolvedAuthLabel": "api-key",
+  "routeProvider": "anthropic",
+  "status": "error",
+  "wireModelId": "claude-sonnet-4-20250514",
+}
+`;
+
+exports[`provider resolution parity matrix > 'terminal no credentials: explicit pro…' > terminal no credentials: explicit profile key missing 1`] = `
+{
+  "authShape": "no-key",
+  "baseURL": null,
+  "clientKind": "none",
+  "credentialSource": "missing-profile",
+  "defaultHeaders": {},
+  "dispatchPath": "none",
+  "enableCompact": null,
+  "enableContextManagement": null,
+  "endpointURL": null,
+  "errorKind": "auth",
+  "maxRetries": null,
+  "messageClass": "missing-profile-credentials",
+  "providerLabel": "Profile",
+  "providerTypeLabel": null,
+  "proxyBaseURL": null,
+  "resolvedAuthLabel": "api-key",
+  "routeProvider": "profile",
+  "status": "error",
+  "wireModelId": "deepseek-chat",
+}
+`;
+
+exports[`provider resolution parity matrix > 'terminal routing guard: foreign diale…' > terminal routing guard: foreign dialect cannot dispatch direct Anthropic 1`] = `
+{
+  "authShape": "no-key",
+  "baseURL": null,
+  "clientKind": "none",
+  "credentialSource": "anthropic-api-key",
+  "defaultHeaders": {},
+  "dispatchPath": "none",
+  "enableCompact": null,
+  "enableContextManagement": null,
+  "endpointURL": null,
+  "errorKind": "routing",
+  "maxRetries": null,
+  "messageClass": "proxy-dialect-in-direct-anthropic",
+  "providerLabel": "Anthropic",
+  "providerTypeLabel": null,
+  "proxyBaseURL": null,
+  "resolvedAuthLabel": "api-key",
+  "routeProvider": "anthropic",
+  "status": "error",
+  "wireModelId": "openai/gpt-5.5",
+}
+`;
+
+exports[`provider resolution parity matrix > 'working baseline: Anthropic BYOK exec…' > working baseline: Anthropic BYOK execution 1`] = `
+{
+  "authShape": "real-key",
+  "baseURL": null,
+  "clientKind": "anthropic",
+  "credentialSource": "anthropic-api-key",
+  "defaultHeaders": {},
+  "dispatchPath": "direct-provider",
+  "enableCompact": true,
+  "enableContextManagement": true,
+  "endpointURL": null,
+  "errorKind": null,
+  "maxRetries": null,
+  "messageClass": "none",
+  "providerLabel": null,
+  "providerTypeLabel": null,
+  "proxyBaseURL": null,
+  "resolvedAuthLabel": "api-key",
+  "routeProvider": "anthropic",
+  "status": "client",
+  "wireModelId": "claude-sonnet-4-20250514",
+}
+`;
+
+exports[`provider resolution parity matrix > 'working baseline: Codex connected app…' > working baseline: Codex connected app model proxy 1`] = `
+{
+  "authShape": "proxy-sentinel",
+  "baseURL": "http://127.0.0.1:48999",
+  "clientKind": "anthropic",
+  "credentialSource": "codex-subscription",
+  "defaultHeaders": {
+    "anthropic-version": "2023-06-01",
+    "authorization": "Bearer codex-access-token",
+    "content-type": "application/json",
+    "x-codex-turn": "true",
+    "x-route-id": "normal-turn:gpt-5.5",
+    "x-route-tag": "rt1.43d1a66936700051228d3cab09d792e534dad324f6191e3387707217de9d0886",
+    "x-route-wire-model": "gpt-5.5",
+  },
+  "dispatchPath": "local-proxy-passthrough",
+  "enableCompact": false,
+  "enableContextManagement": true,
+  "endpointURL": null,
+  "errorKind": null,
+  "maxRetries": 0,
+  "messageClass": "none",
+  "providerLabel": "ChatGPT Pro",
+  "providerTypeLabel": null,
+  "proxyBaseURL": "http://127.0.0.1:48999",
+  "resolvedAuthLabel": "codex-subscription",
+  "routeProvider": "codex",
+  "status": "client",
+  "wireModelId": "gpt-5.5",
+}
+`;
+
+exports[`provider resolution parity matrix > 'working baseline: Mindstone managed r…' > working baseline: Mindstone managed routes through OpenRouter 1`] = `
+{
+  "authShape": "proxy-sentinel",
+  "baseURL": "http://127.0.0.1:48999",
+  "clientKind": "anthropic",
+  "credentialSource": "mindstone-managed-key",
+  "defaultHeaders": {
+    "anthropic-version": "2023-06-01",
+    "content-type": "application/json",
+    "http-referer": "https://rebel.mindstone.com",
+    "x-openrouter-turn": "true",
+    "x-route-id": "normal-turn:openai/gpt-5.5",
+    "x-route-tag": "rt1.4f1875212e32f0eb720fb8a8919baf9ea7e52ae9f36fce3aa655de297d734628",
+    "x-route-wire-model": "openai/gpt-5.5",
+    "x-title": "Rebel",
+  },
+  "dispatchPath": "local-proxy-passthrough",
+  "enableCompact": false,
+  "enableContextManagement": true,
+  "endpointURL": null,
+  "errorKind": null,
+  "maxRetries": null,
+  "messageClass": "none",
+  "providerLabel": "OpenRouter",
+  "providerTypeLabel": null,
+  "proxyBaseURL": "http://127.0.0.1:48999",
+  "resolvedAuthLabel": "mindstone-managed",
+  "routeProvider": "openrouter",
+  "status": "client",
+  "wireModelId": "openai/gpt-5.5",
+}
+`;
+
+exports[`provider resolution parity matrix > 'working baseline: OpenRouter native m…' > working baseline: OpenRouter native model proxy 1`] = `
+{
+  "authShape": "proxy-sentinel",
+  "baseURL": "http://127.0.0.1:48999",
+  "clientKind": "anthropic",
+  "credentialSource": "openrouter-oauth-token",
+  "defaultHeaders": {
+    "anthropic-version": "2023-06-01",
+    "authorization": "Bearer openrouter-test-token",
+    "content-type": "application/json",
+    "http-referer": "https://rebel.mindstone.com",
+    "x-openrouter-turn": "true",
+    "x-route-id": "normal-turn:claude-sonnet-4-20250514",
+    "x-route-tag": "rt1.d55cd39ce34925e3dc0b9dd67af27a2ba6166b0599d56bcc4277537e80bbc737",
+    "x-route-wire-model": "claude-sonnet-4-20250514",
+    "x-title": "Rebel",
+  },
+  "dispatchPath": "local-proxy-passthrough",
+  "enableCompact": false,
+  "enableContextManagement": true,
+  "endpointURL": null,
+  "errorKind": null,
+  "maxRetries": null,
+  "messageClass": "none",
+  "providerLabel": "OpenRouter",
+  "providerTypeLabel": null,
+  "proxyBaseURL": "http://127.0.0.1:48999",
+  "resolvedAuthLabel": "openrouter",
+  "routeProvider": "openrouter",
+  "status": "client",
+  "wireModelId": "claude-sonnet-4-20250514",
+}
+`;

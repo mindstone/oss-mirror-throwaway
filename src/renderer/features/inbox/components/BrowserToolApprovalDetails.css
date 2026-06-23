@@ -1,0 +1,97 @@
+/**
+ * Styles for the per-tool browser approval detail block (Stage 6b).
+ * Kept minimal and compatible with both light/dark themes.
+ */
+
+.browser-tool-approval__details {
+  margin: 6px 0;
+  padding: 8px 10px;
+  background: rgba(71, 85, 105, 0.06);
+  border-radius: 6px;
+  font-size: 0.78rem;
+}
+
+.browser-tool-approval__heading {
+  font-weight: 600;
+  font-size: 0.72rem;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+  opacity: 0.65;
+  margin-bottom: 4px;
+}
+
+.browser-tool-approval__fields {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.browser-tool-approval__field {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  padding: 4px 0;
+  border-bottom: 1px solid rgba(71, 85, 105, 0.08);
+}
+
+.browser-tool-approval__field:last-child {
+  border-bottom: none;
+}
+
+.browser-tool-approval__field-label {
+  font-weight: 600;
+}
+
+.browser-tool-approval__field-value {
+  font-family: ui-monospace, SFMono-Regular, Menlo, monospace;
+  font-size: 0.72rem;
+  opacity: 0.9;
+  word-break: break-word;
+}
+
+.browser-tool-approval__field-badge {
+  display: inline-flex;
+  align-self: flex-start;
+  padding: 1px 6px;
+  margin-top: 2px;
+  font-size: 0.68rem;
+  font-weight: 500;
+  color: rgba(217, 119, 6, 0.95);
+  background: rgba(217, 119, 6, 0.12);
+  border-radius: 3px;
+}
+
+.browser-tool-approval__field--sensitive {
+  background: rgba(217, 119, 6, 0.05);
+  border-left: 2px solid rgba(217, 119, 6, 0.4);
+  padding-left: 6px;
+}
+
+.browser-tool-approval__click {
+  margin: 0;
+  display: grid;
+  grid-template-columns: auto 1fr;
+  gap: 4px 10px;
+}
+
+.browser-tool-approval__click dt {
+  font-weight: 600;
+  opacity: 0.7;
+  font-size: 0.72rem;
+}
+
+.browser-tool-approval__click dd {
+  margin: 0;
+  word-break: break-word;
+}
+
+.browser-tool-approval__label--destructive {
+  color: rgba(220, 38, 38, 0.95);
+  font-weight: 600;
+}
+
+.browser-tool-approval__selector {
+  font-family: ui-monospace, SFMono-Regular, Menlo, monospace;
+  font-size: 0.72rem;
+  opacity: 0.85;
+}

@@ -1,0 +1,301 @@
+/* ─────────────────────────────────────────────────────────────
+   LocalModelSection — CSS Module
+   Stage 2 (260424 redesign): card-list, inline test pills, and
+   per-button thinking segmented control have all been retired.
+   Surviving styles own the section header, provider IA groups,
+   and empty-state copy. Profile rows live in ProfileTable.
+   ───────────────────────────────────────────────────────────── */
+
+/* === Utility: screen-reader-only (aria-live status region) === */
+
+.srOnly {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border-width: 0;
+}
+
+/* === Tooltip wrapper for disabled buttons ===
+   Disabled buttons don't emit hover/focus events; wrap with a focusable
+   span so the tooltip can explain why the action is unavailable. */
+
+.disabledTooltipWrap {
+  display: inline-flex;
+  cursor: not-allowed;
+}
+.disabledTooltipWrap:focus-visible {
+  outline: 2px solid var(--color-focus-ring, var(--color-accent, #3b82f6));
+  outline-offset: 2px;
+  border-radius: 4px;
+}
+
+/* === Layout / Container === */
+
+.sectionWrapper {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.profilesContainer {
+  padding: var(--space-3);
+  background-color: color-mix(in srgb, var(--color-card) 50%, transparent);
+  border-radius: var(--radius-md);
+  border: 1px solid var(--color-border-soft);
+}
+
+/* === Section header — title + actions === */
+
+.profilesHeader {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 12px;
+  margin-bottom: 12px;
+}
+
+.profilesTitleGroup {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  min-width: 0;
+}
+
+.profilesTitle {
+  font-size: 13px;
+  font-weight: 500;
+  color: var(--color-text-primary, inherit);
+}
+
+.profilesDescription {
+  font-size: 12px;
+  color: var(--color-text-muted);
+}
+
+.headerActions {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  flex-shrink: 0;
+}
+
+@media (max-width: 599px) {
+  .profilesHeader {
+    flex-direction: column;
+    align-items: stretch;
+  }
+  .headerActions {
+    justify-content: flex-end;
+  }
+}
+
+.modelIaWrapper {
+  display: flex;
+  flex-direction: column;
+  gap: 18px;
+}
+
+.reconnectCallout {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--space-2);
+  padding: var(--space-2) var(--space-3);
+  border-radius: var(--radius-sm);
+  background-color: color-mix(in srgb, var(--color-warning) 8%, transparent);
+  border: 1px solid color-mix(in srgb, var(--color-warning) 24%, var(--color-border-soft));
+  color: var(--color-text-secondary);
+  font-size: 12px;
+}
+
+/* === Empty state === */
+
+.emptyState {
+  font-size: 12px;
+  color: var(--color-text-secondary);
+  margin: 8px 0 0;
+  padding: 10px 12px;
+  border-radius: 6px;
+  background-color: rgba(148, 163, 184, 0.05);
+  border: 1px dashed var(--color-border-subtle, rgba(148, 163, 184, 0.2));
+}
+
+/* === Stage 3 IA: Active / Available / Needs setup sections === */
+
+.profileSectionsWrapper {
+  display: flex;
+  flex-direction: column;
+  gap: 18px;
+}
+
+.profileSection {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.profileSectionHeader {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.profileSectionTitle {
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  color: var(--color-text-muted);
+  margin: 0;
+}
+
+.profileSectionDescription {
+  font-size: 12px;
+  color: var(--color-text-muted);
+  margin: 0;
+}
+
+.userAddedProfileSections {
+  display: flex;
+  flex-direction: column;
+  gap: 18px;
+}
+
+.connectionGroups {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.connectionGroup {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.connectionGroupTitle {
+  font-size: 12px;
+  font-weight: 500;
+  color: var(--color-text-secondary);
+}
+
+/* === Roles needing a model === */
+
+.rolesNeedingModelList {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.rolesNeedingModelRow {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--space-3);
+  padding: var(--space-2) var(--space-3);
+  border-radius: var(--radius-sm);
+  background-color: color-mix(in srgb, var(--color-card) 60%, transparent);
+  border: 1px solid var(--color-border-soft);
+}
+
+.rolesNeedingModelMeta {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  min-width: 0;
+}
+
+.rolesNeedingModelName {
+  font-size: 13px;
+  font-weight: 500;
+  color: var(--color-text-primary, inherit);
+}
+
+.rolesNeedingModelReason {
+  font-size: 12px;
+  color: var(--color-text-secondary);
+}
+
+/* === Needs setup list === */
+
+.needsSetupList {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.needsSetupRow {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--space-3);
+  padding: var(--space-2) var(--space-3);
+  border-radius: var(--radius-sm);
+  background-color: color-mix(in srgb, var(--color-card) 60%, transparent);
+  border: 1px solid var(--color-border-soft);
+}
+
+.needsSetupMeta {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  min-width: 0;
+  flex: 1;
+}
+
+.needsSetupName {
+  font-size: 13px;
+  font-weight: 500;
+  color: var(--color-text-primary, inherit);
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.needsSetupExplanation {
+  font-size: 12px;
+  color: var(--color-text-secondary);
+  line-height: 1.4;
+}
+
+.needsSetupHint {
+  font-size: 11px;
+  color: var(--color-text-muted);
+}
+
+.needsSetupActions {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  flex-shrink: 0;
+}
+
+.needsSetupShowAll {
+  align-self: flex-start;
+  margin-top: var(--space-1);
+}
+
+@media (max-width: 599px) {
+  .rolesNeedingModelRow {
+    flex-direction: column;
+    align-items: stretch;
+  }
+  .needsSetupRow {
+    flex-direction: column;
+    align-items: stretch;
+  }
+  .needsSetupActions {
+    justify-content: flex-end;
+  }
+}

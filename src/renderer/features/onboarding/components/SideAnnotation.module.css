@@ -1,0 +1,80 @@
+.sideAnnotation {
+  position: absolute;
+  left: calc(100% + 8px);
+  top: 185px;
+  width: min(160px, calc(50vw - 50% - 8px));
+  padding: 12px 14px;
+  background: rgba(13, 17, 28, 0.96);
+  border: 1px solid rgba(148, 163, 184, 0.22);
+  border-radius: 12px;
+  font-size: 12.5px;
+  line-height: 1.5;
+  color: var(--color-muted-foreground);
+  z-index: 10;
+  backdrop-filter: blur(var(--glass-overlay-blur));
+  box-shadow: 0 4px 24px rgba(0, 0, 0, 0.4);
+}
+
+.arrow {
+  position: absolute;
+  left: -6px;
+  top: 18px;
+  width: 12px;
+  height: 12px;
+  background: rgba(13, 17, 28, 0.96);
+  border-left: 1px solid rgba(148, 163, 184, 0.22);
+  border-bottom: 1px solid rgba(148, 163, 184, 0.22);
+  transform: rotate(45deg);
+}
+
+.text {
+  margin: 0;
+}
+
+.dismissLink {
+  border: none;
+  background: transparent;
+  padding: 0;
+  margin-top: 6px;
+  font-size: 11px;
+  color: var(--color-muted-foreground);
+  opacity: 0.5;
+  cursor: pointer;
+  text-decoration: underline;
+  transition: opacity 120ms ease;
+}
+
+.dismissLink:hover {
+  opacity: 1;
+}
+
+/*
+ * Fluid width: min(160px, calc(50vw - 50% - 8px))
+ *   50vw = half viewport, 50% = half wizard width (containing block)
+ *   So the annotation always fits the available margin, capped at 160px.
+ *   No fixed breakpoint gaps — it smoothly adapts when the wizard
+ *   jumps from 760px to 960px at 1240px viewport.
+ *
+ * Only fall back to inline when the annotation would be < 100px
+ * (too narrow to read): viewport/2 - wizard/2 - 8 < 100
+ *   760px wizard: viewport < 976px
+ *   960px wizard: viewport < 1176px (wizard is 960 only above 1240, n/a)
+ */
+
+@media (max-width: 975px) {
+  .sideAnnotation {
+    position: static;
+    width: auto;
+    margin-top: 4px;
+  }
+
+  .arrow {
+    display: none;
+  }
+}
+
+@media (max-width: 600px) {
+  .sideAnnotation {
+    display: none;
+  }
+}

@@ -1,0 +1,47 @@
+# Maestro E2E for resolving a pending tool approval from the inbox.
+#
+# Verifies that the seeded pending tool approval renders in the inbox and that
+# the inline "Approve" action resolves it (fires the real onApprove handler →
+# server resolves the approval → the card disappears).
+#
+# SCOPE NOTE (follow-up): this exercises the INLINE approve action, not the
+# detail-sheet + PrincipleOptionsPicker "approve-always" path. Tapping the card
+# body opens `tool-approval-sheet-backdrop` but the sheet content does not mount
+# in this harness (no JS error; suspected bottom-sheet detent / seeded-approval
+# shape mismatch — needs investigation, see docs/project/MOBILE_QA.md). The
+# inline path covers the core approval-resolution behaviour reliably; the
+# principle-options picker remains covered by unit tests until the sheet content
+# is debugged.
+#
+# Prerequisites: app paired + a seeded pending tool approval
+#   (POST /__e2e/seed/tool-approval → toolUseID "e2e-tool-approval-1").
+#   e2e-mobile.sh seeds this.
+#
+# Run: maestro test mobile/.maestro/tool_approval_sheet.yaml
+appId: com.mindstone.rebel.mobile
+---
+- launchApp
+- extendedWaitUntil:
+    visible:
+      id: "home-screen"
+    timeout: 30000
+- openLink: "rebel://tasks"
+- extendedWaitUntil:
+    visible:
+      id: "inbox-screen"
+    timeout: 15000
+# The "Needs your OK" section with the seeded tool card.
+- extendedWaitUntil:
+    visible:
+      id: "inbox-approval-section"
+    timeout: 15000
+- assertVisible:
+    id: "approvals-tool-card-e2e-tool-approval-1"
+# Resolve via the inline Approve action.
+- tapOn:
+    id: "approvals-approve-button-e2e-tool-approval-1"
+# Once resolved server-side, the store broadcast removes the card.
+- extendedWaitUntil:
+    notVisible:
+      id: "approvals-tool-card-e2e-tool-approval-1"
+    timeout: 20000

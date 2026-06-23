@@ -1,0 +1,2339 @@
+{
+  "version": 1,
+  "auditDate": "2026-04-29",
+  "auditedBy": "implementer-gpt5.5-high (S2-F1 49 sites + S2-F2 138 sites, CHIEF_ENGINEER autonomous)",
+  "sites": [
+    {
+      "filePath": "src/core/appBridge/server/conversationStreamCoordinator.ts",
+      "lineRange": [
+        270,
+        270
+      ],
+      "patternKind": "stringly-typed-dispatch",
+      "bucket": "ts-union-reader",
+      "rationale": "App-bridge SSE streaming narrows subscribed AgentEvents and forwards only assistant/tool/terminal updates to clients; it is a read-only adapter.",
+      "manifestImpact": "no-change",
+      "blocksStage3a": false,
+      "snippet": "switch (event.type) {"
+    },
+    {
+      "filePath": "src/core/appBridge/server/conversationStreamCoordinator.ts",
+      "lineRange": [
+        271,
+        271
+      ],
+      "patternKind": "stringly-typed-dispatch",
+      "bucket": "ts-union-reader",
+      "rationale": "App-bridge SSE streaming narrows subscribed AgentEvents and forwards only assistant/tool/terminal updates to clients; it is a read-only adapter.",
+      "manifestImpact": "no-change",
+      "blocksStage3a": false,
+      "snippet": "case 'assistant_delta': {"
+    },
+    {
+      "filePath": "src/core/appBridge/server/conversationStreamCoordinator.ts",
+      "lineRange": [
+        278,
+        278
+      ],
+      "patternKind": "stringly-typed-dispatch",
+      "bucket": "ts-union-reader",
+      "rationale": "App-bridge SSE streaming narrows subscribed AgentEvents and forwards only assistant/tool/terminal updates to clients; it is a read-only adapter.",
+      "manifestImpact": "no-change",
+      "blocksStage3a": false,
+      "snippet": "case 'tool': {"
+    },
+    {
+      "filePath": "src/core/appBridge/server/conversationStreamCoordinator.ts",
+      "lineRange": [
+        288,
+        288
+      ],
+      "patternKind": "stringly-typed-dispatch",
+      "bucket": "ts-union-reader",
+      "rationale": "App-bridge SSE streaming narrows subscribed AgentEvents and forwards only assistant/tool/terminal updates to clients; it is a read-only adapter.",
+      "manifestImpact": "no-change",
+      "blocksStage3a": false,
+      "snippet": "case 'result': {"
+    },
+    {
+      "filePath": "src/core/appBridge/server/conversationStreamCoordinator.ts",
+      "lineRange": [
+        292,
+        292
+      ],
+      "patternKind": "stringly-typed-dispatch",
+      "bucket": "ts-union-reader",
+      "rationale": "App-bridge SSE streaming narrows subscribed AgentEvents and forwards only assistant/tool/terminal updates to clients; it is a read-only adapter.",
+      "manifestImpact": "no-change",
+      "blocksStage3a": false,
+      "snippet": "case 'error': {"
+    },
+    {
+      "filePath": "src/core/navigation/resolveLink.ts",
+      "lineRange": [
+        66,
+        66
+      ],
+      "patternKind": "other",
+      "bucket": "false-positive",
+      "rationale": "NavigationTarget.type resolver, not an AgentEvent discriminator.",
+      "manifestImpact": "no-change",
+      "blocksStage3a": false,
+      "snippet": "switch (target.type) {"
+    },
+    {
+      "filePath": "src/core/rebelCore/agentLoop.ts",
+      "lineRange": [
+        210,
+        210
+      ],
+      "patternKind": "other",
+      "bucket": "false-positive",
+      "rationale": "Rebel Core stream-event discriminator that maps provider text/thinking deltas into internal callbacks, not AgentEvent.",
+      "manifestImpact": "no-change",
+      "blocksStage3a": false,
+      "snippet": "if (streamEvent.type === 'thinking_delta' && streamEvent.thinking) {"
+    },
+    {
+      "filePath": "src/core/rebelCore/clients/anthropicClient.ts",
+      "lineRange": [
+        645,
+        645
+      ],
+      "patternKind": "other",
+      "bucket": "false-positive",
+      "rationale": "Anthropic SDK content-delta discriminator, not AgentEvent.",
+      "manifestImpact": "no-change",
+      "blocksStage3a": false,
+      "snippet": "if (event.delta.type === 'thinking_delta' && event.delta.thinking) {"
+    },
+    {
+      "filePath": "src/core/rebelCore/planningMode.ts",
+      "lineRange": [
+        464,
+        464
+      ],
+      "patternKind": "other",
+      "bucket": "false-positive",
+      "rationale": "Planner stream callback event discriminator, not AgentEvent.",
+      "manifestImpact": "no-change",
+      "blocksStage3a": false,
+      "snippet": "if (event.type === 'thinking_delta' && options.onThinkingDelta) {"
+    },
+    {
+      "filePath": "src/core/services/agentEventDispatcher.ts",
+      "lineRange": [
+        298,
+        298
+      ],
+      "patternKind": "passthrough",
+      "bucket": "ts-union-reader",
+      "rationale": "The dispatcher narrows an incoming AgentEvent to route transient assistant deltas without accumulation; it forwards an existing event and does not construct a new AgentEvent.",
+      "manifestImpact": "no-change",
+      "blocksStage3a": false,
+      "snippet": "if (event.type === 'assistant_delta')"
+    },
+    {
+      "filePath": "src/core/services/agentEventDispatcher.ts",
+      "lineRange": [
+        343,
+        343
+      ],
+      "patternKind": "passthrough",
+      "bucket": "reducer",
+      "rationale": "The dispatcher narrows an existing AgentEvent to checkpoint terminal turn state from the accumulator; this is reducer/persistence handling, not AgentEvent production.",
+      "manifestImpact": "no-change",
+      "blocksStage3a": false,
+      "snippet": "event.type === 'result' (terminal checkpoint)"
+    },
+    {
+      "filePath": "src/core/services/agentEventDispatcher.ts",
+      "lineRange": [
+        343,
+        343
+      ],
+      "patternKind": "passthrough",
+      "bucket": "reducer",
+      "rationale": "The dispatcher narrows an existing AgentEvent to checkpoint terminal error state from the accumulator; this is reducer/persistence handling, not AgentEvent production.",
+      "manifestImpact": "no-change",
+      "blocksStage3a": false,
+      "snippet": "event.type === 'error' (terminal checkpoint)"
+    },
+    {
+      "filePath": "src/core/services/agentEventDispatcher.ts",
+      "lineRange": [
+        358,
+        358
+      ],
+      "patternKind": "passthrough",
+      "bucket": "reducer",
+      "rationale": "The dispatcher narrows an existing result AgentEvent to derive title-generation inputs from accumulated state; it does not create a new AgentEvent.",
+      "manifestImpact": "no-change",
+      "blocksStage3a": false,
+      "snippet": "if (event.type === 'result' && win && !win.isDestroyed())"
+    },
+    {
+      "filePath": "src/core/services/agentEventDispatcher.ts",
+      "lineRange": [
+        413,
+        413
+      ],
+      "patternKind": "passthrough",
+      "bucket": "reducer",
+      "rationale": "The dispatcher narrows an existing result AgentEvent to clean up the registered listener after notification; it does not create a new AgentEvent.",
+      "manifestImpact": "no-change",
+      "blocksStage3a": false,
+      "snippet": "if (event.type === 'result')"
+    },
+    {
+      "filePath": "src/core/services/autoContinueHook.ts",
+      "lineRange": [
+        253,
+        253
+      ],
+      "patternKind": "passthrough",
+      "bucket": "eventsByTurn-array-reader",
+      "rationale": "Scans eventsByTurn tool events to extract skill-file reads for auto-continue context.",
+      "manifestImpact": "no-change",
+      "blocksStage3a": false
+    },
+    {
+      "filePath": "src/core/services/calendarSyncService.ts",
+      "lineRange": [
+        128,
+        128
+      ],
+      "patternKind": "passthrough",
+      "bucket": "ts-union-reader",
+      "rationale": "Calendar sync headless-turn callback reads error AgentEvents to report sync failure state.",
+      "manifestImpact": "no-change",
+      "blocksStage3a": false,
+      "snippet": "if (event.type === 'error') {"
+    },
+    {
+      "filePath": "src/core/services/evidenceCollectionService.ts",
+      "lineRange": [
+        105,
+        105
+      ],
+      "patternKind": "passthrough",
+      "bucket": "eventsByTurn-array-reader",
+      "rationale": "Filters AgentEvent-like turn history for tool events while building evidence-collection context.",
+      "manifestImpact": "no-change",
+      "blocksStage3a": false
+    },
+    {
+      "filePath": "src/core/services/inboxStore.ts",
+      "lineRange": [
+        2316,
+        2316
+      ],
+      "patternKind": "passthrough",
+      "bucket": "producer",
+      "rationale": "markSessionTurnsAsCompleted appends a synthetic status AgentEvent into persisted eventsByTurn when a turn lacks a terminal event. RESOLVED at R2 Stage 3a-B (260502 plan) — the synthetic event is now constructed via buildAgentEvent.status(payload, envelope) which enforces status.requiredForNewEvents = ['sessionId', 'turnId'] envelope axes at compile time. Reader shape-compatibility preserved (event.type === 'status' && event.message === INTERRUPTION_MESSAGE).",
+      "manifestImpact": "derive-via-manifest",
+      "blocksStage3a": false,
+      "snippet": "if (lastEvent?.type === 'status' && lastEvent.message === INTERRUPTION_MESSAGE) {"
+    },
+    {
+      "filePath": "src/core/services/lazyContextAccumulator.ts",
+      "lineRange": [
+        84,
+        84
+      ],
+      "patternKind": "passthrough",
+      "bucket": "reducer",
+      "rationale": "Consumes each appended AgentEvent, records tool-start side-channel state, and later replays the flat event list through updateConversationWithEvent; this is accumulator/reducer behavior, not an eventsByTurn Record read.",
+      "manifestImpact": "no-change",
+      "blocksStage3a": false,
+      "snippet": "if (event.type === 'tool' && event.stage === 'start')"
+    },
+    {
+      "filePath": "src/core/services/memoryUpdateService.ts",
+      "lineRange": [
+        206,
+        206
+      ],
+      "patternKind": "passthrough",
+      "bucket": "ts-union-reader",
+      "rationale": "Narrows a single AgentEvent callback value from the memory-update turn to detect write-effectful tool use; it does not read an eventsByTurn Record.",
+      "manifestImpact": "no-change",
+      "blocksStage3a": false,
+      "snippet": "if (event.type === 'tool' && isWriteEffectfulTool(event.toolName))"
+    },
+    {
+      "filePath": "src/core/services/memoryUpdateService.ts",
+      "lineRange": [
+        208,
+        208
+      ],
+      "patternKind": "passthrough",
+      "bucket": "ts-union-reader",
+      "rationale": "Narrows a single AgentEvent callback value to capture the memory-update terminal result; it does not read an eventsByTurn Record.",
+      "manifestImpact": "no-change",
+      "blocksStage3a": false,
+      "snippet": "else if (event.type === 'result')"
+    },
+    {
+      "filePath": "src/core/services/memoryUpdateService.ts",
+      "lineRange": [
+        210,
+        210
+      ],
+      "patternKind": "passthrough",
+      "bucket": "ts-union-reader",
+      "rationale": "Narrows a single AgentEvent callback value to capture a memory-update terminal error and retryability; it does not read an eventsByTurn Record.",
+      "manifestImpact": "no-change",
+      "blocksStage3a": false,
+      "snippet": "else if (event.type === 'error')"
+    },
+    {
+      "filePath": "src/core/services/memoryUpdateService.ts",
+      "lineRange": [
+        245,
+        245
+      ],
+      "patternKind": "passthrough",
+      "bucket": "ts-union-reader",
+      "rationale": "Narrows the settled MemoryUpdateTerminalEvent union before invoking the terminal callback; this is a flat union read, not an eventsByTurn Record read.",
+      "manifestImpact": "no-change",
+      "blocksStage3a": false,
+      "snippet": "if (settled.type === 'result')"
+    },
+    {
+      "filePath": "src/core/services/memoryUpdateService.ts",
+      "lineRange": [
+        306,
+        306
+      ],
+      "patternKind": "passthrough",
+      "bucket": "ts-union-reader",
+      "rationale": "Filters a flat AgentEvent[] after context.eventsByTurn has already been flattened; the audited discriminant site is not itself a Record<turnId, AgentEvent[]> read.",
+      "manifestImpact": "no-change",
+      "blocksStage3a": false,
+      "snippet": "allEvents.filter((e) => e.type === 'tool' && e.stage === 'end')"
+    },
+    {
+      "filePath": "src/core/services/memoryUpdateService.ts",
+      "lineRange": [
+        312,
+        312
+      ],
+      "patternKind": "passthrough",
+      "bucket": "ts-union-reader",
+      "rationale": "Narrows events from the flat toolEvents array while rendering memory-update tool-output context; it is not reading the eventsByTurn Record shape.",
+      "manifestImpact": "no-change",
+      "blocksStage3a": false,
+      "snippet": "if (event.type === 'tool')"
+    },
+    {
+      "filePath": "src/core/services/memoryUpdateService.ts",
+      "lineRange": [
+        583,
+        583
+      ],
+      "patternKind": "passthrough",
+      "bucket": "ts-union-reader",
+      "rationale": "Narrows a single AgentEvent callback value to capture memory-update tool I/O for eval fixture mining; it does not read eventsByTurn.",
+      "manifestImpact": "no-change",
+      "blocksStage3a": false,
+      "snippet": "if (capturing && event.type === 'tool')"
+    },
+    {
+      "filePath": "src/core/services/memoryUpdateService.ts",
+      "lineRange": [
+        594,
+        594
+      ],
+      "patternKind": "passthrough",
+      "bucket": "ts-union-reader",
+      "rationale": "Narrows a MemoryUpdateTerminalEvent result value to broadcast success and analytics; it is not an eventsByTurn Record read.",
+      "manifestImpact": "no-change",
+      "blocksStage3a": false,
+      "snippet": "if (event.type === 'result')"
+    },
+    {
+      "filePath": "src/core/services/memoryUpdateService.ts",
+      "lineRange": [
+        661,
+        661
+      ],
+      "patternKind": "passthrough",
+      "bucket": "ts-union-reader",
+      "rationale": "Narrows a MemoryUpdateTerminalEvent error value to broadcast memory-update failure; it is not an eventsByTurn Record read.",
+      "manifestImpact": "no-change",
+      "blocksStage3a": false,
+      "snippet": "else if (event.type === 'error')"
+    },
+    {
+      "filePath": "src/core/services/narrativeAnalysisService.ts",
+      "lineRange": [
+        151,
+        151
+      ],
+      "patternKind": "passthrough",
+      "bucket": "ts-union-reader",
+      "rationale": "Narrative-analysis headless-turn callback reads assistant/tool AgentEvents to assemble analysis output and tool context.",
+      "manifestImpact": "no-change",
+      "blocksStage3a": false,
+      "snippet": "if (event.type === 'assistant') {"
+    },
+    {
+      "filePath": "src/core/services/narrativeAnalysisService.ts",
+      "lineRange": [
+        159,
+        159
+      ],
+      "patternKind": "passthrough",
+      "bucket": "ts-union-reader",
+      "rationale": "Narrative-analysis headless-turn callback reads assistant/tool AgentEvents to assemble analysis output and tool context.",
+      "manifestImpact": "no-change",
+      "blocksStage3a": false,
+      "snippet": "if (event.type === 'tool') {"
+    },
+    {
+      "filePath": "src/core/services/sessionMergeUtils.ts",
+      "lineRange": [
+        40,
+        40
+      ],
+      "patternKind": "passthrough",
+      "bucket": "eventsByTurn-array-reader",
+      "rationale": "Reads AgentEvent arrays from session merge state to detect terminal result/error events across typed and tolerant persisted paths.",
+      "manifestImpact": "no-change",
+      "blocksStage3a": false
+    },
+    {
+      "filePath": "src/core/services/sessionMergeUtils.ts",
+      "lineRange": [
+        40,
+        40
+      ],
+      "patternKind": "passthrough",
+      "bucket": "eventsByTurn-array-reader",
+      "rationale": "Reads AgentEvent arrays from session merge state to detect terminal result/error events across typed and tolerant persisted paths.",
+      "manifestImpact": "no-change",
+      "blocksStage3a": false
+    },
+    {
+      "filePath": "src/core/services/sessionMergeUtils.ts",
+      "lineRange": [
+        61,
+        61
+      ],
+      "patternKind": "runtime-cast",
+      "bucket": "eventsByTurn-array-reader",
+      "rationale": "Reads AgentEvent arrays from session merge state to detect terminal result/error events across typed and tolerant persisted paths.",
+      "manifestImpact": "no-change",
+      "blocksStage3a": false
+    },
+    {
+      "filePath": "src/core/services/sessionMergeUtils.ts",
+      "lineRange": [
+        61,
+        61
+      ],
+      "patternKind": "runtime-cast",
+      "bucket": "eventsByTurn-array-reader",
+      "rationale": "Reads AgentEvent arrays from session merge state to detect terminal result/error events across typed and tolerant persisted paths.",
+      "manifestImpact": "no-change",
+      "blocksStage3a": false
+    },
+    {
+      "filePath": "src/core/services/spacePathMatcher.ts",
+      "lineRange": [
+        181,
+        181
+      ],
+      "patternKind": "other",
+      "bucket": "false-positive",
+      "rationale": "SpaceType shareability switch, not AgentEvent.",
+      "manifestImpact": "no-change",
+      "blocksStage3a": false,
+      "snippet": "switch (space.type) {"
+    },
+    {
+      "filePath": "src/core/services/userQuestionResponseHandler.ts",
+      "lineRange": [
+        202,
+        202
+      ],
+      "patternKind": "passthrough",
+      "bucket": "eventsByTurn-array-reader",
+      "rationale": "Looks up a stored user_question AgentEvent in a turn accumulator to validate response routing by batch and session.",
+      "manifestImpact": "no-change",
+      "blocksStage3a": false
+    },
+    {
+      "filePath": "src/core/services/userYieldDetection.ts",
+      "lineRange": [
+        123,
+        123
+      ],
+      "patternKind": "passthrough",
+      "bucket": "ts-union-reader",
+      "rationale": "Scans a flat currentTurnEvents AgentEvent[] parameter for side-effect tool calls; the function does not receive or read an eventsByTurn Record.",
+      "manifestImpact": "no-change",
+      "blocksStage3a": false,
+      "snippet": "if (event.type !== 'tool') continue"
+    },
+    {
+      "filePath": "src/core/services/weeklyAssessmentService.ts",
+      "lineRange": [
+        137,
+        137
+      ],
+      "patternKind": "passthrough",
+      "bucket": "eventsByTurn-array-reader",
+      "rationale": "Filters stored AgentEvent history for tool events as weekly-assessment input context.",
+      "manifestImpact": "no-change",
+      "blocksStage3a": false
+    },
+    {
+      "filePath": "src/core/utils/logFieldFilter.ts",
+      "lineRange": [
+        227,
+        227
+      ],
+      "patternKind": "passthrough",
+      "bucket": "telemetry-or-exporter",
+      "rationale": "Anonymized session metadata scans event-like records from eventsByTurn to count errors, tool failures, and cost for logs; it does not construct AgentEvents.",
+      "manifestImpact": "no-change",
+      "blocksStage3a": false,
+      "snippet": "if (event.type === 'error') {"
+    },
+    {
+      "filePath": "src/main/cli.ts",
+      "lineRange": [
+        55,
+        55
+      ],
+      "patternKind": "passthrough",
+      "bucket": "script-or-replay",
+      "rationale": "Headless CLI event handler formats AgentEvents for JSON/human output and profiling state; it reads the union but does not construct events.",
+      "manifestImpact": "no-change",
+      "blocksStage3a": false,
+      "snippet": "const resultUsage = state.resultEvent?.type === 'result' ? state.resultEvent.usage : undefined;"
+    },
+    {
+      "filePath": "src/main/cli.ts",
+      "lineRange": [
+        145,
+        145
+      ],
+      "patternKind": "passthrough",
+      "bucket": "script-or-replay",
+      "rationale": "Headless CLI event handler formats AgentEvents for JSON/human output and profiling state; it reads the union but does not construct events.",
+      "manifestImpact": "no-change",
+      "blocksStage3a": false,
+      "snippet": "(event.type === 'assistant_delta' || event.type === 'assistant')"
+    },
+    {
+      "filePath": "src/main/cli.ts",
+      "lineRange": [
+        145,
+        145
+      ],
+      "patternKind": "passthrough",
+      "bucket": "script-or-replay",
+      "rationale": "Headless CLI event handler formats AgentEvents for JSON/human output and profiling state; it reads the union but does not construct events.",
+      "manifestImpact": "no-change",
+      "blocksStage3a": false,
+      "snippet": "(event.type === 'assistant_delta' || event.type === 'assistant')"
+    },
+    {
+      "filePath": "src/main/cli.ts",
+      "lineRange": [
+        151,
+        151
+      ],
+      "patternKind": "passthrough",
+      "bucket": "script-or-replay",
+      "rationale": "Headless CLI event handler formats AgentEvents for JSON/human output and profiling state; it reads the union but does not construct events.",
+      "manifestImpact": "no-change",
+      "blocksStage3a": false,
+      "snippet": "if (event.type === 'result') {"
+    },
+    {
+      "filePath": "src/main/cli.ts",
+      "lineRange": [
+        169,
+        169
+      ],
+      "patternKind": "stringly-typed-dispatch",
+      "bucket": "script-or-replay",
+      "rationale": "Headless CLI event handler formats AgentEvents for JSON/human output and profiling state; it reads the union but does not construct events.",
+      "manifestImpact": "no-change",
+      "blocksStage3a": false,
+      "snippet": "switch (event.type) {"
+    },
+    {
+      "filePath": "src/main/cli.ts",
+      "lineRange": [
+        170,
+        170
+      ],
+      "patternKind": "stringly-typed-dispatch",
+      "bucket": "script-or-replay",
+      "rationale": "Headless CLI event handler formats AgentEvents for JSON/human output and profiling state; it reads the union but does not construct events.",
+      "manifestImpact": "no-change",
+      "blocksStage3a": false,
+      "snippet": "case 'status': {"
+    },
+    {
+      "filePath": "src/main/cli.ts",
+      "lineRange": [
+        174,
+        174
+      ],
+      "patternKind": "stringly-typed-dispatch",
+      "bucket": "script-or-replay",
+      "rationale": "Headless CLI event handler formats AgentEvents for JSON/human output and profiling state; it reads the union but does not construct events.",
+      "manifestImpact": "no-change",
+      "blocksStage3a": false,
+      "snippet": "case 'assistant': {"
+    },
+    {
+      "filePath": "src/main/cli.ts",
+      "lineRange": [
+        185,
+        185
+      ],
+      "patternKind": "stringly-typed-dispatch",
+      "bucket": "script-or-replay",
+      "rationale": "Headless CLI event handler formats AgentEvents for JSON/human output and profiling state; it reads the union but does not construct events.",
+      "manifestImpact": "no-change",
+      "blocksStage3a": false,
+      "snippet": "case 'assistant_delta': {"
+    },
+    {
+      "filePath": "src/main/cli.ts",
+      "lineRange": [
+        194,
+        194
+      ],
+      "patternKind": "stringly-typed-dispatch",
+      "bucket": "script-or-replay",
+      "rationale": "Headless CLI event handler formats AgentEvents for JSON/human output and profiling state; it reads the union but does not construct events.",
+      "manifestImpact": "no-change",
+      "blocksStage3a": false,
+      "snippet": "case 'tool': {"
+    },
+    {
+      "filePath": "src/main/cli.ts",
+      "lineRange": [
+        201,
+        201
+      ],
+      "patternKind": "stringly-typed-dispatch",
+      "bucket": "script-or-replay",
+      "rationale": "Headless CLI event handler formats AgentEvents for JSON/human output and profiling state; it reads the union but does not construct events.",
+      "manifestImpact": "no-change",
+      "blocksStage3a": false,
+      "snippet": "case 'result': {"
+    },
+    {
+      "filePath": "src/main/cli.ts",
+      "lineRange": [
+        235,
+        235
+      ],
+      "patternKind": "stringly-typed-dispatch",
+      "bucket": "script-or-replay",
+      "rationale": "Headless CLI event handler formats AgentEvents for JSON/human output and profiling state; it reads the union but does not construct events.",
+      "manifestImpact": "no-change",
+      "blocksStage3a": false,
+      "snippet": "case 'error': {"
+    },
+    {
+      "filePath": "src/main/cli.ts",
+      "lineRange": [
+        239,
+        239
+      ],
+      "patternKind": "stringly-typed-dispatch",
+      "bucket": "script-or-replay",
+      "rationale": "Headless CLI event handler formats AgentEvents for JSON/human output and profiling state; it reads the union but does not construct events.",
+      "manifestImpact": "no-change",
+      "blocksStage3a": false,
+      "snippet": "case 'context_overflow': {"
+    },
+    {
+      "filePath": "src/main/cli.ts",
+      "lineRange": [
+        243,
+        243
+      ],
+      "patternKind": "stringly-typed-dispatch",
+      "bucket": "script-or-replay",
+      "rationale": "Headless CLI event handler formats AgentEvents for JSON/human output and profiling state; it reads the union but does not construct events.",
+      "manifestImpact": "no-change",
+      "blocksStage3a": false,
+      "snippet": "case 'compaction_started': {"
+    },
+    {
+      "filePath": "src/main/cli.ts",
+      "lineRange": [
+        247,
+        247
+      ],
+      "patternKind": "stringly-typed-dispatch",
+      "bucket": "script-or-replay",
+      "rationale": "Headless CLI event handler formats AgentEvents for JSON/human output and profiling state; it reads the union but does not construct events.",
+      "manifestImpact": "no-change",
+      "blocksStage3a": false,
+      "snippet": "case 'compaction_summary_ready': {"
+    },
+    {
+      "filePath": "src/main/cli.ts",
+      "lineRange": [
+        251,
+        251
+      ],
+      "patternKind": "stringly-typed-dispatch",
+      "bucket": "script-or-replay",
+      "rationale": "Headless CLI event handler formats AgentEvents for JSON/human output and profiling state; it reads the union but does not construct events.",
+      "manifestImpact": "no-change",
+      "blocksStage3a": false,
+      "snippet": "case 'compaction_retrying': {"
+    },
+    {
+      "filePath": "src/main/cli.ts",
+      "lineRange": [
+        255,
+        255
+      ],
+      "patternKind": "stringly-typed-dispatch",
+      "bucket": "script-or-replay",
+      "rationale": "Headless CLI event handler formats AgentEvents for JSON/human output and profiling state; it reads the union but does not construct events.",
+      "manifestImpact": "no-change",
+      "blocksStage3a": false,
+      "snippet": "case 'compaction_completed': {"
+    },
+    {
+      "filePath": "src/main/cli.ts",
+      "lineRange": [
+        259,
+        259
+      ],
+      "patternKind": "stringly-typed-dispatch",
+      "bucket": "script-or-replay",
+      "rationale": "Headless CLI event handler formats AgentEvents for JSON/human output and profiling state; it reads the union but does not construct events.",
+      "manifestImpact": "no-change",
+      "blocksStage3a": false,
+      "snippet": "case 'compaction_failed': {"
+    },
+    {
+      "filePath": "src/main/cli.ts",
+      "lineRange": [
+        269,
+        269
+      ],
+      "patternKind": "passthrough",
+      "bucket": "script-or-replay",
+      "rationale": "Headless CLI event handler formats AgentEvents for JSON/human output and profiling state; it reads the union but does not construct events.",
+      "manifestImpact": "no-change",
+      "blocksStage3a": false,
+      "snippet": "if (event.type === 'error') {"
+    },
+    {
+      "filePath": "src/main/cli.ts",
+      "lineRange": [
+        272,
+        272
+      ],
+      "patternKind": "passthrough",
+      "bucket": "script-or-replay",
+      "rationale": "Headless CLI event handler formats AgentEvents for JSON/human output and profiling state; it reads the union but does not construct events.",
+      "manifestImpact": "no-change",
+      "blocksStage3a": false,
+      "snippet": "if (event.type === 'result') {"
+    },
+    {
+      "filePath": "src/main/cli.ts",
+      "lineRange": [
+        277,
+        277
+      ],
+      "patternKind": "passthrough",
+      "bucket": "script-or-replay",
+      "rationale": "Headless CLI event handler formats AgentEvents for JSON/human output and profiling state; it reads the union but does not construct events.",
+      "manifestImpact": "no-change",
+      "blocksStage3a": false,
+      "snippet": "(event.type === 'assistant' && event.text && event.text.length > 0) ||"
+    },
+    {
+      "filePath": "src/main/cli.ts",
+      "lineRange": [
+        278,
+        278
+      ],
+      "patternKind": "passthrough",
+      "bucket": "script-or-replay",
+      "rationale": "Headless CLI event handler formats AgentEvents for JSON/human output and profiling state; it reads the union but does not construct events.",
+      "manifestImpact": "no-change",
+      "blocksStage3a": false,
+      "snippet": "(event.type === 'assistant_delta' && event.text && event.text.length > 0) ||"
+    },
+    {
+      "filePath": "src/main/cli.ts",
+      "lineRange": [
+        279,
+        279
+      ],
+      "patternKind": "passthrough",
+      "bucket": "script-or-replay",
+      "rationale": "Headless CLI event handler formats AgentEvents for JSON/human output and profiling state; it reads the union but does not construct events.",
+      "manifestImpact": "no-change",
+      "blocksStage3a": false,
+      "snippet": "(event.type === 'result' && event.text && event.text.trim().length > 0)"
+    },
+    {
+      "filePath": "src/main/index.ts",
+      "lineRange": [
+        1025,
+        1025
+      ],
+      "patternKind": "other",
+      "bucket": "false-positive",
+      "rationale": "Index-health worker message discriminator, not AgentEvent.",
+      "manifestImpact": "no-change",
+      "blocksStage3a": false,
+      "snippet": "if (msg.type === 'result' && msg.report) {"
+    },
+    {
+      "filePath": "src/main/index.ts",
+      "lineRange": [
+        1027,
+        1027
+      ],
+      "patternKind": "other",
+      "bucket": "false-positive",
+      "rationale": "Index-health worker message discriminator, not AgentEvent.",
+      "manifestImpact": "no-change",
+      "blocksStage3a": false,
+      "snippet": "} else if (msg.type === 'error') {"
+    },
+    {
+      "filePath": "src/main/mcpServer/index.ts",
+      "lineRange": [
+        239,
+        239
+      ],
+      "patternKind": "stringly-typed-dispatch",
+      "bucket": "ts-union-reader",
+      "rationale": "MCP server run-turn adapter narrows AgentEvents to collect response text, usage, and terminal error state for the tool response.",
+      "manifestImpact": "no-change",
+      "blocksStage3a": false,
+      "snippet": "switch (event.type) {"
+    },
+    {
+      "filePath": "src/main/mcpServer/index.ts",
+      "lineRange": [
+        240,
+        240
+      ],
+      "patternKind": "stringly-typed-dispatch",
+      "bucket": "ts-union-reader",
+      "rationale": "MCP server run-turn adapter narrows AgentEvents to collect response text, usage, and terminal error state for the tool response.",
+      "manifestImpact": "no-change",
+      "blocksStage3a": false,
+      "snippet": "case 'status':"
+    },
+    {
+      "filePath": "src/main/mcpServer/index.ts",
+      "lineRange": [
+        244,
+        244
+      ],
+      "patternKind": "stringly-typed-dispatch",
+      "bucket": "ts-union-reader",
+      "rationale": "MCP server run-turn adapter narrows AgentEvents to collect response text, usage, and terminal error state for the tool response.",
+      "manifestImpact": "no-change",
+      "blocksStage3a": false,
+      "snippet": "case 'assistant':"
+    },
+    {
+      "filePath": "src/main/mcpServer/index.ts",
+      "lineRange": [
+        252,
+        252
+      ],
+      "patternKind": "stringly-typed-dispatch",
+      "bucket": "ts-union-reader",
+      "rationale": "MCP server run-turn adapter narrows AgentEvents to collect response text, usage, and terminal error state for the tool response.",
+      "manifestImpact": "no-change",
+      "blocksStage3a": false,
+      "snippet": "case 'tool': {"
+    },
+    {
+      "filePath": "src/main/mcpServer/index.ts",
+      "lineRange": [
+        260,
+        260
+      ],
+      "patternKind": "stringly-typed-dispatch",
+      "bucket": "ts-union-reader",
+      "rationale": "MCP server run-turn adapter narrows AgentEvents to collect response text, usage, and terminal error state for the tool response.",
+      "manifestImpact": "no-change",
+      "blocksStage3a": false,
+      "snippet": "case 'result':"
+    },
+    {
+      "filePath": "src/main/mcpServer/index.ts",
+      "lineRange": [
+        281,
+        281
+      ],
+      "patternKind": "stringly-typed-dispatch",
+      "bucket": "ts-union-reader",
+      "rationale": "MCP server run-turn adapter narrows AgentEvents to collect response text, usage, and terminal error state for the tool response.",
+      "manifestImpact": "no-change",
+      "blocksStage3a": false,
+      "snippet": "case 'error':"
+    },
+    {
+      "filePath": "src/main/services/agentEventDispatcher.ts",
+      "lineRange": [
+        52,
+        52
+      ],
+      "patternKind": "passthrough",
+      "bucket": "ts-union-reader",
+      "rationale": "Desktop dispatcher decorator reads result AgentEvents for notification side effects after core dispatch; it forwards an already-built event.",
+      "manifestImpact": "no-change",
+      "blocksStage3a": false,
+      "snippet": "if (event.type === 'result') {"
+    },
+    {
+      "filePath": "src/main/services/agentMessageHandler.ts",
+      "lineRange": [
+        409,
+        409
+      ],
+      "patternKind": "other",
+      "bucket": "false-positive",
+      "rationale": "Rebel Core AgentMessage.type dispatch before AgentEvent production; the actual AgentEvent literals are inventoried separately.",
+      "manifestImpact": "no-change",
+      "blocksStage3a": false,
+      "snippet": "if (message.type === 'assistant') {"
+    },
+    {
+      "filePath": "src/main/services/agentMessageHandler.ts",
+      "lineRange": [
+        447,
+        447
+      ],
+      "patternKind": "other",
+      "bucket": "false-positive",
+      "rationale": "This discriminant is Rebel Core AgentMessage.type inside collectToolHints, not AgentEvent.type; actual ToolAgentEvent object literals in this block were already inventoried as producer rows.",
+      "manifestImpact": "no-change",
+      "blocksStage3a": false,
+      "snippet": "if (message.type === 'assistant')"
+    },
+    {
+      "filePath": "src/main/services/agentMessageHandler.ts",
+      "lineRange": [
+        821,
+        821
+      ],
+      "patternKind": "other",
+      "bucket": "false-positive",
+      "rationale": "Rebel Core AgentMessage.type dispatch before AgentEvent production; the actual AgentEvent literals are inventoried separately.",
+      "manifestImpact": "no-change",
+      "blocksStage3a": false,
+      "snippet": "switch (message.type) {"
+    },
+    {
+      "filePath": "src/main/services/agentMessageHandler.ts",
+      "lineRange": [
+        865,
+        865
+      ],
+      "patternKind": "other",
+      "bucket": "false-positive",
+      "rationale": "This switch is over Rebel Core AgentMessage.type before dispatching derived events, not over AgentEvent.type; nearby dispatchAgentEvent rows were already inventoried as producers.",
+      "manifestImpact": "no-change",
+      "blocksStage3a": false,
+      "snippet": "switch (message.type)"
+    },
+    {
+      "filePath": "src/main/services/agentMessageHandler.ts",
+      "lineRange": [
+        893,
+        893
+      ],
+      "patternKind": "other",
+      "bucket": "false-positive",
+      "rationale": "Rebel Core AgentMessage.type dispatch before AgentEvent production; the actual AgentEvent literals are inventoried separately.",
+      "manifestImpact": "no-change",
+      "blocksStage3a": false,
+      "snippet": "case 'assistant': {"
+    },
+    {
+      "filePath": "src/main/services/agentMessageHandler.ts",
+      "lineRange": [
+        937,
+        937
+      ],
+      "patternKind": "other",
+      "bucket": "false-positive",
+      "rationale": "This case label belongs to the Rebel Core AgentMessage switch, not an AgentEvent union switch; the assistant AgentEvent dispatch inside the case was already inventoried as a producer row.",
+      "manifestImpact": "no-change",
+      "blocksStage3a": false,
+      "snippet": "case 'assistant'"
+    },
+    {
+      "filePath": "src/main/services/agentMessageHandler.ts",
+      "lineRange": [
+        1100,
+        1100
+      ],
+      "patternKind": "other",
+      "bucket": "false-positive",
+      "rationale": "Rebel Core AgentMessage.type dispatch before AgentEvent production; the actual AgentEvent literals are inventoried separately.",
+      "manifestImpact": "no-change",
+      "blocksStage3a": false,
+      "snippet": "case 'result': {"
+    },
+    {
+      "filePath": "src/main/services/agentMessageHandler.ts",
+      "lineRange": [
+        1173,
+        1173
+      ],
+      "patternKind": "other",
+      "bucket": "false-positive",
+      "rationale": "This case label belongs to the Rebel Core AgentMessage switch, not an AgentEvent union switch; result/error AgentEvent dispatch sites inside the case were already inventoried separately as producer rows.",
+      "manifestImpact": "no-change",
+      "blocksStage3a": false,
+      "snippet": "case 'result'"
+    },
+    {
+      "filePath": "src/main/services/agentMessageHandler.ts",
+      "lineRange": [
+        1452,
+        1452
+      ],
+      "patternKind": "passthrough",
+      "bucket": "eventsByTurn-array-reader",
+      "rationale": "Agent message handling reads accumulated eventsByTurn arrays to classify user-question pauses, terminal tools, and badge/time-saved signals after the turn has already accumulated events.",
+      "manifestImpact": "no-change",
+      "blocksStage3a": false,
+      "snippet": "const hasUserQuestionEvent = turnEvents.some((e) => e.type === 'user_question');"
+    },
+    {
+      "filePath": "src/main/services/agentMessageHandler.ts",
+      "lineRange": [
+        1455,
+        1455
+      ],
+      "patternKind": "passthrough",
+      "bucket": "eventsByTurn-array-reader",
+      "rationale": "Agent message handling reads accumulated eventsByTurn arrays to classify user-question pauses, terminal tools, and badge/time-saved signals after the turn has already accumulated events.",
+      "manifestImpact": "no-change",
+      "blocksStage3a": false,
+      "snippet": "e.type === 'tool' && 'stage' in e && e.stage === 'end');"
+    },
+    {
+      "filePath": "src/main/services/agentMessageHandler.ts",
+      "lineRange": [
+        1529,
+        1529
+      ],
+      "patternKind": "passthrough",
+      "bucket": "eventsByTurn-array-reader",
+      "rationale": "Reads accumulated eventsByTurn entries to classify user-question pauses, tool execution, badges, and follow-on memory/time-saved work.",
+      "manifestImpact": "no-change",
+      "blocksStage3a": false
+    },
+    {
+      "filePath": "src/main/services/agentMessageHandler.ts",
+      "lineRange": [
+        1529,
+        1529
+      ],
+      "patternKind": "passthrough",
+      "bucket": "eventsByTurn-array-reader",
+      "rationale": "Reads accumulated eventsByTurn entries to classify user-question pauses, tool execution, badges, and follow-on memory/time-saved work.",
+      "manifestImpact": "no-change",
+      "blocksStage3a": false
+    },
+    {
+      "filePath": "src/main/services/agentMessageHandler.ts",
+      "lineRange": [
+        1532,
+        1532
+      ],
+      "patternKind": "passthrough",
+      "bucket": "eventsByTurn-array-reader",
+      "rationale": "Reads accumulated eventsByTurn entries to classify user-question pauses, tool execution, badges, and follow-on memory/time-saved work.",
+      "manifestImpact": "no-change",
+      "blocksStage3a": false
+    },
+    {
+      "filePath": "src/main/services/agentMessageHandler.ts",
+      "lineRange": [
+        1557,
+        1557
+      ],
+      "patternKind": "passthrough",
+      "bucket": "eventsByTurn-array-reader",
+      "rationale": "Agent message handling reads accumulated eventsByTurn arrays to classify user-question pauses, terminal tools, and badge/time-saved signals after the turn has already accumulated events.",
+      "manifestImpact": "no-change",
+      "blocksStage3a": false,
+      "snippet": "const hasUserQuestionEvent = turnEvents.some((e) => e.type === 'user_question');"
+    },
+    {
+      "filePath": "src/main/services/agentMessageHandler.ts",
+      "lineRange": [
+        1563,
+        1563
+      ],
+      "patternKind": "passthrough",
+      "bucket": "eventsByTurn-array-reader",
+      "rationale": "Reads accumulated eventsByTurn entries to classify user-question pauses, tool execution, badges, and follow-on memory/time-saved work.",
+      "manifestImpact": "no-change",
+      "blocksStage3a": false
+    },
+    {
+      "filePath": "src/main/services/agentMessageHandler.ts",
+      "lineRange": [
+        1591,
+        1591
+      ],
+      "patternKind": "passthrough",
+      "bucket": "eventsByTurn-array-reader",
+      "rationale": "Agent message handling reads accumulated eventsByTurn arrays to classify user-question pauses, terminal tools, and badge/time-saved signals after the turn has already accumulated events.",
+      "manifestImpact": "no-change",
+      "blocksStage3a": false,
+      "snippet": "const hasUserQuestionEvent = turnEvents.some((e) => e.type === 'user_question');"
+    },
+    {
+      "filePath": "src/main/services/agentMessageHandler.ts",
+      "lineRange": [
+        1633,
+        1633
+      ],
+      "patternKind": "passthrough",
+      "bucket": "eventsByTurn-array-reader",
+      "rationale": "Reads accumulated eventsByTurn entries to classify user-question pauses, tool execution, badges, and follow-on memory/time-saved work.",
+      "manifestImpact": "no-change",
+      "blocksStage3a": false
+    },
+    {
+      "filePath": "src/main/services/agentMessageHandler.ts",
+      "lineRange": [
+        1772,
+        1772
+      ],
+      "patternKind": "passthrough",
+      "bucket": "eventsByTurn-array-reader",
+      "rationale": "Agent message handling reads accumulated eventsByTurn arrays to classify user-question pauses, terminal tools, and badge/time-saved signals after the turn has already accumulated events.",
+      "manifestImpact": "no-change",
+      "blocksStage3a": false,
+      "snippet": ".filter((e) => e.type === 'tool');"
+    },
+    {
+      "filePath": "src/main/services/agentMessageHandler.ts",
+      "lineRange": [
+        1800,
+        1800
+      ],
+      "patternKind": "passthrough",
+      "bucket": "eventsByTurn-array-reader",
+      "rationale": "Agent message handling reads accumulated eventsByTurn arrays to classify user-question pauses, terminal tools, and badge/time-saved signals after the turn has already accumulated events.",
+      "manifestImpact": "no-change",
+      "blocksStage3a": false,
+      "snippet": ".filter((e) => e.type === 'tool');"
+    },
+    {
+      "filePath": "src/main/services/agentMessageHandler.ts",
+      "lineRange": [
+        1878,
+        1878
+      ],
+      "patternKind": "passthrough",
+      "bucket": "eventsByTurn-array-reader",
+      "rationale": "Reads accumulated eventsByTurn entries to classify user-question pauses, tool execution, badges, and follow-on memory/time-saved work.",
+      "manifestImpact": "no-change",
+      "blocksStage3a": false
+    },
+    {
+      "filePath": "src/main/services/agentMessageHandler.ts",
+      "lineRange": [
+        1878,
+        1878
+      ],
+      "patternKind": "passthrough",
+      "bucket": "eventsByTurn-array-reader",
+      "rationale": "Reads accumulated eventsByTurn entries to classify user-question pauses, tool execution, badges, and follow-on memory/time-saved work.",
+      "manifestImpact": "no-change",
+      "blocksStage3a": false
+    },
+    {
+      "filePath": "src/main/services/agentMessageHandler.ts",
+      "lineRange": [
+        1906,
+        1906
+      ],
+      "patternKind": "other",
+      "bucket": "false-positive",
+      "rationale": "Watchdog delta/thinking discriminator from raw runtime diagnostics, not AgentEvent.",
+      "manifestImpact": "no-change",
+      "blocksStage3a": false,
+      "snippet": "if (delta?.type === 'thinking_delta' && delta.thinking) {"
+    },
+    {
+      "filePath": "src/main/services/agentMessageHandler.ts",
+      "lineRange": [
+        2012,
+        2012
+      ],
+      "patternKind": "passthrough",
+      "bucket": "eventsByTurn-array-reader",
+      "rationale": "Reads accumulated eventsByTurn entries to classify user-question pauses, tool execution, badges, and follow-on memory/time-saved work.",
+      "manifestImpact": "no-change",
+      "blocksStage3a": false
+    },
+    {
+      "filePath": "src/main/services/agentTurnExecutor.ts",
+      "lineRange": [
+        3234,
+        3234
+      ],
+      "patternKind": "other",
+      "bucket": "false-positive",
+      "rationale": "Runtime AgentMessage result discriminator in the turn executor, not the AgentEvent union.",
+      "manifestImpact": "no-change",
+      "blocksStage3a": false,
+      "snippet": "if (msg.type === 'result') {"
+    },
+    {
+      "filePath": "src/main/services/appBridgeIntentService.ts",
+      "lineRange": [
+        522,
+        522
+      ],
+      "patternKind": "passthrough",
+      "bucket": "ts-union-reader",
+      "rationale": "App-bridge intent drain listener watches AgentEvent assistant and terminal variants to schedule conversation drains; it does not produce events.",
+      "manifestImpact": "no-change",
+      "blocksStage3a": false,
+      "snippet": "if (event.type === 'assistant_delta' || event.type === 'assistant') {"
+    },
+    {
+      "filePath": "src/main/services/appBridgeIntentService.ts",
+      "lineRange": [
+        522,
+        522
+      ],
+      "patternKind": "passthrough",
+      "bucket": "ts-union-reader",
+      "rationale": "App-bridge intent drain listener watches AgentEvent assistant and terminal variants to schedule conversation drains; it does not produce events.",
+      "manifestImpact": "no-change",
+      "blocksStage3a": false,
+      "snippet": "if (event.type === 'assistant_delta' || event.type === 'assistant') {"
+    },
+    {
+      "filePath": "src/main/services/appBridgeIntentService.ts",
+      "lineRange": [
+        525,
+        525
+      ],
+      "patternKind": "passthrough",
+      "bucket": "ts-union-reader",
+      "rationale": "App-bridge intent drain listener watches AgentEvent assistant and terminal variants to schedule conversation drains; it does not produce events.",
+      "manifestImpact": "no-change",
+      "blocksStage3a": false,
+      "snippet": "if (event.type === 'result' || event.type === 'error') {"
+    },
+    {
+      "filePath": "src/main/services/appBridgeIntentService.ts",
+      "lineRange": [
+        525,
+        525
+      ],
+      "patternKind": "passthrough",
+      "bucket": "ts-union-reader",
+      "rationale": "App-bridge intent drain listener watches AgentEvent assistant and terminal variants to schedule conversation drains; it does not produce events.",
+      "manifestImpact": "no-change",
+      "blocksStage3a": false,
+      "snippet": "if (event.type === 'result' || event.type === 'error') {"
+    },
+    {
+      "filePath": "src/main/services/atlasService.ts",
+      "lineRange": [
+        1070,
+        1070
+      ],
+      "patternKind": "other",
+      "bucket": "false-positive",
+      "rationale": "Atlas worker response discriminator, not AgentEvent.",
+      "manifestImpact": "no-change",
+      "blocksStage3a": false,
+      "snippet": "if (msg.type === 'result' && msg.id === id) {"
+    },
+    {
+      "filePath": "src/main/services/atlasService.ts",
+      "lineRange": [
+        1077,
+        1077
+      ],
+      "patternKind": "other",
+      "bucket": "false-positive",
+      "rationale": "Atlas worker response discriminator, not AgentEvent.",
+      "manifestImpact": "no-change",
+      "blocksStage3a": false,
+      "snippet": "} else if (msg.type === 'error' && msg.id === id) {"
+    },
+    {
+      "filePath": "src/main/services/automationScheduler.ts",
+      "lineRange": [
+        220,
+        220
+      ],
+      "patternKind": "passthrough",
+      "bucket": "eventsByTurn-array-reader",
+      "rationale": "Automation token aggregation scans eventsByTurn result events for usage and tool-call totals.",
+      "manifestImpact": "no-change",
+      "blocksStage3a": false,
+      "snippet": "if (event.type === 'result' && event.usage) {"
+    },
+    {
+      "filePath": "src/main/services/automationScheduler.ts",
+      "lineRange": [
+        2452,
+        2452
+      ],
+      "patternKind": "passthrough",
+      "bucket": "reducer",
+      "rationale": "Automation onEvent reduces each AgentEvent into automation session state and updates terminal run status/error fields.",
+      "manifestImpact": "no-change",
+      "blocksStage3a": false,
+      "snippet": "if (event.type === 'status' && event.message?.toLowerCase().includes('stopped by user')) {"
+    },
+    {
+      "filePath": "src/main/services/automationScheduler.ts",
+      "lineRange": [
+        2454,
+        2454
+      ],
+      "patternKind": "passthrough",
+      "bucket": "reducer",
+      "rationale": "Automation onEvent reduces each AgentEvent into automation session state and updates terminal run status/error fields.",
+      "manifestImpact": "no-change",
+      "blocksStage3a": false,
+      "snippet": "} else if (event.type === 'result') {"
+    },
+    {
+      "filePath": "src/main/services/automationScheduler.ts",
+      "lineRange": [
+        2472,
+        2472
+      ],
+      "patternKind": "passthrough",
+      "bucket": "reducer",
+      "rationale": "Automation onEvent reduces each AgentEvent into automation session state and updates terminal run status/error fields.",
+      "manifestImpact": "no-change",
+      "blocksStage3a": false,
+      "snippet": "} else if (event.type === 'error') {"
+    },
+    {
+      "filePath": "src/main/services/automationScheduler.ts",
+      "lineRange": [
+        2628,
+        2628
+      ],
+      "patternKind": "passthrough",
+      "bucket": "ts-union-reader",
+      "rationale": "Discriminant narrows the AgentEvent union before forwarding fields to dispatchAgentErrorEvent; the helper itself is the producer (classified as a separate inventory row). This call site reads the union but does not construct a new event, so it does not block Stage 3a cutover. (S2-F2 Phase-5 reviewer correction: gemini3.1-pro flagged the original 'producer' classification as over-flagged — see planning doc Implementation Notes — S2-F2 Phase 5 corrections.)",
+      "manifestImpact": "no-change",
+      "blocksStage3a": false,
+      "snippet": "if (event.type === 'error') {"
+    },
+    {
+      "filePath": "src/main/services/cloud/cloudRouter.ts",
+      "lineRange": [
+        2934,
+        2934
+      ],
+      "patternKind": "passthrough",
+      "bucket": "ts-union-reader",
+      "rationale": "Cloud router observes terminal AgentEvents from the cloud turn stream to release concurrency and forward the existing event to renderer IPC.",
+      "manifestImpact": "no-change",
+      "blocksStage3a": false,
+      "snippet": "if (event.type === 'result' || event.type === 'error') {"
+    },
+    {
+      "filePath": "src/main/services/cloud/cloudRouter.ts",
+      "lineRange": [
+        2934,
+        2934
+      ],
+      "patternKind": "passthrough",
+      "bucket": "ts-union-reader",
+      "rationale": "Cloud router observes terminal AgentEvents from the cloud turn stream to release concurrency and forward the existing event to renderer IPC.",
+      "manifestImpact": "no-change",
+      "blocksStage3a": false,
+      "snippet": "if (event.type === 'result' || event.type === 'error') {"
+    },
+    {
+      "filePath": "src/main/services/cloud/cloudServiceClient.ts",
+      "lineRange": [
+        395,
+        395
+      ],
+      "patternKind": "runtime-cast",
+      "bucket": "ts-union-reader",
+      "rationale": "Cloud WebSocket handling branches on raw msg.type before later casting unknown JSON to AgentEvent. RESOLVED at R2 Stage 3a-D1 (260502 plan) — control-frame / AgentEvent split via CloudTurnControlMessageSchema (.strict() on all 4 frame types) tried first; manifest-validated AgentEventSchemaFromManifest.safeParse handles post-turnId AgentEvents. Schema collision guard (Phase-2 P0-1) ensures real AgentEvent error events route to onEvent, not silently dropped via control branch.",
+      "manifestImpact": "runtime-validate",
+      "blocksStage3a": false,
+      "snippet": "if (msg.type === 'turn_started' && typeof msg.turnId === 'string') {"
+    },
+    {
+      "filePath": "src/main/services/cloud/cloudServiceClient.ts",
+      "lineRange": [
+        402,
+        402
+      ],
+      "patternKind": "runtime-cast",
+      "bucket": "ts-union-reader",
+      "rationale": "Cloud WebSocket handling branches on raw msg.type before later casting unknown JSON to AgentEvent. RESOLVED at R2 Stage 3a-D1 (260502 plan) — pre-turnId error frames now consumed via the control-frame branch which extracts `error: string` from the .strict() Zod schema; rejection observable via cloudIngressRejectionCounter + structured warn log.",
+      "manifestImpact": "runtime-validate",
+      "blocksStage3a": false,
+      "snippet": "if (msg.type === 'error' && !turnId) {"
+    },
+    {
+      "filePath": "src/main/services/cloud/ndjsonResponseParser.ts",
+      "lineRange": [
+        112,
+        112
+      ],
+      "patternKind": "other",
+      "bucket": "false-positive",
+      "rationale": "NDJSON progress/result parser discriminator for a service response, not AgentEvent.",
+      "manifestImpact": "no-change",
+      "blocksStage3a": false,
+      "snippet": "if (evt.type === 'result') {"
+    },
+    {
+      "filePath": "src/main/services/conversationLogExportService.ts",
+      "lineRange": [
+        184,
+        184
+      ],
+      "patternKind": "passthrough",
+      "bucket": "telemetry-or-exporter",
+      "rationale": "Conversation log export reads stored AgentEvent history to summarize model, tool, and error details for an export artefact.",
+      "manifestImpact": "no-change",
+      "blocksStage3a": false,
+      "snippet": "if (event.type === 'result' && 'model' in event && event.model) {"
+    },
+    {
+      "filePath": "src/main/services/conversationLogExportService.ts",
+      "lineRange": [
+        279,
+        279
+      ],
+      "patternKind": "passthrough",
+      "bucket": "telemetry-or-exporter",
+      "rationale": "Conversation log export reads stored AgentEvent history to summarize model, tool, and error details for an export artefact.",
+      "manifestImpact": "no-change",
+      "blocksStage3a": false,
+      "snippet": "if (event.type === 'tool') {"
+    },
+    {
+      "filePath": "src/main/services/conversationLogExportService.ts",
+      "lineRange": [
+        281,
+        281
+      ],
+      "patternKind": "passthrough",
+      "bucket": "telemetry-or-exporter",
+      "rationale": "Conversation log export reads stored AgentEvent history to summarize model, tool, and error details for an export artefact.",
+      "manifestImpact": "no-change",
+      "blocksStage3a": false,
+      "snippet": "} else if (event.type === 'error') {"
+    },
+    {
+      "filePath": "src/main/services/diagnosticContextService.ts",
+      "lineRange": [
+        40,
+        40
+      ],
+      "patternKind": "passthrough",
+      "bucket": "telemetry-or-exporter",
+      "rationale": "Diagnostic context generation scans stored AgentEvent arrays for errors, tools, compaction, usage, and cost metrics.",
+      "manifestImpact": "no-change",
+      "blocksStage3a": false,
+      "snippet": "e.type === 'error' ||"
+    },
+    {
+      "filePath": "src/main/services/diagnosticContextService.ts",
+      "lineRange": [
+        41,
+        41
+      ],
+      "patternKind": "passthrough",
+      "bucket": "telemetry-or-exporter",
+      "rationale": "Diagnostic context generation scans stored AgentEvent arrays for errors, tools, compaction, usage, and cost metrics.",
+      "manifestImpact": "no-change",
+      "blocksStage3a": false,
+      "snippet": "(e.type === 'status' && e.message.toLowerCase().includes('error'))"
+    },
+    {
+      "filePath": "src/main/services/diagnosticContextService.ts",
+      "lineRange": [
+        58,
+        58
+      ],
+      "patternKind": "passthrough",
+      "bucket": "telemetry-or-exporter",
+      "rationale": "Diagnostic context generation scans stored AgentEvent arrays for errors, tools, compaction, usage, and cost metrics.",
+      "manifestImpact": "no-change",
+      "blocksStage3a": false,
+      "snippet": "if (event.type === 'tool') {"
+    },
+    {
+      "filePath": "src/main/services/diagnosticContextService.ts",
+      "lineRange": [
+        85,
+        85
+      ],
+      "patternKind": "passthrough",
+      "bucket": "telemetry-or-exporter",
+      "rationale": "Diagnostic context generation scans stored AgentEvent arrays for errors, tools, compaction, usage, and cost metrics.",
+      "manifestImpact": "no-change",
+      "blocksStage3a": false,
+      "snippet": "if (event.type === 'status' && event.message.toLowerCase().includes('compaction')) {"
+    },
+    {
+      "filePath": "src/main/services/diagnosticContextService.ts",
+      "lineRange": [
+        101,
+        101
+      ],
+      "patternKind": "passthrough",
+      "bucket": "telemetry-or-exporter",
+      "rationale": "Diagnostic context generation scans stored AgentEvent arrays for errors, tools, compaction, usage, and cost metrics.",
+      "manifestImpact": "no-change",
+      "blocksStage3a": false,
+      "snippet": "if (event.type === 'result' && event.usage) {"
+    },
+    {
+      "filePath": "src/main/services/diagnosticContextService.ts",
+      "lineRange": [
+        135,
+        135
+      ],
+      "patternKind": "passthrough",
+      "bucket": "telemetry-or-exporter",
+      "rationale": "Diagnostic context generation scans stored AgentEvent arrays for errors, tools, compaction, usage, and cost metrics.",
+      "manifestImpact": "no-change",
+      "blocksStage3a": false,
+      "snippet": "if (event.type === 'result' && event.usage?.costUsd) {"
+    },
+    {
+      "filePath": "src/main/services/embeddingService.ts",
+      "lineRange": [
+        955,
+        955
+      ],
+      "patternKind": "other",
+      "bucket": "false-positive",
+      "rationale": "Embedding worker message discriminator, not AgentEvent.",
+      "manifestImpact": "no-change",
+      "blocksStage3a": false,
+      "snippet": "} else if (msg.type === 'error') {"
+    },
+    {
+      "filePath": "src/main/services/errorRecoveryService.ts",
+      "lineRange": [
+        379,
+        379
+      ],
+      "patternKind": "passthrough",
+      "bucket": "ts-union-reader",
+      "rationale": "Error-recovery evaluation callback reads assistant/error/result AgentEvents to accumulate evaluation text or resolve failure state.",
+      "manifestImpact": "no-change",
+      "blocksStage3a": false,
+      "snippet": "if (event.type === 'assistant') {"
+    },
+    {
+      "filePath": "src/main/services/errorRecoveryService.ts",
+      "lineRange": [
+        382,
+        382
+      ],
+      "patternKind": "passthrough",
+      "bucket": "ts-union-reader",
+      "rationale": "Error-recovery evaluation callback reads assistant/error/result AgentEvents to accumulate evaluation text or resolve failure state.",
+      "manifestImpact": "no-change",
+      "blocksStage3a": false,
+      "snippet": "} else if (event.type === 'error') {"
+    },
+    {
+      "filePath": "src/main/services/errorRecoveryService.ts",
+      "lineRange": [
+        399,
+        399
+      ],
+      "patternKind": "passthrough",
+      "bucket": "ts-union-reader",
+      "rationale": "Error-recovery evaluation callback reads assistant/error/result AgentEvents to accumulate evaluation text or resolve failure state.",
+      "manifestImpact": "no-change",
+      "blocksStage3a": false,
+      "snippet": "} else if (event.type === 'result') {"
+    },
+    {
+      "filePath": "src/main/services/gpuEmbeddingBackend.ts",
+      "lineRange": [
+        332,
+        332
+      ],
+      "patternKind": "other",
+      "bucket": "false-positive",
+      "rationale": "GPU embedding worker response discriminator, not AgentEvent.",
+      "manifestImpact": "no-change",
+      "blocksStage3a": false,
+      "snippet": "if (response.type === 'error') {"
+    },
+    {
+      "filePath": "src/main/services/gpuEmbeddingBackend.ts",
+      "lineRange": [
+        349,
+        349
+      ],
+      "patternKind": "other",
+      "bucket": "false-positive",
+      "rationale": "GPU embedding worker response discriminator, not AgentEvent.",
+      "manifestImpact": "no-change",
+      "blocksStage3a": false,
+      "snippet": "if (response.type === 'error') {"
+    },
+    {
+      "filePath": "src/main/services/gpuEmbeddingBackend.ts",
+      "lineRange": [
+        434,
+        434
+      ],
+      "patternKind": "other",
+      "bucket": "false-positive",
+      "rationale": "GPU embedding worker response discriminator, not AgentEvent.",
+      "manifestImpact": "no-change",
+      "blocksStage3a": false,
+      "snippet": "if (response.type === 'error') {"
+    },
+    {
+      "filePath": "src/main/services/gpuEmbeddingBackend.ts",
+      "lineRange": [
+        468,
+        468
+      ],
+      "patternKind": "other",
+      "bucket": "false-positive",
+      "rationale": "GPU embedding worker response discriminator, not AgentEvent.",
+      "manifestImpact": "no-change",
+      "blocksStage3a": false,
+      "snippet": "} else if (response.type === 'error') {"
+    },
+    {
+      "filePath": "src/main/services/gpuEmbeddingBackend.ts",
+      "lineRange": [
+        711,
+        711
+      ],
+      "patternKind": "other",
+      "bucket": "false-positive",
+      "rationale": "GPU embedding worker response discriminator, not AgentEvent.",
+      "manifestImpact": "no-change",
+      "blocksStage3a": false,
+      "snippet": "if (response.id === disposeId && (response.type === 'disposed' || response.type === 'error')) {"
+    },
+    {
+      "filePath": "src/main/services/inboundTriggers/inboundTriggerService.ts",
+      "lineRange": [
+        587,
+        587
+      ],
+      "patternKind": "passthrough",
+      "bucket": "reducer",
+      "rationale": "The inbound-trigger onEvent callback reduces each AgentEvent into convState via updateConversationWithEvent, then handles terminal result state; this is reducer logic, not an eventsByTurn Record read.",
+      "manifestImpact": "no-change",
+      "blocksStage3a": false,
+      "snippet": "event.type === 'result' (first comparison)"
+    },
+    {
+      "filePath": "src/main/services/inboundTriggers/inboundTriggerService.ts",
+      "lineRange": [
+        587,
+        587
+      ],
+      "patternKind": "passthrough",
+      "bucket": "reducer",
+      "rationale": "The inbound-trigger onEvent callback reduces each AgentEvent into convState via updateConversationWithEvent, then handles terminal error state; this is reducer logic, not an eventsByTurn Record read.",
+      "manifestImpact": "no-change",
+      "blocksStage3a": false,
+      "snippet": "event.type === 'error' (second comparison)"
+    },
+    {
+      "filePath": "src/main/services/inboundTriggers/inboundTriggerService.ts",
+      "lineRange": [
+        590,
+        590
+      ],
+      "patternKind": "passthrough",
+      "bucket": "reducer",
+      "rationale": "After updateConversationWithEvent mutates inbound-trigger convState, this branch records terminal error state; this is reducer/terminal-state handling, not an eventsByTurn Record read.",
+      "manifestImpact": "no-change",
+      "blocksStage3a": false,
+      "snippet": "if (event.type === 'error')"
+    },
+    {
+      "filePath": "src/main/services/liveCoachService.ts",
+      "lineRange": [
+        568,
+        568
+      ],
+      "patternKind": "passthrough",
+      "bucket": "ts-union-reader",
+      "rationale": "Live-coach headless-turn callbacks read assistant/result/error AgentEvents to collect generated text and failure state.",
+      "manifestImpact": "no-change",
+      "blocksStage3a": false,
+      "snippet": "if (event.type === 'assistant' && event.text) {"
+    },
+    {
+      "filePath": "src/main/services/liveCoachService.ts",
+      "lineRange": [
+        570,
+        570
+      ],
+      "patternKind": "passthrough",
+      "bucket": "ts-union-reader",
+      "rationale": "Live-coach headless-turn callbacks read assistant/result/error AgentEvents to collect generated text and failure state.",
+      "manifestImpact": "no-change",
+      "blocksStage3a": false,
+      "snippet": "} else if (event.type === 'result' && 'text' in event && event.text) {"
+    },
+    {
+      "filePath": "src/main/services/liveCoachService.ts",
+      "lineRange": [
+        572,
+        572
+      ],
+      "patternKind": "passthrough",
+      "bucket": "ts-union-reader",
+      "rationale": "Live-coach headless-turn callbacks read assistant/result/error AgentEvents to collect generated text and failure state.",
+      "manifestImpact": "no-change",
+      "blocksStage3a": false,
+      "snippet": "} else if (event.type === 'error') {"
+    },
+    {
+      "filePath": "src/main/services/liveCoachService.ts",
+      "lineRange": [
+        761,
+        761
+      ],
+      "patternKind": "passthrough",
+      "bucket": "ts-union-reader",
+      "rationale": "Live-coach headless-turn callbacks read assistant/result/error AgentEvents to collect generated text and failure state.",
+      "manifestImpact": "no-change",
+      "blocksStage3a": false,
+      "snippet": "if (event.type === 'assistant' && event.text) {"
+    },
+    {
+      "filePath": "src/main/services/liveCoachService.ts",
+      "lineRange": [
+        763,
+        763
+      ],
+      "patternKind": "passthrough",
+      "bucket": "ts-union-reader",
+      "rationale": "Live-coach headless-turn callbacks read assistant/result/error AgentEvents to collect generated text and failure state.",
+      "manifestImpact": "no-change",
+      "blocksStage3a": false,
+      "snippet": "} else if (event.type === 'result' && 'text' in event && event.text) {"
+    },
+    {
+      "filePath": "src/main/services/liveCoachService.ts",
+      "lineRange": [
+        765,
+        765
+      ],
+      "patternKind": "passthrough",
+      "bucket": "ts-union-reader",
+      "rationale": "Live-coach headless-turn callbacks read assistant/result/error AgentEvents to collect generated text and failure state.",
+      "manifestImpact": "no-change",
+      "blocksStage3a": false,
+      "snippet": "} else if (event.type === 'error') {"
+    },
+    {
+      "filePath": "src/main/services/localModelProxyServer.ts",
+      "lineRange": [
+        597,
+        597
+      ],
+      "patternKind": "other",
+      "bucket": "false-positive",
+      "rationale": "Classified from inventory snippet only per multi-agent guard: toolChoice.type belongs to local model proxy tool-choice handling, not AgentEvent.",
+      "manifestImpact": "no-change",
+      "blocksStage3a": false,
+      "snippet": "switch (toolChoice.type) {"
+    },
+    {
+      "filePath": "src/main/services/localModelProxyServer.ts",
+      "lineRange": [
+        602,
+        602
+      ],
+      "patternKind": "other",
+      "bucket": "false-positive",
+      "rationale": "Classified from inventory snippet only per multi-agent guard: toolChoice.type belongs to local model proxy tool-choice handling, not AgentEvent.",
+      "manifestImpact": "no-change",
+      "blocksStage3a": false,
+      "snippet": "case 'tool':"
+    },
+    {
+      "filePath": "src/main/services/meetingBot/botQAService.ts",
+      "lineRange": [
+        780,
+        780
+      ],
+      "patternKind": "passthrough",
+      "bucket": "ts-union-reader",
+      "rationale": "Meeting Q&A headless-turn callback reads assistant/result/error AgentEvents to capture the answer or failure state.",
+      "manifestImpact": "no-change",
+      "blocksStage3a": false,
+      "snippet": "if (event.type === 'assistant' && event.text) {"
+    },
+    {
+      "filePath": "src/main/services/meetingBot/botQAService.ts",
+      "lineRange": [
+        783,
+        783
+      ],
+      "patternKind": "passthrough",
+      "bucket": "ts-union-reader",
+      "rationale": "Meeting Q&A headless-turn callback reads assistant/result/error AgentEvents to capture the answer or failure state.",
+      "manifestImpact": "no-change",
+      "blocksStage3a": false,
+      "snippet": "} else if (event.type === 'result' && 'text' in event && event.text) {"
+    },
+    {
+      "filePath": "src/main/services/meetingBot/botQAService.ts",
+      "lineRange": [
+        786,
+        786
+      ],
+      "patternKind": "passthrough",
+      "bucket": "ts-union-reader",
+      "rationale": "Meeting Q&A headless-turn callback reads assistant/result/error AgentEvents to capture the answer or failure state.",
+      "manifestImpact": "no-change",
+      "blocksStage3a": false,
+      "snippet": "} else if (event.type === 'error') {"
+    },
+    {
+      "filePath": "src/main/services/meetingBot/meetingAnalysisService.ts",
+      "lineRange": [
+        171,
+        171
+      ],
+      "patternKind": "passthrough",
+      "bucket": "ts-union-reader",
+      "rationale": "Meeting analysis headless-turn callback reads error AgentEvents for logging without constructing or validating events.",
+      "manifestImpact": "no-change",
+      "blocksStage3a": false,
+      "snippet": "if (event.type === 'error') {"
+    },
+    {
+      "filePath": "src/main/services/meetingBot/relayClient.ts",
+      "lineRange": [
+        176,
+        176
+      ],
+      "patternKind": "other",
+      "bucket": "false-positive",
+      "rationale": "Meeting relay WebSocket protocol message discriminator, not AgentEvent.",
+      "manifestImpact": "no-change",
+      "blocksStage3a": false,
+      "snippet": "switch (msg.type) {"
+    },
+    {
+      "filePath": "src/main/services/preTurnWorkerService.ts",
+      "lineRange": [
+        230,
+        230
+      ],
+      "patternKind": "other",
+      "bucket": "false-positive",
+      "rationale": "Pre-turn worker protocol message discriminator, not AgentEvent.",
+      "manifestImpact": "no-change",
+      "blocksStage3a": false,
+      "snippet": "} else if (msg.type === 'error') {"
+    },
+    {
+      "filePath": "src/main/services/turnErrorRecovery.ts",
+      "lineRange": [
+        1235,
+        1235
+      ],
+      "patternKind": "passthrough",
+      "bucket": "eventsByTurn-array-reader",
+      "rationale": "Empty-result recovery reads accumulated eventsByTurn for user_question signals before coercing a false anomaly into a pause.",
+      "manifestImpact": "no-change",
+      "blocksStage3a": false,
+      "snippet": "const hasUserQuestionEvent = turnEvents.some((e) => e.type === 'user_question');"
+    },
+    {
+      "filePath": "src/main/services/turnErrorRecovery.ts",
+      "lineRange": [
+        1236,
+        1236
+      ],
+      "patternKind": "passthrough",
+      "bucket": "eventsByTurn-array-reader",
+      "rationale": "Reads eventsByTurn during empty-result recovery to preserve user-question and successful-tool recovery semantics.",
+      "manifestImpact": "no-change",
+      "blocksStage3a": false
+    },
+    {
+      "filePath": "src/main/services/turnErrorRecovery.ts",
+      "lineRange": [
+        1347,
+        1347
+      ],
+      "patternKind": "passthrough",
+      "bucket": "eventsByTurn-array-reader",
+      "rationale": "Reads eventsByTurn during empty-result recovery to preserve user-question and successful-tool recovery semantics.",
+      "manifestImpact": "no-change",
+      "blocksStage3a": false
+    },
+    {
+      "filePath": "src/main/services/turnErrorRecovery.ts",
+      "lineRange": [
+        1352,
+        1352
+      ],
+      "patternKind": "passthrough",
+      "bucket": "eventsByTurn-array-reader",
+      "rationale": "Reads eventsByTurn during empty-result recovery to preserve user-question and successful-tool recovery semantics.",
+      "manifestImpact": "no-change",
+      "blocksStage3a": false
+    },
+    {
+      "filePath": "src/main/services/useCaseGeneratorService.ts",
+      "lineRange": [
+        50,
+        50
+      ],
+      "patternKind": "other",
+      "bucket": "false-positive",
+      "rationale": "Phase1ContractMessage discriminator for a legacy runtime helper, not AgentEvent.",
+      "manifestImpact": "no-change",
+      "blocksStage3a": false,
+      "snippet": "if (message.type !== 'assistant') return '';"
+    },
+    {
+      "filePath": "src/main/services/useCaseGeneratorService.ts",
+      "lineRange": [
+        81,
+        81
+      ],
+      "patternKind": "other",
+      "bucket": "false-positive",
+      "rationale": "Phase1ContractMessage discriminator for a legacy runtime helper, not AgentEvent.",
+      "manifestImpact": "no-change",
+      "blocksStage3a": false,
+      "snippet": "if (message.type === 'assistant') {"
+    },
+    {
+      "filePath": "src/main/services/useCaseGeneratorService.ts",
+      "lineRange": [
+        84,
+        84
+      ],
+      "patternKind": "other",
+      "bucket": "false-positive",
+      "rationale": "Phase1ContractMessage discriminator for a legacy runtime helper, not AgentEvent.",
+      "manifestImpact": "no-change",
+      "blocksStage3a": false,
+      "snippet": "} else if (message.type === 'result') {"
+    },
+    {
+      "filePath": "src/main/services/useCaseGeneratorService.ts",
+      "lineRange": [
+        277,
+        277
+      ],
+      "patternKind": "passthrough",
+      "bucket": "ts-union-reader",
+      "rationale": "Use-case discovery executeAgentTurn callback reads assistant/result/error AgentEvents to resolve generated output or failure state.",
+      "manifestImpact": "no-change",
+      "blocksStage3a": false,
+      "snippet": "if (event.type === 'assistant' && 'text' in event) {"
+    },
+    {
+      "filePath": "src/main/services/useCaseGeneratorService.ts",
+      "lineRange": [
+        279,
+        279
+      ],
+      "patternKind": "passthrough",
+      "bucket": "ts-union-reader",
+      "rationale": "Use-case discovery executeAgentTurn callback reads assistant/result/error AgentEvents to resolve generated output or failure state.",
+      "manifestImpact": "no-change",
+      "blocksStage3a": false,
+      "snippet": "} else if (event.type === 'result') {"
+    },
+    {
+      "filePath": "src/main/services/useCaseGeneratorService.ts",
+      "lineRange": [
+        283,
+        283
+      ],
+      "patternKind": "passthrough",
+      "bucket": "ts-union-reader",
+      "rationale": "Use-case discovery executeAgentTurn callback reads assistant/result/error AgentEvents to resolve generated output or failure state.",
+      "manifestImpact": "no-change",
+      "blocksStage3a": false,
+      "snippet": "} else if (event.type === 'error') {"
+    },
+    {
+      "filePath": "src/main/services/watchdogTracker.ts",
+      "lineRange": [
+        193,
+        193
+      ],
+      "patternKind": "other",
+      "bucket": "false-positive",
+      "rationale": "Watchdog observes Rebel Core AgentMessage.type and content block types to track activity, not AgentEvent.",
+      "manifestImpact": "no-change",
+      "blocksStage3a": false,
+      "snippet": "if (message.type === 'assistant') {"
+    },
+    {
+      "filePath": "src/main/services/watchdogTracker.ts",
+      "lineRange": [
+        221,
+        221
+      ],
+      "patternKind": "other",
+      "bucket": "false-positive",
+      "rationale": "Watchdog observes Rebel Core AgentMessage.type and content block types to track activity, not AgentEvent.",
+      "manifestImpact": "no-change",
+      "blocksStage3a": false,
+      "snippet": "} else if (message.type === 'result' || message.type === 'error') {"
+    },
+    {
+      "filePath": "src/main/services/watchdogTracker.ts",
+      "lineRange": [
+        221,
+        221
+      ],
+      "patternKind": "other",
+      "bucket": "false-positive",
+      "rationale": "Watchdog observes Rebel Core AgentMessage.type and content block types to track activity, not AgentEvent.",
+      "manifestImpact": "no-change",
+      "blocksStage3a": false,
+      "snippet": "} else if (message.type === 'result' || message.type === 'error') {"
+    },
+    {
+      "filePath": "src/main/workers/atlasWorker.ts",
+      "lineRange": [
+        186,
+        186
+      ],
+      "patternKind": "other",
+      "bucket": "false-positive",
+      "rationale": "Atlas worker request discriminator, not AgentEvent.",
+      "manifestImpact": "no-change",
+      "blocksStage3a": false,
+      "snippet": "switch (msg.type) {"
+    },
+    {
+      "filePath": "src/main/workers/embeddingWorker.ts",
+      "lineRange": [
+        160,
+        160
+      ],
+      "patternKind": "other",
+      "bucket": "false-positive",
+      "rationale": "Embedding worker request discriminator, not AgentEvent.",
+      "manifestImpact": "no-change",
+      "blocksStage3a": false,
+      "snippet": "switch (msg.type) {"
+    },
+    {
+      "filePath": "src/main/workers/preTurnWorker.ts",
+      "lineRange": [
+        1307,
+        1307
+      ],
+      "patternKind": "other",
+      "bucket": "false-positive",
+      "rationale": "Pre-turn worker request discriminator, not AgentEvent.",
+      "manifestImpact": "no-change",
+      "blocksStage3a": false,
+      "snippet": "switch (msg.type) {"
+    },
+    {
+      "filePath": "src/shared/navigation/urlParser.ts",
+      "lineRange": [
+        447,
+        447
+      ],
+      "patternKind": "other",
+      "bucket": "false-positive",
+      "rationale": "NavigationTarget formatter switch, not AgentEvent.",
+      "manifestImpact": "no-change",
+      "blocksStage3a": false,
+      "snippet": "switch (target.type) {"
+    },
+    {
+      "filePath": "src/shared/types/agent.ts",
+      "lineRange": [
+        793,
+        793
+      ],
+      "patternKind": "passthrough",
+      "bucket": "ts-union-reader",
+      "rationale": "RESOLVED 2026-05-01 (R2 Stage 3a-AGT cutover): isToolEvent re-anchored on AgentEventFromManifest. ToolAgentEvent narrowed-extract alias also re-anchored. TS-level identity AgentEvent === AgentEventFromManifest holds today (parity.schema.test.ts _ManifestParityCheck sentinel + 142-fixture S2-D corpus); no caller-side change required for either type.",
+      "manifestImpact": "no-change",
+      "blocksStage3a": false,
+      "snippet": "return event.type === 'tool';"
+    },
+    {
+      "filePath": "src/shared/types/agent.ts",
+      "lineRange": [
+        800,
+        800
+      ],
+      "patternKind": "passthrough",
+      "bucket": "ts-union-reader",
+      "rationale": "RESOLVED 2026-05-01 (R2 Stage 3a-AGT cutover): isAssistantFamilyEvent re-anchored on AgentEventFromManifest. AssistantAgentEvent / AssistantDeltaAgentEvent / ResultAgentEvent narrowed-extract aliases also re-anchored. TS-level identity AgentEvent === AgentEventFromManifest holds today (parity.schema.test.ts _ManifestParityCheck sentinel + 142-fixture S2-D corpus); no caller-side change required.",
+      "manifestImpact": "no-change",
+      "blocksStage3a": false,
+      "snippet": "return event.type === 'assistant' || event.type === 'assistant_delta' || event.type === 'result';"
+    },
+    {
+      "filePath": "src/shared/types/agent.ts",
+      "lineRange": [
+        800,
+        800
+      ],
+      "patternKind": "passthrough",
+      "bucket": "ts-union-reader",
+      "rationale": "RESOLVED 2026-05-01 (R2 Stage 3a-AGT cutover): isAssistantFamilyEvent re-anchored on AgentEventFromManifest. AssistantAgentEvent / AssistantDeltaAgentEvent / ResultAgentEvent narrowed-extract aliases also re-anchored. TS-level identity AgentEvent === AgentEventFromManifest holds today (parity.schema.test.ts _ManifestParityCheck sentinel + 142-fixture S2-D corpus); no caller-side change required.",
+      "manifestImpact": "no-change",
+      "blocksStage3a": false,
+      "snippet": "return event.type === 'assistant' || event.type === 'assistant_delta' || event.type === 'result';"
+    },
+    {
+      "filePath": "src/shared/types/agent.ts",
+      "lineRange": [
+        800,
+        800
+      ],
+      "patternKind": "passthrough",
+      "bucket": "ts-union-reader",
+      "rationale": "RESOLVED 2026-05-01 (R2 Stage 3a-AGT cutover): isAssistantFamilyEvent re-anchored on AgentEventFromManifest. AssistantAgentEvent / AssistantDeltaAgentEvent / ResultAgentEvent narrowed-extract aliases also re-anchored. TS-level identity AgentEvent === AgentEventFromManifest holds today (parity.schema.test.ts _ManifestParityCheck sentinel + 142-fixture S2-D corpus); no caller-side change required.",
+      "manifestImpact": "no-change",
+      "blocksStage3a": false,
+      "snippet": "return event.type === 'assistant' || event.type === 'assistant_delta' || event.type === 'result';"
+    },
+    {
+      "filePath": "src/shared/utils/automationScheduling.ts",
+      "lineRange": [
+        86,
+        86
+      ],
+      "patternKind": "other",
+      "bucket": "false-positive",
+      "rationale": "Automation schedule discriminator, not AgentEvent.",
+      "manifestImpact": "no-change",
+      "blocksStage3a": false,
+      "snippet": "switch (schedule.type) {"
+    },
+    {
+      "filePath": "src/shared/utils/automationScheduling.ts",
+      "lineRange": [
+        248,
+        248
+      ],
+      "patternKind": "other",
+      "bucket": "false-positive",
+      "rationale": "Automation schedule discriminator, not AgentEvent.",
+      "manifestImpact": "no-change",
+      "blocksStage3a": false,
+      "snippet": "switch (schedule.type) {"
+    },
+    {
+      "filePath": "src/shared/utils/connectorSetupSignal.ts",
+      "lineRange": [
+        62,
+        62
+      ],
+      "patternKind": "passthrough",
+      "bucket": "eventsByTurn-array-reader",
+      "rationale": "Reads AgentEvent tool/result variants to infer connector-setup signals without producing new events.",
+      "manifestImpact": "no-change",
+      "blocksStage3a": false
+    },
+    {
+      "filePath": "src/shared/utils/connectorSetupSignal.ts",
+      "lineRange": [
+        65,
+        65
+      ],
+      "patternKind": "passthrough",
+      "bucket": "eventsByTurn-array-reader",
+      "rationale": "Reads AgentEvent tool/result variants to infer connector-setup signals without producing new events.",
+      "manifestImpact": "no-change",
+      "blocksStage3a": false
+    },
+    {
+      "filePath": "src/shared/utils/eventCompaction.ts",
+      "lineRange": [
+        142,
+        142
+      ],
+      "patternKind": "stringly-typed-dispatch",
+      "bucket": "reducer",
+      "rationale": "Compaction transforms AgentEvent arrays according to per-type policy and type-specific payload stripping; this policy surface should derive from the manifest rather than hand-maintained switches/maps.",
+      "manifestImpact": "derive-via-manifest",
+      "blocksStage3a": false,
+      "snippet": "switch (event.type) {"
+    },
+    {
+      "filePath": "src/shared/utils/eventCompaction.ts",
+      "lineRange": [
+        143,
+        143
+      ],
+      "patternKind": "stringly-typed-dispatch",
+      "bucket": "reducer",
+      "rationale": "Compaction transforms AgentEvent arrays according to per-type policy and type-specific payload stripping; this policy surface should derive from the manifest rather than hand-maintained switches/maps.",
+      "manifestImpact": "derive-via-manifest",
+      "blocksStage3a": false,
+      "snippet": "case 'tool': {"
+    },
+    {
+      "filePath": "src/shared/utils/eventCompaction.ts",
+      "lineRange": [
+        161,
+        161
+      ],
+      "patternKind": "stringly-typed-dispatch",
+      "bucket": "reducer",
+      "rationale": "Compaction transforms AgentEvent arrays according to per-type policy and type-specific payload stripping; this policy surface should derive from the manifest rather than hand-maintained switches/maps.",
+      "manifestImpact": "derive-via-manifest",
+      "blocksStage3a": false,
+      "snippet": "case 'assistant':"
+    },
+    {
+      "filePath": "src/shared/utils/eventCompaction.ts",
+      "lineRange": [
+        183,
+        183
+      ],
+      "patternKind": "passthrough",
+      "bucket": "reducer",
+      "rationale": "Compaction transforms AgentEvent arrays according to per-type policy and type-specific payload stripping; this policy surface should derive from the manifest rather than hand-maintained switches/maps.",
+      "manifestImpact": "derive-via-manifest",
+      "blocksStage3a": false,
+      "snippet": "return last.type === 'result' || last.type === 'error';"
+    },
+    {
+      "filePath": "src/shared/utils/eventCompaction.ts",
+      "lineRange": [
+        183,
+        183
+      ],
+      "patternKind": "passthrough",
+      "bucket": "reducer",
+      "rationale": "Compaction transforms AgentEvent arrays according to per-type policy and type-specific payload stripping; this policy surface should derive from the manifest rather than hand-maintained switches/maps.",
+      "manifestImpact": "derive-via-manifest",
+      "blocksStage3a": false,
+      "snippet": "return last.type === 'result' || last.type === 'error';"
+    },
+    {
+      "filePath": "src/shared/utils/eventCompaction.ts",
+      "lineRange": [
+        187,
+        187
+      ],
+      "patternKind": "passthrough",
+      "bucket": "eventsByTurn-array-reader",
+      "rationale": "Reads compacted AgentEvent sequence state to preserve terminal result/error events during compaction.",
+      "manifestImpact": "derive-via-manifest",
+      "blocksStage3a": false
+    },
+    {
+      "filePath": "src/shared/utils/eventCompaction.ts",
+      "lineRange": [
+        187,
+        187
+      ],
+      "patternKind": "passthrough",
+      "bucket": "eventsByTurn-array-reader",
+      "rationale": "Reads compacted AgentEvent sequence state to preserve terminal result/error events during compaction.",
+      "manifestImpact": "derive-via-manifest",
+      "blocksStage3a": false
+    },
+    {
+      "filePath": "src/shared/utils/eventSanitization.ts",
+      "lineRange": [
+        216,
+        216
+      ],
+      "patternKind": "passthrough",
+      "bucket": "reducer",
+      "rationale": "Sanitization narrows AgentEvent to tool events before truncating large tool detail for accumulation/rendering; this policy should derive from manifest sanitization axes.",
+      "manifestImpact": "derive-via-manifest",
+      "blocksStage3a": false,
+      "snippet": "if (event.type !== 'tool') return event;"
+    },
+    {
+      "filePath": "src/shared/utils/eventSanitization.ts",
+      "lineRange": [
+        231,
+        231
+      ],
+      "patternKind": "passthrough",
+      "bucket": "reducer",
+      "rationale": "Sanitization narrows AgentEvent to tool events before truncating large tool detail for accumulation/rendering; this policy should derive from manifest sanitization axes.",
+      "manifestImpact": "derive-via-manifest",
+      "blocksStage3a": false,
+      "snippet": "if (event.type !== 'tool') return event;"
+    },
+    {
+      "filePath": "src/shared/utils/usageFormatters.ts",
+      "lineRange": [
+        4,
+        4
+      ],
+      "patternKind": "passthrough",
+      "bucket": "renderer-ui",
+      "rationale": "Usage formatting reads the result AgentEvent shape to render token/cost/context details; it does not produce or validate events.",
+      "manifestImpact": "no-change",
+      "blocksStage3a": false,
+      "snippet": "if (event.type !== 'result' || !event.usage) return '';"
+    }
+  ],
+  "summary": {
+    "totalSites": 180,
+    "byBucket": {
+      "eventsByTurn-array-reader": 31,
+      "false-positive": 42,
+      "producer": 1,
+      "reducer": 18,
+      "renderer-ui": 1,
+      "script-or-replay": 22,
+      "telemetry-or-exporter": 10,
+      "ts-union-reader": 55
+    },
+    "blocksStage3a": 0,
+    "unresolved": 0
+  }
+}

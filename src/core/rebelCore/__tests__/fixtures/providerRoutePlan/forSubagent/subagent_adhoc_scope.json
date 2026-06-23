@@ -1,0 +1,38 @@
+{
+  "description": "Subagent ad-hoc route scope",
+  "input": {
+    "model": "profile:openai-main",
+    "routeScope": "ad-hoc",
+    "settings": {
+      "activeProvider": "anthropic",
+      "models": {
+        "apiKey": "sk-ant-test",
+        "authMethod": "api-key",
+        "model": "claude-sonnet-4-6",
+        "oauthToken": null
+      },
+      "localModel": {
+        "activeProfileId": null,
+        "profiles": [
+          {
+            "apiKey": "sk-profile-openai",
+            "createdAt": 0,
+            "id": "openai-main",
+            "model": "gpt-5.5",
+            "name": "Openai Main",
+            "providerType": "openai",
+            "serverUrl": "https://api.openai.com/v1"
+          }
+        ]
+      },
+      "openRouter": {
+        "enabled": false,
+        "oauthToken": null,
+        "selectedModel": "anthropic/claude-sonnet-4.6"
+      },
+      "providerKeys": {}
+    },
+    "codexConnectivity": "unknown"
+  },
+  "name": "subagent_adhoc_scope"
+}

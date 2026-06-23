@@ -1,0 +1,37 @@
+{
+  "name": "web-companion",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "dev": "vite",
+    "build": "vite build",
+    "preview": "vite preview",
+    "typecheck": "tsc -p tsconfig.json --noEmit && tsc -p tsconfig.test.json --noEmit",
+    "test": "vitest run",
+    "test:e2e": "vitest run src/__tests__/e2e.integration.test.ts --testTimeout=120000",
+    "test:e2e:browser": "playwright test"
+  },
+  "dependencies": {
+    "@rebel/cloud-client": "file:../cloud-client",
+    "react": "^19.2.0",
+    "react-dom": "^19.2.0",
+    "react-markdown": "^10.1.0",
+    "react-router-dom": "^7.6.2",
+    "remark-gfm": "^4.0.1",
+    "zod": "^4.3.6",
+    "zustand": "^5.0.9"
+  },
+  "devDependencies": {
+    "@playwright/test": "^1.56.1",
+    "@testing-library/dom": "^10.4.1",
+    "@testing-library/jest-dom": "^6.9.1",
+    "@testing-library/react": "^16.3.2",
+    "@types/ws": "^8.18.1",
+    "@vitejs/plugin-react-swc": "^4.2.2",
+    "jsdom": "^26.1.0",
+    "typescript": "^5.9.3",
+    "vite": "^7.2.4",
+    "vitest": "^4.1.0",
+    "ws": "^8.19.0"
+  }
+}

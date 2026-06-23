@@ -1,0 +1,262 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=1280, height=720">
+  <title>Rebel Avatar - Audio Level Detection Test</title>
+  <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    body {
+      width: 1280px;
+      height: 720px;
+      background: linear-gradient(135deg, #1a1a2e 0%, #16213e 100%);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+      color: white;
+      overflow: hidden;
+    }
+    .container {
+      text-align: center;
+    }
+    .avatar {
+      width: 200px;
+      height: 200px;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin: 0 auto 24px;
+      box-shadow: 0 8px 32px rgba(0,0,0,0.3);
+      transition: all 0.15s ease;
+    }
+    .avatar.idle {
+      background: linear-gradient(145deg, #4a90a4 0%, #2d5a6b 100%);
+      transform: scale(1);
+    }
+    .avatar.listening {
+      background: linear-gradient(145deg, #6bc46d 0%, #3d8b40 100%);
+      transform: scale(1.05);
+    }
+    .avatar.error {
+      background: linear-gradient(145deg, #c44a4a 0%, #8b3d3d 100%);
+    }
+    .avatar-icon {
+      font-size: 80px;
+    }
+    .title {
+      font-size: 24px;
+      font-weight: 600;
+      margin-bottom: 8px;
+    }
+    .status {
+      font-size: 18px;
+      opacity: 0.7;
+      margin-bottom: 24px;
+    }
+    .level-container {
+      width: 400px;
+      margin: 0 auto 16px;
+    }
+    .level-bar {
+      height: 20px;
+      background: rgba(255,255,255,0.1);
+      border-radius: 10px;
+      overflow: hidden;
+    }
+    .level-fill {
+      height: 100%;
+      background: linear-gradient(90deg, #4a90a4, #6bc46d);
+      border-radius: 10px;
+      transition: width 0.1s ease;
+      width: 0%;
+    }
+    .level-value {
+      font-family: monospace;
+      font-size: 14px;
+      margin-top: 8px;
+      opacity: 0.7;
+    }
+    .test-result {
+      font-size: 20px;
+      font-weight: bold;
+      padding: 12px 24px;
+      border-radius: 8px;
+      margin-top: 20px;
+      display: inline-block;
+    }
+    .test-result.success {
+      background: rgba(107, 196, 109, 0.2);
+      color: #6bc46d;
+    }
+    .test-result.failure {
+      background: rgba(196, 74, 74, 0.2);
+      color: #c44a4a;
+    }
+    .test-result.pending {
+      background: rgba(196, 166, 74, 0.2);
+      color: #c4a64a;
+    }
+    .debug-info {
+      position: absolute;
+      bottom: 20px;
+      left: 20px;
+      font-size: 11px;
+      opacity: 0.5;
+      font-family: monospace;
+      max-width: 500px;
+      text-align: left;
+      line-height: 1.4;
+    }
+    .stats {
+      margin-top: 16px;
+      font-size: 14px;
+      opacity: 0.6;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <div class="avatar idle" id="avatar">
+      <span class="avatar-icon">🤖</span>
+    </div>
+    <div class="title">Audio Level Detection Test</div>
+    <div class="status" id="status">Requesting microphone access...</div>
+    
+    <div class="level-container">
+      <div class="level-bar">
+        <div class="level-fill" id="levelFill"></div>
+      </div>
+      <div class="level-value" id="levelValue">Level: --</div>
+    </div>
+    
+    <div class="stats" id="stats">
+      Peak: -- | Samples: 0
+    </div>
+    
+    <div class="test-result pending" id="result">Waiting for audio...</div>
+  </div>
+  
+  <div class="debug-info" id="debugInfo">Loading...</div>
+
+  <script>
+    const avatar = document.getElementById('avatar');
+    const status = document.getElementById('status');
+    const result = document.getElementById('result');
+    const levelFill = document.getElementById('levelFill');
+    const levelValue = document.getElementById('levelValue');
+    const stats = document.getElementById('stats');
+    const debugInfo = document.getElementById('debugInfo');
+    
+    let logs = [];
+    let sampleCount = 0;
+    let peakLevel = 0;
+    let hasDetectedAudio = false;
+    const THRESHOLD = 0.05; // Minimum level to consider "audio detected"
+    
+    function log(msg) {
+      const timestamp = new Date().toISOString().substr(11, 12);
+      const entry = `[${timestamp}] ${msg}`;
+      logs.push(entry);
+      console.log('[Spike Test]', msg);
+      debugInfo.textContent = logs.slice(-6).join('\n');
+    }
+    
+    async function startAudioDetection() {
+      log('Requesting getUserMedia({ audio: true })...');
+      
+      try {
+        const stream = await navigator.mediaDevices.getUserMedia({ audio: true });
+        log('SUCCESS: Got audio stream');
+        log(`Tracks: ${stream.getAudioTracks().length}`);
+        
+        status.textContent = 'Listening to meeting audio...';
+        
+        // Set up audio analysis
+        const audioContext = new (window.AudioContext || window.webkitAudioContext)();
+        const source = audioContext.createMediaStreamSource(stream);
+        const analyser = audioContext.createAnalyser();
+        analyser.fftSize = 256;
+        source.connect(analyser);
+        
+        const dataArray = new Uint8Array(analyser.frequencyBinCount);
+        
+        function updateLevel() {
+          analyser.getByteFrequencyData(dataArray);
+          
+          // Calculate RMS level
+          let sum = 0;
+          for (let i = 0; i < dataArray.length; i++) {
+            sum += dataArray[i] * dataArray[i];
+          }
+          const rms = Math.sqrt(sum / dataArray.length) / 255;
+          
+          sampleCount++;
+          if (rms > peakLevel) {
+            peakLevel = rms;
+          }
+          
+          // Update UI
+          const percentage = Math.min(rms * 200, 100); // Scale for visibility
+          levelFill.style.width = `${percentage}%`;
+          levelValue.textContent = `Level: ${rms.toFixed(4)} (${(rms * 100).toFixed(1)}%)`;
+          stats.textContent = `Peak: ${(peakLevel * 100).toFixed(1)}% | Samples: ${sampleCount}`;
+          
+          // Update avatar state
+          if (rms > THRESHOLD) {
+            avatar.className = 'avatar listening';
+            
+            if (!hasDetectedAudio) {
+              hasDetectedAudio = true;
+              log(`Audio detected! Level: ${(rms * 100).toFixed(1)}%`);
+              result.textContent = '✓ AUDIO DETECTION WORKS';
+              result.className = 'test-result success';
+            }
+          } else {
+            avatar.className = 'avatar idle';
+          }
+          
+          requestAnimationFrame(updateLevel);
+        }
+        
+        updateLevel();
+        
+        // After 5 seconds, report status
+        setTimeout(() => {
+          if (hasDetectedAudio) {
+            log(`Test PASSED: Detected audio with peak ${(peakLevel * 100).toFixed(1)}%`);
+          } else if (sampleCount > 0) {
+            log('Audio stream active but no significant audio detected');
+            log('(This may be normal if meeting is silent)');
+            result.textContent = '⚠ Stream works, no audio detected yet';
+            result.className = 'test-result pending';
+          }
+        }, 5000);
+        
+      } catch (err) {
+        log(`FAILED: ${err.name}: ${err.message}`);
+        status.textContent = 'Microphone access denied';
+        avatar.className = 'avatar error';
+        result.textContent = '✗ getUserMedia FAILED';
+        result.className = 'test-result failure';
+        
+        // Log specific error info
+        if (err.name === 'NotAllowedError') {
+          log('Permission denied - mic access blocked');
+        } else if (err.name === 'NotFoundError') {
+          log('No microphone found');
+        } else if (err.name === 'NotReadableError') {
+          log('Microphone in use by another app');
+        }
+      }
+    }
+    
+    // Start test on page load
+    log('Page loaded');
+    log('Testing getUserMedia for meeting audio access');
+    setTimeout(startAudioDetection, 500);
+  </script>
+</body>
+</html>

@@ -1,0 +1,19 @@
+# Test-only registry exercising exclude_paths semantics.
+# Uses repo-root paths (src/core/*) so path-glob drift check passes
+# against the real repo; test assertions pass a filtered file set.
+version: 1
+boundaries:
+  - id: test-include-exclude
+    category: test
+    description: Test entry for exclude_paths per-file filter.
+    spec_doc: docs/project/BOUNDARY_REGISTRY.md
+    match:
+      paths:
+        - src/core/**/*.ts
+      exclude_paths:
+        - src/core/constants.ts
+      identifiers:
+        - TEST_EXCLUDE_IDENTIFIER_XYZZY
+    rationale: Test-only entry. Not a real boundary.
+    postmortems:
+      - 260420_nano_banana_workspace_path_propagation_postmortem.md

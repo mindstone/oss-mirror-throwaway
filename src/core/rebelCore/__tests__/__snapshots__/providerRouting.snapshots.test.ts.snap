@@ -1,0 +1,1588 @@
+// Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
+
+exports[`ProviderRouter snapshot fixture corpus > forBTS > bts_anthropic_api: BTS direct Anthropic API key > forBTS/bts_anthropic_api 1`] = `
+{
+  "billingSource": "pay-per-use",
+  "canonicalModelId": "claude-haiku-4-5",
+  "codexConnectivity": "unknown",
+  "credentialSource": "anthropic-api-key",
+  "dispatchPath": "direct-provider",
+  "fallbackHint": null,
+  "invalidReason": "none",
+  "kind": "dispatchable",
+  "modelDialect": "anthropic-native",
+  "profileId": null,
+  "provider": "anthropic",
+  "resolvedFrom": "settings",
+  "role": "bts",
+  "routeScope": "normal-turn",
+  "transport": "anthropic-direct",
+  "wireModelId": "claude-haiku-4-5",
+}
+`;
+
+exports[`ProviderRouter snapshot fixture corpus > forBTS > bts_anthropic_missing: BTS missing Anthropic credentials > forBTS/bts_anthropic_missing 1`] = `
+{
+  "billingSource": null,
+  "canonicalModelId": "claude-haiku-4-5",
+  "codexConnectivity": "unknown",
+  "credentialSource": "missing-anthropic",
+  "dispatchPath": "none",
+  "fallbackHint": null,
+  "invalidReason": "missing-anthropic-credentials",
+  "kind": "terminal",
+  "modelDialect": "anthropic-native",
+  "profileId": null,
+  "provider": "anthropic",
+  "resolvedFrom": "settings",
+  "role": "bts",
+  "routeScope": "normal-turn",
+  "transport": "no-credentials",
+  "wireModelId": "claude-haiku-4-5",
+}
+`;
+
+exports[`ProviderRouter snapshot fixture corpus > forBTS > bts_anthropic_oauth: BTS OAuth label available > forBTS/bts_anthropic_oauth 1`] = `
+{
+  "billingSource": "subscription",
+  "canonicalModelId": "claude-haiku-4-5",
+  "codexConnectivity": "unknown",
+  "credentialSource": "anthropic-oauth-token",
+  "dispatchPath": "direct-provider",
+  "fallbackHint": null,
+  "invalidReason": "none",
+  "kind": "dispatchable",
+  "modelDialect": "anthropic-native",
+  "profileId": null,
+  "provider": "anthropic",
+  "resolvedFrom": "settings",
+  "role": "bts",
+  "routeScope": "normal-turn",
+  "transport": "anthropic-direct",
+  "wireModelId": "claude-haiku-4-5",
+}
+`;
+
+exports[`ProviderRouter snapshot fixture corpus > forBTS > bts_codex_connected_claude: BTS Codex active connected routes Anthropic-native models to anthropic-direct when Anthropic credentials exist > forBTS/bts_codex_connected_claude 1`] = `
+{
+  "billingSource": "pay-per-use",
+  "canonicalModelId": "claude-haiku-4-5",
+  "codexConnectivity": "connected",
+  "credentialSource": "anthropic-api-key",
+  "dispatchPath": "direct-provider",
+  "fallbackHint": null,
+  "invalidReason": "none",
+  "kind": "dispatchable",
+  "modelDialect": "anthropic-native",
+  "profileId": null,
+  "provider": "anthropic",
+  "resolvedFrom": "settings",
+  "role": "bts",
+  "routeScope": "normal-turn",
+  "transport": "anthropic-direct",
+  "wireModelId": "claude-haiku-4-5",
+}
+`;
+
+exports[`ProviderRouter snapshot fixture corpus > forBTS > bts_codex_connected_claude_no_anthropic_creds: BTS Codex active connected with Anthropic-native model but no Anthropic credentials returns no-credentials > forBTS/bts_codex_connected_claude_no_anthropic_creds 1`] = `
+{
+  "billingSource": null,
+  "canonicalModelId": "claude-haiku-4-5",
+  "codexConnectivity": "connected",
+  "credentialSource": "missing-anthropic",
+  "dispatchPath": "none",
+  "fallbackHint": null,
+  "invalidReason": "missing-anthropic-credentials",
+  "kind": "terminal",
+  "modelDialect": "anthropic-native",
+  "profileId": null,
+  "provider": "anthropic",
+  "resolvedFrom": "settings",
+  "role": "bts",
+  "routeScope": "normal-turn",
+  "transport": "no-credentials",
+  "wireModelId": "claude-haiku-4-5",
+}
+`;
+
+exports[`ProviderRouter snapshot fixture corpus > forBTS > bts_codex_disconnected_claude: BTS Codex active disconnected routes Anthropic-native models to anthropic-direct when Anthropic credentials exist > forBTS/bts_codex_disconnected_claude 1`] = `
+{
+  "billingSource": "pay-per-use",
+  "canonicalModelId": "claude-haiku-4-5",
+  "codexConnectivity": "disconnected",
+  "credentialSource": "anthropic-api-key",
+  "dispatchPath": "direct-provider",
+  "fallbackHint": null,
+  "invalidReason": "none",
+  "kind": "dispatchable",
+  "modelDialect": "anthropic-native",
+  "profileId": null,
+  "provider": "anthropic",
+  "resolvedFrom": "settings",
+  "role": "bts",
+  "routeScope": "normal-turn",
+  "transport": "anthropic-direct",
+  "wireModelId": "claude-haiku-4-5",
+}
+`;
+
+exports[`ProviderRouter snapshot fixture corpus > forBTS > bts_codex_disconnected_claude_no_anthropic_creds: BTS Codex active disconnected with Anthropic-native model but no Anthropic credentials returns missing Anthropic credentials > forBTS/bts_codex_disconnected_claude_no_anthropic_creds 1`] = `
+{
+  "billingSource": null,
+  "canonicalModelId": "claude-haiku-4-5",
+  "codexConnectivity": "disconnected",
+  "credentialSource": "missing-anthropic",
+  "dispatchPath": "none",
+  "fallbackHint": null,
+  "invalidReason": "missing-anthropic-credentials",
+  "kind": "terminal",
+  "modelDialect": "anthropic-native",
+  "profileId": null,
+  "provider": "anthropic",
+  "resolvedFrom": "settings",
+  "role": "bts",
+  "routeScope": "normal-turn",
+  "transport": "no-credentials",
+  "wireModelId": "claude-haiku-4-5",
+}
+`;
+
+exports[`ProviderRouter snapshot fixture corpus > forBTS > bts_codex_profile_connected: BTS Codex profile connected proxy > forBTS/bts_codex_profile_connected 1`] = `
+{
+  "billingSource": "subscription",
+  "canonicalModelId": "profile:codex-working",
+  "codexConnectivity": "connected",
+  "credentialSource": "codex-subscription",
+  "dispatchPath": "local-proxy-passthrough",
+  "fallbackHint": null,
+  "invalidReason": "none",
+  "kind": "dispatchable",
+  "modelDialect": "openai-compatible",
+  "profileId": "codex-working",
+  "provider": "codex",
+  "resolvedFrom": "explicit-profile",
+  "role": "bts",
+  "routeScope": "normal-turn",
+  "transport": "codex-proxy",
+  "wireModelId": "gpt-5.5",
+}
+`;
+
+exports[`ProviderRouter snapshot fixture corpus > forBTS > bts_codex_profile_disconnected: BTS Codex profile disconnected fail-closed terminal > forBTS/bts_codex_profile_disconnected 1`] = `
+{
+  "billingSource": null,
+  "canonicalModelId": "gpt-5.5",
+  "codexConnectivity": "disconnected",
+  "credentialSource": "missing-codex",
+  "dispatchPath": "none",
+  "fallbackHint": null,
+  "invalidReason": "codex-disconnected-bts-blocked",
+  "kind": "terminal",
+  "modelDialect": "openai-compatible",
+  "profileId": "codex-working",
+  "provider": "codex",
+  "resolvedFrom": "explicit-profile",
+  "role": "bts",
+  "routeScope": "normal-turn",
+  "transport": "fail-closed-codex-disconnected",
+  "wireModelId": "gpt-5.5",
+}
+`;
+
+exports[`ProviderRouter snapshot fixture corpus > forBTS > bts_codex_unsupported_surface: BTS cloud unsupported Codex surface fails closed > forBTS/bts_codex_unsupported_surface 1`] = `
+{
+  "billingSource": null,
+  "canonicalModelId": "gpt-5.4-mini",
+  "codexConnectivity": "unsupported",
+  "credentialSource": "missing-codex",
+  "dispatchPath": "none",
+  "fallbackHint": null,
+  "invalidReason": "missing-codex-connection",
+  "kind": "terminal",
+  "modelDialect": "openai-compatible",
+  "profileId": null,
+  "provider": "codex",
+  "resolvedFrom": "settings",
+  "role": "bts",
+  "routeScope": "normal-turn",
+  "transport": "no-credentials",
+  "wireModelId": "gpt-5.4-mini",
+}
+`;
+
+exports[`ProviderRouter snapshot fixture corpus > forBTS > bts_eval_scope: BTS eval route scope represented > forBTS/bts_eval_scope 1`] = `
+{
+  "billingSource": "pay-per-use",
+  "canonicalModelId": "claude-haiku-4-5",
+  "codexConnectivity": "unknown",
+  "credentialSource": "anthropic-api-key",
+  "dispatchPath": "direct-provider",
+  "fallbackHint": null,
+  "invalidReason": "none",
+  "kind": "dispatchable",
+  "modelDialect": "anthropic-native",
+  "profileId": null,
+  "provider": "anthropic",
+  "resolvedFrom": "settings",
+  "role": "bts",
+  "routeScope": "eval",
+  "transport": "anthropic-direct",
+  "wireModelId": "claude-haiku-4-5",
+}
+`;
+
+exports[`ProviderRouter snapshot fixture corpus > forBTS > bts_fallback_hint_thinking: BTS fallback hint snapshot > forBTS/bts_fallback_hint_thinking 1`] = `
+{
+  "billingSource": "pay-per-use",
+  "canonicalModelId": "claude-haiku-4-5",
+  "codexConnectivity": "unknown",
+  "credentialSource": "anthropic-api-key",
+  "dispatchPath": "direct-provider",
+  "fallbackHint": {
+    "kind": "thinking-downgrade",
+    "reason": "thinking-not-supported",
+  },
+  "invalidReason": "none",
+  "kind": "dispatchable",
+  "modelDialect": "anthropic-native",
+  "profileId": null,
+  "provider": "anthropic",
+  "resolvedFrom": "settings",
+  "role": "bts",
+  "routeScope": "fallback",
+  "transport": "anthropic-direct",
+  "wireModelId": "claude-haiku-4-5",
+}
+`;
+
+exports[`ProviderRouter snapshot fixture corpus > forBTS > bts_google_profile: BTS Google profile represented as profile ref dialect > forBTS/bts_google_profile 1`] = `
+{
+  "billingSource": "pay-per-use",
+  "canonicalModelId": "profile:gemini-profile",
+  "codexConnectivity": "unknown",
+  "credentialSource": "profile-api-key",
+  "dispatchPath": "direct-provider",
+  "fallbackHint": null,
+  "invalidReason": "none",
+  "kind": "dispatchable",
+  "modelDialect": "profile-ref",
+  "profileId": "gemini-profile",
+  "provider": "profile",
+  "resolvedFrom": "explicit-profile",
+  "role": "bts",
+  "routeScope": "normal-turn",
+  "transport": "openai-compatible-http",
+  "wireModelId": "gemini-2.5-pro",
+}
+`;
+
+exports[`ProviderRouter snapshot fixture corpus > forBTS > bts_local_profile: BTS local profile > forBTS/bts_local_profile 1`] = `
+{
+  "billingSource": "local",
+  "canonicalModelId": "profile:local-llama",
+  "codexConnectivity": "unknown",
+  "credentialSource": "local-none",
+  "dispatchPath": "direct-provider",
+  "fallbackHint": null,
+  "invalidReason": "none",
+  "kind": "dispatchable",
+  "modelDialect": "local-openai-compatible",
+  "profileId": "local-llama",
+  "provider": "local",
+  "resolvedFrom": "explicit-profile",
+  "role": "bts",
+  "routeScope": "normal-turn",
+  "transport": "local-openai-compatible-http",
+  "wireModelId": "llama3",
+}
+`;
+
+exports[`ProviderRouter snapshot fixture corpus > forBTS > bts_openai_profile: BTS OpenAI profile direct > forBTS/bts_openai_profile 1`] = `
+{
+  "billingSource": "pay-per-use",
+  "canonicalModelId": "profile:openai-main",
+  "codexConnectivity": "unknown",
+  "credentialSource": "openai-api-key",
+  "dispatchPath": "direct-provider",
+  "fallbackHint": null,
+  "invalidReason": "none",
+  "kind": "dispatchable",
+  "modelDialect": "profile-ref",
+  "profileId": "openai-main",
+  "provider": "profile",
+  "resolvedFrom": "explicit-profile",
+  "role": "bts",
+  "routeScope": "normal-turn",
+  "transport": "openai-compatible-http",
+  "wireModelId": "gpt-5.5",
+}
+`;
+
+exports[`ProviderRouter snapshot fixture corpus > forBTS > bts_openai_profile_shared_key: BTS profile can resolve shared OpenAI key > forBTS/bts_openai_profile_shared_key 1`] = `
+{
+  "billingSource": "pay-per-use",
+  "canonicalModelId": "profile:openai-missing",
+  "codexConnectivity": "unknown",
+  "credentialSource": "openai-api-key",
+  "dispatchPath": "direct-provider",
+  "fallbackHint": null,
+  "invalidReason": "none",
+  "kind": "dispatchable",
+  "modelDialect": "profile-ref",
+  "profileId": "openai-missing",
+  "provider": "profile",
+  "resolvedFrom": "explicit-profile",
+  "role": "bts",
+  "routeScope": "normal-turn",
+  "transport": "openai-compatible-http",
+  "wireModelId": "gpt-5.5",
+}
+`;
+
+exports[`ProviderRouter snapshot fixture corpus > forBTS > bts_openrouter_active: BTS OpenRouter active routes OR proxy > forBTS/bts_openrouter_active 1`] = `
+{
+  "billingSource": "pool",
+  "canonicalModelId": "claude-haiku-4-5",
+  "codexConnectivity": "unknown",
+  "credentialSource": "openrouter-oauth-token",
+  "dispatchPath": "local-proxy-passthrough",
+  "fallbackHint": null,
+  "invalidReason": "none",
+  "kind": "dispatchable",
+  "modelDialect": "anthropic-native",
+  "profileId": null,
+  "provider": "openrouter",
+  "resolvedFrom": "settings",
+  "role": "bts",
+  "routeScope": "normal-turn",
+  "transport": "openrouter-proxy",
+  "wireModelId": "claude-haiku-4-5",
+}
+`;
+
+exports[`ProviderRouter snapshot fixture corpus > forBTS > bts_openrouter_partial: BTS partial OpenRouter config fails closed > forBTS/bts_openrouter_partial 1`] = `
+{
+  "billingSource": null,
+  "canonicalModelId": "claude-haiku-4-5",
+  "codexConnectivity": "unknown",
+  "credentialSource": "missing-openrouter",
+  "dispatchPath": "none",
+  "fallbackHint": null,
+  "invalidReason": "missing-openrouter-credentials",
+  "kind": "terminal",
+  "modelDialect": "anthropic-native",
+  "profileId": null,
+  "provider": "openrouter",
+  "resolvedFrom": "settings",
+  "role": "bts",
+  "routeScope": "normal-turn",
+  "transport": "no-credentials",
+  "wireModelId": "claude-haiku-4-5",
+}
+`;
+
+exports[`ProviderRouter snapshot fixture corpus > forBTS > bts_openrouter_profile: BTS OpenRouter profile direct compatible HTTP > forBTS/bts_openrouter_profile 1`] = `
+{
+  "billingSource": "pay-per-use",
+  "canonicalModelId": "profile:or-profile",
+  "codexConnectivity": "unknown",
+  "credentialSource": "profile-api-key",
+  "dispatchPath": "direct-provider",
+  "fallbackHint": null,
+  "invalidReason": "none",
+  "kind": "dispatchable",
+  "modelDialect": "profile-ref",
+  "profileId": "or-profile",
+  "provider": "profile",
+  "resolvedFrom": "explicit-profile",
+  "role": "bts",
+  "routeScope": "normal-turn",
+  "transport": "openai-compatible-http",
+  "wireModelId": "anthropic/claude-sonnet-4.6",
+}
+`;
+
+exports[`ProviderRouter snapshot fixture corpus > forBTS > bts_or_connection_profile_oauth_native: BTS OpenRouter connection-managed native Claude profile uses OAuth token via OR proxy > forBTS/bts_or_connection_profile_oauth_native 1`] = `
+{
+  "billingSource": "pool",
+  "canonicalModelId": "profile:or-connection-bts-native",
+  "codexConnectivity": "unknown",
+  "credentialSource": "openrouter-oauth-token",
+  "dispatchPath": "local-proxy-passthrough",
+  "fallbackHint": null,
+  "invalidReason": "none",
+  "kind": "dispatchable",
+  "modelDialect": "anthropic-native",
+  "profileId": "or-connection-bts-native",
+  "provider": "openrouter",
+  "resolvedFrom": "explicit-profile",
+  "role": "bts",
+  "routeScope": "normal-turn",
+  "transport": "openrouter-proxy",
+  "wireModelId": "claude-sonnet-4-6",
+}
+`;
+
+exports[`ProviderRouter snapshot fixture corpus > forBTS > bts_retry_scope_openrouter: BTS retry OpenRouter retains provider > forBTS/bts_retry_scope_openrouter 1`] = `
+{
+  "billingSource": "pool",
+  "canonicalModelId": "claude-haiku-4-5",
+  "codexConnectivity": "unknown",
+  "credentialSource": "openrouter-oauth-token",
+  "dispatchPath": "local-proxy-passthrough",
+  "fallbackHint": null,
+  "invalidReason": "none",
+  "kind": "dispatchable",
+  "modelDialect": "openrouter-prefixed",
+  "profileId": null,
+  "provider": "openrouter",
+  "resolvedFrom": "settings",
+  "role": "bts",
+  "routeScope": "retry",
+  "transport": "openrouter-proxy",
+  "wireModelId": "anthropic/claude-haiku-4-5",
+}
+`;
+
+exports[`ProviderRouter snapshot fixture corpus > forSubagent > subagent_adhoc_scope: Subagent ad-hoc route scope > forSubagent/subagent_adhoc_scope 1`] = `
+{
+  "billingSource": "pay-per-use",
+  "canonicalModelId": "profile:openai-main",
+  "codexConnectivity": "unknown",
+  "credentialSource": "openai-api-key",
+  "dispatchPath": "local-proxy-route-table",
+  "fallbackHint": null,
+  "invalidReason": "none",
+  "kind": "dispatchable",
+  "modelDialect": "profile-ref",
+  "profileId": "openai-main",
+  "provider": "profile",
+  "resolvedFrom": "explicit-profile",
+  "role": "subagent",
+  "routeScope": "ad-hoc",
+  "routedModel": null,
+  "transport": "anthropic-compatible-local-proxy",
+  "wireModelId": "gpt-5.5",
+}
+`;
+
+exports[`ProviderRouter snapshot fixture corpus > forSubagent > subagent_anthropic_parent: Subagent default Anthropic parent > forSubagent/subagent_anthropic_parent 1`] = `
+{
+  "billingSource": "pay-per-use",
+  "canonicalModelId": "claude-haiku-4-5",
+  "codexConnectivity": "unknown",
+  "credentialSource": "anthropic-api-key",
+  "dispatchPath": "direct-provider",
+  "fallbackHint": null,
+  "invalidReason": "none",
+  "kind": "dispatchable",
+  "modelDialect": "anthropic-native",
+  "profileId": null,
+  "provider": "anthropic",
+  "resolvedFrom": "settings",
+  "role": "subagent",
+  "routeScope": "normal-turn",
+  "routedModel": null,
+  "transport": "anthropic-direct",
+  "wireModelId": "claude-haiku-4-5",
+}
+`;
+
+exports[`ProviderRouter snapshot fixture corpus > forSubagent > subagent_codex_connected: Subagent Codex connected > forSubagent/subagent_codex_connected 1`] = `
+{
+  "billingSource": "subscription",
+  "canonicalModelId": "gpt-5.4-mini",
+  "codexConnectivity": "connected",
+  "credentialSource": "codex-subscription",
+  "dispatchPath": "local-proxy-passthrough",
+  "fallbackHint": null,
+  "invalidReason": "none",
+  "kind": "dispatchable",
+  "modelDialect": "openai-compatible",
+  "profileId": null,
+  "provider": "codex",
+  "resolvedFrom": "settings",
+  "role": "subagent",
+  "routeScope": "normal-turn",
+  "routedModel": null,
+  "transport": "codex-proxy",
+  "wireModelId": "gpt-5.4-mini",
+}
+`;
+
+exports[`ProviderRouter snapshot fixture corpus > forSubagent > subagent_codex_connected_claude: Subagent Codex connected routes Anthropic-native models to anthropic-direct when Anthropic credentials exist > forSubagent/subagent_codex_connected_claude 1`] = `
+{
+  "billingSource": "pay-per-use",
+  "canonicalModelId": "claude-haiku-4-5",
+  "codexConnectivity": "connected",
+  "credentialSource": "anthropic-api-key",
+  "dispatchPath": "direct-provider",
+  "fallbackHint": null,
+  "invalidReason": "none",
+  "kind": "dispatchable",
+  "modelDialect": "anthropic-native",
+  "profileId": null,
+  "provider": "anthropic",
+  "resolvedFrom": "settings",
+  "role": "subagent",
+  "routeScope": "normal-turn",
+  "routedModel": null,
+  "transport": "anthropic-direct",
+  "wireModelId": "claude-haiku-4-5",
+}
+`;
+
+exports[`ProviderRouter snapshot fixture corpus > forSubagent > subagent_codex_connected_claude_no_creds: Subagent Codex connected with Anthropic-native model but no Anthropic credentials returns no-credentials > forSubagent/subagent_codex_connected_claude_no_creds 1`] = `
+{
+  "billingSource": null,
+  "canonicalModelId": "claude-haiku-4-5",
+  "codexConnectivity": "connected",
+  "credentialSource": "missing-anthropic",
+  "dispatchPath": "none",
+  "fallbackHint": null,
+  "invalidReason": "missing-anthropic-credentials",
+  "kind": "terminal",
+  "modelDialect": "anthropic-native",
+  "profileId": null,
+  "provider": "anthropic",
+  "resolvedFrom": "settings",
+  "role": "subagent",
+  "routeScope": "normal-turn",
+  "routedModel": null,
+  "transport": "no-credentials",
+  "wireModelId": "claude-haiku-4-5",
+}
+`;
+
+exports[`ProviderRouter snapshot fixture corpus > forSubagent > subagent_codex_disconnected_claude: Subagent Codex disconnected routes Anthropic-native models to anthropic-direct when Anthropic credentials exist > forSubagent/subagent_codex_disconnected_claude 1`] = `
+{
+  "billingSource": "pay-per-use",
+  "canonicalModelId": "claude-haiku-4-5",
+  "codexConnectivity": "disconnected",
+  "credentialSource": "anthropic-api-key",
+  "dispatchPath": "direct-provider",
+  "fallbackHint": null,
+  "invalidReason": "none",
+  "kind": "dispatchable",
+  "modelDialect": "anthropic-native",
+  "profileId": null,
+  "provider": "anthropic",
+  "resolvedFrom": "settings",
+  "role": "subagent",
+  "routeScope": "normal-turn",
+  "routedModel": null,
+  "transport": "anthropic-direct",
+  "wireModelId": "claude-haiku-4-5",
+}
+`;
+
+exports[`ProviderRouter snapshot fixture corpus > forSubagent > subagent_codex_profile_connected: Subagent Codex profile connected > forSubagent/subagent_codex_profile_connected 1`] = `
+{
+  "billingSource": "subscription",
+  "canonicalModelId": "profile:codex-working",
+  "codexConnectivity": "connected",
+  "credentialSource": "codex-subscription",
+  "dispatchPath": "local-proxy-passthrough",
+  "fallbackHint": null,
+  "invalidReason": "none",
+  "kind": "dispatchable",
+  "modelDialect": "openai-compatible",
+  "profileId": "codex-working",
+  "provider": "codex",
+  "resolvedFrom": "explicit-profile",
+  "role": "subagent",
+  "routeScope": "normal-turn",
+  "routedModel": null,
+  "transport": "codex-proxy",
+  "wireModelId": "gpt-5.5",
+}
+`;
+
+exports[`ProviderRouter snapshot fixture corpus > forSubagent > subagent_codex_profile_disconnected: Subagent Codex profile disconnected terminal > forSubagent/subagent_codex_profile_disconnected 1`] = `
+{
+  "billingSource": null,
+  "canonicalModelId": "gpt-5.5",
+  "codexConnectivity": "disconnected",
+  "credentialSource": "missing-codex",
+  "dispatchPath": "none",
+  "fallbackHint": null,
+  "invalidReason": "codex-disconnected-bts-blocked",
+  "kind": "terminal",
+  "modelDialect": "openai-compatible",
+  "profileId": "codex-working",
+  "provider": "codex",
+  "resolvedFrom": "explicit-profile",
+  "role": "subagent",
+  "routeScope": "normal-turn",
+  "routedModel": null,
+  "transport": "fail-closed-codex-disconnected",
+  "wireModelId": "gpt-5.5",
+}
+`;
+
+exports[`ProviderRouter snapshot fixture corpus > forSubagent > subagent_codex_unknown: Subagent Codex unknown fails closed > forSubagent/subagent_codex_unknown 1`] = `
+{
+  "billingSource": null,
+  "canonicalModelId": "gpt-5.4-mini",
+  "codexConnectivity": "unknown",
+  "credentialSource": "missing-codex",
+  "dispatchPath": "none",
+  "fallbackHint": null,
+  "invalidReason": "missing-codex-connection",
+  "kind": "terminal",
+  "modelDialect": "openai-compatible",
+  "profileId": null,
+  "provider": "codex",
+  "resolvedFrom": "settings",
+  "role": "subagent",
+  "routeScope": "normal-turn",
+  "routedModel": null,
+  "transport": "no-credentials",
+  "wireModelId": "gpt-5.4-mini",
+}
+`;
+
+exports[`ProviderRouter snapshot fixture corpus > forSubagent > subagent_council_scope: Subagent council route scope > forSubagent/subagent_council_scope 1`] = `
+{
+  "billingSource": "pool",
+  "canonicalModelId": "claude-haiku-4-5",
+  "codexConnectivity": "unknown",
+  "credentialSource": "openrouter-oauth-token",
+  "dispatchPath": "local-proxy-route-table",
+  "fallbackHint": null,
+  "invalidReason": "none",
+  "kind": "dispatchable",
+  "modelDialect": "anthropic-native",
+  "profileId": null,
+  "provider": "openrouter",
+  "resolvedFrom": "settings",
+  "role": "subagent",
+  "routeScope": "council",
+  "routedModel": null,
+  "transport": "anthropic-compatible-local-proxy",
+  "wireModelId": "claude-haiku-4-5",
+}
+`;
+
+exports[`ProviderRouter snapshot fixture corpus > forSubagent > subagent_eval_scope: Subagent eval scope direct > forSubagent/subagent_eval_scope 1`] = `
+{
+  "billingSource": "pay-per-use",
+  "canonicalModelId": "claude-haiku-4-5",
+  "codexConnectivity": "unknown",
+  "credentialSource": "anthropic-api-key",
+  "dispatchPath": "direct-provider",
+  "fallbackHint": null,
+  "invalidReason": "none",
+  "kind": "dispatchable",
+  "modelDialect": "anthropic-native",
+  "profileId": null,
+  "provider": "anthropic",
+  "resolvedFrom": "settings",
+  "role": "subagent",
+  "routeScope": "eval",
+  "routedModel": null,
+  "transport": "anthropic-direct",
+  "wireModelId": "claude-haiku-4-5",
+}
+`;
+
+exports[`ProviderRouter snapshot fixture corpus > forSubagent > subagent_fallback_hint_rate_limit: Subagent fallback hint rate limit provider > forSubagent/subagent_fallback_hint_rate_limit 1`] = `
+{
+  "billingSource": "subscription",
+  "canonicalModelId": "gpt-5.5",
+  "codexConnectivity": "connected",
+  "credentialSource": "codex-subscription",
+  "dispatchPath": "local-proxy-passthrough",
+  "fallbackHint": {
+    "forceNonCodexTransport": true,
+    "kind": "codex-rate-limit-provider",
+  },
+  "invalidReason": "none",
+  "kind": "dispatchable",
+  "modelDialect": "openai-compatible",
+  "profileId": null,
+  "provider": "codex",
+  "resolvedFrom": "settings",
+  "role": "subagent",
+  "routeScope": "fallback",
+  "routedModel": null,
+  "transport": "codex-proxy",
+  "wireModelId": "gpt-5.5",
+}
+`;
+
+exports[`ProviderRouter snapshot fixture corpus > forSubagent > subagent_local_profile: Subagent local profile > forSubagent/subagent_local_profile 1`] = `
+{
+  "billingSource": "local",
+  "canonicalModelId": "profile:local-llama",
+  "codexConnectivity": "unknown",
+  "credentialSource": "local-none",
+  "dispatchPath": "direct-provider",
+  "fallbackHint": null,
+  "invalidReason": "none",
+  "kind": "dispatchable",
+  "modelDialect": "local-openai-compatible",
+  "profileId": "local-llama",
+  "provider": "local",
+  "resolvedFrom": "explicit-profile",
+  "role": "subagent",
+  "routeScope": "normal-turn",
+  "routedModel": null,
+  "transport": "local-openai-compatible-http",
+  "wireModelId": "llama3",
+}
+`;
+
+exports[`ProviderRouter snapshot fixture corpus > forSubagent > subagent_missing_profile: Subagent missing profile reference falls back to provider mode > forSubagent/subagent_missing_profile 1`] = `
+{
+  "billingSource": "pay-per-use",
+  "canonicalModelId": "claude-sonnet-4-6",
+  "codexConnectivity": "unknown",
+  "credentialSource": "anthropic-api-key",
+  "dispatchPath": "direct-provider",
+  "fallbackHint": null,
+  "invalidReason": "none",
+  "kind": "dispatchable",
+  "modelDialect": "anthropic-native",
+  "profileId": null,
+  "provider": "anthropic",
+  "resolvedFrom": "settings",
+  "role": "subagent",
+  "routeScope": "normal-turn",
+  "routedModel": null,
+  "transport": "anthropic-direct",
+  "wireModelId": "claude-sonnet-4-6",
+}
+`;
+
+exports[`ProviderRouter snapshot fixture corpus > forSubagent > subagent_openai_profile: Subagent explicit OpenAI profile > forSubagent/subagent_openai_profile 1`] = `
+{
+  "billingSource": "pay-per-use",
+  "canonicalModelId": "profile:openai-main",
+  "codexConnectivity": "unknown",
+  "credentialSource": "openai-api-key",
+  "dispatchPath": "direct-provider",
+  "fallbackHint": null,
+  "invalidReason": "none",
+  "kind": "dispatchable",
+  "modelDialect": "profile-ref",
+  "profileId": "openai-main",
+  "provider": "profile",
+  "resolvedFrom": "explicit-profile",
+  "role": "subagent",
+  "routeScope": "normal-turn",
+  "routedModel": null,
+  "transport": "openai-compatible-http",
+  "wireModelId": "gpt-5.5",
+}
+`;
+
+exports[`ProviderRouter snapshot fixture corpus > forSubagent > subagent_openrouter_missing: Subagent OR missing creds fail closed > forSubagent/subagent_openrouter_missing 1`] = `
+{
+  "billingSource": null,
+  "canonicalModelId": "claude-haiku-4-5",
+  "codexConnectivity": "unknown",
+  "credentialSource": "missing-openrouter",
+  "dispatchPath": "none",
+  "fallbackHint": null,
+  "invalidReason": "missing-openrouter-credentials",
+  "kind": "terminal",
+  "modelDialect": "anthropic-native",
+  "profileId": null,
+  "provider": "openrouter",
+  "resolvedFrom": "settings",
+  "role": "subagent",
+  "routeScope": "normal-turn",
+  "routedModel": null,
+  "transport": "no-credentials",
+  "wireModelId": "claude-haiku-4-5",
+}
+`;
+
+exports[`ProviderRouter snapshot fixture corpus > forSubagent > subagent_openrouter_parent_native: Claude-native subagent on OR active parent still uses OR proxy > forSubagent/subagent_openrouter_parent_native 1`] = `
+{
+  "billingSource": "pool",
+  "canonicalModelId": "claude-haiku-4-5",
+  "codexConnectivity": "unknown",
+  "credentialSource": "openrouter-oauth-token",
+  "dispatchPath": "local-proxy-passthrough",
+  "fallbackHint": null,
+  "invalidReason": "none",
+  "kind": "dispatchable",
+  "modelDialect": "anthropic-native",
+  "profileId": null,
+  "provider": "openrouter",
+  "resolvedFrom": "settings",
+  "role": "subagent",
+  "routeScope": "normal-turn",
+  "routedModel": null,
+  "transport": "openrouter-proxy",
+  "wireModelId": "claude-haiku-4-5",
+}
+`;
+
+exports[`ProviderRouter snapshot fixture corpus > forSubagent > subagent_openrouter_slash: Subagent OR slash dialect > forSubagent/subagent_openrouter_slash 1`] = `
+{
+  "billingSource": "pool",
+  "canonicalModelId": "claude-haiku-4-5",
+  "codexConnectivity": "unknown",
+  "credentialSource": "openrouter-oauth-token",
+  "dispatchPath": "local-proxy-passthrough",
+  "fallbackHint": null,
+  "invalidReason": "none",
+  "kind": "dispatchable",
+  "modelDialect": "openrouter-prefixed",
+  "profileId": null,
+  "provider": "openrouter",
+  "resolvedFrom": "settings",
+  "role": "subagent",
+  "routeScope": "normal-turn",
+  "routedModel": null,
+  "transport": "openrouter-proxy",
+  "wireModelId": "anthropic/claude-haiku-4-5",
+}
+`;
+
+exports[`ProviderRouter snapshot fixture corpus > forSubagent > subagent_or_connection_profile_oauth_slash: Subagent OpenRouter connection-managed slash profile uses OAuth token via OR proxy > forSubagent/subagent_or_connection_profile_oauth_slash 1`] = `
+{
+  "billingSource": "pool",
+  "canonicalModelId": "profile:or-connection-subagent",
+  "codexConnectivity": "unknown",
+  "credentialSource": "openrouter-oauth-token",
+  "dispatchPath": "local-proxy-passthrough",
+  "fallbackHint": null,
+  "invalidReason": "none",
+  "kind": "dispatchable",
+  "modelDialect": "openrouter-prefixed",
+  "profileId": "or-connection-subagent",
+  "provider": "openrouter",
+  "resolvedFrom": "explicit-profile",
+  "role": "subagent",
+  "routeScope": "normal-turn",
+  "routedModel": null,
+  "transport": "openrouter-proxy",
+  "wireModelId": "anthropic/claude-sonnet-4.6",
+}
+`;
+
+exports[`ProviderRouter snapshot fixture corpus > forSubagent > subagent_retry_scope: Subagent retry scope direct > forSubagent/subagent_retry_scope 1`] = `
+{
+  "billingSource": "pay-per-use",
+  "canonicalModelId": "claude-haiku-4-5",
+  "codexConnectivity": "unknown",
+  "credentialSource": "anthropic-api-key",
+  "dispatchPath": "direct-provider",
+  "fallbackHint": null,
+  "invalidReason": "none",
+  "kind": "dispatchable",
+  "modelDialect": "anthropic-native",
+  "profileId": null,
+  "provider": "anthropic",
+  "resolvedFrom": "settings",
+  "role": "subagent",
+  "routeScope": "retry",
+  "routedModel": null,
+  "transport": "anthropic-direct",
+  "wireModelId": "claude-haiku-4-5",
+}
+`;
+
+exports[`ProviderRouter snapshot fixture corpus > forTurn > adhoc_codex: Ad-hoc route on Codex active remains Codex when connected > forTurn/adhoc_codex 1`] = `
+{
+  "billingSource": "subscription",
+  "canonicalModelId": "gpt-5.4-mini",
+  "codexConnectivity": "connected",
+  "credentialSource": "codex-subscription",
+  "dispatchPath": "local-proxy-passthrough",
+  "fallbackHint": null,
+  "invalidReason": "none",
+  "kind": "dispatchable",
+  "modelDialect": "openai-compatible",
+  "profileId": null,
+  "provider": "codex",
+  "resolvedFrom": "settings",
+  "role": "execution",
+  "routeScope": "ad-hoc",
+  "transport": "codex-proxy",
+  "wireModelId": "gpt-5.4-mini",
+}
+`;
+
+exports[`ProviderRouter snapshot fixture corpus > forTurn > anthropic_api_native: Anthropic API key with native Claude model > forTurn/anthropic_api_native 1`] = `
+{
+  "billingSource": "pay-per-use",
+  "canonicalModelId": "claude-sonnet-4-6",
+  "codexConnectivity": "unknown",
+  "credentialSource": "anthropic-api-key",
+  "dispatchPath": "direct-provider",
+  "fallbackHint": null,
+  "invalidReason": "none",
+  "kind": "dispatchable",
+  "modelDialect": "anthropic-native",
+  "profileId": null,
+  "provider": "anthropic",
+  "resolvedFrom": "settings",
+  "role": "execution",
+  "routeScope": "normal-turn",
+  "transport": "anthropic-direct",
+  "wireModelId": "claude-sonnet-4-6",
+}
+`;
+
+exports[`ProviderRouter snapshot fixture corpus > forTurn > anthropic_foreign_prefix_fail: Foreign slash dialect never routes direct Anthropic and fails closed as proxy-dialect > forTurn/anthropic_foreign_prefix_fail 1`] = `
+{
+  "billingSource": "pay-per-use",
+  "canonicalModelId": "openai/gpt-5.5",
+  "codexConnectivity": "unknown",
+  "credentialSource": "anthropic-api-key",
+  "dispatchPath": "none",
+  "fallbackHint": null,
+  "invalidReason": "proxy-dialect-in-direct-anthropic",
+  "kind": "terminal",
+  "modelDialect": "openrouter-prefixed",
+  "profileId": null,
+  "provider": "anthropic",
+  "resolvedFrom": "settings",
+  "role": "execution",
+  "routeScope": "normal-turn",
+  "transport": "no-credentials",
+  "wireModelId": "openai/gpt-5.5",
+}
+`;
+
+exports[`ProviderRouter snapshot fixture corpus > forTurn > anthropic_missing_native: Anthropic active with no credentials fails closed > forTurn/anthropic_missing_native 1`] = `
+{
+  "billingSource": null,
+  "canonicalModelId": "claude-sonnet-4-6",
+  "codexConnectivity": "unknown",
+  "credentialSource": "missing-anthropic",
+  "dispatchPath": "none",
+  "fallbackHint": null,
+  "invalidReason": "missing-anthropic-credentials",
+  "kind": "terminal",
+  "modelDialect": "anthropic-native",
+  "profileId": null,
+  "provider": "anthropic",
+  "resolvedFrom": "settings",
+  "role": "execution",
+  "routeScope": "normal-turn",
+  "transport": "no-credentials",
+  "wireModelId": "claude-sonnet-4-6",
+}
+`;
+
+exports[`ProviderRouter snapshot fixture corpus > forTurn > anthropic_oauth_native: Deprecated Anthropic OAuth token path remains representable > forTurn/anthropic_oauth_native 1`] = `
+{
+  "billingSource": "subscription",
+  "canonicalModelId": "claude-haiku-4-5",
+  "codexConnectivity": "unknown",
+  "credentialSource": "anthropic-oauth-token",
+  "dispatchPath": "direct-provider",
+  "fallbackHint": null,
+  "invalidReason": "none",
+  "kind": "dispatchable",
+  "modelDialect": "anthropic-native",
+  "profileId": null,
+  "provider": "anthropic",
+  "resolvedFrom": "settings",
+  "role": "execution",
+  "routeScope": "normal-turn",
+  "transport": "anthropic-direct",
+  "wireModelId": "claude-haiku-4-5",
+}
+`;
+
+exports[`ProviderRouter snapshot fixture corpus > forTurn > anthropic_self_prefix_success: Direct Anthropic strips a matching anthropic/ self-prefix and dispatches native > forTurn/anthropic_self_prefix_success 1`] = `
+{
+  "billingSource": "pay-per-use",
+  "canonicalModelId": "claude-sonnet-4-6",
+  "codexConnectivity": "unknown",
+  "credentialSource": "anthropic-api-key",
+  "dispatchPath": "direct-provider",
+  "fallbackHint": null,
+  "invalidReason": "none",
+  "kind": "dispatchable",
+  "modelDialect": "anthropic-native",
+  "profileId": null,
+  "provider": "anthropic",
+  "resolvedFrom": "settings",
+  "role": "execution",
+  "routeScope": "normal-turn",
+  "transport": "anthropic-direct",
+  "wireModelId": "claude-sonnet-4-6",
+}
+`;
+
+exports[`ProviderRouter snapshot fixture corpus > forTurn > codex_connected_claude: Codex active connected routes Anthropic-native models to anthropic-direct when Anthropic credentials exist > forTurn/codex_connected_claude 1`] = `
+{
+  "billingSource": "pay-per-use",
+  "canonicalModelId": "claude-haiku-4-5",
+  "codexConnectivity": "connected",
+  "credentialSource": "anthropic-api-key",
+  "dispatchPath": "direct-provider",
+  "fallbackHint": null,
+  "invalidReason": "none",
+  "kind": "dispatchable",
+  "modelDialect": "anthropic-native",
+  "profileId": null,
+  "provider": "anthropic",
+  "resolvedFrom": "settings",
+  "role": "execution",
+  "routeScope": "normal-turn",
+  "transport": "anthropic-direct",
+  "wireModelId": "claude-haiku-4-5",
+}
+`;
+
+exports[`ProviderRouter snapshot fixture corpus > forTurn > codex_connected_claude_no_creds: Codex active connected with Anthropic-native model but no Anthropic credentials returns no-credentials > forTurn/codex_connected_claude_no_creds 1`] = `
+{
+  "billingSource": null,
+  "canonicalModelId": "claude-haiku-4-5",
+  "codexConnectivity": "connected",
+  "credentialSource": "missing-anthropic",
+  "dispatchPath": "none",
+  "fallbackHint": null,
+  "invalidReason": "missing-anthropic-credentials-for-claude-model",
+  "kind": "terminal",
+  "modelDialect": "anthropic-native",
+  "profileId": null,
+  "provider": "anthropic",
+  "resolvedFrom": "settings",
+  "role": "execution",
+  "routeScope": "normal-turn",
+  "transport": "no-credentials",
+  "wireModelId": "claude-haiku-4-5",
+}
+`;
+
+exports[`ProviderRouter snapshot fixture corpus > forTurn > codex_connected_gpt: Codex active and connected uses Codex proxy > forTurn/codex_connected_gpt 1`] = `
+{
+  "billingSource": "subscription",
+  "canonicalModelId": "gpt-5.5",
+  "codexConnectivity": "connected",
+  "credentialSource": "codex-subscription",
+  "dispatchPath": "local-proxy-passthrough",
+  "fallbackHint": null,
+  "invalidReason": "none",
+  "kind": "dispatchable",
+  "modelDialect": "openai-compatible",
+  "profileId": null,
+  "provider": "codex",
+  "resolvedFrom": "settings",
+  "role": "execution",
+  "routeScope": "normal-turn",
+  "transport": "codex-proxy",
+  "wireModelId": "gpt-5.5",
+}
+`;
+
+exports[`ProviderRouter snapshot fixture corpus > forTurn > codex_disconnected_claude: Codex active disconnected routes Anthropic-native models to anthropic-direct when Anthropic credentials exist > forTurn/codex_disconnected_claude 1`] = `
+{
+  "billingSource": "pay-per-use",
+  "canonicalModelId": "claude-haiku-4-5",
+  "codexConnectivity": "disconnected",
+  "credentialSource": "anthropic-api-key",
+  "dispatchPath": "direct-provider",
+  "fallbackHint": null,
+  "invalidReason": "none",
+  "kind": "dispatchable",
+  "modelDialect": "anthropic-native",
+  "profileId": null,
+  "provider": "anthropic",
+  "resolvedFrom": "settings",
+  "role": "execution",
+  "routeScope": "normal-turn",
+  "transport": "anthropic-direct",
+  "wireModelId": "claude-haiku-4-5",
+}
+`;
+
+exports[`ProviderRouter snapshot fixture corpus > forTurn > codex_disconnected_gpt: Codex active but disconnected is no-credentials > forTurn/codex_disconnected_gpt 1`] = `
+{
+  "billingSource": null,
+  "canonicalModelId": "gpt-5.5",
+  "codexConnectivity": "disconnected",
+  "credentialSource": "missing-codex",
+  "dispatchPath": "none",
+  "fallbackHint": null,
+  "invalidReason": "missing-codex-connection",
+  "kind": "terminal",
+  "modelDialect": "openai-compatible",
+  "profileId": null,
+  "provider": "codex",
+  "resolvedFrom": "settings",
+  "role": "execution",
+  "routeScope": "normal-turn",
+  "transport": "no-credentials",
+  "wireModelId": "gpt-5.5",
+}
+`;
+
+exports[`ProviderRouter snapshot fixture corpus > forTurn > codex_profile_connected: Codex subscription profile connected uses Codex proxy > forTurn/codex_profile_connected 1`] = `
+{
+  "billingSource": "subscription",
+  "canonicalModelId": "profile:codex-working",
+  "codexConnectivity": "connected",
+  "credentialSource": "codex-subscription",
+  "dispatchPath": "local-proxy-passthrough",
+  "fallbackHint": null,
+  "invalidReason": "none",
+  "kind": "dispatchable",
+  "modelDialect": "openai-compatible",
+  "profileId": "codex-working",
+  "provider": "codex",
+  "resolvedFrom": "explicit-profile",
+  "role": "execution",
+  "routeScope": "normal-turn",
+  "transport": "codex-proxy",
+  "wireModelId": "gpt-5.5",
+}
+`;
+
+exports[`ProviderRouter snapshot fixture corpus > forTurn > codex_profile_disconnected: Codex subscription profile disconnected fails closed > forTurn/codex_profile_disconnected 1`] = `
+{
+  "billingSource": null,
+  "canonicalModelId": "gpt-5.5",
+  "codexConnectivity": "disconnected",
+  "credentialSource": "missing-codex",
+  "dispatchPath": "none",
+  "fallbackHint": null,
+  "invalidReason": "codex-disconnected-bts-blocked",
+  "kind": "terminal",
+  "modelDialect": "openai-compatible",
+  "profileId": "codex-working",
+  "provider": "codex",
+  "resolvedFrom": "explicit-profile",
+  "role": "execution",
+  "routeScope": "normal-turn",
+  "transport": "fail-closed-codex-disconnected",
+  "wireModelId": "gpt-5.5",
+}
+`;
+
+exports[`ProviderRouter snapshot fixture corpus > forTurn > council_openrouter: Council route preserves OpenRouter provider identity > forTurn/council_openrouter 1`] = `
+{
+  "billingSource": "pool",
+  "canonicalModelId": "claude-sonnet-4-6",
+  "codexConnectivity": "unknown",
+  "credentialSource": "openrouter-oauth-token",
+  "dispatchPath": "local-proxy-passthrough",
+  "fallbackHint": null,
+  "invalidReason": "none",
+  "kind": "dispatchable",
+  "modelDialect": "openrouter-prefixed",
+  "profileId": null,
+  "provider": "openrouter",
+  "resolvedFrom": "settings",
+  "role": "execution",
+  "routeScope": "council",
+  "transport": "openrouter-proxy",
+  "wireModelId": "anthropic/claude-sonnet-4-6",
+}
+`;
+
+exports[`ProviderRouter snapshot fixture corpus > forTurn > fallback_hint_turn: Fallback route carries closed fallback hint > forTurn/fallback_hint_turn 1`] = `
+{
+  "billingSource": "pay-per-use",
+  "canonicalModelId": "claude-sonnet-4-6",
+  "codexConnectivity": "unknown",
+  "credentialSource": "anthropic-api-key",
+  "dispatchPath": "direct-provider",
+  "fallbackHint": {
+    "kind": "long-context-profile",
+    "profileId": "long-context-profile",
+  },
+  "invalidReason": "none",
+  "kind": "dispatchable",
+  "modelDialect": "anthropic-native",
+  "profileId": null,
+  "provider": "anthropic",
+  "resolvedFrom": "settings",
+  "role": "execution",
+  "routeScope": "fallback",
+  "transport": "anthropic-direct",
+  "wireModelId": "claude-sonnet-4-6",
+}
+`;
+
+exports[`ProviderRouter snapshot fixture corpus > forTurn > legacy_undefined_provider: Undefined activeProvider remains legacy direct Anthropic > forTurn/legacy_undefined_provider 1`] = `
+{
+  "billingSource": "pay-per-use",
+  "canonicalModelId": "claude-haiku-4-5",
+  "codexConnectivity": "unknown",
+  "credentialSource": "anthropic-api-key",
+  "dispatchPath": "direct-provider",
+  "fallbackHint": null,
+  "invalidReason": "none",
+  "kind": "dispatchable",
+  "modelDialect": "anthropic-native",
+  "profileId": null,
+  "provider": "anthropic",
+  "resolvedFrom": "settings",
+  "role": "execution",
+  "routeScope": "normal-turn",
+  "transport": "anthropic-direct",
+  "wireModelId": "claude-haiku-4-5",
+}
+`;
+
+exports[`ProviderRouter snapshot fixture corpus > forTurn > local_profile: Local profile is credentialless local HTTP > forTurn/local_profile 1`] = `
+{
+  "billingSource": "local",
+  "canonicalModelId": "profile:local-llama",
+  "codexConnectivity": "unknown",
+  "credentialSource": "local-none",
+  "dispatchPath": "direct-provider",
+  "fallbackHint": null,
+  "invalidReason": "none",
+  "kind": "dispatchable",
+  "modelDialect": "local-openai-compatible",
+  "profileId": "local-llama",
+  "provider": "local",
+  "resolvedFrom": "explicit-profile",
+  "role": "execution",
+  "routeScope": "normal-turn",
+  "transport": "local-openai-compatible-http",
+  "wireModelId": "llama3",
+}
+`;
+
+exports[`ProviderRouter snapshot fixture corpus > forTurn > openrouter_missing: OpenRouter active with missing token fails closed > forTurn/openrouter_missing 1`] = `
+{
+  "billingSource": null,
+  "canonicalModelId": "claude-sonnet-4-6",
+  "codexConnectivity": "unknown",
+  "credentialSource": "missing-openrouter",
+  "dispatchPath": "none",
+  "fallbackHint": null,
+  "invalidReason": "missing-openrouter-credentials",
+  "kind": "terminal",
+  "modelDialect": "anthropic-native",
+  "profileId": null,
+  "provider": "openrouter",
+  "resolvedFrom": "settings",
+  "role": "execution",
+  "routeScope": "normal-turn",
+  "transport": "no-credentials",
+  "wireModelId": "claude-sonnet-4-6",
+}
+`;
+
+exports[`ProviderRouter snapshot fixture corpus > forTurn > openrouter_native: OpenRouter active with native Claude model still uses OR proxy > forTurn/openrouter_native 1`] = `
+{
+  "billingSource": "pool",
+  "canonicalModelId": "claude-sonnet-4-6",
+  "codexConnectivity": "unknown",
+  "credentialSource": "openrouter-oauth-token",
+  "dispatchPath": "local-proxy-passthrough",
+  "fallbackHint": null,
+  "invalidReason": "none",
+  "kind": "dispatchable",
+  "modelDialect": "anthropic-native",
+  "profileId": null,
+  "provider": "openrouter",
+  "resolvedFrom": "settings",
+  "role": "execution",
+  "routeScope": "normal-turn",
+  "transport": "openrouter-proxy",
+  "wireModelId": "claude-sonnet-4-6",
+}
+`;
+
+exports[`ProviderRouter snapshot fixture corpus > forTurn > openrouter_slash: OpenRouter active with slash dialect uses OR proxy > forTurn/openrouter_slash 1`] = `
+{
+  "billingSource": "pool",
+  "canonicalModelId": "claude-opus-4-7",
+  "codexConnectivity": "unknown",
+  "credentialSource": "openrouter-oauth-token",
+  "dispatchPath": "local-proxy-passthrough",
+  "fallbackHint": null,
+  "invalidReason": "none",
+  "kind": "dispatchable",
+  "modelDialect": "openrouter-prefixed",
+  "profileId": null,
+  "provider": "openrouter",
+  "resolvedFrom": "settings",
+  "role": "execution",
+  "routeScope": "normal-turn",
+  "transport": "openrouter-proxy",
+  "wireModelId": "anthropic/claude-opus-4-7",
+}
+`;
+
+exports[`ProviderRouter snapshot fixture corpus > forTurn > or_connection_profile_dangling_custom_provider: OpenRouter connection profile with dangling customProviderId stays missing-profile-credentials > forTurn/or_connection_profile_dangling_custom_provider 1`] = `
+{
+  "billingSource": null,
+  "canonicalModelId": "claude-sonnet-4.6",
+  "codexConnectivity": "unknown",
+  "credentialSource": "missing-profile",
+  "dispatchPath": "none",
+  "fallbackHint": null,
+  "invalidReason": "missing-profile-credentials",
+  "kind": "terminal",
+  "modelDialect": "profile-ref",
+  "profileId": "or-dangling-custom-provider",
+  "provider": "profile",
+  "resolvedFrom": "explicit-profile",
+  "role": "execution",
+  "routeScope": "normal-turn",
+  "transport": "no-credentials",
+  "wireModelId": "anthropic/claude-sonnet-4.6",
+}
+`;
+
+exports[`ProviderRouter snapshot fixture corpus > forTurn > or_connection_profile_oauth_missing: OpenRouter connection-managed profile without OAuth token fails closed as missing-openrouter > forTurn/or_connection_profile_oauth_missing 1`] = `
+{
+  "billingSource": null,
+  "canonicalModelId": "claude-sonnet-4.6",
+  "codexConnectivity": "unknown",
+  "credentialSource": "missing-openrouter",
+  "dispatchPath": "none",
+  "fallbackHint": null,
+  "invalidReason": "missing-openrouter-credentials",
+  "kind": "terminal",
+  "modelDialect": "openrouter-prefixed",
+  "profileId": "or-connection-profile-missing",
+  "provider": "openrouter",
+  "resolvedFrom": "explicit-profile",
+  "role": "execution",
+  "routeScope": "normal-turn",
+  "transport": "no-credentials",
+  "wireModelId": "anthropic/claude-sonnet-4.6",
+}
+`;
+
+exports[`ProviderRouter snapshot fixture corpus > forTurn > or_connection_profile_oauth_slash: OpenRouter connection-managed profile uses OAuth token via OR proxy (slash model) > forTurn/or_connection_profile_oauth_slash 1`] = `
+{
+  "billingSource": "pool",
+  "canonicalModelId": "profile:or-connection-profile",
+  "codexConnectivity": "unknown",
+  "credentialSource": "openrouter-oauth-token",
+  "dispatchPath": "local-proxy-passthrough",
+  "fallbackHint": null,
+  "invalidReason": "none",
+  "kind": "dispatchable",
+  "modelDialect": "openrouter-prefixed",
+  "profileId": "or-connection-profile",
+  "provider": "openrouter",
+  "resolvedFrom": "explicit-profile",
+  "role": "execution",
+  "routeScope": "normal-turn",
+  "transport": "openrouter-proxy",
+  "wireModelId": "anthropic/claude-sonnet-4.6",
+}
+`;
+
+exports[`ProviderRouter snapshot fixture corpus > forTurn > or_connection_profile_provider_key_byok: OpenRouter connection profile with explicit provider key uses profile-api-key path > forTurn/or_connection_profile_provider_key_byok 1`] = `
+{
+  "billingSource": "pay-per-use",
+  "canonicalModelId": "profile:or-byok-profile",
+  "codexConnectivity": "unknown",
+  "credentialSource": "profile-api-key",
+  "dispatchPath": "direct-provider",
+  "fallbackHint": null,
+  "invalidReason": "none",
+  "kind": "dispatchable",
+  "modelDialect": "profile-ref",
+  "profileId": "or-byok-profile",
+  "provider": "profile",
+  "resolvedFrom": "explicit-profile",
+  "role": "execution",
+  "routeScope": "normal-turn",
+  "transport": "openai-compatible-http",
+  "wireModelId": "anthropic/claude-sonnet-4.6",
+}
+`;
+
+exports[`ProviderRouter snapshot fixture corpus > forTurn > or_user_profile_resolves_via_oauth: OpenRouter user-added profile (profileSource 'user', no per-profile key) resolves via the shared account OAuth token — the 260611 fix; previously dead-ended at missing-profile-credentials > forTurn/or_user_profile_resolves_via_oauth 1`] = `
+{
+  "billingSource": "pool",
+  "canonicalModelId": "profile:or-user-profile",
+  "codexConnectivity": "unknown",
+  "credentialSource": "openrouter-oauth-token",
+  "dispatchPath": "local-proxy-passthrough",
+  "fallbackHint": null,
+  "invalidReason": "none",
+  "kind": "dispatchable",
+  "modelDialect": "openrouter-prefixed",
+  "profileId": "or-user-profile",
+  "provider": "openrouter",
+  "resolvedFrom": "explicit-profile",
+  "role": "execution",
+  "routeScope": "normal-turn",
+  "transport": "openrouter-proxy",
+  "wireModelId": "anthropic/claude-sonnet-4.6",
+}
+`;
+
+exports[`ProviderRouter snapshot fixture corpus > forTurn > planning_anthropic: Planning role routes direct Anthropic > forTurn/planning_anthropic 1`] = `
+{
+  "billingSource": "pay-per-use",
+  "canonicalModelId": "claude-opus-4-7",
+  "codexConnectivity": "unknown",
+  "credentialSource": "anthropic-api-key",
+  "dispatchPath": "direct-provider",
+  "fallbackHint": null,
+  "invalidReason": "none",
+  "kind": "dispatchable",
+  "modelDialect": "anthropic-native",
+  "profileId": null,
+  "provider": "anthropic",
+  "resolvedFrom": "settings",
+  "role": "planning",
+  "routeScope": "normal-turn",
+  "transport": "anthropic-direct",
+  "wireModelId": "claude-opus-4-7",
+}
+`;
+
+exports[`ProviderRouter snapshot fixture corpus > forTurn > profile_missing_key: Cloud profile without credential fails closed > forTurn/profile_missing_key 1`] = `
+{
+  "billingSource": null,
+  "canonicalModelId": "gpt-5.5",
+  "codexConnectivity": "unknown",
+  "credentialSource": "missing-profile",
+  "dispatchPath": "none",
+  "fallbackHint": null,
+  "invalidReason": "missing-profile-credentials",
+  "kind": "terminal",
+  "modelDialect": "profile-ref",
+  "profileId": "openai-missing",
+  "provider": "profile",
+  "resolvedFrom": "explicit-profile",
+  "role": "execution",
+  "routeScope": "normal-turn",
+  "transport": "no-credentials",
+  "wireModelId": "gpt-5.5",
+}
+`;
+
+exports[`ProviderRouter snapshot fixture corpus > forTurn > profile_ref_openai: Explicit profile reference wins over provider mode > forTurn/profile_ref_openai 1`] = `
+{
+  "billingSource": "pay-per-use",
+  "canonicalModelId": "profile:openai-main",
+  "codexConnectivity": "unknown",
+  "credentialSource": "openai-api-key",
+  "dispatchPath": "direct-provider",
+  "fallbackHint": null,
+  "invalidReason": "none",
+  "kind": "dispatchable",
+  "modelDialect": "profile-ref",
+  "profileId": "openai-main",
+  "provider": "profile",
+  "resolvedFrom": "explicit-profile",
+  "role": "execution",
+  "routeScope": "normal-turn",
+  "transport": "openai-compatible-http",
+  "wireModelId": "gpt-5.5",
+}
+`;
+
+exports[`ProviderRouter snapshot fixture corpus > forTurn > working_profile_openai: Working OpenAI profile routes direct compatible HTTP > forTurn/working_profile_openai 1`] = `
+{
+  "billingSource": "pay-per-use",
+  "canonicalModelId": "gpt-5.5",
+  "codexConnectivity": "unknown",
+  "credentialSource": "openai-api-key",
+  "dispatchPath": "direct-provider",
+  "fallbackHint": null,
+  "invalidReason": "none",
+  "kind": "dispatchable",
+  "modelDialect": "profile-ref",
+  "profileId": "openai-main",
+  "provider": "profile",
+  "resolvedFrom": "working-profile",
+  "role": "execution",
+  "routeScope": "normal-turn",
+  "transport": "openai-compatible-http",
+  "wireModelId": "gpt-5.5",
+}
+`;
+
+exports[`ProviderRouter snapshot fixture corpus > runtime endpoint metadata > forTurn/local_profile includes endpoint baseURL > runtime/forTurn/local_profile 1`] = `
+{
+  "auth": {
+    "apiKey": null,
+    "credentialSource": "local-none",
+    "credentialStatus": "not-required",
+    "env": [],
+    "kind": "api-key",
+    "resolvedAuthLabel": "api-key",
+  },
+  "decision": {
+    "billingSource": "local",
+    "canonicalModelId": "profile:local-llama",
+    "codexConnectivity": "unknown",
+    "credentialSource": "local-none",
+    "dispatchPath": "direct-provider",
+    "fallbackHint": null,
+    "invalidReason": "none",
+    "kind": "dispatchable",
+    "modelDialect": "local-openai-compatible",
+    "profileId": "local-llama",
+    "provider": "local",
+    "resolvedFrom": "explicit-profile",
+    "role": "execution",
+    "routeScope": "normal-turn",
+    "transport": "local-openai-compatible-http",
+    "wireModelId": "llama3",
+  },
+  "endpoint": {
+    "baseURL": "http://localhost:11434/v1",
+  },
+  "headers": [
+    [
+      "content-type",
+      "application/json",
+    ],
+  ],
+  "invalidReason": null,
+  "proxyBaseURL": null,
+  "proxyRequired": false,
+  "resolvedAuthLabel": "api-key",
+}
+`;
+
+exports[`ProviderRouter snapshot fixture corpus > runtime endpoint metadata > forTurn/profile_ref_openai includes endpoint baseURL > runtime/forTurn/profile_ref_openai 1`] = `
+{
+  "auth": {
+    "apiKey": null,
+    "credentialSource": "openai-api-key",
+    "credentialStatus": "available",
+    "env": [],
+    "kind": "api-key",
+    "resolvedAuthLabel": "api-key",
+  },
+  "decision": {
+    "billingSource": "pay-per-use",
+    "canonicalModelId": "profile:openai-main",
+    "codexConnectivity": "unknown",
+    "credentialSource": "openai-api-key",
+    "dispatchPath": "direct-provider",
+    "fallbackHint": null,
+    "invalidReason": "none",
+    "kind": "dispatchable",
+    "modelDialect": "profile-ref",
+    "profileId": "openai-main",
+    "provider": "profile",
+    "resolvedFrom": "explicit-profile",
+    "role": "execution",
+    "routeScope": "normal-turn",
+    "transport": "openai-compatible-http",
+    "wireModelId": "gpt-5.5",
+  },
+  "endpoint": {
+    "baseURL": "https://api.openai.com/v1",
+  },
+  "headers": [
+    [
+      "content-type",
+      "application/json",
+    ],
+  ],
+  "invalidReason": null,
+  "proxyBaseURL": null,
+  "proxyRequired": false,
+  "resolvedAuthLabel": "api-key",
+}
+`;

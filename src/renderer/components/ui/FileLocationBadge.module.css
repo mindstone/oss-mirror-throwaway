@@ -1,0 +1,53 @@
+.badge {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-1);
+  min-width: 0;
+  max-width: 100%;
+  color: var(--color-text-secondary);
+  cursor: help;
+}
+
+.compact {
+  font-size: 0.75rem;
+}
+
+.degraded {
+  color: var(--color-muted-foreground);
+  font-style: italic;
+}
+
+.icon {
+  flex-shrink: 0;
+  color: var(--color-warning);
+}
+
+.label {
+  min-width: 0;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+/* Middle-ellipsis implementation: the container is flex with min-width:0 so
+ * flex-basis can shrink; the prefix span end-truncates with ellipsis, and
+ * the suffix (filename) flex-shrinks to 0 to stay pinned. */
+.labelSplit {
+  display: inline-flex;
+  min-width: 0;
+  max-width: 100%;
+  white-space: nowrap;
+  overflow: hidden;
+}
+
+.labelPrefix {
+  min-width: 0;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.labelSuffix {
+  flex-shrink: 0;
+  white-space: nowrap;
+}

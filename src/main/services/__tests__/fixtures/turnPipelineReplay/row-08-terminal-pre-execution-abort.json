@@ -1,0 +1,272 @@
+{
+  "id": 8,
+  "description": "terminal-pre-execution-abort",
+  "stage": "S1",
+  "addedIn": "round-1",
+  "notes": [
+    "Stage 1C Phase 1: row 8 covers TERMINAL EXIT 4 ('aborted') when the AbortController fires after admission preflight passes but BEFORE the executor proceeds further.",
+    "`mockOverrides.abortOnControllerRegistered: true` aborts the controller as soon as the executor registers it.",
+    "Brief-vs-corpus deviation: parent brief mapped 'row 8' to S2/S3 spawn-failure; corpus row 8 is the S1 admission abort terminal. Documenting the deviation per brief's 'pick the CLOSEST analogous' rule."
+  ],
+  "input": {
+    "turnId": "<TURN_ID>",
+    "prompt": "Hello",
+    "turnOptions": {
+      "sessionId": "<SESSION_ID>",
+      "resetConversation": false
+    },
+    "mockOverrides": {
+      "abortOnControllerRegistered": true
+    }
+  },
+  "expected": {
+    "events": [
+      {
+        "sequence": 5,
+        "method": "dispatchAgentEvent",
+        "args": [
+          null,
+          "<TURN_ID>",
+          {
+            "timestamp": "<TIMESTAMP>",
+            "type": "turn_started"
+          }
+        ]
+      },
+      {
+        "sequence": 10,
+        "method": "dispatchAgentEvent",
+        "args": [
+          null,
+          "<TURN_ID>",
+          {
+            "isSynthetic": true,
+            "text": "",
+            "timestamp": "<TIMESTAMP>",
+            "turnEndReason": "user_stopped",
+            "type": "result"
+          }
+        ]
+      }
+    ],
+    "registry": [
+      {
+        "sequence": 0,
+        "method": "setActiveTurnController",
+        "args": [
+          "<TURN_ID>",
+          {}
+        ]
+      },
+      {
+        "sequence": 3,
+        "method": "recordSessionTurn",
+        "args": [
+          "<SESSION_ID>",
+          null
+        ]
+      },
+      {
+        "sequence": 4,
+        "method": "setRendererSession",
+        "args": [
+          "<TURN_ID>",
+          "<SESSION_ID>"
+        ]
+      },
+      {
+        "sequence": 6,
+        "method": "setTurnCategory",
+        "args": [
+          "<TURN_ID>",
+          "conversation"
+        ]
+      },
+      {
+        "sequence": 7,
+        "method": "setTurnLogger",
+        "args": [
+          "<TURN_ID>"
+        ]
+      },
+      {
+        "sequence": 14,
+        "method": "cleanupTurn",
+        "args": [
+          "<TURN_ID>"
+        ]
+      }
+    ],
+    "sentry": [],
+    "log": [
+      {
+        "sequence": 1,
+        "method": "warn",
+        "args": [
+          {
+            "err": {}
+          },
+          "Failed to emit pre-turn worker stats snapshot"
+        ]
+      },
+      {
+        "sequence": 2,
+        "method": "debug",
+        "args": [
+          {
+            "attempt": 1,
+            "event": "turnPhase.entry",
+            "phaseName": "admission",
+            "sessionId": "<SESSION_ID>",
+            "turnId": "<TURN_ID>"
+          },
+          "turnPhase.entry"
+        ]
+      },
+      {
+        "sequence": 8,
+        "method": "info",
+        "args": [
+          {
+            "effectiveResetConversation": false,
+            "rendererHint": false,
+            "rendererSessionId": "<SESSION_ID>"
+          },
+          "Initializing agent turn — main process resetConversation decision"
+        ]
+      },
+      {
+        "sequence": 9,
+        "method": "info",
+        "args": [
+          "Turn aborted during setup"
+        ]
+      },
+      {
+        "sequence": 11,
+        "method": "debug",
+        "args": [
+          {
+            "durationMs": "<DURATION_MS>",
+            "event": "turnPhase.exit",
+            "phaseName": "admission",
+            "status": "terminal",
+            "terminalKind": "aborted",
+            "turnId": "<TURN_ID>"
+          },
+          "turnPhase.exit"
+        ]
+      },
+      {
+        "sequence": 12,
+        "method": "info",
+        "args": [
+          {
+            "reason": "aborted",
+            "sessionLogPath": "/tmp/test-turn.log",
+            "turnId": "<TURN_ID>"
+          },
+          "Agent turn session log finalized"
+        ]
+      },
+      {
+        "sequence": 13,
+        "method": "info",
+        "args": [
+          {
+            "reason": "turn:<TURN_ID>"
+          },
+          "Power save block released (system sleep allowed)"
+        ]
+      }
+    ],
+    "cost": [],
+    "proxy": [],
+    "tracking": [],
+    "cooldown": [],
+    "checkpoint": [],
+    "sleepBlocker": [],
+    "fileChange": [],
+    "dynamicImport": [],
+    "envMutation": [],
+    "settingsMutation": [],
+    "query": [],
+    "timeline": [
+      {
+        "sequence": 0,
+        "surface": "registry",
+        "method": "setActiveTurnController"
+      },
+      {
+        "sequence": 1,
+        "surface": "log",
+        "method": "warn"
+      },
+      {
+        "sequence": 2,
+        "surface": "log",
+        "method": "debug"
+      },
+      {
+        "sequence": 3,
+        "surface": "registry",
+        "method": "recordSessionTurn"
+      },
+      {
+        "sequence": 4,
+        "surface": "registry",
+        "method": "setRendererSession"
+      },
+      {
+        "sequence": 5,
+        "surface": "event",
+        "method": "dispatchAgentEvent"
+      },
+      {
+        "sequence": 6,
+        "surface": "registry",
+        "method": "setTurnCategory"
+      },
+      {
+        "sequence": 7,
+        "surface": "registry",
+        "method": "setTurnLogger"
+      },
+      {
+        "sequence": 8,
+        "surface": "log",
+        "method": "info"
+      },
+      {
+        "sequence": 9,
+        "surface": "log",
+        "method": "info"
+      },
+      {
+        "sequence": 10,
+        "surface": "event",
+        "method": "dispatchAgentEvent"
+      },
+      {
+        "sequence": 11,
+        "surface": "log",
+        "method": "debug"
+      },
+      {
+        "sequence": 12,
+        "surface": "log",
+        "method": "info"
+      },
+      {
+        "sequence": 13,
+        "surface": "log",
+        "method": "info"
+      },
+      {
+        "sequence": 14,
+        "surface": "registry",
+        "method": "cleanupTurn"
+      }
+    ]
+  }
+}

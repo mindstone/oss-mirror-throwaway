@@ -1,0 +1,42 @@
+{
+  "name": "out-of-order-seq",
+  "input": [
+    {
+      "id": "u16a",
+      "turnId": "t16a",
+      "role": "user",
+      "text": "First turn prompt.",
+      "createdAt": 1601
+    },
+    {
+      "id": "u16b",
+      "turnId": "t16b",
+      "role": "user",
+      "text": "Second turn prompt arrived early.",
+      "createdAt": 1602
+    },
+    {
+      "id": "a16b",
+      "turnId": "t16b",
+      "role": "assistant",
+      "text": "Second turn in progress.",
+      "createdAt": 1603
+    },
+    {
+      "id": "r16a",
+      "turnId": "t16a",
+      "role": "result",
+      "text": "First turn result arrived late.",
+      "createdAt": 1600
+    }
+  ],
+  "expected": {
+    "visibleIds": ["u16a", "u16b", "a16b", "r16a"],
+    "messagesByTurnIds": {
+      "t16a": ["u16a", "r16a"],
+      "t16b": ["u16b", "a16b"]
+    },
+    "activeTurnId": "t16b",
+    "isBusy": true
+  }
+}

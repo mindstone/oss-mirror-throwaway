@@ -1,0 +1,9 @@
+.drawer-skill-notification__type-icon {
+  color: var(--color-brand-primary, var(--color-brand-indigo));
+}
+
+.drawer-skill-notification__body {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-2);
+}

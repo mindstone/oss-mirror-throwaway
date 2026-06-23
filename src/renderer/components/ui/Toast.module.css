@@ -1,0 +1,244 @@
+/*
+ * Sonner toast styling — glass-morphism design matching approval sidebar.
+ *
+ * Visual spec: docs/project/UI_INTERNAL_NOTIFICATIONS.md
+ * Static preview: tmp/notification-preview.html (open in browser for side-by-side comparison)
+ *   → Future: consider Storybook for a live, auto-updating component gallery.
+ * 
+ * All variants use indigo glow except success (emerald).
+ * Severity is communicated by icon + text, not glow color.
+ *
+ * NOTE: !important is required throughout because Sonner applies inline styles
+ * and has high-specificity internal CSS. These overrides ensure our design tokens
+ * take precedence while preserving Sonner's animation and stacking behavior.
+ */
+
+/* ═══════════════════════════════════════════════════════════════
+   Global Sonner Container
+   ═══════════════════════════════════════════════════════════════ */
+
+:global([data-sonner-toaster]) {
+  font-family: var(--font-family-sans) !important;
+  z-index: var(--z-toast) !important;
+}
+
+/* ═══════════════════════════════════════════════════════════════
+   Base Toast Card — Dark Mode (default)
+   ═══════════════════════════════════════════════════════════════ */
+
+:global([data-sonner-toast]) {
+  --border-radius: var(--radius-lg) !important;
+  background: rgba(22, 27, 42, 0.98) !important;
+  backdrop-filter: blur(var(--glass-overlay-blur)) !important;
+  -webkit-backdrop-filter: blur(var(--glass-overlay-blur)) !important;
+  width: 350px !important;
+  padding: 16px 20px !important;
+  padding-right: 36px !important;
+  overflow: visible !important;
+
+  /* Indigo glow — default for all variants */
+  border: 1px solid rgba(99, 102, 241, 0.7) !important;
+  box-shadow:
+    0 0 0 1px rgba(99, 102, 241, 0.3),
+    0 0 32px rgba(99, 102, 241, 0.3),
+    0 0 20px 6px rgba(0, 0, 0, 0.4),
+    0 4px 32px 12px rgba(0, 0, 0, 0.35),
+    0 0 0 1px rgba(255, 255, 255, 0.06) inset !important;
+}
+
+/* ─── Success override: Emerald glow ─────────────────────────── */
+
+:global([data-sonner-toast][data-type="success"]) {
+  border-color: rgba(16, 185, 129, 0.7) !important;
+  box-shadow:
+    0 0 0 1px rgba(16, 185, 129, 0.3),
+    0 0 32px rgba(16, 185, 129, 0.3),
+    0 0 20px 6px rgba(0, 0, 0, 0.4),
+    0 4px 32px 12px rgba(0, 0, 0, 0.35),
+    0 0 0 1px rgba(255, 255, 255, 0.06) inset !important;
+}
+
+/* ═══════════════════════════════════════════════════════════════
+   Typography
+   ═══════════════════════════════════════════════════════════════ */
+
+:global([data-sonner-toast] [data-title]) {
+  font-weight: 600 !important;
+  font-size: 0.8125rem !important;
+  line-height: 1.4 !important;
+  color: var(--color-text-primary) !important;
+}
+
+:global([data-sonner-toast] [data-description]) {
+  color: var(--color-text-secondary) !important;
+  font-size: 0.75rem !important;
+  line-height: 1.4 !important;
+}
+
+/* ═══════════════════════════════════════════════════════════════
+   Icon
+   ═══════════════════════════════════════════════════════════════ */
+
+:global([data-sonner-toast] [data-icon]) {
+  color: var(--color-text-muted) !important;
+  margin-right: 0 !important;
+}
+
+:global([data-sonner-toast][data-type="success"] [data-icon]) {
+  color: #10b981 !important;
+}
+
+/* ═══════════════════════════════════════════════════════════════
+   Two-button layout — stack buttons below content
+   When both action AND cancel buttons are present, wrap them onto
+   a new line so the description text gets the full toast width.
+   ═══════════════════════════════════════════════════════════════ */
+
+:global([data-sonner-toast]:has([data-button]):has([data-cancel])) {
+  flex-wrap: wrap !important;
+  gap: 8px !important;
+}
+
+:global([data-sonner-toast]:has([data-button]):has([data-cancel]) [data-content]) {
+  flex: 1 1 100% !important;
+  margin-bottom: 0 !important;
+}
+
+:global([data-sonner-toast]:has([data-button]):has([data-cancel]) [data-cancel]) {
+  margin-top: 0 !important;
+  margin-left: auto !important;
+}
+
+:global([data-sonner-toast]:has([data-button]):has([data-cancel]) [data-button]) {
+  margin-top: 0 !important;
+  margin-left: 0 !important;
+}
+
+/* ═══════════════════════════════════════════════════════════════
+   Action Button (e.g. "Undo", "View")
+   ═══════════════════════════════════════════════════════════════ */
+
+:global([data-sonner-toast] [data-button]) {
+  background: transparent !important;
+  color: var(--color-text-primary) !important;
+  border: 1px solid rgba(255, 255, 255, 0.35) !important;
+  border-radius: var(--radius-sm) !important;
+  font-size: 0.6875rem !important;
+  font-weight: 500 !important;
+  line-height: 1.1 !important;
+  padding: 3px 8px !important;
+  min-height: 22px !important;
+  margin-left: auto !important;
+  transition: all var(--motion-duration-fast) var(--motion-ease-out);
+}
+
+:global([data-sonner-toast] [data-button]:hover) {
+  background: rgba(255, 255, 255, 0.1) !important;
+  border-color: rgba(255, 255, 255, 0.4) !important;
+}
+
+:global(body.light [data-sonner-toast] [data-button]) {
+  color: var(--color-text-primary) !important;
+  border-color: rgba(0, 0, 0, 0.2) !important;
+}
+
+:global(body.light [data-sonner-toast] [data-button]:hover) {
+  background: rgba(0, 0, 0, 0.06) !important;
+  border-color: rgba(0, 0, 0, 0.35) !important;
+}
+
+/* ═══════════════════════════════════════════════════════════════
+   Cancel / Secondary Action Button
+   ═══════════════════════════════════════════════════════════════ */
+
+:global([data-sonner-toast] [data-cancel]) {
+  background: transparent !important;
+  color: var(--color-text-secondary) !important;
+  border: 1px solid rgba(255, 255, 255, 0.18) !important;
+  border-radius: var(--radius-sm) !important;
+  font-size: 0.6875rem !important;
+  font-weight: 500 !important;
+  line-height: 1.1 !important;
+  padding: 3px 8px !important;
+  min-height: 22px !important;
+  transition: all var(--motion-duration-fast) var(--motion-ease-out);
+}
+
+:global([data-sonner-toast] [data-cancel]:hover) {
+  background: rgba(255, 255, 255, 0.08) !important;
+  color: var(--color-text-primary) !important;
+  border-color: rgba(255, 255, 255, 0.3) !important;
+}
+
+:global(body.light [data-sonner-toast] [data-cancel]) {
+  color: var(--color-text-secondary) !important;
+  border-color: rgba(0, 0, 0, 0.12) !important;
+}
+
+:global(body.light [data-sonner-toast] [data-cancel]:hover) {
+  background: rgba(0, 0, 0, 0.04) !important;
+  color: var(--color-text-primary) !important;
+  border-color: rgba(0, 0, 0, 0.25) !important;
+}
+
+/* ═══════════════════════════════════════════════════════════════
+   Close Button — matches approval sidebar dismiss style
+   ═══════════════════════════════════════════════════════════════ */
+
+:global([data-sonner-toast] [data-close-button]) {
+  position: absolute !important;
+  left: unset !important;
+  right: 12px !important;
+  top: 12px !important;
+  transform: none !important;
+  width: 18px !important;
+  height: 18px !important;
+  background: transparent !important;
+  border: none !important;
+  border-radius: var(--radius-xs) !important;
+  color: var(--color-text-muted) !important;
+  opacity: 0.4;
+  transition: all var(--motion-duration-fast) var(--motion-ease-out);
+}
+
+:global([data-sonner-toast] [data-close-button]:hover) {
+  background: rgba(239, 68, 68, 0.15) !important;
+  color: #f87171 !important;
+  opacity: 1;
+}
+
+/* ═══════════════════════════════════════════════════════════════
+   Light Mode
+   ═══════════════════════════════════════════════════════════════ */
+
+:global(body.light [data-sonner-toast]) {
+  background: rgba(255, 255, 255, 0.99) !important;
+
+  /* Indigo glow — light mode intensity */
+  border-color: rgba(99, 102, 241, 0.55) !important;
+  box-shadow:
+    0 0 0 1px rgba(99, 102, 241, 0.2),
+    0 0 24px rgba(99, 102, 241, 0.18),
+    0 0 16px 5px rgba(0, 0, 0, 0.14),
+    0 4px 28px 10px rgba(0, 0, 0, 0.16),
+    0 0 0 1px rgba(99, 102, 241, 0.1) inset !important;
+}
+
+/* ─── Success override: Emerald glow (light) ─────────────────── */
+
+:global(body.light [data-sonner-toast][data-type="success"]) {
+  border-color: rgba(16, 185, 129, 0.55) !important;
+  box-shadow:
+    0 0 0 1px rgba(16, 185, 129, 0.2),
+    0 0 24px rgba(16, 185, 129, 0.18),
+    0 0 16px 5px rgba(0, 0, 0, 0.14),
+    0 4px 28px 10px rgba(0, 0, 0, 0.16),
+    0 0 0 1px rgba(16, 185, 129, 0.1) inset !important;
+}
+
+/* ─── Light mode close button ─────────────────────────────────── */
+
+:global(body.light [data-sonner-toast] [data-close-button]:hover) {
+  background: rgba(239, 68, 68, 0.12) !important;
+  color: #dc2626 !important;
+}

@@ -1,0 +1,7 @@
+{
+  "name": "rebel-canvas",
+  "version": "0.1.0",
+  "description": "Interactive visualization tools for Rebel (charts, tables, options)",
+  "private": true,
+  "main": "server.cjs"
+}

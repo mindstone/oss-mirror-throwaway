@@ -1,0 +1,24 @@
+{
+  "commits": [
+    {
+      "hash": "7878787878787878787878787878787878787878",
+      "subject": "feat(release): Harden [deploy-beta] recursion guard for origin/dev refs/heads/dev",
+      "body": "Follow-up to #482 and commit 9f3b2a1d4e6f8a0b2c4d6e8f0a1b2c3d4e5f6a7b."
+    },
+    {
+      "hash": "8989898989898989898989898989898989898989",
+      "subject": "fix(notes): Cleaned migration leftovers from branch origin/feature/notes-rework",
+      "body": "Patch chain included #901 and 1a2b3c4d5e6f7a8b9c0d."
+    },
+    {
+      "hash": "abababababababababababababababababababab",
+      "subject": "style(ui): Adjusted panel spacing after refs/heads/dev merge",
+      "body": "Supersedes quick tweak in 0f1e2d3c4b5a6978."
+    },
+    {
+      "hash": "cdcdcdcdcdcdcdcdcdcdcdcdcdcdcdcdcdcdcdcd",
+      "subject": "perf(search): Reduced debounce jitter seen in #77 demos",
+      "body": "Original spike branch was origin/perf/search-smoother."
+    }
+  ]
+}

@@ -1,0 +1,384 @@
+.card {
+  width: min(560px, 100%);
+  margin-top: var(--space-4, 16px);
+  border: 1px solid color-mix(in srgb, var(--color-border-soft) 84%, var(--color-primary) 16%);
+  border-radius: var(--radius-lg, 16px);
+  background:
+    linear-gradient(
+      180deg,
+      color-mix(in srgb, var(--color-primary) 7%, transparent) 0%,
+      transparent 100%
+    ),
+    var(--color-card);
+  box-shadow: var(--shadow-medium, 0 12px 28px rgba(2, 6, 23, 0.16));
+  padding: var(--space-4, 16px);
+}
+
+.cardSuccess {
+  border-color: color-mix(in srgb, var(--color-success, #22c55e) 40%, var(--color-border-soft) 60%);
+  background:
+    linear-gradient(
+      180deg,
+      color-mix(in srgb, var(--color-success, #22c55e) 10%, transparent) 0%,
+      transparent 100%
+    ),
+    var(--color-card);
+}
+
+.cardCelebration {
+  border-color: color-mix(in srgb, var(--color-primary) 32%, var(--color-border-soft) 68%);
+  background: var(--color-card);
+}
+
+.cardFooter {
+  width: 100%;
+  margin-top: 0;
+  border-radius: var(--radius-button, 12px);
+  box-shadow: none;
+  padding: var(--space-3, 12px) var(--space-4, 16px);
+}
+
+.header {
+  display: flex;
+  align-items: flex-start;
+  gap: var(--space-3, 12px);
+}
+
+.headerIcon,
+.headerIconSuccess,
+.headerIconCelebrate {
+  flex-shrink: 0;
+  margin-top: 2px;
+}
+
+.headerIcon {
+  color: var(--color-primary);
+}
+
+.headerIconSuccess {
+  color: var(--color-success, #22c55e);
+}
+
+.headerIconCelebrate {
+  color: var(--color-primary);
+}
+
+.title {
+  margin: 0;
+  font-size: 0.98rem;
+  font-weight: 600;
+  color: var(--color-text-primary);
+  line-height: 1.3;
+}
+
+.subtitle {
+  margin: var(--space-1, 4px) 0 0;
+  font-size: 0.78rem;
+  line-height: 1.45;
+  color: var(--color-text-secondary);
+}
+
+.body {
+  margin-top: var(--space-3, 12px);
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-2, 8px);
+}
+
+.label {
+  margin: 0;
+  font-size: 0.78rem;
+  font-weight: 600;
+  letter-spacing: 0.01em;
+  color: var(--color-text-secondary);
+  text-transform: uppercase;
+}
+
+.toolList {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.toolRow,
+.toolResultRow {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 0.9rem;
+  color: var(--color-text-primary);
+}
+
+.toolResultRowError {
+  color: var(--color-error, #ef4444);
+}
+
+.toolStatusIcon {
+  flex-shrink: 0;
+}
+
+.toolStatusIconPass {
+  color: var(--color-success, #22c55e);
+}
+
+.toolStatusIconFail {
+  color: var(--color-error, #ef4444);
+}
+
+.toolName {
+  font-weight: 500;
+}
+
+.toolError {
+  font-size: 0.8rem;
+  color: var(--color-text-secondary);
+}
+
+.helperText {
+  margin: 0;
+  font-size: 0.84rem;
+  line-height: 1.5;
+  color: var(--color-text-secondary);
+}
+
+.autoFixMessage {
+  margin: 0;
+  display: flex;
+  align-items: flex-start;
+  gap: 8px;
+  font-size: 0.82rem;
+  line-height: 1.5;
+  color: var(--color-text-secondary);
+}
+
+.submittingSpinner {
+  width: 18px;
+  height: 18px;
+  flex-shrink: 0;
+  margin-top: 1px;
+}
+
+.refreshButton {
+  flex-shrink: 0;
+}
+
+.refreshButton:disabled {
+  opacity: 0.5;
+}
+
+@keyframes spin {
+  from { transform: rotate(0deg); }
+  to { transform: rotate(360deg); }
+}
+
+.refreshSpin {
+  animation: spin 1s linear infinite;
+}
+
+.actions {
+  margin-top: var(--space-4, 16px);
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: var(--space-2, 8px);
+}
+
+/**
+ * Stage 4 (260424_contribution_pr_template_revamp): inline PR form on
+ * the github-check phase. Uses shared `@renderer/components/ui` Input,
+ * Textarea and Label primitives; these style rules only handle layout
+ * (stacking + spacing + subheading typography) and reuse global design
+ * tokens — no colors, radii, or font values are hardcoded.
+ */
+.formField {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-1, 4px);
+  margin-top: var(--space-3, 12px);
+}
+
+.formField:first-of-type {
+  margin-top: var(--space-2, 8px);
+}
+
+.optionalLabel {
+  font-weight: 400;
+  color: var(--color-text-secondary);
+  font-size: 0.8rem;
+}
+
+.required {
+  color: var(--color-primary);
+  font-weight: 600;
+  margin-left: 2px;
+}
+
+.attributionSubheading {
+  margin: var(--space-4, 16px) 0 0;
+  font-size: 0.78rem;
+  font-weight: 600;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--color-text-secondary);
+}
+
+.submittedHeader {
+  justify-content: space-between;
+  align-items: flex-start;
+  gap: var(--space-4, 16px);
+}
+
+.submittedIdentity {
+  display: flex;
+  align-items: flex-start;
+  gap: var(--space-3, 12px);
+  min-width: 0;
+  flex: 1;
+}
+
+.submittedAvatar {
+  display: inline-flex;
+  align-items: flex-start;
+  justify-content: center;
+  width: 2.7rem;
+  height: 2.7rem;
+  flex-shrink: 0;
+}
+
+.submittedMascot {
+  width: 2.7rem;
+  height: 2.7rem;
+  object-fit: contain;
+}
+
+.submittedAvatarFallback {
+  color: var(--color-primary);
+}
+
+.statusCluster {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-1, 4px);
+  padding: 2px 4px 2px 8px;
+  border-radius: var(--radius-pill, 999px);
+  border: 1px solid transparent;
+  align-self: flex-start;
+  flex-shrink: 0;
+  min-height: 1.625rem;
+}
+
+.statusDivider {
+  width: 1px;
+  height: 0.8rem;
+  background: currentColor;
+  opacity: 0.18;
+  flex-shrink: 0;
+}
+
+.statusBadge {
+  display: inline-flex;
+  align-items: center;
+  gap: 3px;
+  font-size: 0.7rem;
+  font-weight: 600;
+  line-height: 1;
+}
+
+.submittedTitleBlock {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  min-width: 0;
+}
+
+.submittedByline {
+  margin: 0;
+  font-size: 0.72rem;
+  line-height: 1.2;
+  color: var(--color-text-secondary);
+}
+
+.statusBadgeNeutral {
+  background: color-mix(in srgb, var(--color-primary) 10%, var(--color-card) 90%);
+  border-color: color-mix(in srgb, var(--color-primary) 20%, var(--color-border-soft) 80%);
+  color: var(--color-text-primary);
+}
+
+.statusBadgeWarning {
+  background: color-mix(in srgb, var(--color-warning, #f97316) 12%, var(--color-card) 88%);
+  border-color: color-mix(in srgb, var(--color-warning, #f97316) 28%, var(--color-border-soft) 72%);
+  color: var(--color-text-primary);
+}
+
+.statusBadgeSuccess {
+  background: color-mix(in srgb, var(--color-success, #22c55e) 12%, var(--color-card) 88%);
+  border-color: color-mix(in srgb, var(--color-success, #22c55e) 28%, var(--color-border-soft) 72%);
+  color: var(--color-text-primary);
+}
+
+.statusBadgeDanger {
+  background: color-mix(in srgb, var(--color-error, #ef4444) 12%, var(--color-card) 88%);
+  border-color: color-mix(in srgb, var(--color-error, #ef4444) 28%, var(--color-border-soft) 72%);
+  color: var(--color-text-primary);
+}
+
+.submittedMeta {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-1, 4px) var(--space-2, 8px);
+}
+
+.submittedMetaItem {
+  margin: 0;
+  font-size: 0.84rem;
+  font-weight: 400;
+  line-height: 1.5;
+  color: var(--color-text-secondary);
+}
+
+.refreshHint {
+  margin: 0;
+  font-size: 0.74rem;
+  color: var(--color-text-secondary);
+}
+
+:global(body.light) .cardCelebration {
+  background: var(--color-card);
+  border-color: color-mix(in srgb, var(--color-primary) 22%, var(--color-border-soft) 78%);
+}
+
+:global(body.light) .statusBadgeNeutral {
+  background: color-mix(in srgb, var(--color-primary) 8%, var(--color-card) 92%);
+}
+
+:global(body.light) .refreshButton {
+  background: transparent;
+}
+
+@media (max-width: 640px) {
+  .card {
+    width: 100%;
+    padding: 14px;
+  }
+
+  .actions {
+    flex-direction: column;
+    align-items: stretch;
+  }
+
+  .submittedHeader {
+    align-items: stretch;
+    flex-direction: column;
+  }
+
+  .submittedIdentity {
+    width: 100%;
+  }
+
+  .statusCluster {
+    align-self: flex-start;
+  }
+}

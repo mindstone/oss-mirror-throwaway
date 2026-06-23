@@ -1,0 +1,45 @@
+.chartContainer {
+  width: 100%;
+  min-width: 0;
+}
+
+.chart {
+  display: block;
+  width: 100%;
+  overflow: visible;
+}
+
+.axis {
+  stroke: var(--color-border, #cbd5e1);
+  stroke-width: 1;
+  stroke-dasharray: 3 3;
+}
+
+.line {
+  fill: none;
+  stroke-width: 2.5;
+}
+
+.dot {
+  stroke: var(--color-bg-primary, #ffffff);
+  stroke-width: 1.5;
+}
+
+.axisLabel {
+  fill: var(--color-muted-foreground, #64748b);
+  font-size: 11px;
+}
+
+.emptyState {
+  display: flex;
+  min-height: 120px;
+  align-items: center;
+  justify-content: center;
+  border: 1px dashed var(--color-border, #cbd5e1);
+  border-radius: 10px;
+  padding: 12px;
+  text-align: center;
+  font-size: 0.85rem;
+  color: var(--color-muted-foreground, #64748b);
+  background: var(--color-bg-secondary, rgba(148, 163, 184, 0.08));
+}

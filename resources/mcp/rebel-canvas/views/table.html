@@ -1,0 +1,268 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Table</title>
+  <style>
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+      padding: 24px;
+      background: #fff;
+      color: #1a1a1a;
+      line-height: 1.5;
+    }
+
+    body.dark {
+      background: #1a1a1a;
+      color: #f0f0f0;
+    }
+
+    @media (prefers-color-scheme: dark) {
+      body:not(.light) {
+        background: #1a1a1a;
+        color: #f0f0f0;
+      }
+    }
+
+    h1 {
+      font-size: 16px;
+      font-weight: 600;
+      margin-bottom: 16px;
+    }
+
+    .error {
+      color: #888;
+      font-size: 14px;
+      text-align: center;
+      padding: 40px 0;
+    }
+
+    .table-wrap {
+      overflow-x: auto;
+      -webkit-overflow-scrolling: touch;
+      border: 1px solid #e5e5e5;
+      border-radius: 8px;
+    }
+    body.dark .table-wrap { border-color: #333; }
+    @media (prefers-color-scheme: dark) { body:not(.light) .table-wrap { border-color: #333; } }
+
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      font-size: 13px;
+    }
+
+    th, td {
+      padding: 10px 14px;
+      text-align: left;
+      white-space: nowrap;
+    }
+
+    th {
+      font-weight: 600;
+      font-size: 12px;
+      text-transform: uppercase;
+      letter-spacing: 0.04em;
+      color: #666;
+      background: #fafafa;
+      border-bottom: 2px solid #e5e5e5;
+      cursor: pointer;
+      user-select: none;
+      position: sticky;
+      top: 0;
+    }
+    body.dark th { background: #222; color: #aaa; border-bottom-color: #333; }
+    @media (prefers-color-scheme: dark) { body:not(.light) th { background: #222; color: #aaa; border-bottom-color: #333; } }
+
+    th:hover {
+      color: #333;
+    }
+    body.dark th:hover { color: #ddd; }
+    @media (prefers-color-scheme: dark) { body:not(.light) th:hover { color: #ddd; } }
+
+    .sort-indicator {
+      display: inline-block;
+      margin-left: 4px;
+      font-size: 10px;
+      opacity: 0.6;
+    }
+
+    td {
+      border-bottom: 1px solid #f0f0f0;
+    }
+    body.dark td { border-bottom-color: #2a2a2a; }
+    @media (prefers-color-scheme: dark) { body:not(.light) td { border-bottom-color: #2a2a2a; } }
+
+    tr:last-child td { border-bottom: none; }
+
+    /* Zebra striping */
+    tbody tr:nth-child(even) {
+      background: #fafafa;
+    }
+    body.dark tbody tr:nth-child(even) { background: #222; }
+    @media (prefers-color-scheme: dark) { body:not(.light) tbody tr:nth-child(even) { background: #222; } }
+
+    tbody tr:hover {
+      background: #f5f5ff;
+    }
+    body.dark tbody tr:hover { background: #2a2a35; }
+    @media (prefers-color-scheme: dark) { body:not(.light) tbody tr:hover { background: #2a2a35; } }
+
+    .row-count {
+      font-size: 12px;
+      color: #999;
+      margin-top: 10px;
+      text-align: right;
+    }
+  </style>
+</head>
+<body>
+  <div id="root"></div>
+
+  <script>
+    const DATA = /*__DATA__*/ null;
+
+    (function () {
+      'use strict';
+
+      // Theme detection
+      try {
+        var ctx = window.__REBEL_HOST_CONTEXT__;
+        if (ctx && ctx.theme === 'dark') {
+          document.body.classList.add('dark');
+        } else if (ctx && ctx.theme === 'light') {
+          document.body.classList.add('light');
+        }
+      } catch (_) { /* fallback to prefers-color-scheme */ }
+
+      var root = document.getElementById('root');
+
+      try {
+        if (!DATA || !DATA.columns || !DATA.columns.length) {
+          root.innerHTML = '<p class="error">No data available</p>';
+          return;
+        }
+
+        var columns = DATA.columns;
+        var rows = DATA.rows || [];
+        var title = DATA.title;
+        var sortCol = null;
+        var sortAsc = true;
+
+        render();
+
+        function render() {
+          var sortedRows = sortRows(rows);
+          var html = '';
+
+          if (title) {
+            html += '<h1>' + escapeHtml(title) + '</h1>';
+          }
+
+          html += '<div class="table-wrap"><table>';
+
+          // Header
+          html += '<thead><tr>';
+          columns.forEach(function (col) {
+            var indicator = '';
+            if (sortCol === col) {
+              indicator = '<span class="sort-indicator">' + (sortAsc ? '\u25B2' : '\u25BC') + '</span>';
+            }
+            html += '<th data-col="' + escapeAttr(col) + '">' + escapeHtml(col) + indicator + '</th>';
+          });
+          html += '</tr></thead>';
+
+          // Body
+          html += '<tbody>';
+          if (sortedRows.length === 0) {
+            html += '<tr><td colspan="' + columns.length + '" style="text-align:center;color:#999;padding:20px">No rows</td></tr>';
+          } else {
+            sortedRows.forEach(function (row) {
+              html += '<tr>';
+              columns.forEach(function (col) {
+                var val = row[col];
+                html += '<td>' + formatCell(val) + '</td>';
+              });
+              html += '</tr>';
+            });
+          }
+          html += '</tbody></table></div>';
+          html += '<div class="row-count">' + sortedRows.length + ' row' + (sortedRows.length !== 1 ? 's' : '') + '</div>';
+
+          root.innerHTML = html;
+
+          // Bind sort handlers
+          var headers = root.querySelectorAll('th');
+          headers.forEach(function (th) {
+            th.addEventListener('click', function () {
+              var col = th.getAttribute('data-col');
+              if (sortCol === col) {
+                sortAsc = !sortAsc;
+              } else {
+                sortCol = col;
+                sortAsc = true;
+              }
+              render();
+            });
+          });
+        }
+
+        function sortRows(rows) {
+          if (!sortCol) return rows.slice();
+          return rows.slice().sort(function (a, b) {
+            var va = a[sortCol];
+            var vb = b[sortCol];
+
+            // Numeric comparison if both are numbers
+            var na = Number(va);
+            var nb = Number(vb);
+            if (!isNaN(na) && !isNaN(nb)) {
+              return sortAsc ? na - nb : nb - na;
+            }
+
+            // String comparison
+            var sa = String(va == null ? '' : va).toLowerCase();
+            var sb = String(vb == null ? '' : vb).toLowerCase();
+            if (sa < sb) return sortAsc ? -1 : 1;
+            if (sa > sb) return sortAsc ? 1 : -1;
+            return 0;
+          });
+        }
+
+        function formatCell(val) {
+          if (val == null) return '<span style="color:#ccc">\u2014</span>';
+          if (typeof val === 'boolean') return val ? '\u2713' : '\u2717';
+          return escapeHtml(String(val));
+        }
+      } catch (e) {
+        root.innerHTML = '<p class="error">Failed to render table</p>';
+      }
+
+      function escapeHtml(s) {
+        if (!s) return '';
+        return String(s).replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;');
+      }
+
+      function escapeAttr(s) {
+        return escapeHtml(s);
+      }
+    })();
+
+    var rafPending = false;
+    function reportHeight() {
+      if (rafPending) return;
+      rafPending = true;
+      requestAnimationFrame(function () {
+        rafPending = false;
+        var h = document.documentElement.scrollHeight;
+        window.parent.postMessage({ jsonrpc: '2.0', method: 'ui/resize', params: { height: h } }, '*');
+      });
+    }
+    reportHeight();
+    new ResizeObserver(reportHeight).observe(document.body);
+  </script>
+</body>
+</html>

@@ -1,0 +1,741 @@
+/* ─────────────────────────────────────────────────────────────
+   MissionProgressCard — promoted mission + task progress card
+   Always visible at the message level (outside Activity panel)
+   ───────────────────────────────────────────────────────────── */
+
+@keyframes cardEntrance {
+  0% {
+    opacity: 0;
+    transform: translateY(-6px);
+  }
+  100% {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.card {
+  border-left: 3px solid rgba(99, 102, 241, 0.5);
+  background: rgba(99, 102, 241, 0.06);
+  border-radius: 10px;
+  padding: 12px 14px;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  margin-bottom: 8px;
+  animation: cardEntrance 250ms var(--motion-ease-out, cubic-bezier(0.16, 1, 0.3, 1)) backwards;
+}
+
+.cardThinking {
+  border-left-color: rgba(99, 102, 241, 0.7);
+}
+
+/* Embedded mode: strip card chrome when inside ContextualProgressCard */
+.cardEmbedded {
+  border-left: none;
+  background: none;
+  border-radius: 0;
+  padding: 0;
+  margin-bottom: 0;
+  animation: none;
+}
+
+/* Compact mode: no mission header, tighter spacing */
+.cardCompact {
+  padding: 8px 12px;
+  gap: 6px;
+}
+
+/* Mission header: goal + progress fraction */
+.missionHeader {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 12px;
+}
+
+.goal {
+  margin: 0;
+  font-size: 12.5px;
+  font-weight: 500;
+  color: rgba(248, 250, 255, 0.92);
+  line-height: 1.4;
+  flex: 1;
+}
+
+.goalSummary {
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+
+.goalDisclosure {
+  align-self: flex-start;
+  margin-top: -4px;
+  font-size: 11px;
+  color: rgba(148, 163, 184, 0.5);
+  background: none;
+  border: none;
+  padding: 0;
+  cursor: pointer;
+  font-weight: 500;
+  letter-spacing: 0.02em;
+}
+
+.goalDisclosure:hover {
+  color: rgba(148, 163, 184, 0.75);
+}
+
+.goalDisclosure:focus-visible {
+  outline: 2px solid rgba(99, 102, 241, 0.5);
+  outline-offset: 2px;
+}
+
+.progress {
+  font-size: 12px;
+  font-weight: 600;
+  color: rgba(148, 163, 184, 0.7);
+  white-space: nowrap;
+  flex-shrink: 0;
+  padding-top: 1px;
+}
+
+.meta {
+  margin: 0;
+  font-size: 12px;
+  color: rgba(148, 163, 184, 0.6);
+  line-height: 1.4;
+}
+
+.metaLabel {
+  font-weight: 500;
+  color: rgba(148, 163, 184, 0.75);
+}
+
+/* Progress bar */
+.progressBar {
+  height: 3px;
+  background: rgba(148, 163, 184, 0.12);
+  border-radius: 999px;
+  overflow: hidden;
+}
+
+.progressFill {
+  height: 100%;
+  background: rgba(99, 102, 241, 0.6);
+  border-radius: 999px;
+  transition: width 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+  min-width: 0;
+}
+
+.progressFillComplete {
+  background: #34d399;
+}
+
+/* Task list */
+.taskList {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.task {
+  display: flex;
+  flex-direction: column;
+  font-size: 13px;
+  color: rgba(248, 250, 255, 0.85);
+  line-height: 1.4;
+  transition: opacity 0.3s ease, color 0.3s ease;
+}
+
+/* Parallel-batch swimlane: a vertical lane that groups contiguous tasks
+   sharing a parallelGroup. Mirrors SubAgentPill .parallelBatch with
+   token + spacing adjustments per the design spec. */
+.swimlane {
+  list-style: none;
+  box-shadow: inset 2px 0 0 color-mix(in srgb, var(--color-brand-indigo) 25%, transparent);
+  padding-left: var(--space-2);
+  margin: 2px 0;
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-1, 4px);
+}
+
+.swimlaneCaption {
+  font-size: 11px;
+  color: var(--color-muted-foreground, rgba(148, 163, 184, 0.6));
+  letter-spacing: 0.01em;
+  padding-bottom: 1px;
+}
+
+.swimlaneList {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.swimlaneComplete {
+  opacity: 0.55;
+}
+
+/* Shared "breath" — fires when 2+ tasks in the group are in_progress.
+   Animates only background-color + box-shadow so the virtualizer never
+   re-measures and the GPU compositor stays happy. The inset box-shadow
+   is the single owner of the left-edge bar (no base border-left to stack
+   against), so the bar brightens between 25% and 45% without widening.
+   swimlaneComplete and swimlaneLive are mutually exclusive by gating
+   (all-completed has zero in_progress), so no class collision handling. */
+@keyframes swimlaneBreath {
+  0%, 100% {
+    background-color: transparent;
+    box-shadow: inset 2px 0 0 color-mix(in srgb, var(--color-brand-indigo) 25%, transparent);
+  }
+  50% {
+    background-color: color-mix(in srgb, var(--color-brand-indigo) 7%, transparent);
+    box-shadow: inset 2px 0 0 color-mix(in srgb, var(--color-brand-indigo) 45%, transparent);
+  }
+}
+
+.swimlaneLive {
+  animation: swimlaneBreath 3s ease-in-out infinite;
+}
+
+/* Title row: indicator + title + chevron */
+.taskRow {
+  display: flex;
+  align-items: flex-start;
+  gap: 8px;
+}
+
+.task_completed {
+  color: rgba(148, 163, 184, 0.45);
+}
+
+.task_completed .taskTitle {
+  text-decoration: line-through;
+}
+
+.task_blocked {
+  color: rgba(248, 250, 255, 0.55);
+}
+
+.task_in_progress {
+  color: rgba(248, 250, 255, 1);
+  font-weight: 500;
+}
+
+.task_pending {
+  color: rgba(248, 250, 255, 0.75);
+}
+
+.taskSubAgent {
+  border-left: 1px solid var(--color-border-subtle, rgba(129, 140, 248, 0.18));
+  padding-left: 6px;
+  margin-left: -7px;
+}
+
+/* Expandable task: clickable affordance */
+.taskExpandable {
+  cursor: pointer;
+  border-radius: 6px;
+  padding: 2px 4px;
+  margin: -2px -4px;
+}
+
+.taskExpandable:hover {
+  background: rgba(148, 163, 184, 0.06);
+}
+
+.taskExpandable:focus-visible {
+  outline: 2px solid rgba(99, 102, 241, 0.5);
+  outline-offset: 2px;
+}
+
+.indicatorCircle {
+  flex-shrink: 0;
+  width: 14px;
+  height: 14px;
+  border-radius: 999px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  margin-top: 2px;
+  border: 1.5px solid rgba(148, 163, 184, 0.45);
+  box-sizing: border-box;
+}
+
+.indicatorCircle_pending {
+  border-color: rgba(148, 163, 184, 0.45);
+}
+
+.indicatorCircle_in_progress {
+  border-color: rgba(99, 102, 241, 0.7);
+  background: rgba(99, 102, 241, 0.15);
+  box-shadow: 0 0 0 3px rgba(99, 102, 241, 0.12);
+  animation: taskPulse 2s ease-in-out infinite;
+}
+
+.indicatorCircle_completed {
+  border-color: rgba(148, 163, 184, 0.55);
+  background: rgba(148, 163, 184, 0.15);
+}
+
+.indicatorCircle_blocked {
+  border-color: rgba(148, 163, 184, 0.35);
+}
+
+.indicatorCheck {
+  color: rgba(148, 163, 184, 0.7);
+}
+
+.indicatorDot {
+  width: 6px;
+  height: 6px;
+  border-radius: 999px;
+  background: rgba(99, 102, 241, 0.9);
+}
+
+@keyframes taskPulse {
+  0%, 100% {
+    box-shadow: 0 0 0 3px rgba(99, 102, 241, 0.08);
+  }
+  50% {
+    box-shadow: 0 0 0 4px rgba(99, 102, 241, 0.18);
+  }
+}
+
+.taskTitle {
+  flex: 1;
+  min-width: 0;
+  line-height: 1.4;
+}
+
+.modelBadge {
+  flex-shrink: 0;
+  display: inline-flex;
+  align-items: center;
+  gap: 3px;
+  max-width: 44%;
+  border-radius: 999px;
+  padding: 1px 6px;
+  margin-top: 1px;
+  font-size: 10px;
+  font-weight: 500;
+  letter-spacing: 0.02em;
+  line-height: 1.25;
+  color: var(--color-text-muted, rgba(148, 163, 184, 0.62));
+  background: var(--color-surface-subtle, rgba(148, 163, 184, 0.07));
+  border: 1px solid var(--color-border-subtle, rgba(148, 163, 184, 0.08));
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  user-select: none;
+}
+
+.modelBadgeSubAgent {
+  color: var(--color-text-muted, rgba(165, 180, 252, 0.78));
+  background: rgba(129, 140, 248, 0.08);
+  border-color: rgba(129, 140, 248, 0.12);
+}
+
+.modelBadgeIcon {
+  width: 12px;
+  height: 12px;
+  flex-shrink: 0;
+  color: currentColor;
+}
+
+.modelContinuation {
+  width: 14px;
+  min-width: 14px;
+  justify-content: center;
+  padding: 1px 0;
+  background: transparent;
+  border-color: transparent;
+  opacity: 0.42;
+  font-size: 11px;
+}
+
+.taskSubtitle {
+  margin: 2px 0 0;
+  padding-left: 22px; /* align with title: 14px indicator + 8px gap */
+  font-size: 12px;
+  color: rgba(148, 163, 184, 0.55);
+  line-height: 1.35;
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+
+/* Chevron indicator for expandable tasks */
+.expandChevron {
+  flex-shrink: 0;
+  color: rgba(148, 163, 184, 0.4);
+  transition: transform 0.2s ease;
+  margin-top: 3px;
+}
+
+.expandChevronOpen {
+  transform: rotate(90deg);
+}
+
+/* Inline waiting sub-line (blocked tasks, visible when not expanded) */
+.blockerInline {
+  font-size: 12px;
+  color: rgba(148, 163, 184, 0.55);
+  padding-left: 22px; /* align with title: 14px indicator + 8px gap */
+  line-height: 1.3;
+  margin-top: 1px;
+}
+
+/* Expanded content area */
+.expandedContent {
+  padding-left: 22px;
+  padding-top: 4px;
+  padding-bottom: 2px;
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  animation: expandIn 200ms ease-out;
+}
+
+@keyframes expandIn {
+  from {
+    opacity: 0;
+    transform: translateY(-4px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.expandedDescription {
+  margin: 0;
+  font-size: 12px;
+  color: rgba(148, 163, 184, 0.7);
+  white-space: pre-wrap;
+  word-break: break-word;
+  overflow-wrap: anywhere;
+}
+
+.expandedLabel {
+  font-weight: 500;
+  color: rgba(148, 163, 184, 0.75);
+}
+
+.expandedBlockers {
+  font-size: 12px;
+  color: rgba(148, 163, 184, 0.6);
+}
+
+.blockerList {
+  list-style: none;
+  margin: 2px 0 0;
+  padding: 0 0 0 12px;
+}
+
+.blockerList li::before {
+  content: '\2022';
+  margin-right: 6px;
+  color: rgba(148, 163, 184, 0.4);
+}
+
+/* Tooltip content layout */
+.tooltipContent {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  font-size: 12px;
+  line-height: 1.4;
+}
+
+.tooltipDescription {
+  margin: 0;
+  color: rgba(255, 255, 255, 0.9);
+  white-space: pre-wrap;
+  word-break: break-word;
+  overflow-wrap: anywhere;
+}
+
+.tooltipBlockers {
+  color: rgba(148, 163, 184, 0.7);
+}
+
+.tooltipBlockers ul {
+  list-style: none;
+  margin: 2px 0 0;
+  padding: 0 0 0 10px;
+}
+
+.tooltipBlockers li::before {
+  content: '\2022';
+  margin-right: 4px;
+}
+
+.taskWindowFooter {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  padding-left: 22px;
+}
+
+.taskWindowMeta {
+  font-size: 11px;
+  color: rgba(148, 163, 184, 0.5);
+}
+
+.moreButton {
+  font-size: 11px;
+  font-weight: 500;
+  color: rgba(148, 163, 184, 0.72);
+  background: none;
+  border: none;
+  padding: 0;
+  cursor: pointer;
+}
+
+.moreButton:hover {
+  color: rgba(226, 232, 240, 0.82);
+}
+
+.moreButton:focus-visible {
+  outline: 2px solid rgba(99, 102, 241, 0.5);
+  outline-offset: 2px;
+}
+
+/* Screen-reader only text */
+.srOnly {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border: 0;
+}
+
+/* Respect reduced motion */
+@media (prefers-reduced-motion: reduce) {
+  .card {
+    animation: none;
+  }
+  .indicatorCircle_in_progress {
+    animation: none;
+  }
+  .progressFill {
+    transition: none;
+  }
+  .task {
+    transition: none;
+  }
+  .expandChevron {
+    transition: none;
+  }
+  .expandedContent {
+    animation: none;
+  }
+  .swimlaneLive {
+    animation: none;
+    background-color: color-mix(in srgb, var(--color-brand-indigo) 5%, transparent);
+    box-shadow: inset 2px 0 0 color-mix(in srgb, var(--color-brand-indigo) 40%, transparent);
+  }
+}
+
+/* ─────────────────────────────────────────────────────────────
+   Light Mode Overrides
+   ───────────────────────────────────────────────────────────── */
+
+:global(body.light) .card {
+  border-left-color: rgba(99, 102, 241, 0.4);
+  background: rgba(99, 102, 241, 0.06);
+}
+
+:global(body.light) .cardEmbedded {
+  border-left: none;
+  background: none;
+}
+
+:global(body.light) .goalDisclosure {
+  color: rgba(100, 116, 139, 0.5);
+}
+
+:global(body.light) .goalDisclosure:hover {
+  color: var(--color-foreground);
+}
+
+:global(body.light) .cardThinking {
+  border-left-color: rgba(99, 102, 241, 0.55);
+}
+
+:global(body.light) .goal {
+  color: var(--color-foreground);
+}
+
+:global(body.light) .progress {
+  color: var(--color-muted-foreground);
+}
+
+:global(body.light) .meta {
+  color: var(--color-muted-foreground);
+}
+
+:global(body.light) .metaLabel {
+  color: rgba(100, 116, 139, 0.9);
+}
+
+:global(body.light) .progressBar {
+  background: rgba(100, 116, 139, 0.12);
+}
+
+:global(body.light) .progressFill {
+  background: rgba(99, 102, 241, 0.5);
+}
+
+:global(body.light) .progressFillComplete {
+  background: #10b981;
+}
+
+:global(body.light) .task {
+  color: var(--color-foreground);
+}
+
+:global(body.light) .task_completed {
+  color: rgba(100, 116, 139, 0.5);
+}
+
+:global(body.light) .task_completed .taskTitle {
+  text-decoration: line-through;
+}
+
+:global(body.light) .task_blocked {
+  color: var(--color-foreground);
+  opacity: 0.55;
+}
+
+:global(body.light) .task_in_progress {
+  color: var(--color-foreground);
+}
+
+:global(body.light) .task_pending {
+  color: var(--color-foreground);
+}
+
+:global(body.light) .taskSubAgent {
+  border-left-color: rgba(79, 70, 229, 0.14);
+}
+
+:global(body.light) .indicatorCircle_pending {
+  border-color: rgba(100, 116, 139, 0.45);
+}
+
+:global(body.light) .indicatorCircle_in_progress {
+  border-color: rgba(79, 70, 229, 0.6);
+  background: rgba(79, 70, 229, 0.1);
+  box-shadow: 0 0 0 3px rgba(79, 70, 229, 0.08);
+}
+
+:global(body.light) .indicatorCircle_completed {
+  border-color: rgba(100, 116, 139, 0.55);
+  background: rgba(100, 116, 139, 0.12);
+}
+
+:global(body.light) .indicatorCircle_blocked {
+  border-color: rgba(100, 116, 139, 0.35);
+}
+
+:global(body.light) .indicatorCheck {
+  color: rgba(100, 116, 139, 0.65);
+}
+
+:global(body.light) .indicatorDot {
+  background: rgba(79, 70, 229, 0.85);
+}
+
+:global(body.light) .modelBadge {
+  color: var(--color-muted-foreground);
+  background: rgba(100, 116, 139, 0.07);
+  border-color: rgba(100, 116, 139, 0.09);
+}
+
+:global(body.light) .modelBadgeSubAgent {
+  color: rgba(79, 70, 229, 0.72);
+  background: rgba(79, 70, 229, 0.07);
+  border-color: rgba(79, 70, 229, 0.11);
+}
+
+:global(body.light) .taskExpandable:hover {
+  background: rgba(100, 116, 139, 0.06);
+}
+
+:global(body.light) .expandChevron {
+  color: rgba(100, 116, 139, 0.4);
+}
+
+:global(body.light) .taskSubtitle {
+  color: rgba(100, 116, 139, 0.55);
+}
+
+:global(body.light) .blockerInline {
+  color: rgba(100, 116, 139, 0.5);
+}
+
+:global(body.light) .expandedDescription {
+  color: rgba(100, 116, 139, 0.7);
+}
+
+:global(body.light) .expandedLabel {
+  color: rgba(100, 116, 139, 0.8);
+}
+
+:global(body.light) .expandedBlockers {
+  color: rgba(100, 116, 139, 0.55);
+}
+
+:global(body.light) .blockerList li::before {
+  color: rgba(100, 116, 139, 0.4);
+}
+
+:global(body.light) .taskWindowMeta {
+  color: rgba(100, 116, 139, 0.55);
+}
+
+:global(body.light) .moreButton {
+  color: rgba(100, 116, 139, 0.7);
+}
+
+:global(body.light) .moreButton:hover {
+  color: var(--color-foreground);
+}
+
+:global(body.light) .swimlane,
+:global(.light) .swimlane {
+  box-shadow: inset 2px 0 0 color-mix(in srgb, var(--color-brand-indigo) 35%, transparent);
+}
+
+:global(body.light) .swimlaneLive,
+:global(.light) .swimlaneLive {
+  animation-name: swimlaneBreathLight;
+}
+
+@keyframes swimlaneBreathLight {
+  0%, 100% {
+    background-color: transparent;
+    box-shadow: inset 2px 0 0 color-mix(in srgb, var(--color-brand-indigo) 35%, transparent);
+  }
+  50% {
+    background-color: color-mix(in srgb, var(--color-brand-indigo) 5%, transparent);
+    box-shadow: inset 2px 0 0 color-mix(in srgb, var(--color-brand-indigo) 55%, transparent);
+  }
+}

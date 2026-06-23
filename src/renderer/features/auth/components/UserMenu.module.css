@@ -1,0 +1,164 @@
+.container {
+  position: relative;
+  padding: 8px 12px;
+  border-top: 1px solid var(--border);
+}
+
+.trigger {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  width: 100%;
+  padding: 8px;
+  border: none;
+  background: transparent;
+  border-radius: 6px;
+  cursor: pointer;
+  transition: background-color 0.15s ease;
+}
+
+.trigger:hover {
+  background: var(--accent);
+}
+
+.avatar {
+  width: 28px;
+  height: 28px;
+  border-radius: 50%;
+  object-fit: cover;
+}
+
+.avatarFallback {
+  width: 28px;
+  height: 28px;
+  border-radius: 50%;
+  background: var(--color-muted);
+  color: var(--color-muted-foreground);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 11px;
+  font-weight: 600;
+  border: 1px solid var(--color-border);
+}
+
+.name {
+  flex: 1;
+  text-align: left;
+  font-size: 13px;
+  font-weight: 500;
+  color: var(--foreground);
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.dropdown {
+  background: var(--color-popover);
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+  overflow: hidden;
+  z-index: 9999;
+  min-width: 180px;
+}
+
+.userInfo {
+  padding: 12px;
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.userName {
+  font-size: 13px;
+  font-weight: 500;
+  color: var(--foreground);
+}
+
+.userEmail {
+  font-size: 12px;
+  color: var(--muted-foreground);
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.divider {
+  height: 1px;
+  background: var(--border);
+}
+
+.menuItem {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  width: 100%;
+  padding: 10px 12px;
+  border: none;
+  background: transparent;
+  font-size: 13px;
+  color: var(--foreground);
+  cursor: pointer;
+  transition: background-color 0.15s ease;
+}
+
+.menuItem:hover {
+  background: var(--accent);
+}
+
+.menuItem svg {
+  color: var(--muted-foreground);
+}
+
+/* Header variant styles */
+.containerHeader {
+  padding: 0;
+  border-top: none;
+}
+
+.triggerHeader {
+  width: auto;
+  padding: 4px;
+  border-radius: 50%;
+}
+
+.triggerHeader:hover {
+  background: var(--accent);
+}
+
+/* Neutral avatar for header - always shows initials */
+.avatarFallbackHeader {
+  width: 32px;
+  height: 32px;
+  /* Neutral slate/gray color */
+  background: rgba(100, 116, 139, 0.6);
+  color: rgba(248, 250, 255, 0.95);
+  border: 1px solid rgba(148, 163, 184, 0.35);
+  font-size: 12px;
+}
+
+.triggerHeader:hover .avatarFallbackHeader {
+  background: rgba(100, 116, 139, 0.75);
+}
+
+.dropdownHeader {
+  /* Styling for header dropdown - positioning handled by floating-ui */
+  min-width: 220px;
+  background: rgb(24, 28, 38);
+  border: 1px solid rgba(148, 163, 184, 0.25);
+  border-radius: 10px;
+  box-shadow: 
+    0 8px 24px rgba(0, 0, 0, 0.4),
+    0 0 0 1px rgba(0, 0, 0, 0.1);
+  z-index: 9999;
+}
+
+/* Light mode override for header dropdown */
+:global(body.light) .dropdownHeader {
+  background: rgb(255, 255, 255);
+  border: 1px solid rgba(0, 0, 0, 0.12);
+  box-shadow: 
+    0 8px 24px rgba(0, 0, 0, 0.15),
+    0 0 0 1px rgba(0, 0, 0, 0.05);
+}

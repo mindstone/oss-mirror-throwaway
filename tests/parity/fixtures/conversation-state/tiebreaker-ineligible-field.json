@@ -1,0 +1,57 @@
+{
+  "name": "tiebreaker-ineligible-field",
+  "input": [
+    {
+      "id": "u12",
+      "turnId": "t12",
+      "role": "user",
+      "text": "Race occurred on an ineligible field.",
+      "createdAt": 12001
+    },
+    {
+      "id": "a12",
+      "turnId": "t12",
+      "role": "assistant",
+      "text": "Keeping existing deterministic path.",
+      "createdAt": 12002
+    },
+    {
+      "id": "r12",
+      "turnId": "t12",
+      "role": "result",
+      "text": "Resolved without surface tiebreaker.",
+      "createdAt": 12003
+    }
+  ],
+  "expected": {
+    "visibleIds": ["u12", "r12"],
+    "messagesByTurnIds": {
+      "t12": ["u12", "a12", "r12"]
+    },
+    "activeTurnId": null,
+    "isBusy": false
+  },
+  "tiebreaker": {
+    "scenario": "tiebreaker-ineligible-field",
+    "writes": [
+      {
+        "surface": "desktop",
+        "field": "seq",
+        "value": 10,
+        "changedAt": 1700000000000
+      },
+      {
+        "surface": "mobile",
+        "field": "seq",
+        "value": 11,
+        "changedAt": 1700000000050
+      }
+    ],
+    "now": 1700000000050,
+    "expected": {
+      "winnerSurface": "mobile",
+      "winnerValue": 11,
+      "reason": "ineligible-field"
+    }
+  }
+}

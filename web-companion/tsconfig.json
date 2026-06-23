@@ -1,0 +1,57 @@
+{
+  "extends": "../tsconfig.base.json",
+  "compilerOptions": {
+    "outDir": "./dist",
+    "jsx": "react-jsx",
+    "noEmit": true,
+    "types": ["node"],
+    // web-companion consumes `@rebel/cloud-client` and `@rebel/shared` as source
+    // (Vite alias to sibling packages, not as compiled output — see vite.config.ts).
+    // Setting rootDir to the repo root keeps those sibling sources inside the
+    // TypeScript source surface and silences TS6059 ("not under rootDir").
+    // This mirrors `mobile/tsconfig.json`'s approach (also a consumer of
+    // cloud-client source via alias). No emit — noEmit is set above — so the
+    // widening has zero runtime footprint.
+    "rootDir": "..",
+    // cloud-client's own tsconfig defines `@shared/*` -> `../src/shared/*`.
+    // When we include cloud-client sources here (above), TS re-resolves their
+    // imports against THIS tsconfig's paths, so we must add the same alias.
+    "paths": {
+      "@rebel/cloud-client": ["../cloud-client/src"],
+      "@rebel/cloud-client/*": ["../cloud-client/src/*"],
+      "@rebel/shared": ["../packages/shared/src"],
+      "@rebel/shared/*": ["../packages/shared/src/*"],
+      "@shared/*": ["../src/shared/*"],
+      "@core/*": ["../src/core/*"]
+    }
+  },
+  "include": [
+    "src/**/*",
+    "../cloud-client/src/**/*.ts",
+    "../cloud-client/src/**/*.tsx",
+    "../packages/shared/src/**/*.ts",
+    "../packages/shared/src/**/*.tsx"
+  ],
+  // Exclude sibling-package test files from web-companion's type surface.
+  // The widened rootDir pulls in source for type resolution but tests in
+  // cloud-client / packages/shared belong to THEIR tsconfigs (which provide
+  // vitest globals via `types`). Including them here would report ~2400
+  // spurious "Cannot find name 'vi'" errors.
+  "exclude": [
+    "src/**/__tests__/**",
+    "src/**/*.test.ts",
+    "src/**/*.test.tsx",
+    "src/**/*.spec.ts",
+    "src/**/*.spec.tsx",
+    "../cloud-client/src/**/__tests__/**",
+    "../cloud-client/src/**/*.test.ts",
+    "../cloud-client/src/**/*.test.tsx",
+    "../cloud-client/src/**/*.spec.ts",
+    "../cloud-client/src/**/*.spec.tsx",
+    "../packages/shared/src/**/__tests__/**",
+    "../packages/shared/src/**/*.test.ts",
+    "../packages/shared/src/**/*.test.tsx",
+    "../packages/shared/src/**/*.spec.ts",
+    "../packages/shared/src/**/*.spec.tsx"
+  ]
+}

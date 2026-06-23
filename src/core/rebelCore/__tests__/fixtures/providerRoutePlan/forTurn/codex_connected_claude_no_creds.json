@@ -1,0 +1,27 @@
+{
+  "description": "Codex active connected with Anthropic-native model but no Anthropic credentials returns no-credentials",
+  "input": {
+    "codexConnectivity": "connected",
+    "model": "claude-haiku-4-5",
+    "settings": {
+      "activeProvider": "codex",
+      "models": {
+        "apiKey": null,
+        "authMethod": "api-key",
+        "model": "claude-sonnet-4-6",
+        "oauthToken": null
+      },
+      "localModel": {
+        "activeProfileId": null,
+        "profiles": []
+      },
+      "openRouter": {
+        "enabled": false,
+        "oauthToken": null,
+        "selectedModel": "anthropic/claude-sonnet-4.6"
+      },
+      "providerKeys": {}
+    }
+  },
+  "name": "codex_connected_claude_no_creds"
+}

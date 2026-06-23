@@ -1,0 +1,4 @@
+{"type":"turn_started","timestamp":1,"turnId":"turn-1"}
+{"type":"warning","timestamp":2,"message":"Careful"}
+{"type":"warning","timestamp":3,"message":"Careful"}
+{"type":"result","timestamp":4,"text":"Done"}

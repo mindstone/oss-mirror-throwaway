@@ -1,0 +1,56 @@
+{
+  "name": "multi-turn-with-tool-use",
+  "input": [
+    {
+      "id": "u6a",
+      "turnId": "t6a",
+      "role": "user",
+      "text": "Find last week's blockers.",
+      "createdAt": 6001
+    },
+    {
+      "id": "a6a1",
+      "turnId": "t6a",
+      "role": "assistant",
+      "text": "Checking sources...",
+      "createdAt": 6002
+    },
+    {
+      "id": "a6a2",
+      "turnId": "t6a",
+      "role": "assistant",
+      "text": "Compiling blockers...",
+      "createdAt": 6003
+    },
+    {
+      "id": "r6a",
+      "turnId": "t6a",
+      "role": "result",
+      "text": "Top blockers listed.",
+      "createdAt": 6004
+    },
+    {
+      "id": "u6b",
+      "turnId": "t6b",
+      "role": "user",
+      "text": "Now summarize owners.",
+      "createdAt": 6005
+    },
+    {
+      "id": "a6b1",
+      "turnId": "t6b",
+      "role": "assistant",
+      "text": "Summarizing owners...",
+      "createdAt": 6006
+    }
+  ],
+  "expected": {
+    "visibleIds": ["u6a", "r6a", "u6b", "a6b1"],
+    "messagesByTurnIds": {
+      "t6a": ["u6a", "a6a1", "a6a2", "r6a"],
+      "t6b": ["u6b", "a6b1"]
+    },
+    "activeTurnId": "t6b",
+    "isBusy": true
+  }
+}

@@ -1,0 +1,822 @@
+/* Rebel Avatar Webpage Styles
+ * Designed for 1280x720 Output Media in Recall.ai bots
+ */
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+:root {
+  --color-bg-primary: #0f0f14;
+  --color-bg-secondary: #1a1a24;
+  --color-bg-tertiary: #14141f;
+  --color-accent: #4a90a4;
+  --color-accent-glow: rgba(74, 144, 164, 0.4);
+  --color-text-primary: #ffffff;
+  --color-text-secondary: rgba(255, 255, 255, 0.7);
+  --color-text-muted: rgba(255, 255, 255, 0.4);
+  --color-success: #6bc46d;
+  --color-warning: #c4a64a;
+  --color-purple: #a855f7;
+  
+  --avatar-size: 320px;
+  --transition-fast: 0.15s ease;
+  --transition-medium: 0.3s ease;
+  --transition-slow: 0.5s ease;
+}
+
+body {
+  width: 1280px;
+  height: 720px;
+  background: linear-gradient(145deg, var(--color-bg-primary) 0%, var(--color-bg-secondary) 50%, var(--color-bg-tertiary) 100%);
+  background-size: 200% 200%;
+  animation: ambient-shift 60s ease-in-out infinite;
+  will-change: background-position; /* Hint for GPU optimization of ambient animation */
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', sans-serif;
+  color: var(--color-text-primary);
+  overflow: hidden;
+  transition: background var(--transition-slow);
+}
+
+/* Subtle ambient background animation */
+@keyframes ambient-shift {
+  0%, 100% { background-position: 0% 50%; }
+  50% { background-position: 100% 50%; }
+}
+
+/* Faint noise/grain overlay for visual depth — layered above the gradient, below content */
+body::before {
+  content: '';
+  position: fixed;
+  inset: 0;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='200' height='200'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.03'/%3E%3C/svg%3E");
+  pointer-events: none;
+  z-index: 0;
+}
+
+/* Avatar Container */
+.avatar-container {
+  position: relative;
+  z-index: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 20px;
+}
+
+/* Avatar Circle */
+.avatar {
+  position: relative;
+  width: var(--avatar-size);
+  height: var(--avatar-size);
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.avatar-glow {
+  position: absolute;
+  inset: -8px;
+  border-radius: 50%;
+  background: var(--color-accent-glow);
+  filter: blur(20px);
+  opacity: 0.5;
+  transition: opacity var(--transition-medium), transform var(--transition-medium);
+}
+
+.avatar-ring {
+  position: absolute;
+  inset: -4px;
+  border-radius: 50%;
+  border: 2px solid var(--color-accent);
+  opacity: 0.6;
+  transition: opacity var(--transition-fast), border-color var(--transition-fast);
+}
+
+.avatar-image {
+  width: 100%;
+  height: 100%;
+  border-radius: 50%;
+  object-fit: cover;
+  position: relative;
+  z-index: 1;
+  /* Use dark background to avoid flash during video transitions */
+  background: var(--color-bg-primary);
+}
+
+.pulse-ring {
+  position: absolute;
+  inset: -20px;
+  border-radius: 50%;
+  border: 2px solid var(--color-accent);
+  opacity: 0;
+  transform: scale(0.8);
+  pointer-events: none;
+}
+
+/* Bot Info */
+.bot-info {
+  text-align: center;
+}
+
+.bot-name {
+  font-size: 28px;
+  font-weight: 600;
+  margin-bottom: 6px;
+  letter-spacing: 0.01em;
+}
+
+.bot-status {
+  font-size: 15px;
+  font-style: italic;
+  color: var(--color-text-secondary);
+  transition: color var(--transition-fast);
+}
+
+/* Connection Indicator — nearly invisible debug tag */
+.connection-indicator {
+  position: absolute;
+  bottom: 12px;
+  left: 12px;
+  z-index: 9999;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  padding: 4px 8px;
+  background: rgba(0, 0, 0, 0.3);
+  border: none;
+  border-radius: 10px;
+  font-size: 9px;
+  font-weight: 400;
+  color: rgba(255, 255, 255, 0.25);
+  transition: all var(--transition-medium);
+}
+
+.connection-dot {
+  width: 4px;
+  height: 4px;
+  border-radius: 50%;
+  background: rgba(255, 255, 255, 0.2);
+  transition: all var(--transition-medium);
+}
+
+.connection-indicator.connected {
+  color: rgba(255, 255, 255, 0.3);
+  border: none;
+  background: rgba(0, 0, 0, 0.3);
+}
+
+.connection-indicator.connected .connection-dot {
+  background: rgba(107, 196, 109, 0.5);
+  box-shadow: none;
+  animation: none;
+}
+
+/* Kept for potential reuse elsewhere; no longer applied to the connection dot. */
+@keyframes connection-pulse {
+  0%, 100% { opacity: 1; transform: scale(1); }
+  50% { opacity: 0.6; transform: scale(0.85); }
+}
+
+/* Caption Status Indicator — nearly invisible debug tag */
+.caption-indicator {
+  position: absolute;
+  bottom: 12px;
+  right: 12px;
+  z-index: 9999;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  padding: 4px 8px;
+  background: rgba(0, 0, 0, 0.3);
+  border: none;
+  border-radius: 10px;
+  font-size: 9px;
+  font-weight: 400;
+  color: rgba(255, 255, 255, 0.25);
+  transition: all var(--transition-medium);
+}
+
+.caption-dot {
+  width: 4px;
+  height: 4px;
+  border-radius: 50%;
+  background: rgba(255, 255, 255, 0.2);
+  transition: all var(--transition-medium);
+}
+
+.caption-indicator.active {
+  color: rgba(255, 255, 255, 0.3);
+  border: none;
+  background: rgba(0, 0, 0, 0.3);
+}
+
+.caption-indicator.active .caption-dot {
+  background: rgba(107, 196, 109, 0.5);
+  box-shadow: none;
+  animation: none;
+}
+
+.caption-indicator.warning {
+  color: rgba(255, 255, 255, 0.35);
+  border: none;
+  background: rgba(0, 0, 0, 0.3);
+}
+
+.caption-indicator.warning .caption-dot {
+  background: rgba(196, 166, 74, 0.5);
+  box-shadow: none;
+}
+
+/* Kept for potential reuse elsewhere; no longer applied to the caption dot. */
+@keyframes caption-pulse {
+  0%, 100% { opacity: 1; transform: scale(1); }
+  50% { opacity: 0.6; transform: scale(0.85); }
+}
+
+/* Knowledge Indicator */
+.knowledge-indicator {
+  position: absolute;
+  top: 24px;
+  right: 24px;
+  z-index: 10;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 8px 16px;
+  background: rgba(15, 15, 20, 0.8);
+  backdrop-filter: blur(8px);
+  border: 1px solid rgba(107, 196, 109, 0.25);
+  border-radius: 20px;
+  font-size: 13px;
+  color: var(--color-success);
+  transition: all var(--transition-medium);
+}
+
+.knowledge-indicator:hover {
+  background: rgba(107, 196, 109, 0.18);
+}
+
+.knowledge-icon {
+  font-size: 15px;
+  animation: knowledge-shimmer 3s ease-in-out infinite;
+}
+
+@keyframes knowledge-shimmer {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0.6; }
+}
+
+/* ==========================================================================
+   STATE: IDLE
+   Organic breathing animation - asymmetric timing for natural feel
+   ========================================================================== */
+
+.avatar.idle .avatar-glow {
+  animation: idle-breathe 5s ease-in-out infinite;
+  transition: opacity var(--transition-slow), transform var(--transition-slow), background var(--transition-slow);
+}
+
+.avatar.idle .avatar-ring {
+  animation: idle-ring-pulse 5s ease-in-out infinite;
+  transition: opacity var(--transition-slow), border-width var(--transition-medium);
+}
+
+/* Asymmetric timing mimics natural breathing - slower exhale than inhale */
+@keyframes idle-breathe {
+  0% {
+    opacity: 0.35;
+    transform: scale(1);
+  }
+  35% {
+    opacity: 0.55;
+    transform: scale(1.04);
+  }
+  65% {
+    opacity: 0.5;
+    transform: scale(1.06);
+  }
+  100% {
+    opacity: 0.35;
+    transform: scale(1);
+  }
+}
+
+@keyframes idle-ring-pulse {
+  0%, 100% {
+    opacity: 0.45;
+  }
+  40% {
+    opacity: 0.75;
+  }
+  70% {
+    opacity: 0.6;
+  }
+}
+
+/* ==========================================================================
+   STATE: LISTENING
+   Active attention, responsive to audio levels
+   ========================================================================== */
+
+.avatar.listening .avatar-glow {
+  opacity: 0.7;
+  transform: scale(1.1);
+  background: rgba(107, 196, 109, 0.4);
+}
+
+.avatar.listening .avatar-ring {
+  opacity: 0.9;
+  border-color: var(--color-success);
+}
+
+.avatar.listening .pulse-ring {
+  animation: listening-pulse 1.5s ease-out infinite;
+}
+
+.avatar.listening .bot-status {
+  color: var(--color-success);
+}
+
+@keyframes listening-pulse {
+  0% {
+    opacity: 0.6;
+    transform: scale(1);
+  }
+  100% {
+    opacity: 0;
+    transform: scale(1.4);
+  }
+}
+
+/* Audio level visualization - scale varies with level */
+.avatar.listening[data-level="low"] .avatar-glow {
+  transform: scale(1.05);
+}
+
+.avatar.listening[data-level="medium"] .avatar-glow {
+  transform: scale(1.12);
+}
+
+.avatar.listening[data-level="high"] .avatar-glow {
+  transform: scale(1.2);
+}
+
+/* ==========================================================================
+   STATE: THINKING
+   Processing indicator, anticipatory
+   ========================================================================== */
+
+.avatar.thinking .avatar-glow {
+  animation: thinking-glow 1s ease-in-out infinite;
+  background: rgba(196, 166, 74, 0.4);
+}
+
+.avatar.thinking .avatar-ring {
+  border-color: var(--color-warning);
+  animation: thinking-ring-rotate 2s linear infinite;
+}
+
+.avatar.thinking .bot-status {
+  color: var(--color-warning);
+}
+
+@keyframes thinking-glow {
+  0%, 100% {
+    opacity: 0.5;
+    transform: scale(1);
+  }
+  50% {
+    opacity: 0.8;
+    transform: scale(1.08);
+  }
+}
+
+@keyframes thinking-ring-rotate {
+  0% {
+    transform: rotate(0deg);
+    border-style: dashed;
+  }
+  100% {
+    transform: rotate(360deg);
+    border-style: dashed;
+  }
+}
+
+/* ==========================================================================
+   STATE: SPEAKING
+   Active output, confident presence
+   ========================================================================== */
+
+.avatar.speaking .avatar-glow {
+  opacity: 0.9;
+  transform: scale(1.15);
+  background: rgba(74, 144, 164, 0.5);
+  /* CSS animation as fallback when JS AnalyserNode unavailable.
+     When JS sets inline styles, they override both this animation and the
+     transition values below. When JS clears inline styles (on speech end),
+     the CSS animation resumes for whatever state the avatar transitions to next. */
+  animation: speaking-glow 1.5s ease-in-out infinite;
+  /* Fast transitions for JS amplitude-driven override (50ms) feel responsive */
+  transition: transform 0.05s linear, opacity 0.05s linear, background 0.5s ease;
+}
+
+.avatar.speaking .avatar-ring {
+  opacity: 1;
+  border-width: 3px;
+  transition: opacity 0.5s ease, border-width 0.3s ease;
+}
+
+.avatar.speaking .pulse-ring {
+  animation: speaking-pulse 2s ease-in-out infinite;
+  border-color: var(--color-accent);
+  transition: border-color 0.5s ease;
+}
+
+@keyframes speaking-glow {
+  0%, 100% {
+    transform: scale(1.1);
+    opacity: 0.7;
+  }
+  50% {
+    transform: scale(1.2);
+    opacity: 0.95;
+  }
+}
+
+@keyframes speaking-pulse {
+  0%, 100% {
+    opacity: 0;
+    transform: scale(1);
+  }
+  50% {
+    opacity: 0.4;
+    transform: scale(1.3);
+  }
+}
+
+/* ==========================================================================
+   STATE: ERROR / DISCONNECTED
+   Subtle indication without alarming meeting participants
+   ========================================================================== */
+
+.avatar.error .avatar-glow {
+  opacity: 0.3;
+  background: rgba(196, 74, 74, 0.3);
+}
+
+.avatar.error .avatar-ring {
+  border-color: rgba(196, 74, 74, 0.5);
+  opacity: 0.5;
+}
+
+/* ==========================================================================
+   ONE-SHOT STATES
+   Wave, Goodbye, Celebration - play once then return to idle
+   These mostly rely on the GIF animation, CSS adds subtle enhancements
+   ========================================================================== */
+
+/* Wave - friendly hello */
+.avatar.wave .avatar-glow {
+  opacity: 0.8;
+  background: rgba(107, 196, 109, 0.4);
+  animation: wave-glow 0.5s ease-in-out 3;
+}
+
+.avatar.wave .avatar-ring {
+  border-color: var(--color-success);
+  opacity: 0.9;
+}
+
+@keyframes wave-glow {
+  0%, 100% {
+    transform: scale(1);
+  }
+  50% {
+    transform: scale(1.1);
+  }
+}
+
+/* Goodbye - departing */
+.avatar.goodbye .avatar-glow {
+  animation: goodbye-fade 2s ease-out forwards;
+}
+
+.avatar.goodbye .avatar-ring {
+  animation: goodbye-ring-fade 2s ease-out forwards;
+}
+
+@keyframes goodbye-fade {
+  0% {
+    opacity: 0.6;
+  }
+  100% {
+    opacity: 0.2;
+  }
+}
+
+@keyframes goodbye-ring-fade {
+  0% {
+    opacity: 0.8;
+  }
+  100% {
+    opacity: 0.3;
+  }
+}
+
+/* Celebration - confetti energy */
+.avatar.celebration .avatar-glow {
+  opacity: 1;
+  background: linear-gradient(45deg, rgba(107, 196, 109, 0.5), rgba(196, 166, 74, 0.5), rgba(74, 144, 164, 0.5));
+  animation: celebration-glow 0.4s ease-in-out infinite;
+  background-size: 200% 200%;
+}
+
+.avatar.celebration .avatar-ring {
+  border-color: var(--color-success);
+  border-width: 3px;
+  animation: celebration-ring 0.3s ease-in-out infinite alternate;
+}
+
+.avatar.celebration .pulse-ring {
+  animation: celebration-pulse 0.5s ease-out infinite;
+  border-color: var(--color-success);
+}
+
+@keyframes celebration-glow {
+  0%, 100% {
+    background-position: 0% 50%;
+    transform: scale(1.1);
+  }
+  50% {
+    background-position: 100% 50%;
+    transform: scale(1.2);
+  }
+}
+
+@keyframes celebration-ring {
+  0% {
+    transform: scale(1) rotate(0deg);
+  }
+  100% {
+    transform: scale(1.05) rotate(5deg);
+  }
+}
+
+@keyframes celebration-pulse {
+  0% {
+    opacity: 0.8;
+    transform: scale(1);
+  }
+  100% {
+    opacity: 0;
+    transform: scale(1.6);
+  }
+}
+
+/* ==========================================================================
+   PERSONALITY STATES
+   Eye roll, Yawn, Nod - rare, subtle character moments
+   ========================================================================== */
+
+/* Eye roll - dry humor */
+.avatar.eye_roll .avatar-glow {
+  opacity: 0.5;
+  background: rgba(128, 128, 128, 0.3);
+}
+
+.avatar.eye_roll .avatar-ring {
+  opacity: 0.6;
+  border-color: rgba(128, 128, 128, 0.5);
+}
+
+/* Yawn - self-aware humor for long meetings */
+.avatar.yawn .avatar-glow {
+  opacity: 0.4;
+  animation: yawn-breathe 3s ease-in-out;
+}
+
+@keyframes yawn-breathe {
+  0% {
+    transform: scale(1);
+  }
+  30% {
+    transform: scale(1.15);
+  }
+  70% {
+    transform: scale(1.15);
+  }
+  100% {
+    transform: scale(1);
+  }
+}
+
+/* Nod - subtle acknowledgment */
+.avatar.nod .avatar-glow {
+  opacity: 0.7;
+  background: rgba(107, 196, 109, 0.3);
+}
+
+.avatar.nod .avatar-ring {
+  border-color: var(--color-success);
+  opacity: 0.7;
+}
+
+/* ==========================================================================
+   STATE: READY TO SPEAK
+   Bot has a pending response, waiting for "go ahead" trigger
+   Distinctive blue-purple gradient background to stand out
+   ========================================================================== */
+
+body.ready-to-speak {
+  background: linear-gradient(145deg, #0f1424 0%, #1a1a3d 50%, #241a3d 100%);
+  transition: background 0.5s ease;
+}
+
+/* Subtle warmth to the backdrop while the bot is speaking */
+body.speaking {
+  background: linear-gradient(145deg, #0f1218 0%, #1a1d28 50%, #141820 100%);
+  transition: background 0.5s ease;
+}
+
+.avatar.ready_to_speak .avatar-glow {
+  opacity: 0.9;
+  background: linear-gradient(45deg, rgba(99, 102, 241, 0.5), rgba(168, 85, 247, 0.5));
+  animation: ready-glow 2s ease-in-out infinite;
+  background-size: 200% 200%;
+}
+
+.avatar.ready_to_speak .avatar-ring {
+  border-color: #8b5cf6;
+  opacity: 0.9;
+  animation: ready-ring-pulse 1.5s ease-in-out infinite;
+}
+
+.avatar.ready_to_speak .pulse-ring {
+  animation: ready-pulse 2s ease-out infinite;
+  border-color: #a855f7;
+}
+
+.avatar.ready_to_speak .bot-status {
+  color: #a855f7;
+}
+
+@keyframes ready-glow {
+  0%, 100% {
+    background-position: 0% 50%;
+    transform: scale(1.05);
+    opacity: 0.7;
+  }
+  50% {
+    background-position: 100% 50%;
+    transform: scale(1.15);
+    opacity: 0.95;
+  }
+}
+
+@keyframes ready-ring-pulse {
+  0%, 100% {
+    opacity: 0.6;
+    border-width: 2px;
+  }
+  50% {
+    opacity: 1;
+    border-width: 3px;
+  }
+}
+
+@keyframes ready-pulse {
+  0% {
+    opacity: 0.6;
+    transform: scale(1);
+  }
+  100% {
+    opacity: 0;
+    transform: scale(1.5);
+  }
+}
+
+/* ==========================================================================
+   TRIGGER LEGEND / HELP INDICATOR
+   Subtle help for meeting participants to know how to interact
+   ========================================================================== */
+
+.trigger-legend {
+  position: absolute;
+  bottom: 40px;
+  right: 24px;
+  z-index: 9999;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  gap: 6px;
+  opacity: 0.6;
+  transition: opacity var(--transition-medium);
+}
+
+.trigger-legend:hover {
+  opacity: 0.85;
+}
+
+/* Title hidden — legend content is self-explanatory */
+.trigger-legend-title {
+  display: none;
+}
+
+.trigger-item {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 12px;
+  font-weight: 400;
+  color: rgba(255, 255, 255, 0.55);
+  padding: 5px 12px;
+  background: rgba(0, 0, 0, 0.35);
+  backdrop-filter: blur(4px);
+  border: none;
+  border-radius: 14px;
+  transition: all var(--transition-fast);
+}
+
+.trigger-item:hover {
+  background: rgba(255, 255, 255, 0.06);
+}
+
+.trigger-phrase {
+  font-family: inherit;
+  font-size: 12px;
+  font-weight: 500;
+  font-style: italic;
+  color: rgba(255, 255, 255, 0.7);
+  background: none;
+  padding: 0;
+  border-radius: 0;
+}
+
+.trigger-action {
+  color: rgba(255, 255, 255, 0.4);
+  font-size: 11px;
+}
+
+/* Fade legend when speaking or in ready state (less distracting but still visible) */
+body.speaking .trigger-legend,
+body.ready-to-speak .trigger-legend {
+  opacity: 0.3;
+  pointer-events: none;
+}
+
+/* Status text transition */
+.bot-status {
+  transition: color var(--transition-medium), opacity var(--transition-medium);
+}
+
+/* Video crossfade transition */
+.avatar-image {
+  transition: opacity 0.25s ease-in-out;
+}
+
+.avatar-image.transitioning {
+  opacity: 0.7;
+}
+
+/* ==========================================================================
+   CAPTION BAR
+   Floating subtitle for spoken text during TTS playback
+   ========================================================================== */
+
+.caption-bar {
+  position: relative;
+  max-width: 720px;
+  margin-top: 14px;
+  padding: 8px 20px;
+  background: rgba(0, 0, 0, 0.45);
+  backdrop-filter: blur(8px);
+  border-radius: 12px;
+  font-size: 16px;
+  font-style: italic;
+  line-height: 1.45;
+  color: var(--color-text-secondary);
+  text-align: center;
+  /* Max 2 lines with ellipsis */
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+  /* Hidden by default */
+  opacity: 0;
+  transform: translateY(-4px);
+  pointer-events: none;
+  transition: opacity 0.2s ease, transform 0.2s ease;
+}
+
+.caption-bar.visible {
+  opacity: 1;
+  transform: translateY(0);
+}

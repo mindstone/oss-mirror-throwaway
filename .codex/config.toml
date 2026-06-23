@@ -1,0 +1,14 @@
+# Codex CLI project defaults and guardrails:
+# Keep OSS mirror substitution patches out of model-readable workspace context.
+
+model = "gpt-5.5"
+model_reasoning_effort = "high"
+
+default_permissions = "workspace-with-mirror-patches-deny"
+
+[permissions.workspace-with-mirror-patches-deny]
+extends = ":workspace"
+description = "Workspace access with mirror patch artifacts denied for reads."
+
+[permissions.workspace-with-mirror-patches-deny.filesystem.":workspace_roots"]
+"mirror/patches/**" = "deny"

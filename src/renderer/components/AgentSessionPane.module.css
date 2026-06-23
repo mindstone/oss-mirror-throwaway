@@ -1,0 +1,144 @@
+.pane {
+  grid-column: 2 / 3;
+  grid-row: 2 / 3;
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+  min-height: 0;
+  min-width: 0;
+  width: 100%;
+  overflow: hidden;
+  position: relative;
+}
+
+.toolbar {
+  display: flex;
+  align-items: stretch;
+  justify-content: flex-start;
+  gap: 0;
+  padding: 0 20px;
+  position: relative;
+  z-index: 10;
+  flex-wrap: nowrap;
+}
+
+.toolbarWithDivider {
+  border-bottom: none;
+  margin-bottom: 8px;
+}
+
+:global([data-chrome-mode='reduced']) .toolbar {
+  opacity: 0.25;
+  transition: opacity 400ms ease;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  :global([data-chrome-mode='reduced']) .toolbar {
+    transition: none;
+  }
+}
+
+.toolbarActions {
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
+  gap: 8px;
+  flex: 0 0 auto;
+  min-width: 210px;
+  margin-left: auto;
+}
+
+.toolbarActions > * {
+  flex: 0 0 auto;
+}
+
+.sessionConflictBadge {
+  margin-left: 8px;
+  align-self: center;
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  border: 1px solid var(--warning-border, color-mix(in srgb, var(--warning) 45%, transparent));
+  background: var(--warning-bg, color-mix(in srgb, var(--warning) 20%, transparent));
+  color: var(--warning-text, var(--warning));
+  border-radius: 999px;
+  padding: 4px 6px 4px 8px;
+  flex: 0 0 auto;
+}
+
+.sessionConflictBadgeIcon {
+  color: inherit;
+}
+
+.sessionConflictBadgeText {
+  font-size: 12px;
+  line-height: 1;
+  font-weight: 600;
+  white-space: nowrap;
+}
+
+.sessionConflictBadgeDismiss {
+  min-width: 0;
+  height: 20px;
+  padding: 0 4px;
+  color: inherit;
+}
+
+.sessionConflictBadgeDismiss:hover {
+  color: inherit;
+}
+
+@media (max-width: 1200px) {
+  .toolbar {
+    padding: 0 16px;
+  }
+
+  .toolbarActions {
+    min-width: 180px;
+  }
+}
+
+.footer {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  padding-top: 8px;
+  position: relative;
+}
+
+/* Trashed conversation banner - shown above the transcript when viewing a
+   deleted conversation read-only. */
+.trashedBanner {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin: 8px 20px 0;
+  padding: 8px 12px;
+  border: 1px solid var(--warning-border, color-mix(in srgb, var(--warning) 45%, transparent));
+  background: var(--warning-bg, color-mix(in srgb, var(--warning) 14%, transparent));
+  color: var(--warning-text, var(--warning));
+  border-radius: 8px;
+}
+
+.trashedBannerIcon {
+  color: inherit;
+  flex: 0 0 auto;
+}
+
+.trashedBannerText {
+  flex: 1;
+  font-size: 13px;
+  line-height: 1.3;
+}
+
+/* Read-only footer notice - replaces the composer for trashed conversations. */
+.trashedFooterNotice {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  padding: 14px 16px;
+  color: var(--text-secondary);
+  font-size: 13px;
+  text-align: center;
+}

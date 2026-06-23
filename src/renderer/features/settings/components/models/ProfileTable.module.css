@@ -1,0 +1,451 @@
+/* =============================================================================
+   ProfileTable — compact table of configured model profiles.
+   Design tokens only; theme both light + dark; responsive at 480/720/900+.
+   See docs/plans/260424_model_profile_ui_redesign.md (Stage 2).
+   ============================================================================= */
+
+/* ─── Screen-reader-only utility ─────────────────────────────────────────── */
+
+.srOnly {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border-width: 0;
+}
+
+/* ─── Disabled-button tooltip wrapper ───────────────────────────────────────
+   Disabled buttons don't fire hover/focus events so Tooltip never opens.
+   We wrap with a focusable span that carries the tooltip; the inner button
+   stays visually disabled and aria-hidden to avoid duplication. */
+
+.disabledTooltipWrap {
+  display: inline-flex;
+  cursor: not-allowed;
+}
+.disabledTooltipWrap:focus-visible {
+  outline: 2px solid var(--color-ring);
+  outline-offset: 2px;
+  border-radius: var(--radius-xs);
+}
+
+/* ─── Table shell ────────────────────────────────────────────────────────── */
+
+.table {
+  width: 100%;
+  border-collapse: collapse;
+  table-layout: auto;
+  font-size: 12px;
+  color: var(--color-text-primary, inherit);
+}
+
+.th {
+  font-size: 10px;
+  font-weight: 600;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  color: var(--color-text-muted);
+  text-align: left;
+  padding: 4px 8px;
+  border-bottom: 1px solid color-mix(in srgb, var(--color-border) 55%, transparent);
+}
+
+.cell {
+  padding: 6px 8px;
+  vertical-align: middle;
+  border-bottom: 1px solid color-mix(in srgb, var(--color-border) 35%, transparent);
+}
+
+.row {
+  transition: background-color var(--motion-duration-fast) var(--motion-ease-out);
+}
+
+.row:hover {
+  background-color: color-mix(in srgb, var(--color-primary) 4%, transparent);
+}
+
+:global(body.light) .row:hover {
+  background-color: color-mix(in srgb, var(--color-primary) 6%, transparent);
+}
+
+.disabled {
+  opacity: 0.45;
+}
+
+/* ─── Column widths (desktop) ────────────────────────────────────────────── */
+
+.colName {
+  min-width: 0;
+}
+
+.colProvider {
+  min-width: 96px;
+  white-space: nowrap;
+}
+
+.colThinking {
+  min-width: 80px;
+  white-space: nowrap;
+}
+
+.colStatus {
+  min-width: 130px;
+  white-space: nowrap;
+}
+
+.colActions {
+  /* Wider to fit the On/Off toggle + divider + icon buttons. */
+  min-width: 148px;
+  width: 148px;
+}
+
+/* ─── Name cell ──────────────────────────────────────────────────────────── */
+
+.nameRow {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-2);
+  min-width: 0;
+  max-width: 100%;
+}
+
+.name {
+  font-size: 13px;
+  font-weight: 500;
+  color: var(--color-text-primary, inherit);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  min-width: 0;
+}
+
+.mainBadge {
+  flex-shrink: 0;
+}
+
+.modelId {
+  font-size: 11px;
+  color: var(--color-text-muted);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  font-family: var(--font-mono, ui-monospace, monospace);
+}
+
+.narrowProvider,
+.narrowThinking {
+  /* Hidden by default; revealed at narrow widths via the matching media
+     queries below. `display: none` keeps them out of both the visual layout
+     AND the accessibility tree at wide widths, so the dedicated columns are
+     the sole carrier of the info there. At narrow widths the columns become
+     `display: none` and these reveal — single source of truth either way. */
+  display: none;
+  font-size: 11px;
+  color: var(--color-text-muted);
+  margin-top: 2px;
+}
+
+/* ─── Provider cell ──────────────────────────────────────────────────────── */
+
+.provider {
+  color: var(--color-text-secondary);
+}
+
+.providerOrphaned {
+  color: var(--color-text-muted);
+  font-style: italic;
+}
+
+/* ─── Status cell ────────────────────────────────────────────────────────── */
+
+.statusCellContent {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-2);
+  flex-wrap: wrap;
+}
+
+.statusWrapper {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-1);
+  flex-wrap: wrap;
+}
+
+.badgeGroup {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-1);
+}
+
+.membershipChip {
+  min-height: var(--space-6);
+  height: var(--space-6);
+  padding: 0 var(--space-2);
+  border-radius: var(--radius-pill);
+  font-size: 10px;
+  font-weight: 600;
+  letter-spacing: 0.01em;
+  line-height: 1;
+  transition:
+    background-color var(--motion-duration-fast) var(--motion-ease-out),
+    border-color var(--motion-duration-fast) var(--motion-ease-out),
+    color var(--motion-duration-fast) var(--motion-ease-out),
+    box-shadow var(--motion-duration-fast) var(--motion-ease-out);
+}
+
+.membershipChip:focus-visible {
+  outline: none;
+  box-shadow:
+    0 0 0 2px var(--color-background),
+    0 0 0 4px var(--color-ring);
+}
+
+.membershipChipOn {
+  border-color: color-mix(in srgb, var(--color-primary) 70%, transparent);
+  background: color-mix(in srgb, var(--color-primary) 24%, transparent);
+  color: var(--color-primary-foreground);
+}
+
+:global(body.light) .membershipChipOn,
+:global(.light) .membershipChipOn {
+  background: color-mix(in srgb, var(--color-primary) 14%, var(--color-white));
+  color: color-mix(in srgb, var(--color-primary) 78%, var(--color-text-primary));
+}
+
+.membershipChipOff {
+  border-color: color-mix(in srgb, var(--color-border) 80%, transparent);
+  background: transparent;
+  color: var(--color-text-muted);
+}
+
+.membershipChipOff:hover {
+  border-color: color-mix(in srgb, var(--color-primary) 48%, transparent);
+  background: color-mix(in srgb, var(--color-primary) 8%, transparent);
+  color: var(--color-text-secondary);
+}
+
+.membershipChipDisabled {
+  opacity: 0.58;
+  cursor: not-allowed;
+}
+
+.membershipChipDisabledWrap {
+  display: inline-flex;
+  border-radius: var(--radius-pill);
+  cursor: not-allowed;
+}
+
+.membershipChipDisabledWrap:focus-visible {
+  outline: none;
+  box-shadow:
+    0 0 0 2px var(--color-background),
+    0 0 0 4px var(--color-ring);
+}
+
+.membershipChipPassive {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  border: 1px solid currentColor;
+  cursor: default;
+  user-select: none;
+}
+
+.membershipChipOff.membershipChipPassive:hover {
+  border-color: color-mix(in srgb, var(--color-border) 80%, transparent);
+  background: transparent;
+  color: var(--color-text-muted);
+}
+
+.membershipChipPassive:focus-visible {
+  outline: none;
+  box-shadow:
+    0 0 0 2px var(--color-background),
+    0 0 0 4px var(--color-ring);
+}
+
+.statusPill {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+}
+
+.enrichButton {
+  height: auto;
+  min-height: 0;
+  padding: 0;
+  border-radius: var(--radius-xs, 4px);
+  background: transparent;
+  color: var(--color-primary);
+  font-size: 11px;
+  font-weight: 500;
+  line-height: 1.25;
+  white-space: normal;
+  text-align: left;
+  justify-content: flex-start;
+}
+
+.enrichButton:hover {
+  background: transparent;
+  color: var(--color-primary-hover);
+  text-decoration: underline;
+}
+
+/* ─── Spinner ────────────────────────────────────────────────────────────── */
+
+@keyframes profileTable-spin {
+  from { transform: rotate(0deg); }
+  to { transform: rotate(360deg); }
+}
+
+.spinner {
+  animation: profileTable-spin 1s linear infinite;
+}
+
+/* ─── Actions ────────────────────────────────────────────────────────────── */
+
+.actions {
+  display: inline-flex;
+  align-items: center;
+  gap: 2px;
+  justify-content: flex-end;
+  width: 100%;
+}
+
+/* Dense table-row override on top of <IconButton size="xs">.
+   Settings tables run at 24x24 to keep row height tight; the atom owns
+   colour, hover, focus, theming, and the danger variant. Mirrors the
+   sidebar list-row pattern in AgentSessionSidebar.module.css `.actionButton`. */
+.iconButton {
+  width: 24px;
+  height: 24px;
+  min-width: 24px;
+}
+
+.deleteConfirmButton {
+  padding: 2px 6px;
+  font-size: 11px;
+  color: var(--color-destructive, #ef4444);
+  border: 1px solid color-mix(in srgb, var(--color-destructive) 30%, transparent);
+  background-color: color-mix(in srgb, var(--color-destructive) 8%, transparent);
+  min-width: 0;
+  height: 24px;
+}
+
+.deleteConfirmButton:hover {
+  background-color: color-mix(in srgb, var(--color-destructive) 15%, transparent);
+  border-color: color-mix(in srgb, var(--color-destructive) 50%, transparent);
+}
+
+/* ─── Enable/disable toggle (in actions cell) ────────────────────────────── */
+
+/* Label wrapper: toggle pill + "On"/"Off" text side-by-side. Positioned
+   first in the actions div so it reads as "switch off" not "delete". */
+.enableToggleLabel {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-1);
+  cursor: pointer;
+  user-select: none;
+  /* Prevent label click from double-firing alongside the Toggle input's onClick. */
+  flex-shrink: 0;
+}
+
+.enableToggleText {
+  font-size: 11px;
+  font-weight: 500;
+  color: var(--color-text-muted);
+  min-width: 18px; /* fixed width prevents layout shift On↔Off */
+  line-height: 1;
+}
+
+/* Divider between the toggle and the icon action buttons. Decorative only
+   (aria-hidden on the element). Uses the standard subtle border token. */
+.actionsDivider {
+  display: inline-block;
+  width: 1px;
+  height: 16px;
+  background-color: var(--color-border-subtle);
+  flex-shrink: 0;
+  margin: 0 var(--space-1);
+}
+
+/* ─── Just-added highlight (new-row fade) ────────────────────────────────── */
+
+@keyframes profileTable-justAdded {
+  0% {
+    background-color: color-mix(in srgb, var(--color-primary) 25%, transparent);
+  }
+  100% {
+    background-color: transparent;
+  }
+}
+
+.justAdded {
+  animation: profileTable-justAdded 1.2s ease-out;
+}
+
+:global(body.light) .justAdded {
+  animation-name: profileTable-justAdded-light;
+}
+
+@keyframes profileTable-justAdded-light {
+  0% {
+    background-color: color-mix(in srgb, var(--color-primary) 20%, transparent);
+  }
+  100% {
+    background-color: transparent;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .justAdded,
+  :global(body.light) .justAdded {
+    animation: none;
+    background-color: transparent;
+  }
+}
+
+/* ─── Responsive breakpoints ─────────────────────────────────────────────── */
+
+/* 720–899px: provider column hidden; provider shown inline below model ID.
+   Status column shrinks; "Not compatible" label hidden (icon remains).      */
+@media (max-width: 899px) {
+  .colProvider {
+    display: none;
+  }
+  .narrowProvider {
+    display: block;
+  }
+  .colStatus {
+    min-width: 110px;
+  }
+}
+
+/* <720px: tighter padding. */
+@media (max-width: 719px) {
+  .cell,
+  .th {
+    padding: 4px 6px;
+  }
+  /* Icon-only status badge — hide the label `<span>` children of badges. */
+  .iconOnlyBelow720 > span:not([class*='sr-only']) {
+    display: none;
+  }
+}
+
+/* <480px: thinking column hidden; shown inline below model ID. Status icon-only. */
+@media (max-width: 479px) {
+  .colThinking {
+    display: none;
+  }
+  .narrowThinking {
+    display: block;
+  }
+  /* Already icon-only from 720px rule above. */
+}

@@ -1,0 +1,27 @@
+/**
+ * Efficiency Mode reduce-motion foundation rule.
+ *
+ * Many components already gate their animations on the OS-level
+ * `prefers-reduced-motion: reduce` media query (see typography.css and
+ * various component CSS files). This adds a sibling, app-controlled gate via
+ * `data-reduce-motion="true"` on <html> so users can opt into reduced motion
+ * regardless of OS preference — the two gates OR together.
+ *
+ * Toggled by `useVisualCustomization` when `settings.efficiencyMode === 'on'`.
+ *
+ * Pattern matches the canonical "universal motion suppression" used by
+ * accessibility CSS resets: keep durations effectively zero so transitions
+ * still fire (one-off events) but visually appear instant. Avoids breaking
+ * `transitionend` listeners that some components rely on.
+ *
+ * See `docs/plans/260524_performance_mode.md`.
+ */
+
+:root[data-reduce-motion="true"] *,
+:root[data-reduce-motion="true"] *::before,
+:root[data-reduce-motion="true"] *::after {
+  animation-duration: 0.001ms !important;
+  animation-iteration-count: 1 !important;
+  transition-duration: 0.001ms !important;
+  scroll-behavior: auto !important;
+}

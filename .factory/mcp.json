@@ -1,0 +1,18 @@
+{
+  "mcpServers": {
+    "rebel-electron": {
+      "type": "stdio",
+      "command": "node",
+      "args": ["resources/mcp/electron-debug/server.mjs"],
+      "disabled": false
+    },
+    "Sentry": {
+      "url": "https://mcp.sentry.dev/mcp",
+      "type": "http"
+    },
+    "cloudflare-api": {
+      "url": "https://mcp.cloudflare.com/mcp",
+      "type": "http"
+    }
+  }
+}

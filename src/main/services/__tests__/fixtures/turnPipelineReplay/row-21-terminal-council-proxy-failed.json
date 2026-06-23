@@ -1,0 +1,722 @@
+{
+  "id": 21,
+  "description": "terminal-council-proxy-failed",
+  "stage": "S4",
+  "addedIn": "round-1",
+  "notes": [
+    "Stage 1C Phase 1: row 21 covers the S4 terminal where council mode is requested but the local proxy server's addRoutes() rejects (e.g., port collision, permission denied).",
+    "`mockOverrides.councilMode: true` activates council config; `proxyStartupFailure: true` makes addRoutesMock reject. The executor must dispatch an actionable error and capture it via Sentry.",
+    "Expected was recorded once via RECORD_REPLAY_FIXTURES=1; subsequent runs assert exact equality."
+  ],
+  "input": {
+    "turnId": "<TURN_ID>",
+    "prompt": "Use council mode.",
+    "turnOptions": {
+      "sessionId": "<SESSION_ID>",
+      "resetConversation": false,
+      "councilMode": true
+    },
+    "mockOverrides": {
+      "councilMode": true,
+      "proxyStartupFailure": true
+    }
+  },
+  "expected": {
+    "events": [
+      {
+        "sequence": 5,
+        "method": "dispatchAgentEvent",
+        "args": [
+          null,
+          "<TURN_ID>",
+          {
+            "timestamp": "<TIMESTAMP>",
+            "type": "turn_started"
+          }
+        ]
+      },
+      {
+        "sequence": 19,
+        "method": "dispatchAgentEvent",
+        "args": [
+          null,
+          "<TURN_ID>",
+          {
+            "message": "Starting agent turn...",
+            "timestamp": "<TIMESTAMP>",
+            "type": "status"
+          }
+        ]
+      },
+      {
+        "sequence": 38,
+        "method": "dispatchAgentEvent",
+        "args": [
+          null,
+          "<TURN_ID>",
+          {
+            "error": "Multi-model setup couldn't start. Try sending your message again.",
+            "errorSource": "main",
+            "timestamp": "<TIMESTAMP>",
+            "type": "error"
+          }
+        ]
+      }
+    ],
+    "registry": [
+      {
+        "sequence": 0,
+        "method": "setActiveTurnController",
+        "args": [
+          "<TURN_ID>",
+          {}
+        ]
+      },
+      {
+        "sequence": 3,
+        "method": "recordSessionTurn",
+        "args": [
+          "<SESSION_ID>",
+          null
+        ]
+      },
+      {
+        "sequence": 4,
+        "method": "setRendererSession",
+        "args": [
+          "<TURN_ID>",
+          "<SESSION_ID>"
+        ]
+      },
+      {
+        "sequence": 6,
+        "method": "setTurnCategory",
+        "args": [
+          "<TURN_ID>",
+          "conversation"
+        ]
+      },
+      {
+        "sequence": 7,
+        "method": "setTurnLogger",
+        "args": [
+          "<TURN_ID>"
+        ]
+      },
+      {
+        "sequence": 14,
+        "method": "setTurnPrompt",
+        "args": [
+          "<TURN_ID>",
+          "Use council mode."
+        ]
+      },
+      {
+        "sequence": 24,
+        "method": "setTurnExtendedContext",
+        "args": [
+          "<TURN_ID>",
+          false
+        ]
+      },
+      {
+        "sequence": 26,
+        "method": "setTurnThinkingEffort",
+        "args": [
+          "<TURN_ID>",
+          "medium"
+        ]
+      },
+      {
+        "sequence": 30,
+        "method": "setTurnModel",
+        "args": [
+          "<TURN_ID>",
+          "claude-sonnet-4-5"
+        ]
+      },
+      {
+        "sequence": 42,
+        "method": "cleanupTurn",
+        "args": [
+          "<TURN_ID>"
+        ]
+      }
+    ],
+    "sentry": [],
+    "log": [
+      {
+        "sequence": 1,
+        "method": "warn",
+        "args": [
+          {
+            "err": {}
+          },
+          "Failed to emit pre-turn worker stats snapshot"
+        ]
+      },
+      {
+        "sequence": 2,
+        "method": "debug",
+        "args": [
+          {
+            "attempt": 1,
+            "event": "turnPhase.entry",
+            "phaseName": "admission",
+            "sessionId": "<SESSION_ID>",
+            "turnId": "<TURN_ID>"
+          },
+          "turnPhase.entry"
+        ]
+      },
+      {
+        "sequence": 8,
+        "method": "info",
+        "args": [
+          {
+            "effectiveResetConversation": false,
+            "rendererHint": false,
+            "rendererSessionId": "<SESSION_ID>"
+          },
+          "Initializing agent turn — main process resetConversation decision"
+        ]
+      },
+      {
+        "sequence": 9,
+        "method": "debug",
+        "args": [
+          {
+            "durationMs": "<DURATION_MS>",
+            "event": "turnPhase.exit",
+            "phaseName": "admission",
+            "status": "ok",
+            "turnId": "<TURN_ID>"
+          },
+          "turnPhase.exit"
+        ]
+      },
+      {
+        "sequence": 10,
+        "method": "debug",
+        "args": [
+          "Using pre-turn worker for context assembly"
+        ]
+      },
+      {
+        "sequence": 11,
+        "method": "debug",
+        "args": [
+          "No semantic context added (no results above threshold)"
+        ]
+      },
+      {
+        "sequence": 12,
+        "method": "debug",
+        "args": [
+          "Attempting main process fallback for conversation auto-injection"
+        ]
+      },
+      {
+        "sequence": 13,
+        "method": "info",
+        "args": [
+          {
+            "promptLengthBeforeAssembly": 17,
+            "sectionCount": 0,
+            "sections": {},
+            "totalSectionChars": 0
+          },
+          "Pre-turn context sections assembled"
+        ]
+      },
+      {
+        "sequence": 15,
+        "method": "info",
+        "args": [
+          {
+            "rendererSessionId": "<SESSION_ID>",
+            "resetConversation": false,
+            "sessionKind": "conversation"
+          },
+          "Injecting disk-based conversation history for agent turn context"
+        ]
+      },
+      {
+        "sequence": 16,
+        "method": "warn",
+        "args": [
+          {
+            "rendererSessionId": "<SESSION_ID>",
+            "sessionKind": "conversation"
+          },
+          "History injection returned empty — turn will have NO conversation context"
+        ]
+      },
+      {
+        "sequence": 17,
+        "method": "info",
+        "args": [
+          {
+            "binaryAttachments": 0,
+            "documentAttachments": 0,
+            "extractedPdfAttachments": 0,
+            "hasMedia": false,
+            "imageAttachments": 0,
+            "officeAttachments": 0,
+            "promptLength": 17,
+            "resetConversation": false,
+            "textAttachments": 0,
+            "textFileAttachments": 0
+          },
+          "Agent turn requested"
+        ]
+      },
+      {
+        "sequence": 18,
+        "method": "info",
+        "args": [
+          {
+            "sessionLogPath": "/tmp/test-turn.log",
+            "turnId": "<TURN_ID>"
+          },
+          "Agent turn session log created"
+        ]
+      },
+      {
+        "sequence": 20,
+        "method": "info",
+        "args": [
+          "Starting agent turn"
+        ]
+      },
+      {
+        "sequence": 22,
+        "method": "info",
+        "args": [
+          {
+            "mcpResolveMs": "<TIMING_MS>",
+            "preTurnResolveMs": "<TIMING_MS>",
+            "systemPromptMs": "<TIMING_MS>"
+          },
+          "Pre-turn resolution timing (systemPrompt + MCP)"
+        ]
+      },
+      {
+        "sequence": 23,
+        "method": "info",
+        "args": [
+          {
+            "mcpMode": "unavailable",
+            "mcpServerCount": 0,
+            "mcpServerDetails": [],
+            "mcpServerNames": [],
+            "upstreamServerCount": 0
+          },
+          "MCP configuration resolved for agent runtime (this config should be inherited by sub-agents)"
+        ]
+      },
+      {
+        "sequence": 25,
+        "method": "debug",
+        "args": [
+          {
+            "contextWindow": 200000,
+            "contextWindowSource": "anthropic",
+            "extendedContext": false,
+            "maxOutputSource": "anthropic",
+            "maxOutputTokens": 64000,
+            "model": "claude-sonnet-4-5"
+          },
+          "Model limits resolved"
+        ]
+      },
+      {
+        "sequence": 27,
+        "method": "info",
+        "args": [
+          {
+            "activeProvider": "anthropic",
+            "workingModel": "claude-sonnet-4-5"
+          },
+          "Turn provider routing inputs"
+        ]
+      },
+      {
+        "sequence": 28,
+        "method": "info",
+        "args": [
+          {
+            "activeProvider": "anthropic",
+            "extendedContextEnabled": false,
+            "planModeEnabled": false,
+            "requestedModel": "claude-sonnet-4-5",
+            "selectedModel": "claude-sonnet-4-5",
+            "thinkingModel": null,
+            "thinkingProfileId": null,
+            "thinkingProfileResolved": null,
+            "workingProfileResolved": null
+          },
+          "Model configuration inputs"
+        ]
+      },
+      {
+        "sequence": 29,
+        "method": "info",
+        "args": [
+          {
+            "effectiveThinkingModel": null,
+            "hasThinkingProfile": false,
+            "wouldTriggerPlanMode": false
+          },
+          "[CODEX-DIAG] Planning model decision"
+        ]
+      },
+      {
+        "sequence": 31,
+        "method": "info",
+        "args": [
+          {
+            "hasEnvOverrides": false,
+            "resolvedModel": "claude-sonnet-4-5"
+          },
+          "Model configuration resolved"
+        ]
+      },
+      {
+        "sequence": 32,
+        "method": "info",
+        "args": [
+          {
+            "bypassToolSafety": false,
+            "effectiveToolSafetyLevel": "balanced",
+            "globalToolSafetyLevel": "balanced",
+            "hasAuth": true,
+            "requestedSafetyModelRef": "claude-haiku-4-5",
+            "trustedToolsCount": 0,
+            "userSafetyInstructions": false
+          },
+          "Tool safety config"
+        ]
+      },
+      {
+        "sequence": 33,
+        "method": "info",
+        "args": [
+          {
+            "bypassToolSafety": false,
+            "hookCreated": false
+          },
+          "Tool safety hook status"
+        ]
+      },
+      {
+        "sequence": 34,
+        "method": "info",
+        "args": [
+          {
+            "hasMemoryWriteHook": false,
+            "memoryWriteHookSource": "none"
+          },
+          "Memory write hook status"
+        ]
+      },
+      {
+        "sequence": 35,
+        "method": "info",
+        "args": [
+          {
+            "hasAutoContinueHook": false,
+            "unleashedMode": false
+          },
+          "Auto-continue hook status"
+        ]
+      },
+      {
+        "sequence": 37,
+        "method": "error",
+        "args": [
+          {
+            "err": {}
+          },
+          "Council proxy startup failed — cannot proceed"
+        ]
+      },
+      {
+        "sequence": 40,
+        "method": "info",
+        "args": [
+          {
+            "reason": "council-proxy-failed",
+            "sessionLogPath": "/tmp/test-turn.log",
+            "turnId": "<TURN_ID>"
+          },
+          "Agent turn session log finalized"
+        ]
+      },
+      {
+        "sequence": 41,
+        "method": "info",
+        "args": [
+          {
+            "reason": "turn:<TURN_ID>"
+          },
+          "Power save block released (system sleep allowed)"
+        ]
+      }
+    ],
+    "cost": [],
+    "proxy": [
+      {
+        "sequence": 36,
+        "method": "addRoutes",
+        "args": [
+          "<TURN_ID>",
+          {
+            "routes": {}
+          }
+        ]
+      },
+      {
+        "sequence": 39,
+        "method": "removeRoutes",
+        "args": [
+          "<TURN_ID>"
+        ]
+      }
+    ],
+    "tracking": [],
+    "cooldown": [],
+    "checkpoint": [],
+    "sleepBlocker": [],
+    "fileChange": [],
+    "dynamicImport": [],
+    "envMutation": [
+      {
+        "sequence": 21,
+        "method": "setPath",
+        "args": [
+          "<PATH_MUTATED>"
+        ]
+      }
+    ],
+    "settingsMutation": [],
+    "query": [],
+    "timeline": [
+      {
+        "sequence": 0,
+        "surface": "registry",
+        "method": "setActiveTurnController"
+      },
+      {
+        "sequence": 1,
+        "surface": "log",
+        "method": "warn"
+      },
+      {
+        "sequence": 2,
+        "surface": "log",
+        "method": "debug"
+      },
+      {
+        "sequence": 3,
+        "surface": "registry",
+        "method": "recordSessionTurn"
+      },
+      {
+        "sequence": 4,
+        "surface": "registry",
+        "method": "setRendererSession"
+      },
+      {
+        "sequence": 5,
+        "surface": "event",
+        "method": "dispatchAgentEvent"
+      },
+      {
+        "sequence": 6,
+        "surface": "registry",
+        "method": "setTurnCategory"
+      },
+      {
+        "sequence": 7,
+        "surface": "registry",
+        "method": "setTurnLogger"
+      },
+      {
+        "sequence": 8,
+        "surface": "log",
+        "method": "info"
+      },
+      {
+        "sequence": 9,
+        "surface": "log",
+        "method": "debug"
+      },
+      {
+        "sequence": 10,
+        "surface": "log",
+        "method": "debug"
+      },
+      {
+        "sequence": 11,
+        "surface": "log",
+        "method": "debug"
+      },
+      {
+        "sequence": 12,
+        "surface": "log",
+        "method": "debug"
+      },
+      {
+        "sequence": 13,
+        "surface": "log",
+        "method": "info"
+      },
+      {
+        "sequence": 14,
+        "surface": "registry",
+        "method": "setTurnPrompt"
+      },
+      {
+        "sequence": 15,
+        "surface": "log",
+        "method": "info"
+      },
+      {
+        "sequence": 16,
+        "surface": "log",
+        "method": "warn"
+      },
+      {
+        "sequence": 17,
+        "surface": "log",
+        "method": "info"
+      },
+      {
+        "sequence": 18,
+        "surface": "log",
+        "method": "info"
+      },
+      {
+        "sequence": 19,
+        "surface": "event",
+        "method": "dispatchAgentEvent"
+      },
+      {
+        "sequence": 20,
+        "surface": "log",
+        "method": "info"
+      },
+      {
+        "sequence": 21,
+        "surface": "envMutation",
+        "method": "setPath"
+      },
+      {
+        "sequence": 22,
+        "surface": "log",
+        "method": "info"
+      },
+      {
+        "sequence": 23,
+        "surface": "log",
+        "method": "info"
+      },
+      {
+        "sequence": 24,
+        "surface": "registry",
+        "method": "setTurnExtendedContext"
+      },
+      {
+        "sequence": 25,
+        "surface": "log",
+        "method": "debug"
+      },
+      {
+        "sequence": 26,
+        "surface": "registry",
+        "method": "setTurnThinkingEffort"
+      },
+      {
+        "sequence": 27,
+        "surface": "log",
+        "method": "info"
+      },
+      {
+        "sequence": 28,
+        "surface": "log",
+        "method": "info"
+      },
+      {
+        "sequence": 29,
+        "surface": "log",
+        "method": "info"
+      },
+      {
+        "sequence": 30,
+        "surface": "registry",
+        "method": "setTurnModel"
+      },
+      {
+        "sequence": 31,
+        "surface": "log",
+        "method": "info"
+      },
+      {
+        "sequence": 32,
+        "surface": "log",
+        "method": "info"
+      },
+      {
+        "sequence": 33,
+        "surface": "log",
+        "method": "info"
+      },
+      {
+        "sequence": 34,
+        "surface": "log",
+        "method": "info"
+      },
+      {
+        "sequence": 35,
+        "surface": "log",
+        "method": "info"
+      },
+      {
+        "sequence": 36,
+        "surface": "proxy",
+        "method": "addRoutes"
+      },
+      {
+        "sequence": 37,
+        "surface": "log",
+        "method": "error"
+      },
+      {
+        "sequence": 38,
+        "surface": "event",
+        "method": "dispatchAgentEvent"
+      },
+      {
+        "sequence": 39,
+        "surface": "proxy",
+        "method": "removeRoutes"
+      },
+      {
+        "sequence": 40,
+        "surface": "log",
+        "method": "info"
+      },
+      {
+        "sequence": 41,
+        "surface": "log",
+        "method": "info"
+      },
+      {
+        "sequence": 42,
+        "surface": "registry",
+        "method": "cleanupTurn"
+      }
+    ]
+  }
+}

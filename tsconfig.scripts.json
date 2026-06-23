@@ -1,0 +1,50 @@
+{
+  // Type-checks the standalone scripts/ CLIs/validators that the hand-picked
+  // allowlist in tsconfig.node.json doesn't cover (~170 top-level files were
+  // type-checked by nothing). Run by validate:ts-ratchet as the `scripts`
+  // project at baseline 0.
+  //
+  // composite:false — these are leaf scripts, not a referenced project (avoids
+  //   spurious TS6307 "file not listed" noise).
+  // allowImportingTsExtensions — several scripts import sibling `./x.ts` (valid
+  //   under tsx); noEmit (inherited) makes that legal.
+  //
+  // The `exclude` list below is a QUARANTINE of files with a pre-existing type-
+  // error backlog, adopted at baseline 0 (the repo's zero-error norm). Each entry
+  // is a TODO: fix the file, then delete it from this list (the quarantine only
+  // shrinks). See docs/plans/260609_extend-linting-coverage/PLAN.md.
+  "extends": "./tsconfig.node.json",
+  "compilerOptions": {
+    "composite": false,
+    "noEmit": true,
+    "allowImportingTsExtensions": true
+  },
+  "include": ["scripts/**/*.ts"],
+  "exclude": [
+    // Script tests/fixtures are validated by Vitest execution (vitest.config.ts
+    // includes scripts/__tests__/**), not by this noEmit typecheck — a deliberate
+    // structural exclusion, distinct from the quarantine below.
+    "scripts/**/__tests__/**",
+    "scripts/**/__fixtures__/**",
+
+    // ── QUARANTINE (pre-existing backlog; fix file → delete its line) ──
+    // sentry-autopilot: its own pre-existing type backlog (~16 errors — drifted
+    // SessionOutcome shape, union-arg mismatches). Quarantined as a whole dir
+    // (its files import each other, so file-level excludes would leak via the
+    // import graph). Adopt by fixing its backlog, not just config.
+    "scripts/sentry-autopilot/**",
+    // replay-session-trace: imports renderer code (../src/renderer/.../sessionStore)
+    // → drags the renderer agent-session subtree (DOM globals, @renderer-internal
+    // imports) into this node-flavored program. Needs a renderer-aware config.
+    // (Together these two account for ~101 of the original "169" — renderer-import
+    // + subsystem-backlog artifacts, not standalone node-land script bugs.)
+    "scripts/replay-session-trace.ts",
+    // LOW-VALUE one-offs (manual test scripts / spikes / benchmarks) — left
+    // quarantined deliberately; low ROI to fix.
+    "scripts/test-rebel-canvas-action-submit.ts",
+    "scripts/spikes/bts-prefix-leak-end-to-end.ts",
+    "scripts/mcp-seam-conformance-spike.ts",
+    "scripts/benchmark-mcp-spawn.ts",
+    "scripts/test-fuzzy-search-comparison.ts"
+  ]
+}

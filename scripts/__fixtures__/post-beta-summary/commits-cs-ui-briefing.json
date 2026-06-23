@@ -1,0 +1,20 @@
+{
+  "commits": [
+    {
+      "hash": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+      "subject": "feat(homepage): Refresh Today guidance for activation",
+      "body": "New copy and hierarchy make the homepage clearer for first-run and returning users."
+    },
+    {
+      "hash": "bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb",
+      "subject": "style(onboarding): Clarify tool connection recovery states",
+      "body": "Welcome, preflight, and auth handoff screens now explain what is happening when setup needs attention."
+    },
+    {
+      "hash": "cccccccccccccccccccccccccccccccccccccccc",
+      "subject": "fix(files): Stabilise document preview mounting",
+      "body": "Prevents previews from opening against the wrong workspace mount path."
+    }
+  ],
+  "mocked_llm_completion": "\"what_youll_see\":[{\"bullet\":\"Homepage and onboarding now put clearer guidance up front, so users should see less mystery during first setup.\",\"source_indices\":[0,1]}],\"what_we_fixed\":[{\"bullet\":\"If someone says setup looks different, expect clearer connection and recovery copy instead of a silent dead end.\",\"source_indices\":[1]}],\"worth_a_look\":[{\"bullet\":\"Document previews should open more reliably from the right workspace location.\",\"source_indices\":[2]}]}"
+}

@@ -1,0 +1,18 @@
+{
+  "connectorName": "smoke-sample",
+  "clientContributionId": "smoke-fixture-00000000000000000000",
+  "attributionMode": "rebel-name",
+  "attributionName": "Rebel Smoke Test",
+  "prTitle": "add smoke-sample connector (throwaway)",
+  "prBody": "This contribution is submitted by the smoke test harness (`scripts/smoke-contribution.ts`). Do not merge; it serves only as an end-to-end walkthrough fixture.",
+  "files": [
+    {
+      "path": "connectors/smoke-sample/manifest.json",
+      "content": "{\n  \"name\": \"smoke-sample\",\n  \"displayName\": \"Smoke Sample\",\n  \"description\": \"Throwaway connector used by rebel-platform's contribution-relay smoke test.\",\n  \"version\": \"0.0.1\"\n}\n"
+    },
+    {
+      "path": "connectors/smoke-sample/README.md",
+      "content": "# Smoke Sample\n\nThis connector exists solely to exercise the rebel-platform contribution-relay smoke script. It intentionally has no functional code.\n"
+    }
+  ]
+}

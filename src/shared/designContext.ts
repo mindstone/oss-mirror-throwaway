@@ -1,0 +1,2 @@
+export const DESIGN_CONTEXT_COMMAND_NAME = 'designContext';
+export const DESIGN_CONTEXT_COMMAND = `@${DESIGN_CONTEXT_COMMAND_NAME}`;

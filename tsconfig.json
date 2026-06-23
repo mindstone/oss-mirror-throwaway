@@ -1,0 +1,25 @@
+{
+  "files": [],
+  "compilerOptions": {
+    "baseUrl": ".",
+    "module": "ESNext",
+    "moduleResolution": "Bundler",
+    "target": "ES2022",
+    "paths": {
+      "@/*": ["./src/renderer/*"],
+      "@core/*": ["./src/core/*"],
+      "@main/*": ["./src/main/*"],
+      "@private/mindstone/*": ["./private/mindstone/src/*", "./src/main/oss/private-mindstone-stub/*"],
+      "@renderer/*": ["./src/renderer/*"],
+      "@shared/*": ["./src/shared/*"],
+      "@rebel/shared": ["./packages/shared/src"],
+      "@rebel/shared/*": ["./packages/shared/src/*"],
+      "@rebel/cloud-client": ["./cloud-client/src"],
+      "@rebel/cloud-client/*": ["./cloud-client/src/*"]
+    }
+  },
+  "references": [
+    { "path": "tsconfig.node.json" },
+    { "path": "tsconfig.renderer.json" }
+  ]
+}

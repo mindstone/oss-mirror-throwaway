@@ -1,0 +1,99 @@
+.section {
+  display: flex;
+  flex-direction: column;
+}
+
+.section + .section {
+  margin-top: 6px;
+}
+
+.header {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  padding: 4px 4px 2px;
+  background: transparent;
+  /* Sticky header: stays visible when section content is in view */
+  position: sticky;
+  top: 0;
+  z-index: 10;
+}
+
+.headerToggle {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  margin: 0;
+  padding: 0;
+  border: none;
+  background: transparent;
+  color: rgba(203, 213, 225, 0.7);
+  font-size: 0.72rem;
+  font-weight: 600;
+  letter-spacing: 0.03em;
+  text-transform: uppercase;
+  cursor: pointer;
+  transition: color 0.15s ease;
+  text-align: left;
+}
+
+.headerToggle:hover {
+  color: rgba(203, 213, 225, 0.9);
+}
+
+.headerToggle:focus-visible {
+  outline: 2px solid rgba(99, 102, 241, 0.5);
+  outline-offset: 2px;
+  border-radius: 4px;
+}
+
+.chevron {
+  flex-shrink: 0;
+  transition: transform 0.2s ease;
+}
+
+.chevronExpanded {
+  transform: rotate(90deg);
+}
+
+.icon {
+  flex-shrink: 0;
+  opacity: 0.8;
+}
+
+.label {
+  flex-shrink: 0;
+}
+
+.count {
+  color: rgba(203, 213, 225, 0.5);
+  font-weight: 500;
+}
+
+.headerAction {
+  margin-left: auto;
+  flex-shrink: 0;
+}
+
+.content {
+  display: flex;
+  flex-direction: column;
+}
+
+/* Light mode overrides */
+:global(body.light) .header {
+  background: transparent;
+}
+
+:global(body.light) .headerToggle {
+  color: var(--color-muted-foreground);
+}
+
+:global(body.light) .headerToggle:hover {
+  color: var(--color-foreground);
+}
+
+:global(body.light) .count {
+  color: var(--color-muted-foreground);
+  opacity: 0.7;
+}

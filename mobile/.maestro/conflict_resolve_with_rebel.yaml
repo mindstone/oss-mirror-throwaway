@@ -1,0 +1,48 @@
+# Maestro E2E for the "Resolve with Rebel" conflict-resolution handoff.
+#
+# Verifies that tapping "Resolve with Rebel" on a conflicting staged file opens a
+# conversation (the app mints a Stage B capability token and pushes a prefilled
+# conversation). We assert the conversation screen opens; the semantic resolution
+# is eval territory (evals/conflict-resolution.ts), not Maestro.
+#
+# Entry: the conflict callout is rendered INLINE on the staged-file card in the
+# inbox (no detail sheet needed) — `conflict-callout-resolve-with-rebel`.
+#
+# Prerequisites: app paired + a seeded staged-file conflict
+#   (POST /__e2e/seed/staged-file-conflict). e2e-mobile.sh seeds this.
+#
+# Run: maestro test mobile/.maestro/conflict_resolve_with_rebel.yaml
+appId: com.mindstone.rebel.mobile
+---
+- launchApp
+- extendedWaitUntil:
+    visible:
+      id: "home-screen"
+    timeout: 30000
+# Inbox (Actions tab) via deep link. `rebel://tasks` → /(tabs)/inbox.
+- openLink: "rebel://tasks"
+- extendedWaitUntil:
+    visible:
+      id: "inbox-screen"
+    timeout: 15000
+- extendedWaitUntil:
+    visible:
+      id: "staged-files-section"
+    timeout: 15000
+- extendedWaitUntil:
+    visible:
+      id: "conflict-callout"
+    timeout: 15000
+# Tap the inline "Resolve with Rebel" action. Fires the real handler
+# (mints a capability token, opens a prefilled conversation).
+- tapOn:
+    id: "conflict-callout-resolve-with-rebel"
+# Navigated into the conversation screen.
+- extendedWaitUntil:
+    visible:
+      id: "conversation-screen"
+    timeout: 20000
+- extendedWaitUntil:
+    visible:
+      id: "conversation-input"
+    timeout: 10000

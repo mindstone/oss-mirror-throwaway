@@ -1,0 +1,8 @@
+.meeting-turn-speaker-attribution {
+  font-size: 11px;
+  font-weight: 400;
+  color: var(--text-tertiary);
+  margin-top: 2px;
+  margin-left: 4px;
+  margin-right: 4px;
+}

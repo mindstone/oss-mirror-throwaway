@@ -1,0 +1,207 @@
+.root {
+  display: grid;
+  gap: var(--space-5);
+  color: var(--color-text-primary);
+}
+
+.header {
+  display: flex;
+  align-items: flex-start;
+  gap: var(--space-3);
+}
+
+.effectIconTile {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: calc(var(--space-8) + var(--space-1));
+  height: calc(var(--space-8) + var(--space-1));
+  border-radius: var(--radius-md);
+  border: 1px solid var(--color-border-soft);
+  background: var(--color-surface-elevated);
+  color: var(--color-brand-indigo);
+  flex-shrink: 0;
+}
+
+.headerCopy {
+  display: grid;
+  gap: var(--space-1);
+  min-width: 0;
+}
+
+.title {
+  margin: 0;
+  font-size: 1.1rem;
+  font-weight: 600;
+  line-height: 1.3;
+}
+
+.description {
+  margin: 0;
+  font-size: 0.9rem;
+  line-height: 1.5;
+  color: var(--color-text-secondary);
+}
+
+.blastRadiusStrip {
+  /* Two-column "definition list": muted label in col 1, chips in col 2.
+     Subgrid lets every group share one label column so labels align across
+     rows. This keeps each facet to a single row instead of stacking the
+     label above its chip, roughly halving the strip's height. */
+  display: grid;
+  grid-template-columns: max-content 1fr;
+  gap: var(--space-2) var(--space-3);
+  padding: var(--space-3);
+  border: 1px solid var(--color-border-soft);
+  border-radius: var(--radius-lg);
+  background: var(--color-surface-elevated);
+}
+
+.stripGroup {
+  display: grid;
+  grid-template-columns: subgrid;
+  grid-column: 1 / -1;
+  /* Vertically centre the muted label against its chip(s); the column gap is
+     inherited from the parent strip's grid gap via subgrid. */
+  align-items: center;
+}
+
+.stripLabel {
+  margin: 0;
+  font-size: 0.73rem;
+  font-weight: 600;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--color-text-muted);
+}
+
+.chipRow {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-2);
+}
+
+.blastRadiusChip {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-1);
+  max-width: 100%;
+}
+
+.audienceSharingBadge {
+  align-self: flex-start;
+}
+
+.resolvingNote {
+  margin: 0;
+  font-size: 0.82rem;
+  color: var(--color-text-secondary);
+}
+
+/* The single framed container — the artifact Rebel is about to send/save.
+   Everything else on the surface is unboxed and separated by spacing. */
+.bodyRegion {
+  border: 1px solid var(--color-border-soft);
+  border-radius: var(--radius-lg);
+  background: var(--color-surface-elevated);
+  padding: var(--space-5);
+}
+
+.statusState {
+  display: flex;
+  align-items: center;
+  gap: var(--space-2);
+  min-height: calc(var(--space-12) + var(--space-6));
+  color: var(--color-text-secondary);
+}
+
+.spinner {
+  animation: spin var(--motion-duration-slow) linear infinite;
+}
+
+.genericPreview {
+  display: grid;
+  gap: var(--space-2);
+}
+
+.withheldCopy {
+  margin: 0;
+  font-size: 0.86rem;
+  color: var(--color-text-secondary);
+}
+
+.emptyRows {
+  margin: 0;
+  font-size: 0.84rem;
+  color: var(--color-text-secondary);
+}
+
+.rows {
+  margin: 0;
+  display: grid;
+  gap: var(--space-2);
+}
+
+.row {
+  display: grid;
+  gap: var(--space-1);
+  padding: var(--space-2);
+  border-radius: var(--radius-sm);
+  border: 1px solid var(--color-border-soft);
+  background: var(--color-surface-elevated);
+}
+
+.rowKey {
+  margin: 0;
+  font-size: 0.75rem;
+  font-weight: 600;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  color: var(--color-text-muted);
+  word-break: break-word;
+}
+
+.rowValue {
+  margin: 0;
+  font-size: 0.84rem;
+  line-height: 1.5;
+  color: var(--color-text-primary);
+  white-space: pre-wrap;
+  word-break: break-word;
+}
+
+.sectionTitle {
+  margin: 0;
+  font-size: 0.82rem;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--color-text-muted);
+}
+
+/* "Why Rebel paused" — one calm plain sentence, not a boxed section. */
+.whyCopy {
+  margin: 0;
+  font-size: calc(var(--font-size-base) * 0.84);
+  line-height: 1.5;
+  color: var(--color-text-secondary);
+}
+
+/* Receipts — a quiet disclosure (DetailsAccordion owns its own toggle copy). */
+.receipts {
+  margin: 0;
+}
+
+@keyframes spin {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .spinner {
+    animation: none;
+  }
+}

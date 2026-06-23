@@ -1,0 +1,122 @@
+.body {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-5, 1.25rem);
+  max-height: min(70vh, 720px);
+  overflow-y: auto;
+  padding-right: var(--space-2, 0.5rem);
+}
+
+.step {
+  display: flex;
+  gap: var(--space-3, 0.75rem);
+  align-items: flex-start;
+}
+
+.stepBadge {
+  flex: 0 0 auto;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 1.5rem;
+  height: 1.5rem;
+  border-radius: 999px;
+  background: var(--color-primary, #8b5cf6);
+  color: var(--color-primary-foreground, #fff);
+  font-size: 0.8125rem;
+  font-weight: 600;
+  line-height: 1;
+}
+
+.stepBody {
+  flex: 1 1 auto;
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-2, 0.5rem);
+  min-width: 0;
+}
+
+.stepTitle {
+  margin: 0;
+  font-size: 0.9375rem;
+  font-weight: 600;
+  color: var(--color-foreground);
+}
+
+.stepText {
+  margin: 0;
+  font-size: 0.8125rem;
+  color: var(--color-muted-foreground);
+  line-height: 1.5;
+}
+
+.copyField {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-2, 0.5rem);
+}
+
+.copyRow {
+  display: flex;
+  gap: var(--space-2, 0.5rem);
+  align-items: stretch;
+}
+
+.copyError {
+  margin: 0;
+  color: var(--color-destructive);
+  font-size: 0.78125rem;
+  line-height: 1.4;
+}
+
+/* Visually hidden but exposed to assistive tech (announces the "Copied" status). */
+.srOnly {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  margin: -1px;
+  padding: 0;
+  border: 0;
+  overflow: hidden;
+  clip: rect(0 0 0 0);
+  white-space: nowrap;
+}
+
+.code {
+  display: block;
+  flex: 1 1 auto;
+  min-width: 0;
+  font-size: 0.8125rem;
+  font-family: var(--font-mono, ui-monospace, monospace);
+  padding: 0.5rem 0.75rem;
+  border-radius: 6px;
+  background: var(--color-muted);
+  border: 1px solid var(--color-border-soft);
+  color: var(--color-foreground);
+  white-space: pre-wrap;
+  word-break: break-all;
+  user-select: all;
+}
+
+.inlineCode {
+  font-family: var(--font-mono, ui-monospace, monospace);
+  font-size: 0.8125rem;
+  padding: 0.0625rem 0.3125rem;
+  border-radius: 4px;
+  background: var(--color-muted);
+  border: 1px solid var(--color-border-soft);
+}
+
+.note {
+  margin: 0;
+  font-size: 0.78125rem;
+  color: var(--color-muted-foreground);
+  line-height: 1.5;
+  font-style: italic;
+}
+
+.footer {
+  display: flex;
+  justify-content: flex-end;
+  gap: var(--space-2, 0.5rem);
+}

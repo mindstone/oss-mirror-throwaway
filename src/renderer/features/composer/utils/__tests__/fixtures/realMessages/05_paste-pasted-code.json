@@ -1,0 +1,7 @@
+{
+  "name": "05_paste-pasted-code",
+  "description": "Plain-text draft that LOOKS like code (function definition, indented body, semicolons) but is NOT wrapped in markdown fences. Exercises the typical 'user pasted a code snippet from elsewhere' shape; verifies indentation, braces, and quote characters survive the round-trip with no escape mangling.",
+  "input": "function hello() {\n  console.log('world');\n  return 42;\n}",
+  "expectedSanitised": "function hello() {\n  console.log('world');\n  return 42;\n}",
+  "expectedDocShape": ""
+}

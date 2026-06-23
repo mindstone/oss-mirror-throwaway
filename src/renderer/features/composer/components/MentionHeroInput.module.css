@@ -1,0 +1,297 @@
+/**
+ * MentionHeroInput — Shared hero input styles with mention popover support.
+ *
+ * Mirrors the visual design of HomepageChat.module.css / AutomationsPanel.module.css
+ * hero inputs, but in a standalone module so multiple surfaces can share it.
+ */
+
+/* ─────────────────────────────────────────────────────────────
+   Container — positions the mention popover relative to input
+   ───────────────────────────────────────────────────────────── */
+
+.heroInputContainer {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  min-height: 64px;
+  border-radius: 16px;
+  border: 1px solid rgba(148, 163, 184, 0.15);
+  background: rgba(13, 17, 28, 0.95);
+  box-shadow:
+    0 8px 32px rgba(2, 6, 23, 0.35),
+    0 2px 8px rgba(0, 0, 0, 0.15),
+    inset 0 1px 0 rgba(255, 255, 255, 0.04);
+  transition: all 0.2s ease;
+  width: 100%;
+  overflow: visible;
+}
+
+.heroInputContainerDragging {
+  outline: 2px dashed rgba(99, 102, 241, 0.5);
+  outline-offset: 4px;
+}
+
+.heroInputContainer:focus-within {
+  border-color: rgba(99, 102, 241, 0.4);
+  box-shadow:
+    0 0 0 3px rgba(99, 102, 241, 0.12),
+    0 8px 32px rgba(2, 6, 23, 0.35),
+    0 2px 8px rgba(0, 0, 0, 0.15);
+}
+
+/* Inner row: paperclip + textarea + submit */
+.inputRow {
+  display: flex;
+  /* Anchor the leading/trailing buttons to the bottom so they stay put as the
+     input grows downward (parity with the in-conversation composer). */
+  align-items: flex-end;
+  gap: 0;
+  width: 100%;
+}
+
+/* ─────────────────────────────────────────────────────────────
+   Textarea — auto-expanding multiline input
+   ───────────────────────────────────────────────────────────── */
+
+.heroInput {
+  flex: 1;
+  border: none;
+  background: transparent;
+  padding: 20px 24px;
+  font-size: 1rem;
+  color: rgba(248, 250, 255, 0.95);
+  outline: none;
+  font-family: inherit;
+  resize: none;
+  line-height: 1.4;
+  /* Auto-expanding: starts as one line (min-height ≈ the original 62px pill,
+     incl. padding), grows with content as useAutoResizeTextarea reconciles the
+     height, then scrolls once it hits the cap. The cap is shared with the
+     in-conversation composer for cross-surface consistency. */
+  min-height: 62px;
+  max-height: clamp(124px, 32vh, 360px);
+  overflow-y: auto;
+  white-space: pre-wrap;
+  overflow-wrap: anywhere;
+  scrollbar-width: thin;
+}
+
+.heroInput::placeholder {
+  color: rgba(148, 163, 184, 0.5);
+}
+
+.heroEditor {
+  flex: 1;
+  min-width: 0;
+  /* Vertical padding gives the empty/short state the same ~62px pill feel the
+     fixed-height version had; the inner `.editor` (TipTapPromptEditor.module.css)
+     owns the min-height / max-height / overflow-y bounds and self-sizes, so the
+     wrapper just needs to stop pinning a single-line height. */
+  padding: 20px 24px;
+}
+
+.heroEditor :global(.ProseMirror) {
+  width: 100%;
+  /* `pre-wrap` preserves ProseMirror's space handling AND wraps long lines so
+     the editor grows vertically. (The forbidden values are 'normal' / 'nowrap'
+     / 'pre-line'; 'pre-wrap' is safe.) `overflow-wrap: anywhere` breaks long
+     unbroken tokens (e.g. a pasted URL or `@file/very/long/path`) so they wrap
+     rather than overflow horizontally — the old `.heroEditor` relied on
+     `overflow-x: auto` for that, which we removed. Mirrors the legacy
+     `.heroInput` rule above. */
+  white-space: pre-wrap;
+  overflow-wrap: anywhere;
+  min-height: 1.4em;
+  line-height: 1.4;
+}
+
+.heroEditor :global(.ProseMirror p) {
+  margin: 0;
+}
+
+.heroEditor :global(.ProseMirror p.is-editor-empty:first-child::before),
+.heroEditor :global(.ProseMirror p.is-empty:first-child::before) {
+  color: rgba(148, 163, 184, 0.5);
+}
+
+/* ─────────────────────────────────────────────────────────────
+   Inline Icon Buttons — layout glue only.
+   The shared @renderer/components/ui IconButton (variant="ghost")
+   handles colour, hover, focus, active, and theming.
+   ───────────────────────────────────────────────────────────── */
+
+/* The row is `align-items: flex-end` so the submit button stays anchored to the
+   bottom as the input grows. The 40px ghost icons are shorter than the 56px
+   (+4px margin) submit, so a bottom margin lifts their centre to match the
+   submit's centre — balanced in the short/empty state, still bottom-clustered
+   when the input expands. (submit centre ≈ 4 + 28 = 32px from row bottom;
+   icon centre = margin-bottom + 20px → 12px aligns them.) */
+.leadingIconButton {
+  margin-left: 12px;
+  margin-bottom: 12px;
+}
+
+.trailingIconButton {
+  margin-right: 4px;
+  margin-bottom: 12px;
+}
+
+.spinningIcon {
+  animation: spin 1s linear infinite;
+}
+
+/* ─────────────────────────────────────────────────────────────
+   Submit Button
+   ───────────────────────────────────────────────────────────── */
+
+.heroInputSubmit {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 56px;
+  height: 56px;
+  margin: 4px;
+  border: none;
+  border-radius: 12px;
+  background: linear-gradient(135deg, rgba(139, 92, 246, 0.9) 0%, rgba(99, 102, 241, 0.9) 100%);
+  color: white;
+  cursor: pointer;
+  transition: all 0.15s ease;
+  flex-shrink: 0;
+}
+
+.heroInputSubmit:hover:not(:disabled) {
+  background: linear-gradient(135deg, rgba(139, 92, 246, 1) 0%, rgba(99, 102, 241, 1) 100%);
+  transform: scale(1.02);
+}
+
+.heroInputSubmit:active:not(:disabled) {
+  transform: scale(0.98);
+}
+
+.heroInputSubmit:disabled {
+  opacity: 0.4;
+  cursor: default;
+}
+
+/* ─────────────────────────────────────────────────────────────
+   Mention Popover — positioned below the input
+   ───────────────────────────────────────────────────────────── */
+
+.mentionPopoverBelow {
+  position: absolute;
+  top: calc(100% + 6px);
+  left: 0;
+  right: 0;
+  z-index: 1050;
+}
+
+/* Override the popover's own absolute/bottom positioning
+   (it normally sits above the composer) */
+.mentionPopoverBelow > div {
+  position: static;
+}
+
+/* ─────────────────────────────────────────────────────────────
+   Attachment Thumbnail Strip Area
+   ───────────────────────────────────────────────────────────── */
+
+.attachmentStripArea {
+  padding: 12px 16px 4px;
+}
+
+/* ─────────────────────────────────────────────────────────────
+   Drop Zone Overlay
+   ───────────────────────────────────────────────────────────── */
+
+.dropZone {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  background: rgba(99, 102, 241, 0.08);
+  border-radius: 16px;
+  color: rgba(99, 102, 241, 0.8);
+  font-size: 0.875rem;
+  font-weight: 500;
+  pointer-events: none;
+  z-index: 10;
+  animation: dropZoneFadeIn 0.15s ease-out;
+}
+
+@keyframes dropZoneFadeIn {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+@keyframes spin {
+  from { transform: rotate(0deg); }
+  to { transform: rotate(360deg); }
+}
+
+/* ─────────────────────────────────────────────────────────────
+   Hidden File Input
+   ───────────────────────────────────────────────────────────── */
+
+.hiddenFileInput {
+  position: absolute;
+  width: 0;
+  height: 0;
+  overflow: hidden;
+  opacity: 0;
+  pointer-events: none;
+}
+
+/* ─────────────────────────────────────────────────────────────
+   Light Mode
+   ───────────────────────────────────────────────────────────── */
+
+:global(body.light) .heroInputContainer {
+  border-color: rgba(148, 163, 184, 0.2);
+  background: rgba(255, 255, 255, 0.98);
+  box-shadow:
+    0 8px 32px rgba(0, 0, 0, 0.08),
+    0 2px 8px rgba(0, 0, 0, 0.04),
+    inset 0 1px 0 rgba(255, 255, 255, 0.9);
+}
+
+:global(body.light) .heroInputContainer:focus-within {
+  border-color: rgba(99, 102, 241, 0.4);
+  box-shadow:
+    0 0 0 3px rgba(99, 102, 241, 0.1),
+    0 8px 32px rgba(0, 0, 0, 0.08),
+    0 2px 8px rgba(0, 0, 0, 0.04);
+}
+
+:global(body.light) .heroInput {
+  color: var(--color-foreground);
+}
+
+:global(body.light) .heroInput::placeholder {
+  color: var(--color-muted-foreground);
+}
+
+:global(body.light) .heroEditor :global(.ProseMirror) {
+  color: var(--color-foreground);
+}
+
+:global(body.light) .heroEditor :global(.ProseMirror p.is-editor-empty:first-child::before),
+:global(body.light) .heroEditor :global(.ProseMirror p.is-empty:first-child::before) {
+  color: var(--color-muted-foreground);
+}
+
+:global(body.light) .heroInputSubmit {
+  background: linear-gradient(135deg, rgba(124, 58, 237, 0.95) 0%, rgba(99, 102, 241, 0.95) 100%);
+}
+
+:global(body.light) .heroInputSubmit:hover:not(:disabled) {
+  background: linear-gradient(135deg, rgba(124, 58, 237, 1) 0%, rgba(99, 102, 241, 1) 100%);
+}
+
+:global(body.light) .dropZone {
+  background: rgba(99, 102, 241, 0.06);
+  color: rgba(99, 102, 241, 0.9);
+}

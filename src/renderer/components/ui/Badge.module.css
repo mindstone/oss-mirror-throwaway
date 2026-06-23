@@ -1,0 +1,72 @@
+.badge {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: var(--radius-pill, 999px);
+  font-weight: 500;
+  white-space: nowrap;
+  transition:
+    background var(--motion-duration-fast, 120ms) ease,
+    color var(--motion-duration-fast, 120ms) ease;
+}
+
+.badge--sm {
+  padding: 2px 8px;
+  font-size: 0.6875rem;
+}
+
+.badge--md {
+  padding: 4px 10px;
+  font-size: 0.75rem;
+}
+
+.badge--lg {
+  padding: 6px 14px;
+  font-size: 0.8125rem;
+}
+
+.badge--default {
+  background: var(--color-muted, #f1f5f9);
+  color: var(--color-muted-foreground, #475569);
+}
+
+.badge--primary {
+  background: var(--color-primary, #8b5cf6);
+  color: var(--color-primary-foreground, #ffffff);
+}
+
+.badge--secondary {
+  background: var(--color-secondary, #eef2ff);
+  color: var(--color-secondary-foreground, #7c3aed);
+}
+
+.badge--success {
+  background: rgba(16, 185, 129, 0.15);
+  color: var(--color-success, #16a34a);
+}
+
+.badge--warning {
+  background: rgba(245, 158, 11, 0.15);
+  color: var(--color-warning, #d97706);
+}
+
+.badge--info {
+  background: color-mix(in srgb, var(--color-info) 14%, transparent);
+  color: var(--color-info);
+}
+
+.badge--destructive {
+  background: rgba(239, 68, 68, 0.15);
+  color: var(--color-destructive, #ef4444);
+}
+
+.badge--outline {
+  background: transparent;
+  border: 1px solid var(--color-border, #e2e8f0);
+  color: var(--color-text-primary, #0f172a);
+}
+
+.badge--muted {
+  background: rgba(148, 163, 184, 0.15);
+  color: var(--color-text-secondary, rgba(15, 23, 42, 0.6));
+}

@@ -1,0 +1,284 @@
+/* History Filter Dropdown - Unified filter button with floating menu */
+
+.filterDropdownWrapper {
+  display: contents;
+}
+
+.filterDropdown {
+  position: relative;
+}
+
+.filterIcon {
+  flex-shrink: 0;
+}
+
+.runningIndicator {
+  position: absolute;
+  top: 3px;
+  right: 3px;
+  width: 6px;
+  height: 6px;
+  border-radius: 999px;
+  background: #34d399;
+  box-shadow: 0 0 0 0 rgba(52, 211, 153, 0.7);
+  animation: indicatorPulse 2s ease-out infinite;
+}
+
+.activeFilterIndicator {
+  position: absolute;
+  top: 3px;
+  right: 3px;
+  width: 6px;
+  height: 6px;
+  border-radius: 999px;
+  background: #a78bfa;
+}
+
+@keyframes indicatorPulse {
+  0% {
+    box-shadow: 0 0 0 0 rgba(52, 211, 153, 0.4);
+  }
+  70% {
+    box-shadow: 0 0 0 6px rgba(52, 211, 153, 0);
+  }
+  100% {
+    box-shadow: 0 0 0 0 rgba(52, 211, 153, 0);
+  }
+}
+
+/* Floating dropdown menu */
+.menu {
+  position: absolute;
+  z-index: 9999;
+  min-width: 200px;
+  padding: 6px;
+  border-radius: 14px;
+  background: rgba(13, 17, 28, 0.98);
+  border: 1px solid rgba(148, 163, 184, 0.22);
+  box-shadow:
+    0 16px 40px rgba(2, 6, 23, 0.55),
+    0 0 0 1px rgba(99, 102, 241, 0.08);
+  backdrop-filter: blur(var(--glass-overlay-blur));
+  /* Hidden until floating-ui has positioned it, so the menu never paints for a
+     frame at the container origin (top-left) and then jumps down-right to
+     bottom-end. The entrance animation is opacity-only — a transform here would
+     fight floating-ui's transform-based positioning and reintroduce the jump.
+     Matches SessionActionsMenu / ConversationActionsMenu / MoveToFolderPopover. */
+  visibility: hidden;
+}
+
+.menu[data-positioned='true'] {
+  visibility: visible;
+  animation: menuFade 150ms var(--motion-ease-out, cubic-bezier(0.16, 1, 0.3, 1));
+}
+
+@keyframes menuFade {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+.menuSection {
+  padding: 2px 0;
+}
+
+.menuHeader {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  padding: 8px 10px 6px;
+  font-size: 0.7rem;
+  font-weight: 600;
+  letter-spacing: 0.03em;
+  text-transform: uppercase;
+  color: rgba(148, 163, 184, 0.65);
+}
+
+.menuHeaderIcon {
+  opacity: 0.7;
+}
+
+.menuDivider {
+  height: 1px;
+  margin: 4px 10px;
+  background: linear-gradient(
+    90deg,
+    rgba(148, 163, 184, 0.0),
+    rgba(148, 163, 184, 0.25),
+    rgba(148, 163, 184, 0.0)
+  );
+}
+
+.menuItem {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  width: 100%;
+  padding: 10px 10px;
+  border: none;
+  border-radius: 10px;
+  background: transparent;
+  color: rgba(248, 250, 255, 0.88);
+  font-size: 0.875rem;
+  text-align: left;
+  cursor: pointer;
+  transition:
+    background 0.15s ease,
+    color 0.15s ease;
+}
+
+.menuItem:hover {
+  background: rgba(99, 102, 241, 0.12);
+  color: rgba(248, 250, 255, 1);
+}
+
+.menuItemActive {
+  background: rgba(99, 102, 241, 0.16);
+  color: rgba(248, 250, 255, 1);
+}
+
+.menuItemActive:hover {
+  background: rgba(99, 102, 241, 0.2);
+}
+
+.menuItem:focus-visible {
+  outline: none;
+  background: rgba(99, 102, 241, 0.15);
+  box-shadow: 0 0 0 2px rgba(99, 102, 241, 0.4);
+}
+
+/* Compact variant for time filter items */
+.menuItemCompact {
+  padding: 8px 10px;
+}
+
+.menuItemCompact .menuItemContent {
+  padding-left: 25px;
+}
+
+.menuItemIcon {
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 20px;
+  height: 20px;
+  color: rgba(167, 139, 250, 0.8);
+  flex-shrink: 0;
+}
+
+.menuItemRunningDot {
+  position: absolute;
+  top: -2px;
+  right: -2px;
+  width: 6px;
+  height: 6px;
+  border-radius: 999px;
+  background: #34d399;
+  animation: indicatorPulse 2s ease-out infinite;
+}
+
+.menuItemContent {
+  display: flex;
+  flex-direction: column;
+  gap: 1px;
+  flex: 1;
+  min-width: 0;
+}
+
+.menuItemLabel {
+  font-weight: 500;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.menuItemDescription {
+  font-size: 0.72rem;
+  color: rgba(148, 163, 184, 0.75);
+  font-weight: 400;
+}
+
+.menuItemCheck {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 18px;
+  height: 18px;
+  color: #a78bfa;
+  flex-shrink: 0;
+}
+
+.runningBadge {
+  display: inline-flex;
+  align-items: center;
+  padding: 1px 6px;
+  border-radius: 999px;
+  background: rgba(52, 211, 153, 0.18);
+  color: #34d399;
+  font-size: 0.62rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.02em;
+}
+
+/* ─────────────────────────────────────────────────────────────
+   Light Mode Overrides
+   ───────────────────────────────────────────────────────────── */
+
+:global(body.light) .activeFilterIndicator {
+  background: var(--color-primary);
+}
+
+:global(body.light) .menu {
+  background: var(--color-popover);
+  border: 1px solid var(--color-border);
+  box-shadow:
+    0 8px 24px rgba(0, 0, 0, 0.1),
+    0 0 0 1px color-mix(in srgb, var(--color-primary) 6%, transparent);
+}
+
+:global(body.light) .menuHeader {
+  color: var(--color-muted-foreground);
+}
+
+:global(body.light) .menuDivider {
+  background: linear-gradient(
+    90deg,
+    rgba(148, 163, 184, 0.0),
+    rgba(148, 163, 184, 0.3),
+    rgba(148, 163, 184, 0.0)
+  );
+}
+
+:global(body.light) .menuItem {
+  color: var(--color-foreground);
+}
+
+:global(body.light) .menuItem:hover {
+  background: color-mix(in srgb, var(--color-primary) 8%, transparent);
+}
+
+:global(body.light) .menuItemActive {
+  background: color-mix(in srgb, var(--color-primary) 10%, transparent);
+}
+
+:global(body.light) .menuItemActive:hover {
+  background: color-mix(in srgb, var(--color-primary) 14%, transparent);
+}
+
+:global(body.light) .menuItemIcon {
+  color: var(--color-primary);
+}
+
+:global(body.light) .menuItemDescription {
+  color: var(--color-muted-foreground);
+}
+
+:global(body.light) .menuItemCheck {
+  color: var(--color-primary);
+}
+

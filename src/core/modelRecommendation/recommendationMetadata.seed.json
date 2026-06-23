@@ -1,0 +1,72 @@
+{
+  "_comment": "Reduced KW-Pareto seed artifact (Stage 1, DECISION D). Hand-transcribed from the authoritative consolidated analysis HTML so that every eval-grounded metadata row is AUDITABLE and a future refresh is a script re-derivation, not archaeology. A full extraction script that regenerates this JSON directly from the analysis run is OUT OF SCOPE for this run (tracked as a follow-up). Cost trust window: only runs >= 2026-05-14 have trustworthy cost (cache-token provenance); the 260609 frontier uses the clean post-05-14 set.",
+  "metricVersion": "compound-260514",
+  "runId": "260609_2005_knowledge_work_analysis",
+  "runDate": "2026-06-09",
+  "sourceArtifact": "Shared drives/Product/evals/analysis/260609_2005_knowledge_work_analysis.html",
+  "canonicalWindow": { "from": "2026-05-13", "to": "2026-06-09" },
+  "compoundFormula": "avg_score * pass_rate/100 (0-5 scale)",
+  "costUnit": "mean USD per fixture",
+  "configs": [
+    {
+      "catalogId": "deepseek/deepseek-v4-flash",
+      "modelVariantKey": "deepseek-v4-flash · v4-flash · v4-flash | RE:[low,low,low]",
+      "metrics": { "compound": 3.85, "meanCostUsd": 0.057, "sampleRuns": 1, "coverage": "full", "meetsMinimumCoverage": true },
+      "note": "Best value point on the 260609 frontier — ~Sonnet-class quality at ~1/7 the cost. The RE:[low,low,low] config is the strongest DeepSeek-Flash working-role configuration."
+    },
+    {
+      "catalogId": "deepseek/deepseek-v4-flash",
+      "modelVariantKey": "deepseek/v4-flash · v4-flash · v4-flash",
+      "metrics": { "compound": 2.49, "meanCostUsd": 0.039, "sampleRuns": 1, "coverage": "full", "meetsMinimumCoverage": true },
+      "note": "Frontier point (cheaper config); lower compound than the RE:[low,low,low] config. Best-config tier uses the higher 3.85."
+    },
+    {
+      "catalogId": "claude-opus-4-7",
+      "modelVariantKey": "claude-opus-4-7 · opus-4-7 · haiku-4-5",
+      "metrics": { "compound": 4.12, "meanCostUsd": 0.316, "sampleRuns": 1, "coverage": "full", "meetsMinimumCoverage": true },
+      "note": "Quality ceiling on the 260609 frontier (capable working model + cheap Haiku background — a real Pareto win)."
+    },
+    {
+      "catalogId": "claude-sonnet-4-6",
+      "modelVariantKey": "claude-sonnet-4-6 · sonnet-4-6 · sonnet-4-6",
+      "metrics": { "compound": 4.01, "meanCostUsd": 0.395, "sampleRuns": 1, "coverage": "full", "meetsMinimumCoverage": true },
+      "note": "Strong but dominated by Opus-4-7+haiku-background (higher compound at lower cost)."
+    },
+    {
+      "catalogId": "claude-haiku-4-5",
+      "modelVariantKey": "claude-haiku-4-5 · haiku-4-5 · haiku-4-5",
+      "metrics": { "compound": 1.28, "meanCostUsd": 0.05, "sampleRuns": 1, "coverage": "full", "meetsMinimumCoverage": true, "passRatePct": 38 },
+      "note": "Weak as a working model (33-43% pass) but excellent as a cheap background tier. meanCostUsd is an order-of-magnitude estimate (the analysis reported it as a cheap background point, not a precise working-model cost)."
+    },
+    {
+      "catalogId": "openai/gpt-5.5",
+      "modelVariantKey": "gpt-5.5 · gpt-5.5 · gpt-5.5",
+      "metrics": { "compound": 3.69, "meanCostUsd": 8.14, "sampleRuns": 1, "coverage": "full", "meetsMinimumCoverage": true },
+      "note": "Strong quality, dominated PURELY on raw cost (~26x the frontier). Cost domination FLIPS when the user has an effectively-free subscription (ChatGPT Pro / Mindstone) — handled at effective-cost time, not in this static quality figure."
+    },
+    {
+      "catalogId": "moonshotai/kimi-k2.6",
+      "modelVariantKey": "kimi-k2.6 · kimi-k2.6 · kimi-k2.6",
+      "metrics": { "compound": 3.5, "meanCostUsd": 0.412, "sampleRuns": 1, "coverage": "full", "meetsMinimumCoverage": true },
+      "note": "Dominated standout."
+    },
+    {
+      "catalogId": "z-ai/glm-5.1",
+      "modelVariantKey": "glm-5.1 · glm-5.1 · glm-5.1",
+      "metrics": { "compound": 2.98, "meanCostUsd": 0.202, "sampleRuns": 1, "coverage": "full", "meetsMinimumCoverage": true },
+      "note": "Dominated standout (mid quality, cheap)."
+    },
+    {
+      "catalogId": "minimax/minimax-m3",
+      "modelVariantKey": "minimax-m3 · minimax-m3 · minimax-m3",
+      "metrics": { "compound": 2.21, "meanCostUsd": 0.108, "sampleRuns": 1, "coverage": "full", "meetsMinimumCoverage": true },
+      "note": "Dominated standout (lower quality, cheap)."
+    },
+    {
+      "catalogId": "deepseek/deepseek-v4-pro",
+      "modelVariantKey": "deepseek/v4-pro · v4-pro · v4-flash",
+      "metrics": { "compound": 2.39, "meanCostUsd": 0.022, "sampleRuns": 1, "coverage": "partial", "meetsMinimumCoverage": false },
+      "note": "Cheapest frontier point but PARTIAL coverage AND high variance (a separate run scored 0.00 — a crash, NOT a quality signal, and explicitly NOT ingested here). valueClass:'frontier-partial', never plain 'frontier' (DECISION D)."
+    }
+  ]
+}

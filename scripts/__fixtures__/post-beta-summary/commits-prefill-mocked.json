@@ -1,0 +1,15 @@
+{
+  "commits": [
+    {
+      "hash": "9191919191919191919191919191919191919191",
+      "subject": "feat(home): Added a calmer launch checklist banner",
+      "body": "Gives first-run users a clear starting point."
+    },
+    {
+      "hash": "9292929292929292929292929292929292929292",
+      "subject": "fix(settings): Corrected stale toggle state after save",
+      "body": "Stops state flicker after returning to the tab."
+    }
+  ],
+  "mocked_llm_completion": "\n  \"what_youll_see\": [\n    { \"area\": \"Home\", \"change\": \"a calmer launch checklist now greets first-run users.\", \"source_indices\": [0] }\n  ],\n  \"what_we_fixed\": [\n    { \"area\": \"Settings\", \"change\": \"toggles no longer snap back to the old value after you save.\", \"source_indices\": [1] }\n  ],\n  \"worth_a_look\": []\n}"
+}

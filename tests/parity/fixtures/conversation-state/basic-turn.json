@@ -1,0 +1,34 @@
+{
+  "name": "basic-turn",
+  "input": [
+    {
+      "id": "u1",
+      "turnId": "t1",
+      "role": "user",
+      "text": "Summarize this update.",
+      "createdAt": 1001
+    },
+    {
+      "id": "a1",
+      "turnId": "t1",
+      "role": "assistant",
+      "text": "Working on it...",
+      "createdAt": 1002
+    },
+    {
+      "id": "r1",
+      "turnId": "t1",
+      "role": "result",
+      "text": "Summary complete.",
+      "createdAt": 1003
+    }
+  ],
+  "expected": {
+    "visibleIds": ["u1", "r1"],
+    "messagesByTurnIds": {
+      "t1": ["u1", "a1", "r1"]
+    },
+    "activeTurnId": null,
+    "isBusy": false
+  }
+}

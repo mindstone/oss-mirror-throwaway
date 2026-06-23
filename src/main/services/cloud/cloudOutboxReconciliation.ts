@@ -1,0 +1,2 @@
+export const DELTA_PUSH_RECONCILE_COUNT = 200;
+export const DELTA_PUSH_RECONCILE_AGE_MS = 24 * 60 * 60 * 1000;

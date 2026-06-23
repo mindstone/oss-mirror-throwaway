@@ -1,0 +1,72 @@
+/**
+ * WhySection.module.css
+ *
+ * Shared "why" explanation section styles extracted from UnifiedApprovalCard.
+ * Renders an info callout explaining why approval is needed.
+ */
+
+.section {
+  display: flex;
+  align-items: flex-start;
+  gap: 8px;
+  padding: 8px 10px;
+  border-radius: 6px;
+  background: rgba(99, 102, 241, 0.06);
+  border-left: 3px solid rgba(99, 102, 241, 0.4);
+}
+
+.icon {
+  flex-shrink: 0;
+  color: rgba(99, 102, 241, 0.7);
+  margin-top: 1px;
+}
+
+.text {
+  flex: 1;
+  font-size: 0.78rem;
+  font-style: italic;
+  color: var(--color-muted-foreground);
+  line-height: 1.4;
+}
+
+.settingsLink {
+  display: inline;
+  margin-left: 6px;
+  padding: 0;
+  font-size: 0.72rem;
+  font-style: normal;
+  font-weight: 500;
+  color: rgba(129, 140, 248, 0.85);
+  background: none;
+  border: none;
+  cursor: pointer;
+  text-decoration: underline;
+  text-decoration-style: dotted;
+  text-underline-offset: 2px;
+}
+
+.settingsLink:hover {
+  color: #a5b4fc;
+  text-decoration-style: solid;
+}
+
+/* ─────────────────────────────────────────────────────────────
+   Light Mode
+   ───────────────────────────────────────────────────────────── */
+
+:global(body.light) .section {
+  background: rgba(99, 102, 241, 0.04);
+  border-left-color: rgba(99, 102, 241, 0.5);
+}
+
+:global(body.light) .icon {
+  color: rgba(99, 102, 241, 0.6);
+}
+
+:global(body.light) .settingsLink {
+  color: #4f46e5;
+}
+
+:global(body.light) .settingsLink:hover {
+  color: #6366f1;
+}

@@ -1,0 +1,140 @@
+{
+  "fixture": "03-mission-task",
+  "steps": [
+    {
+      "index": 0,
+      "eventType": "turn_started",
+      "state": {
+        "isSending": false,
+        "streamingText": "",
+        "statusText": null,
+        "activeTurnId": "turn-1",
+        "completedSteps": [],
+        "missionContext": null,
+        "taskProgress": [],
+        "subAgentItems": [],
+        "error": null,
+        "hasMissionSet": false,
+        "touchedTaskIds": [],
+        "userQuestionEventsByTurn": {}
+      }
+    },
+    {
+      "index": 1,
+      "eventType": "tool",
+      "state": {
+        "isSending": false,
+        "streamingText": "",
+        "statusText": "Using MissionSet...",
+        "activeTurnId": "turn-1",
+        "completedSteps": [],
+        "missionContext": {
+          "goal": "Draft brief"
+        },
+        "taskProgress": [],
+        "subAgentItems": [],
+        "error": null,
+        "hasMissionSet": true,
+        "touchedTaskIds": [],
+        "userQuestionEventsByTurn": {}
+      }
+    },
+    {
+      "index": 2,
+      "eventType": "tool",
+      "state": {
+        "isSending": false,
+        "streamingText": "",
+        "statusText": null,
+        "activeTurnId": "turn-1",
+        "completedSteps": [
+          {
+            "label": "MissionSet",
+            "timestamp": 3000,
+            "toolName": "MissionSet",
+            "detail": "{\"goal\":\"Draft brief\"}"
+          }
+        ],
+        "missionContext": null,
+        "taskProgress": [],
+        "subAgentItems": [],
+        "error": null,
+        "hasMissionSet": true,
+        "touchedTaskIds": [],
+        "userQuestionEventsByTurn": {}
+      }
+    },
+    {
+      "index": 3,
+      "eventType": "tool",
+      "state": {
+        "isSending": false,
+        "streamingText": "",
+        "statusText": null,
+        "activeTurnId": "turn-1",
+        "completedSteps": [
+          {
+            "label": "MissionSet",
+            "timestamp": 3000,
+            "toolName": "MissionSet",
+            "detail": "{\"goal\":\"Draft brief\"}"
+          },
+          {
+            "label": "TaskCreate",
+            "timestamp": 4000,
+            "toolName": "TaskCreate",
+            "detail": "{\"task\":{\"id\":\"task-2\",\"title\":\"Task task-2\",\"status\":\"pending\"},\"tasks\":[{\"id\":\"task-2\",\"title\":\"Task task-2\",\"status\":\"pending\"}]}"
+          }
+        ],
+        "missionContext": null,
+        "taskProgress": [
+          {
+            "id": "task-2",
+            "title": "Task task-2",
+            "status": "pending"
+          }
+        ],
+        "subAgentItems": [],
+        "error": null,
+        "hasMissionSet": true,
+        "touchedTaskIds": [
+          "task-2"
+        ],
+        "userQuestionEventsByTurn": {}
+      }
+    },
+    {
+      "index": 4,
+      "eventType": "result",
+      "state": {
+        "isSending": false,
+        "streamingText": "",
+        "statusText": null,
+        "activeTurnId": null,
+        "completedSteps": [
+          {
+            "label": "MissionSet",
+            "timestamp": 3000,
+            "toolName": "MissionSet",
+            "detail": "{\"goal\":\"Draft brief\"}"
+          },
+          {
+            "label": "TaskCreate",
+            "timestamp": 4000,
+            "toolName": "TaskCreate",
+            "detail": "{\"task\":{\"id\":\"task-2\",\"title\":\"Task task-2\",\"status\":\"pending\"},\"tasks\":[{\"id\":\"task-2\",\"title\":\"Task task-2\",\"status\":\"pending\"}]}"
+          }
+        ],
+        "missionContext": null,
+        "taskProgress": [],
+        "subAgentItems": [],
+        "error": null,
+        "hasMissionSet": true,
+        "touchedTaskIds": [
+          "task-2"
+        ],
+        "userQuestionEventsByTurn": {}
+      }
+    }
+  ]
+}

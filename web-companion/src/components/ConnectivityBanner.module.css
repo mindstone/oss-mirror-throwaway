@@ -1,0 +1,86 @@
+.container {
+  overflow: hidden;
+  max-height: 0;
+  opacity: 0;
+  transition: max-height 240ms ease, opacity 180ms ease;
+  pointer-events: none;
+}
+
+.visible {
+  max-height: 44px;
+  opacity: 1;
+  pointer-events: auto;
+}
+
+.hidden {
+  max-height: 0;
+  opacity: 0;
+}
+
+.banner {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  min-height: 32px;
+  padding: 6px 12px;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.14);
+}
+
+.warning {
+  background: var(--color-warning, #b45309);
+  color: #fff;
+}
+
+.error {
+  background: var(--color-error);
+  color: #fff;
+}
+
+.dot {
+  width: 6px;
+  height: 6px;
+  border-radius: 999px;
+  background: currentColor;
+  opacity: 0.92;
+  flex-shrink: 0;
+}
+
+.dotPulsing {
+  animation: pulse 1.2s ease-in-out infinite;
+}
+
+.label {
+  font-size: 0.75rem;
+  line-height: 1.25;
+  font-weight: 700;
+}
+
+@keyframes pulse {
+  0%,
+  100% {
+    opacity: 1;
+    transform: scale(1);
+  }
+
+  50% {
+    opacity: 0.35;
+    transform: scale(0.9);
+  }
+}
+
+@media (prefers-color-scheme: light) {
+  .banner {
+    border-bottom-color: rgba(0, 0, 0, 0.08);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .container {
+    transition: none;
+  }
+
+  .dotPulsing {
+    animation: none;
+  }
+}

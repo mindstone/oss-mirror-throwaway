@@ -1,0 +1,78 @@
+%%{init: {'theme': 'base', 'themeVariables': { 'fontSize': '14px'}}}%%
+
+%% PROMPT TO REPRODUCE THIS DIAGRAM:
+%% Shows the "cold start gap" - the critical problem in Rebel onboarding
+%% User completes setup but The Spark (home) has nothing useful yet
+%% Creates gap between effort invested and value received
+%% Based on: docs/project/ux_testing/260127_onboarding_user_journey_map.md
+
+flowchart TB
+    subgraph Current["📊 CURRENT STATE: The Cold Start Gap"]
+        direction TB
+        
+        subgraph Setup["Setup Phase"]
+            S1["⚙️ 7-step wizard<br/><i>5-10 minutes</i>"]
+            S2["🔑 API keys, OAuth<br/><i>Trust & effort invested</i>"]
+            S3["✅ Setup complete<br/><i>User expects value NOW</i>"]
+            S1 --> S2 --> S3
+        end
+        
+        subgraph Gap["😰 THE GAP"]
+            G1["❓ What do I ask?<br/><i>No guidance</i>"]
+            G2["⏳ 5-10 min wait<br/><i>First query slow</i>"]
+            G3["📭 Empty Spark<br/><i>Cold start problem</i>"]
+        end
+        
+        subgraph Value["Value Delivery (Delayed)"]
+            V1["💡 Coaching<br/><i>Needs 24h+ of data</i>"]
+            V2["📊 Synthesis<br/><i>Needs activity</i>"]
+            V3["⚡ Workflows<br/><i>Needs personalization</i>"]
+        end
+        
+        S3 --> G1
+        G1 --> G2
+        G2 --> G3
+        G3 -.->|"Days later..."| V1
+        G3 -.->|"Days later..."| V2
+        G3 -.->|"Days later..."| V3
+    end
+    
+    subgraph Ideal["✨ IDEAL STATE: Immediate Value"]
+        direction TB
+        
+        I1["⚙️ Setup complete"]
+        I2["🎯 Guided first query<br/><i>Pre-built, guaranteed fast</i>"]
+        I3["⚡ 60-second win<br/><i>Tangible value immediately</i>"]
+        I4["🏆 Progress visible<br/><i>You just saved 5 minutes</i>"]
+        I5["📋 Clear next step<br/><i>Try this next...</i>"]
+        
+        I1 --> I2 --> I3 --> I4 --> I5
+    end
+    
+    subgraph Solutions["🔧 SOLUTIONS TO CLOSE THE GAP"]
+        direction LR
+        
+        Sol1["<b>Option A:</b><br/>Onboarding content in Spark<br/><i>Days 1-7 specific</i>"]
+        Sol2["<b>Option B:</b><br/>Separate Getting Started<br/><i>Replace Spark for new users</i>"]
+        Sol3["<b>Option C:</b><br/>Guided first session<br/><i>Dont free-type until win</i>"]
+    end
+    
+    Current -->|"Problem"| Solutions
+    Solutions -->|"Goal"| Ideal
+
+    %% Styling
+    style Current fill:#fef2f2,stroke:#dc2626,stroke-width:2px
+    style Gap fill:#fee2e2,stroke:#dc2626,stroke-width:3px
+    style Ideal fill:#dcfce7,stroke:#16a34a,stroke-width:2px
+    style Solutions fill:#dbeafe,stroke:#2563eb,stroke-width:2px
+    
+    style G1 fill:#fecaca,stroke:#dc2626
+    style G2 fill:#fecaca,stroke:#dc2626
+    style G3 fill:#fecaca,stroke:#dc2626
+    
+    style I3 fill:#86efac,stroke:#16a34a,stroke-width:2px
+    style I4 fill:#86efac,stroke:#16a34a
+    
+    style Sol1 fill:#bfdbfe,stroke:#2563eb
+    style Sol2 fill:#bfdbfe,stroke:#2563eb
+    style Sol3 fill:#bfdbfe,stroke:#2563eb

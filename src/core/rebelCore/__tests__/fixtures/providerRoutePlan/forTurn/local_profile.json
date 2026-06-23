@@ -1,0 +1,36 @@
+{
+  "description": "Local profile is credentialless local HTTP",
+  "input": {
+    "model": "profile:local-llama",
+    "settings": {
+      "activeProvider": "anthropic",
+      "models": {
+        "apiKey": "sk-ant-test",
+        "authMethod": "api-key",
+        "model": "claude-sonnet-4-6",
+        "oauthToken": null
+      },
+      "localModel": {
+        "activeProfileId": null,
+        "profiles": [
+          {
+            "createdAt": 0,
+            "id": "local-llama",
+            "model": "llama3",
+            "name": "Local Llama",
+            "providerType": "local",
+            "serverUrl": "http://localhost:11434/v1"
+          }
+        ]
+      },
+      "openRouter": {
+        "enabled": false,
+        "oauthToken": null,
+        "selectedModel": "anthropic/claude-sonnet-4.6"
+      },
+      "providerKeys": {}
+    },
+    "codexConnectivity": "unknown"
+  },
+  "name": "local_profile"
+}

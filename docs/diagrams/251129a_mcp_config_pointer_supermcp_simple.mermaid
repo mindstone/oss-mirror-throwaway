@@ -1,0 +1,52 @@
+flowchart TD
+  %% Keep labels simple (no parentheses/quotes) for mermaid-cli compatibility
+  %% High-level: how the pointer is set, where writes happen, how SuperMCP mode is chosen
+
+  subgraph Setup
+    A1[Select discovered config path<br/>example ~/.cursor/mcp.json]
+    A2[Ensure Managed Config<br/>creates userData mcp managed.json]
+    A3[Save Klavis JSON<br/>writes userData mcp klavis.json]
+  end
+
+  subgraph Pointer
+    P1[settings.mcpConfigFile points to a single file]
+  end
+
+  subgraph Writes
+    W1[Add or Remove Server<br/>or Patch Router Paths]
+    W2[Write to pointer file<br/>creates timestamped .bak]
+  end
+
+  subgraph Resolution
+    R1[resolveMcpServers reads pointer file]
+    R2{router mode detected}
+    R3[mode direct<br/>servers attached directly]
+    R4[mode super-mcp<br/>attach super-mcp-router]
+    R5[HTTP preferred via superMcpHttpManager<br/>fallback stdio]
+  end
+
+  %% Setup sets the pointer
+  A1 -->|set pointer to selected file| P1
+  A2 -->|set pointer to managed.json| P1
+  A3 -->|set pointer to klavis.json| P1
+
+  %% Mutations write to the file currently pointed at
+  P1 --> W1 --> W2
+
+  %% Resolution and transport are independent of write location
+  P1 --> R1 --> R2
+  R2 -- no --> R3
+  R2 -- yes --> R4 --> R5
+
+  %% Styles
+  classDef box fill:#f8fafc,stroke:#94a3b8,color:#0f172a;
+  classDef note fill:#fff7ed,stroke:#f59e0b,color:#7c2d12;
+  class A1,A2,A3,P1,W1,W2,R1,R2,R3,R4,R5 box;
+
+
+
+
+
+
+
+

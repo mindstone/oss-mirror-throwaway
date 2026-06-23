@@ -1,0 +1,438 @@
+/**
+ * Community Win Card
+ *
+ * Warm amber-accented card for sharing session wins.
+ * Design: Stat-card feel with hero typography.
+ * Minimal, celebratory, theme-aware.
+ */
+
+.card {
+  display: flex;
+  align-items: flex-start;
+  gap: 12px;
+  padding: 14px 16px;
+  margin: 16px 0;
+  background: rgba(245, 158, 11, 0.06);
+  border-radius: 8px;
+  position: relative;
+  animation: slideIn 0.2s ease-out;
+}
+
+@keyframes slideIn {
+  from {
+    opacity: 0;
+    transform: translateY(8px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.accent {
+  position: absolute;
+  left: 0;
+  top: 8px;
+  bottom: 8px;
+  width: 3px;
+  background: #f59e0b;
+  border-radius: 0 2px 2px 0;
+  opacity: 0.7;
+}
+
+.body {
+  flex: 1;
+  min-width: 0;
+  padding-left: 4px;
+}
+
+/* Hero stat: large, confident time-saved figure */
+.heroStat {
+  margin: 0;
+  font-size: 22px;
+  font-weight: 700;
+  line-height: 1.2;
+  color: #f59e0b;
+  letter-spacing: -0.02em;
+}
+
+.heroUnit {
+  margin: 0 0 6px;
+  font-size: 11px;
+  font-weight: 500;
+  text-transform: uppercase;
+  letter-spacing: 0.03em;
+  color: var(--color-muted-foreground, #6b7280);
+}
+
+.quip {
+  margin: 0 0 6px;
+  font-size: 13px;
+  line-height: 1.5;
+  font-style: italic;
+  color: var(--color-foreground, #1f2937);
+}
+
+.sharePrompt {
+  margin: 0 0 10px;
+  font-size: 12px;
+  line-height: 1.4;
+  color: var(--color-muted-foreground, #6b7280);
+}
+
+.actions {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  flex-wrap: wrap;
+}
+
+.primaryAction {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  padding: 6px 12px;
+  font-size: 12px;
+  font-weight: 500;
+  color: #fff;
+  background: #f59e0b;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+  transition: background 0.15s ease, transform 0.1s ease;
+}
+
+.primaryAction:hover {
+  background: #d97706;
+}
+
+.primaryAction:active {
+  transform: scale(0.98);
+}
+
+.primaryAction:disabled {
+  opacity: 0.7;
+  cursor: default;
+}
+
+.primaryAction:disabled:hover {
+  background: #f59e0b;
+}
+
+.primaryAction:disabled:active {
+  transform: none;
+}
+
+.secondaryAction {
+  padding: 6px 8px;
+  font-size: 12px;
+  font-weight: 500;
+  color: var(--color-muted-foreground, #6b7280);
+  background: none;
+  border: none;
+  cursor: pointer;
+  transition: color 0.15s ease;
+}
+
+.secondaryAction:hover {
+  color: var(--color-foreground, #1f2937);
+}
+
+.tertiaryAction {
+  padding: 4px 6px;
+  font-size: 11px;
+  font-weight: 400;
+  color: var(--color-muted-foreground, #9ca3af);
+  background: none;
+  border: none;
+  cursor: pointer;
+  transition: color 0.15s ease;
+}
+
+.tertiaryAction:hover {
+  color: var(--color-muted-foreground, #6b7280);
+}
+
+.dismiss {
+  flex-shrink: 0;
+  padding: 4px;
+  color: var(--color-muted-foreground, #9ca3af);
+  background: none;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  opacity: 0.6;
+  transition: opacity 0.15s ease, background 0.15s ease;
+}
+
+.dismiss:hover {
+  opacity: 1;
+  background: rgba(0, 0, 0, 0.05);
+}
+
+/* Preview section: composed post */
+.previewSection {
+  margin: 8px 0 10px;
+}
+
+.previewBody {
+  margin: 4px 0 8px;
+  padding: 10px 12px;
+  font-size: 12px;
+  line-height: 1.5;
+  color: var(--color-foreground, #1f2937);
+  background: rgba(245, 158, 11, 0.03);
+  border: 1px solid rgba(245, 158, 11, 0.15);
+  border-radius: 6px;
+  white-space: pre-wrap;
+  word-break: break-word;
+  max-height: 200px;
+  overflow-y: auto;
+}
+
+.previewTitle {
+  margin: 0 0 4px;
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--color-foreground, #1f2937);
+}
+
+.privacyNote {
+  margin: 0 0 8px;
+  font-size: 11px;
+  color: var(--color-muted-foreground, #9ca3af);
+  font-style: italic;
+}
+
+/* Loading dots while LLM composes */
+.loadingState {
+  display: inline-flex;
+  align-items: center;
+  gap: 3px;
+  margin-left: 4px;
+}
+
+.loadingState span {
+  display: inline-block;
+  width: 4px;
+  height: 4px;
+  border-radius: 50%;
+  background: #fff;
+  opacity: 0.6;
+  animation: loadingDot 1.4s infinite ease-in-out both;
+}
+
+.loadingState span:nth-child(1) {
+  animation-delay: 0s;
+}
+
+.loadingState span:nth-child(2) {
+  animation-delay: 0.2s;
+}
+
+.loadingState span:nth-child(3) {
+  animation-delay: 0.4s;
+}
+
+@keyframes loadingDot {
+  0%, 80%, 100% {
+    opacity: 0.3;
+    transform: scale(0.8);
+  }
+  40% {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+/* Confirmation state */
+.confirmationState {
+  margin: 0 0 8px;
+  font-size: 13px;
+  line-height: 1.5;
+  color: var(--color-foreground, #1f2937);
+}
+
+.confirmationLink {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  margin-top: 4px;
+  font-size: 12px;
+  color: #f59e0b;
+  background: none;
+  border: none;
+  padding: 0;
+  cursor: pointer;
+  transition: color 0.15s ease;
+}
+
+.confirmationLink:hover {
+  color: #d97706;
+}
+
+/* Opt-out confirmation inline message */
+.optOutConfirmation {
+  margin: 0 0 6px;
+  font-size: 12px;
+  font-style: italic;
+  color: var(--color-muted-foreground, #6b7280);
+  animation: slideIn 0.15s ease-out;
+}
+
+/* Error message */
+.errorMessage {
+  margin: 4px 0 8px;
+  font-size: 12px;
+  color: #ef4444;
+}
+
+/* Collapsed state - minimal footprint */
+.collapsed {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  margin: 16px 0;
+  padding: 6px 10px;
+  font-size: 12px;
+  color: var(--color-muted-foreground, #6b7280);
+  background: rgba(245, 158, 11, 0.04);
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+  transition: background 0.15s ease, color 0.15s ease;
+}
+
+.collapsed:hover {
+  background: rgba(245, 158, 11, 0.08);
+  color: var(--color-foreground, #374151);
+}
+
+.collapsedIcon {
+  font-size: 11px;
+}
+
+.collapsedText {
+  font-weight: 500;
+}
+
+/* ─────────────────────────────────────────────────────────────
+   Staggered Entrance
+   Share prompt + actions fade in ~1s after stat/quip appear.
+   Applied only in eligible state via .staggeredEntrance class.
+   ───────────────────────────────────────────────────────────── */
+
+.staggeredEntrance {
+  opacity: 0;
+  animation: staggeredFadeIn 0.3s ease-out 1s forwards;
+}
+
+@keyframes staggeredFadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(4px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .staggeredEntrance {
+    animation: none;
+    opacity: 1;
+  }
+}
+
+/* ─────────────────────────────────────────────────────────────
+   Dark Mode
+   ───────────────────────────────────────────────────────────── */
+
+:global(body:not(.light)) .card {
+  background: rgba(245, 158, 11, 0.08);
+}
+
+:global(body:not(.light)) .heroStat {
+  color: #fbbf24;
+}
+
+:global(body:not(.light)) .heroUnit {
+  color: rgba(255, 255, 255, 0.5);
+}
+
+:global(body:not(.light)) .quip {
+  color: rgba(255, 255, 255, 0.9);
+}
+
+:global(body:not(.light)) .sharePrompt {
+  color: rgba(255, 255, 255, 0.5);
+}
+
+:global(body:not(.light)) .secondaryAction {
+  color: rgba(255, 255, 255, 0.5);
+}
+
+:global(body:not(.light)) .secondaryAction:hover {
+  color: rgba(255, 255, 255, 0.8);
+}
+
+:global(body:not(.light)) .tertiaryAction {
+  color: rgba(255, 255, 255, 0.35);
+}
+
+:global(body:not(.light)) .tertiaryAction:hover {
+  color: rgba(255, 255, 255, 0.55);
+}
+
+:global(body:not(.light)) .dismiss {
+  color: rgba(255, 255, 255, 0.4);
+}
+
+:global(body:not(.light)) .dismiss:hover {
+  background: rgba(255, 255, 255, 0.08);
+}
+
+:global(body:not(.light)) .previewBody {
+  color: rgba(255, 255, 255, 0.9);
+  background: rgba(245, 158, 11, 0.05);
+  border-color: rgba(245, 158, 11, 0.2);
+}
+
+:global(body:not(.light)) .previewTitle {
+  color: rgba(255, 255, 255, 0.9);
+}
+
+:global(body:not(.light)) .privacyNote {
+  color: rgba(255, 255, 255, 0.4);
+}
+
+:global(body:not(.light)) .confirmationState {
+  color: rgba(255, 255, 255, 0.9);
+}
+
+:global(body:not(.light)) .confirmationLink {
+  color: #fbbf24;
+}
+
+:global(body:not(.light)) .confirmationLink:hover {
+  color: #f59e0b;
+}
+
+:global(body:not(.light)) .optOutConfirmation {
+  color: rgba(255, 255, 255, 0.5);
+}
+
+:global(body:not(.light)) .errorMessage {
+  color: #f87171;
+}
+
+:global(body:not(.light)) .collapsed {
+  background: rgba(245, 158, 11, 0.08);
+  color: rgba(255, 255, 255, 0.5);
+}
+
+:global(body:not(.light)) .collapsed:hover {
+  background: rgba(245, 158, 11, 0.12);
+  color: rgba(255, 255, 255, 0.7);
+}

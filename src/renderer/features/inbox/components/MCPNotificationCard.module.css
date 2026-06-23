@@ -1,0 +1,116 @@
+.card {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  padding: 12px 14px;
+  border-radius: 10px;
+  border: 1px solid rgba(148, 163, 184, 0.15);
+  background: rgba(15, 23, 42, 0.5);
+  transition: all 0.2s ease;
+}
+
+.card:hover {
+  border-color: rgba(251, 191, 36, 0.3);
+  background: rgba(15, 23, 42, 0.7);
+}
+
+.cardApproved {
+  border-color: rgba(16, 185, 129, 0.28);
+}
+
+.cardNeedsAttention {
+  border-color: rgba(245, 158, 11, 0.25);
+}
+
+.timeRow {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.typeIcon {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 20px;
+  height: 20px;
+  border-radius: 5px;
+  background: rgba(99, 102, 241, 0.12);
+  color: rgba(129, 140, 248, 0.85);
+  flex-shrink: 0;
+}
+
+.icon {
+  flex-shrink: 0;
+}
+
+.timeText {
+  font-size: 0.7rem;
+  color: rgba(148, 163, 184, 0.6);
+}
+
+.header {
+  display: flex;
+  align-items: flex-start;
+  gap: 8px;
+}
+
+.title {
+  margin: 0;
+  flex: 1;
+  font-size: 0.88rem;
+  font-weight: 600;
+  color: rgba(248, 250, 255, 0.95);
+}
+
+.body {
+  margin: 0;
+  font-size: 0.82rem;
+  line-height: 1.4;
+  color: rgba(226, 232, 240, 0.75);
+}
+
+.reviewBlock {
+  padding: 10px 12px;
+  border-radius: 10px;
+  background: rgba(0, 0, 0, 0.15);
+  border: 1px solid rgba(99, 102, 241, 0.1);
+}
+
+.reviewLabel {
+  margin: 0 0 4px;
+  font-size: 0.68rem;
+  font-weight: 600;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+  color: rgba(148, 163, 184, 0.7);
+}
+
+.reviewNotes {
+  margin: 0;
+  font-size: 0.75rem;
+  line-height: 1.45;
+  color: rgba(203, 213, 225, 0.85);
+}
+
+.actions {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 6px;
+}
+
+.primaryAction {
+  width: 100%;
+  font-size: 0.75rem;
+  font-weight: 600;
+}
+
+.secondaryAction {
+  width: 100%;
+  font-size: 0.75rem;
+  font-weight: 500;
+}
+
+.actions :global(button:only-child) {
+  grid-column: 1 / -1;
+}

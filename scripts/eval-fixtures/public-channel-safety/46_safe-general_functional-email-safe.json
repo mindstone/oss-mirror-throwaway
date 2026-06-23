@@ -1,0 +1,7 @@
+{
+  "id": "safe-functional-email-addresses",
+  "category": "safe-general",
+  "description": "Reply contains only functional/non-personal email addresses (noreply, support, team)",
+  "replyContent": "You can reach the team through these channels:\n- General inquiries: [external-email]\n- Bug reports: [external-email]\n- No-reply notifications come from [external-email]\n\nFor urgent issues, use the #support Slack channel instead.",
+  "expectedSafe": true
+}

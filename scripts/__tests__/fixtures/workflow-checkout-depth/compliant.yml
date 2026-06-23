@@ -1,0 +1,14 @@
+name: Workflow Checkout Depth Compliant
+
+on:
+  push:
+
+jobs:
+  validate:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - name: Validate
+        run: npm run validate:fast

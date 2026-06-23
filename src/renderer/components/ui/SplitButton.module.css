@@ -1,0 +1,326 @@
+/* SplitButton - Primary action with dropdown secondary options */
+
+.container {
+  display: inline-flex;
+  align-items: stretch;
+  border-radius: 12px;
+  overflow: hidden;
+  /* Shared background for connected visual appearance */
+  background: var(--color-primary);
+  box-shadow: 0 2px 8px rgba(109, 40, 217, 0.25);
+  transition: box-shadow 0.2s ease-out, transform 0.2s ease-out;
+}
+
+.container:hover:not(:has(button:disabled)) {
+  box-shadow: 0 8px 24px -4px rgba(109, 40, 217, 0.5);
+  transform: translateY(-0.5px);
+}
+
+/* Size variants */
+.sizeSm {
+  border-radius: 8px;
+}
+
+.sizeSm .primaryButton {
+  height: 32px;
+  padding: 0 12px;
+  font-size: 0.82rem;
+}
+
+.sizeSm .dropdownTrigger {
+  height: 32px;
+  width: 28px;
+}
+
+.sizeMd .primaryButton {
+  height: 40px;
+  padding: 0 16px;
+  font-size: 0.875rem;
+}
+
+.sizeMd .dropdownTrigger {
+  height: 40px;
+  width: 32px;
+}
+
+.sizeLg .primaryButton {
+  height: 48px;
+  padding: 0 24px;
+  font-size: 1rem;
+}
+
+.sizeLg .dropdownTrigger {
+  height: 48px;
+  width: 36px;
+}
+
+/* Primary button (left side) */
+.primaryButton {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  border: none;
+  background: transparent;
+  color: var(--color-primary-foreground);
+  font-weight: 500;
+  cursor: pointer;
+  transition: background 0.15s ease;
+  white-space: nowrap;
+}
+
+.primaryButton:hover:not(:disabled) {
+  background: rgba(255, 255, 255, 0.08);
+}
+
+.primaryButton:active:not(:disabled) {
+  background: rgba(0, 0, 0, 0.12);
+  transform: scale(0.97);
+  transition: transform 0.08s ease-out, background 0.08s ease-out;
+}
+
+.primaryButton:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+.primaryButton:focus-visible {
+  outline: none;
+  box-shadow: inset 0 0 0 2px rgba(255, 255, 255, 0.4);
+}
+
+/* Divider between buttons */
+.divider {
+  width: 1px;
+  background: rgba(255, 255, 255, 0.2);
+  align-self: stretch;
+}
+
+/* Dropdown trigger (right side) */
+.dropdownTrigger {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  border: none;
+  background: transparent;
+  color: var(--color-primary-foreground);
+  cursor: pointer;
+  transition: background 0.15s ease;
+}
+
+.dropdownTrigger:hover:not(:disabled) {
+  background: rgba(255, 255, 255, 0.12);
+}
+
+.dropdownTrigger:active:not(:disabled) {
+  background: rgba(0, 0, 0, 0.08);
+}
+
+.dropdownTrigger:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+.dropdownTrigger:focus-visible {
+  outline: none;
+  box-shadow: inset 0 0 0 2px rgba(255, 255, 255, 0.4);
+}
+
+/* Outline variant — transparent bg with border, muted text */
+.containerOutline {
+  background: transparent;
+  border: 1px solid rgba(148, 163, 184, 0.2);
+  box-shadow: none;
+}
+
+.containerOutline:hover:not(:has(button:disabled)) {
+  box-shadow: none;
+  transform: none;
+  border-color: rgba(99, 102, 241, 0.4);
+  background: rgba(99, 102, 241, 0.06);
+}
+
+.containerOutline .primaryButton {
+  color: rgba(226, 232, 240, 0.9);
+}
+
+.containerOutline .primaryButton:hover:not(:disabled) {
+  background: rgba(99, 102, 241, 0.08);
+}
+
+.containerOutline .dropdownTrigger {
+  color: rgba(226, 232, 240, 0.7);
+}
+
+.containerOutline .dropdownTrigger:hover:not(:disabled) {
+  background: rgba(99, 102, 241, 0.1);
+}
+
+.containerOutline .divider {
+  background: rgba(148, 163, 184, 0.15);
+}
+
+/* Loading state — muted appearance, no interactive lift */
+.containerLoading {
+  background: color-mix(in srgb, var(--color-primary) 80%, black);
+  pointer-events: none;
+}
+
+.containerLoading:hover {
+  box-shadow: 0 2px 8px rgba(109, 40, 217, 0.25);
+  transform: none;
+}
+
+/* Spinner (re-usable by callers via children) */
+@keyframes splitButtonSpin {
+  from { transform: rotate(0deg); }
+  to { transform: rotate(360deg); }
+}
+
+.spinner {
+  animation: splitButtonSpin 1s linear infinite;
+}
+
+/* Chevron icon */
+.chevron {
+  transition: transform 0.15s ease;
+  opacity: 0.9;
+}
+
+.chevronOpen {
+  transform: rotate(180deg);
+}
+
+/* Dropdown menu */
+.menu {
+  z-index: 9999;
+  min-width: 160px;
+  padding: 4px;
+  border-radius: 10px;
+  background: rgba(13, 17, 28, 0.98);
+  border: 1px solid rgba(148, 163, 184, 0.22);
+  box-shadow:
+    0 12px 32px rgba(2, 6, 23, 0.55),
+    0 0 0 1px rgba(99, 102, 241, 0.08);
+  backdrop-filter: blur(var(--glass-overlay-blur));
+  /* Hidden until positioned to prevent flash at top-left */
+  visibility: hidden;
+}
+
+.menu[data-positioned='true'] {
+  visibility: visible;
+  animation: menuFadeIn 120ms cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+@keyframes menuFadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(-4px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* Menu item */
+.menuItem {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  width: 100%;
+  padding: 8px 10px;
+  border: none;
+  border-radius: 6px;
+  background: transparent;
+  color: rgba(248, 250, 255, 0.88);
+  font-size: 0.82rem;
+  font-weight: 500;
+  text-align: left;
+  cursor: pointer;
+  transition:
+    background 0.15s ease,
+    color 0.15s ease;
+}
+
+.menuItem:hover,
+.menuItemFocused {
+  background: rgba(99, 102, 241, 0.12);
+  color: rgba(248, 250, 255, 1);
+}
+
+.menuItem:focus-visible {
+  outline: none;
+  background: rgba(99, 102, 241, 0.15);
+  box-shadow: 0 0 0 2px rgba(99, 102, 241, 0.4);
+}
+
+.menuItemIcon {
+  flex-shrink: 0;
+  opacity: 0.7;
+}
+
+.menuItem:hover .menuItemIcon,
+.menuItemFocused .menuItemIcon {
+  opacity: 1;
+}
+
+/* ─────────────────────────────────────────────────────────────
+   Light Mode Overrides
+   ───────────────────────────────────────────────────────────── */
+
+:global(body.light) .container {
+  box-shadow: 0 2px 8px rgba(109, 40, 217, 0.15);
+}
+
+:global(body.light) .container:hover:not(:has(button:disabled)):not(.containerLoading) {
+  box-shadow: 0 6px 20px -4px rgba(109, 40, 217, 0.35);
+}
+
+:global(body.light) .containerLoading {
+  background: color-mix(in srgb, var(--color-primary) 75%, black);
+}
+
+:global(body.light) .divider {
+  background: rgba(0, 0, 0, 0.15);
+}
+
+:global(body.light) .menu {
+  background: var(--color-popover);
+  border: 1px solid var(--color-border);
+  box-shadow:
+    0 8px 24px rgba(0, 0, 0, 0.1),
+    0 0 0 1px color-mix(in srgb, var(--color-primary) 6%, transparent);
+}
+
+:global(body.light) .menuItem {
+  color: var(--color-foreground);
+}
+
+:global(body.light) .menuItem:hover,
+:global(body.light) .menuItemFocused {
+  background: color-mix(in srgb, var(--color-primary) 8%, transparent);
+}
+
+/* Outline variant — light mode */
+:global(body.light) .containerOutline {
+  border-color: var(--color-border);
+  background: transparent;
+}
+
+:global(body.light) .containerOutline:hover:not(:has(button:disabled)) {
+  border-color: var(--color-primary);
+  background: color-mix(in srgb, var(--color-primary) 4%, transparent);
+}
+
+:global(body.light) .containerOutline .primaryButton {
+  color: var(--color-foreground);
+}
+
+:global(body.light) .containerOutline .dropdownTrigger {
+  color: var(--color-muted-foreground);
+}
+
+:global(body.light) .containerOutline .divider {
+  background: var(--color-border);
+}

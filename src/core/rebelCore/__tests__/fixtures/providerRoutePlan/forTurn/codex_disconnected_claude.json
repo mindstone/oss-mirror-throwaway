@@ -1,0 +1,27 @@
+{
+  "description": "Codex active disconnected routes Anthropic-native models to anthropic-direct when Anthropic credentials exist",
+  "input": {
+    "codexConnectivity": "disconnected",
+    "model": "claude-haiku-4-5",
+    "settings": {
+      "activeProvider": "codex",
+      "models": {
+        "apiKey": "sk-ant-linger",
+        "authMethod": "api-key",
+        "model": "claude-sonnet-4-6",
+        "oauthToken": null
+      },
+      "localModel": {
+        "activeProfileId": null,
+        "profiles": []
+      },
+      "openRouter": {
+        "enabled": false,
+        "oauthToken": null,
+        "selectedModel": "anthropic/claude-sonnet-4.6"
+      },
+      "providerKeys": {}
+    }
+  },
+  "name": "codex_disconnected_claude"
+}

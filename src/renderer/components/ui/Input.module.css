@@ -1,0 +1,100 @@
+.input {
+  width: 100%;
+  border-radius: var(--radius-md, 10px);
+  border: 1px solid var(--color-border-input, rgba(148, 163, 184, 0.15));
+  background: var(--color-background, #ffffff);
+  color: var(--color-text-primary, #0f172a);
+  font-size: 0.95rem;
+  line-height: 1.5;
+  transition:
+    border-color var(--motion-duration-fast, 120ms) ease,
+    box-shadow var(--motion-duration-fast, 120ms) ease;
+}
+
+.input:focus {
+  outline: none;
+  border-color: rgba(99, 102, 241, 0.4);
+  box-shadow: 0 0 0 3px rgba(99, 102, 241, 0.12);
+}
+
+.input:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+.input::placeholder {
+  color: var(--color-placeholder-foreground, #64748b);
+}
+
+.input--sm {
+  padding: var(--space-2, 8px) var(--space-3, 12px);
+  font-size: 0.875rem;
+}
+
+.input--md {
+  padding: var(--space-3, 12px) var(--space-4, 16px);
+  font-size: 0.95rem;
+}
+
+.input--lg {
+  padding: var(--space-4, 16px) var(--space-5, 20px);
+  font-size: 1rem;
+}
+
+.input--error {
+  border-color: var(--color-destructive, #ef4444);
+}
+
+.input--error:focus {
+  border-color: var(--color-destructive, #ef4444);
+  box-shadow: 0 0 0 3px rgba(239, 68, 68, 0.2);
+}
+
+.textarea {
+  width: 100%;
+  min-height: 88px;
+  resize: vertical;
+  padding: var(--space-3, 12px) var(--space-4, 16px);
+  border-radius: var(--radius-md, 10px);
+  border: 1px solid var(--color-border-input, rgba(148, 163, 184, 0.15));
+  background: var(--color-background, #ffffff);
+  color: var(--color-text-primary, #0f172a);
+  font-size: 0.95rem;
+  line-height: 1.5;
+  font-family: inherit;
+  transition:
+    border-color var(--motion-duration-fast, 120ms) ease,
+    box-shadow var(--motion-duration-fast, 120ms) ease;
+}
+
+.textarea:focus {
+  outline: none;
+  border-color: rgba(99, 102, 241, 0.4);
+  box-shadow: 0 0 0 3px rgba(99, 102, 241, 0.12);
+}
+
+.textarea:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+.textarea::placeholder {
+  color: var(--color-placeholder-foreground, #64748b);
+}
+
+.textarea--error {
+  border-color: var(--color-destructive, #ef4444);
+}
+
+.textarea--error:focus {
+  border-color: var(--color-destructive, #ef4444);
+  box-shadow: 0 0 0 3px rgba(239, 68, 68, 0.2);
+}
+
+.label {
+  display: block;
+  font-size: 0.875rem;
+  font-weight: 500;
+  color: var(--color-text-primary, #0f172a);
+  margin-bottom: var(--space-2, 8px);
+}

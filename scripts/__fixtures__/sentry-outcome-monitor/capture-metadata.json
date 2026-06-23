@@ -1,0 +1,29 @@
+{
+  "captured_at": "2026-06-11T18:55:46.567Z",
+  "windows": {
+    "error-train-30d.json": {
+      "start": "2026-05-12T18:00:00Z",
+      "end": "2026-06-11T19:00:00Z",
+      "intervals": 721,
+      "groups": 9
+    },
+    "error-holdout-30d.json": {
+      "start": "2026-04-12T18:00:00Z",
+      "end": "2026-05-12T19:00:00Z",
+      "intervals": 721,
+      "groups": 8
+    },
+    "attachment-train-30d.json": {
+      "start": "2026-05-12T18:00:00Z",
+      "end": "2026-06-11T19:00:00Z",
+      "intervals": 721,
+      "groups": 8
+    },
+    "attachment-holdout-30d.json": {
+      "start": "2026-04-12T18:00:00Z",
+      "end": "2026-05-12T19:00:00Z",
+      "intervals": 721,
+      "groups": 6
+    }
+  }
+}

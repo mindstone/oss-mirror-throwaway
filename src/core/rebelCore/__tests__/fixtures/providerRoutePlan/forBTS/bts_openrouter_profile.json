@@ -1,0 +1,38 @@
+{
+  "description": "BTS OpenRouter profile direct compatible HTTP",
+  "input": {
+    "model": "profile:or-profile",
+    "settings": {
+      "activeProvider": "anthropic",
+      "models": {
+        "apiKey": "sk-ant-test",
+        "authMethod": "api-key",
+        "model": "claude-sonnet-4-6",
+        "oauthToken": null
+      },
+      "localModel": {
+        "activeProfileId": null,
+        "profiles": [
+          {
+            "createdAt": 0,
+            "id": "or-profile",
+            "model": "anthropic/claude-sonnet-4.6",
+            "name": "Or Profile",
+            "providerType": "openrouter",
+            "serverUrl": "https://openrouter.ai/api/v1"
+          }
+        ]
+      },
+      "openRouter": {
+        "enabled": false,
+        "oauthToken": null,
+        "selectedModel": "anthropic/claude-sonnet-4.6"
+      },
+      "providerKeys": {
+        "openrouter": "sk-or-profile"
+      }
+    },
+    "codexConnectivity": "unknown"
+  },
+  "name": "bts_openrouter_profile"
+}

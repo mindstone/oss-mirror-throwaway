@@ -1,0 +1,206 @@
+/* SettingRow — two-column grid so labels and controls align consistently.
+   Labels sit in the left column, controls left-align in the right column.
+   Checkboxes stay close, selects/inputs start at a predictable position. */
+
+.row {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  align-items: start;
+  gap: var(--space-4);
+  padding: var(--space-2) 0;
+  border-bottom: 1px solid var(--color-border-soft);
+}
+
+.row:last-child {
+  border-bottom: none;
+}
+
+/* Stacked variant: single column, full width */
+.rowStacked {
+  grid-template-columns: 1fr;
+}
+
+/* Responsive: stack on narrow screens for default variant */
+@media (max-width: 600px) {
+  .row:not(.rowStacked) {
+    grid-template-columns: 1fr;
+  }
+}
+
+/* Left side: label + description */
+.labelGroup {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  min-width: 0;
+}
+
+.labelRow {
+  display: flex;
+  align-items: center;
+  gap: var(--space-2);
+}
+
+.label {
+  font-size: 0.875rem;
+  font-weight: 500;
+  color: var(--color-text-primary);
+  cursor: default;
+}
+
+/* When htmlFor is set, label is clickable */
+.labelClickable {
+  cursor: pointer;
+}
+
+.description {
+  font-size: 0.8rem;
+  color: var(--color-text-secondary);
+  line-height: 1.4;
+  margin: 0;
+}
+
+.tooltipIcon {
+  display: inline-flex;
+  align-items: center;
+  color: var(--color-text-muted);
+  opacity: 0.6;
+  cursor: help;
+  transition: opacity 150ms ease;
+}
+
+.tooltipIcon:hover {
+  opacity: 1;
+}
+
+/* Right side: control — left-aligned within its grid column so small
+   controls (checkboxes) sit close, while larger ones (selects) stretch */
+.control {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: var(--space-1);
+  min-width: 0;
+}
+
+/* Inputs and selects fill the control column width */
+.control input,
+.control select,
+.control textarea {
+  width: 100%;
+  box-sizing: border-box;
+}
+
+/* Raw form controls inside SettingRow need explicit chrome because the global
+   reset removes native borders/backgrounds. Shared UI components already bring
+   their own styles via class names, so only patch unclassed native controls. */
+.control input:not([type="checkbox"]):not([type="radio"]):not([class]),
+.control select:not([class]),
+.control textarea:not([class]) {
+  border-radius: var(--radius-md, 10px);
+  border: 1px solid var(--color-border-input, rgba(15, 23, 42, 0.18));
+  background: var(--color-background, #ffffff);
+  color: var(--color-text-primary, #0f172a);
+  font-size: 0.95rem;
+  line-height: 1.5;
+  transition:
+    border-color var(--motion-duration-fast, 120ms) ease,
+    box-shadow var(--motion-duration-fast, 120ms) ease;
+}
+
+.control input:not([type="checkbox"]):not([type="radio"]):not([class]),
+.control select:not([class]) {
+  min-height: 42px;
+  padding: var(--space-3, 12px) var(--space-4, 16px);
+}
+
+.control textarea:not([class]) {
+  min-height: 88px;
+  padding: var(--space-3, 12px) var(--space-4, 16px);
+  resize: vertical;
+  font-family: inherit;
+}
+
+.control select:not([class]) {
+  cursor: pointer;
+}
+
+.control input:not([type="checkbox"]):not([type="radio"]):not([class])::placeholder,
+.control textarea:not([class])::placeholder {
+  color: var(--color-placeholder-foreground, #64748b);
+}
+
+.control input:not([type="checkbox"]):not([type="radio"]):not([class]):focus,
+.control select:not([class]):focus,
+.control textarea:not([class]):focus {
+  outline: none;
+  border-color: var(--color-ring, #a78bfa);
+  box-shadow: 0 0 0 3px rgba(167, 139, 250, 0.2);
+}
+
+.control input:not([type="checkbox"]):not([type="radio"]):not([class]):disabled,
+.control select:not([class]):disabled,
+.control textarea:not([class]):disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+/* Toggle-switch styling for checkboxes — provides clear on/off visual */
+.control input[type="checkbox"] {
+  appearance: none;
+  -webkit-appearance: none;
+  width: 36px;
+  height: 20px;
+  min-width: 36px;
+  border-radius: 999px;
+  background: rgba(148, 163, 184, 0.25);
+  position: relative;
+  cursor: pointer;
+  transition: background 0.2s ease;
+  padding: 0;
+  border: none;
+}
+
+.control input[type="checkbox"]::after {
+  content: '';
+  position: absolute;
+  top: 2px;
+  left: 2px;
+  width: 16px;
+  height: 16px;
+  border-radius: 50%;
+  background: #fff;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.2);
+  transition: transform 0.2s ease;
+}
+
+.control input[type="checkbox"]:checked {
+  background: var(--color-primary, #6366f1);
+}
+
+.control input[type="checkbox"]:checked::after {
+  transform: translateX(16px);
+}
+
+.control input[type="checkbox"]:focus-visible {
+  outline: none;
+  box-shadow: 0 0 0 2px rgba(99, 102, 241, 0.4);
+}
+
+.control input[type="checkbox"]:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+:global(body.light) .control input[type="checkbox"] {
+  background: rgba(148, 163, 184, 0.3);
+}
+
+:global(body.light) .control input[type="checkbox"]::after {
+  background: #fff;
+  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.12);
+}
+
+:global(body.light) .control input[type="checkbox"]:checked {
+  background: var(--color-primary, #6366f1);
+}

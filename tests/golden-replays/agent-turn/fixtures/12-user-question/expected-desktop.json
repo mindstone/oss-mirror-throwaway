@@ -1,0 +1,83 @@
+{
+  "fixture": "12-user-question",
+  "steps": [
+    {
+      "index": 0,
+      "eventType": "turn_started",
+      "state": {
+        "messages": [],
+        "activeTurnId": "turn-1",
+        "isBusy": true,
+        "lastError": null,
+        "runtime": {
+          "activeTurnId": "turn-1",
+          "terminated": false
+        }
+      }
+    },
+    {
+      "index": 1,
+      "eventType": "user_question",
+      "state": {
+        "messages": [],
+        "activeTurnId": "turn-1",
+        "isBusy": true,
+        "lastError": null,
+        "runtime": {
+          "activeTurnId": "turn-1",
+          "terminated": false
+        }
+      }
+    },
+    {
+      "index": 2,
+      "eventType": "user_question_answered",
+      "state": {
+        "messages": [],
+        "activeTurnId": "turn-1",
+        "isBusy": true,
+        "lastError": null,
+        "runtime": {
+          "activeTurnId": "turn-1",
+          "terminated": false
+        }
+      }
+    },
+    {
+      "index": 3,
+      "eventType": "user_question_answered",
+      "state": {
+        "messages": [],
+        "activeTurnId": "turn-1",
+        "isBusy": true,
+        "lastError": null,
+        "runtime": {
+          "activeTurnId": "turn-1",
+          "terminated": false
+        }
+      }
+    },
+    {
+      "index": 4,
+      "eventType": "result",
+      "state": {
+        "messages": [
+          {
+            "turnId": "turn-1",
+            "role": "result",
+            "text": "Processed everything. Had a follow-up for you.",
+            "isWarning": false,
+            "isHidden": false
+          }
+        ],
+        "activeTurnId": null,
+        "isBusy": false,
+        "lastError": null,
+        "runtime": {
+          "activeTurnId": null,
+          "terminated": true
+        }
+      }
+    }
+  ]
+}

@@ -1,0 +1,300 @@
+/**
+ * CoachingInsightsSection - Styles for coaching insights in The Spark
+ * 
+ * Design: Glass card with insight as hero text, hover-reveal actions.
+ * Matches UseCasesPanel card styling for visual consistency.
+ */
+
+/* ─────────────────────────────────────────────────────────────
+   Section Container
+   ───────────────────────────────────────────────────────────── */
+
+.section {
+  margin-bottom: 40px;
+}
+
+/* ─────────────────────────────────────────────────────────────
+   Section Header - "Upon reflection"
+   ───────────────────────────────────────────────────────────── */
+
+.sectionHeader {
+  margin-bottom: 16px;
+}
+
+.sectionTitle {
+  margin: 0 0 4px;
+  font-size: 1rem;
+  font-weight: 600;
+  color: rgba(248, 250, 255, 0.95);
+}
+
+.sectionSubtitle {
+  margin: 0;
+  font-size: 0.85rem;
+  color: rgba(148, 163, 184, 0.7);
+  font-style: italic;
+}
+
+/* ─────────────────────────────────────────────────────────────
+   Insights List
+   ───────────────────────────────────────────────────────────── */
+
+.insightsList {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  margin-bottom: 40px;
+}
+
+/* ─────────────────────────────────────────────────────────────
+   Insight Card - Glass card matching UseCasesPanel .card
+   ───────────────────────────────────────────────────────────── */
+
+.insightCard {
+  position: relative;
+  padding: 20px 24px;
+  background: transparent;
+  border: none;
+  border-radius: 0;
+  border-left: 2px solid rgba(148, 163, 184, 0.2);
+  padding-left: 20px;
+  cursor: default;
+  transition: border-color 0.2s ease;
+  animation: slideIn 0.2s ease-out;
+}
+
+.insightCard:hover {
+  border-left-color: rgba(99, 102, 241, 0.5);
+}
+
+.insightCard:focus-visible {
+  outline: 2px solid rgba(99, 179, 237, 0.6);
+  outline-offset: 2px;
+}
+
+@keyframes slideIn {
+  from {
+    opacity: 0;
+    transform: translateY(8px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* ─────────────────────────────────────────────────────────────
+   Insight Text - Hero element
+   ───────────────────────────────────────────────────────────── */
+
+.insightText {
+  margin: 0 0 12px;
+  font-size: 1rem;
+  line-height: 1.6;
+  font-weight: 500;
+  color: rgba(248, 250, 255, 0.95);
+}
+
+/* ─────────────────────────────────────────────────────────────
+   Source Line - Session title and timestamp
+   ───────────────────────────────────────────────────────────── */
+
+.source {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 0.8rem;
+  color: rgba(148, 163, 184, 0.7);
+  transition: opacity 0.18s ease;
+}
+
+.sessionTitle {
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  max-width: 280px;
+}
+
+.separator {
+  flex-shrink: 0;
+}
+
+.timestamp {
+  flex-shrink: 0;
+}
+
+/* ─────────────────────────────────────────────────────────────
+   Actions - Simple inline
+   ───────────────────────────────────────────────────────────── */
+
+.actions {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-top: 12px;
+}
+
+.primaryAction {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  padding: 6px 12px;
+  font-size: 0.8rem;
+  font-weight: 500;
+  color: rgba(99, 102, 241, 0.9);
+  background: rgba(99, 102, 241, 0.1);
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+  transition: all 0.15s ease;
+}
+
+.primaryAction:hover {
+  color: rgba(99, 102, 241, 1);
+  background: rgba(99, 102, 241, 0.15);
+}
+
+.dismissAction {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 6px;
+  color: rgba(148, 163, 184, 0.5);
+  background: transparent;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  transition: color 0.15s ease;
+}
+
+.dismissAction:hover {
+  color: rgba(148, 163, 184, 0.8);
+}
+
+/* ─────────────────────────────────────────────────────────────
+   Feedback Actions (Thumbs)
+   ───────────────────────────────────────────────────────────── */
+
+.feedbackActions {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  margin-left: auto;
+  padding-left: 8px;
+  border-left: 1px solid rgba(148, 163, 184, 0.15);
+}
+
+.thumbsButton {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 4px;
+  color: rgba(148, 163, 184, 0.4);
+  background: transparent;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  transition: all 0.15s ease;
+}
+
+.thumbsButton:hover {
+  color: rgba(148, 163, 184, 0.8);
+  background: rgba(148, 163, 184, 0.1);
+}
+
+/* ─────────────────────────────────────────────────────────────
+   Expand Button
+   ───────────────────────────────────────────────────────────── */
+
+.expandButton {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 10px 14px;
+  font-size: 0.8rem;
+  font-weight: 500;
+  color: rgba(148, 163, 184, 0.8);
+  background: rgba(255, 255, 255, 0.04);
+  border: 1px dashed rgba(148, 163, 184, 0.25);
+  border-radius: 12px;
+  cursor: pointer;
+  transition: all 0.15s ease;
+  align-self: flex-start;
+}
+
+.expandButton:hover {
+  color: rgba(248, 250, 255, 0.9);
+  background: rgba(255, 255, 255, 0.08);
+  border-color: rgba(99, 179, 237, 0.4);
+}
+
+/* ─────────────────────────────────────────────────────────────
+   Light Mode
+   ───────────────────────────────────────────────────────────── */
+
+:global(body.light) .insightCard {
+  border-left-color: rgba(148, 163, 184, 0.25);
+}
+
+:global(body.light) .insightCard:hover {
+  border-left-color: rgba(99, 102, 241, 0.5);
+}
+
+:global(body.light) .insightText {
+  color: var(--color-foreground);
+}
+
+:global(body.light) .source {
+  color: var(--color-muted-foreground);
+}
+
+:global(body.light) .dismissAction {
+  color: rgba(148, 163, 184, 0.5);
+}
+
+:global(body.light) .dismissAction:hover {
+  color: var(--color-muted-foreground);
+}
+
+:global(body.light) .primaryAction {
+  color: rgba(99, 102, 241, 0.85);
+  background: rgba(99, 102, 241, 0.08);
+}
+
+:global(body.light) .primaryAction:hover {
+  color: rgba(99, 102, 241, 1);
+  background: rgba(99, 102, 241, 0.12);
+}
+
+:global(body.light) .expandButton {
+  color: var(--color-muted-foreground);
+  background: rgba(0, 0, 0, 0.02);
+  border-color: rgba(148, 163, 184, 0.25);
+}
+
+:global(body.light) .expandButton:hover {
+  color: var(--color-foreground);
+  background: rgba(0, 0, 0, 0.04);
+  border-color: rgba(99, 102, 241, 0.3);
+}
+
+:global(body.light) .sectionTitle {
+  color: var(--color-foreground);
+}
+
+:global(body.light) .sectionSubtitle {
+  color: var(--color-muted-foreground);
+}
+
+:global(body.light) .feedbackActions {
+  border-left-color: rgba(148, 163, 184, 0.2);
+}
+
+:global(body.light) .thumbsButton {
+  color: rgba(148, 163, 184, 0.5);
+}
+
+:global(body.light) .thumbsButton:hover {
+  color: var(--color-muted-foreground);
+  background: rgba(0, 0, 0, 0.04);
+}

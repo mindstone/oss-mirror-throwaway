@@ -1,0 +1,204 @@
+.issuesTab {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  padding: 4px 0;
+}
+
+/* ------------------------------------------------------------------ */
+/* Section containers                                                  */
+/* ------------------------------------------------------------------ */
+
+.section {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.sectionHeading {
+  margin: 0;
+  font-size: 0.82rem;
+  font-weight: 600;
+  color: var(--color-text-secondary);
+  letter-spacing: 0.03em;
+  text-transform: uppercase;
+}
+
+/* ------------------------------------------------------------------ */
+/* Summary card                                                        */
+/* ------------------------------------------------------------------ */
+
+.summaryCard {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 14px 16px;
+  border-radius: 12px;
+  border: 1px solid rgba(148, 163, 184, 0.2);
+  background: rgba(248, 250, 252, 0.74);
+}
+
+.summaryCardClean {
+  border-color: rgba(34, 197, 94, 0.22);
+  background: rgba(240, 253, 244, 0.42);
+}
+
+.summaryCardIssues {
+  border-color: rgba(239, 68, 68, 0.22);
+  background: rgba(254, 242, 242, 0.42);
+}
+
+.summaryIcon {
+  flex-shrink: 0;
+}
+
+.summaryIconClean {
+  color: rgba(34, 197, 94, 0.72);
+}
+
+.summaryIconIssues {
+  color: rgba(239, 68, 68, 0.72);
+}
+
+.summaryText {
+  margin: 0;
+  font-size: 0.92rem;
+  font-weight: 600;
+  color: var(--color-text-primary);
+}
+
+.summaryBreakdown {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin-left: auto;
+}
+
+/* ------------------------------------------------------------------ */
+/* Issues list                                                         */
+/* ------------------------------------------------------------------ */
+
+.issuesList {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.issueItem {
+  display: flex;
+  align-items: flex-start;
+  gap: 10px;
+  padding: 10px 14px;
+  border-radius: 10px;
+  border: 1px solid rgba(148, 163, 184, 0.18);
+  background: rgba(255, 255, 255, 0.82);
+  cursor: pointer;
+  transition: background 0.15s ease;
+}
+
+.issueItem:hover {
+  background: rgba(248, 250, 252, 0.92);
+}
+
+.issueItemError {
+  border-color: rgba(239, 68, 68, 0.22);
+}
+
+.issueItemWarning {
+  border-color: rgba(234, 179, 8, 0.22);
+}
+
+.issueHeader {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  flex: 1;
+  min-width: 0;
+}
+
+.issueTimestamp {
+  flex-shrink: 0;
+  font-size: 0.72rem;
+  color: var(--color-text-muted);
+}
+
+.issueTurnBadge {
+  flex-shrink: 0;
+}
+
+.issueDescription {
+  flex: 1;
+  min-width: 0;
+  font-size: 0.84rem;
+  color: var(--color-text-primary);
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.issueExpandIcon {
+  flex-shrink: 0;
+  font-size: 0.72rem;
+  color: var(--color-text-muted);
+  transition: transform 0.15s ease;
+}
+
+.issueExpandIconOpen {
+  transform: rotate(90deg);
+}
+
+.issueDetail {
+  padding: 8px 14px 4px 38px;
+  font-size: 0.78rem;
+  color: var(--color-text-secondary);
+  line-height: 1.5;
+  word-break: break-word;
+  white-space: pre-wrap;
+}
+
+/* ------------------------------------------------------------------ */
+/* Empty state                                                         */
+/* ------------------------------------------------------------------ */
+
+.emptyState {
+  padding: 32px 16px;
+  text-align: center;
+  color: var(--color-text-muted);
+  font-size: 0.88rem;
+}
+
+/* ------------------------------------------------------------------ */
+/* Dark mode                                                           */
+/* ------------------------------------------------------------------ */
+
+:global(.dark) .summaryCard {
+  border-color: rgba(148, 163, 184, 0.22);
+  background: rgba(2, 6, 23, 0.62);
+}
+
+:global(.dark) .summaryCardClean {
+  border-color: rgba(34, 197, 94, 0.32);
+  background: rgba(5, 46, 22, 0.28);
+}
+
+:global(.dark) .summaryCardIssues {
+  border-color: rgba(239, 68, 68, 0.32);
+  background: rgba(127, 29, 29, 0.22);
+}
+
+:global(.dark) .issueItem {
+  background: rgba(15, 23, 42, 0.78);
+  border-color: rgba(148, 163, 184, 0.22);
+}
+
+:global(.dark) .issueItem:hover {
+  background: rgba(15, 23, 42, 0.92);
+}
+
+:global(.dark) .issueItemError {
+  border-color: rgba(239, 68, 68, 0.32);
+}
+
+:global(.dark) .issueItemWarning {
+  border-color: rgba(234, 179, 8, 0.32);
+}

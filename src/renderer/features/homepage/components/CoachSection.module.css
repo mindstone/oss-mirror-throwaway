@@ -1,0 +1,723 @@
+/**
+ * CoachSection — Branded Rebel Coach card
+ *
+ * One card wrapping the Coach column. Rebel mascot aligned with header.
+ * Single carousel card visible at a time — insights, hero choices, and
+ * suggestions share the same card frame with type-differentiated accents.
+ */
+
+/* ─────────────────────────────────────────────────────────────
+   Coach Card — the single branded container
+   ───────────────────────────────────────────────────────────── */
+
+.coachCard {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+  min-height: 0;
+  gap: 16px;
+  padding: 20px 22px 24px;
+  background: rgba(255, 255, 255, 0.025);
+  border: 1px solid rgba(148, 163, 184, 0.08);
+  border-radius: 14px;
+}
+
+/* ─────────────────────────────────────────────────────────────
+   Rebel Mascot — aligned with header (title → subtitle)
+   ───────────────────────────────────────────────────────────── */
+
+.mascot {
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  width: 64px;
+  height: 64px;
+  object-fit: contain;
+  opacity: 0.25;
+  pointer-events: none;
+  user-select: none;
+  animation: mascotFloat 4s ease-in-out infinite;
+  clip-path: inset(0);
+}
+
+@keyframes mascotFloat {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(-4px); }
+}
+
+/* ─────────────────────────────────────────────────────────────
+   Card Header — title + subtitle (mascot sits beside these)
+   ───────────────────────────────────────────────────────────── */
+
+.cardHeader {
+  position: relative;
+  z-index: 1;
+  padding-right: 56px; /* space for mascot */
+}
+
+.cardTitle {
+  margin: 0;
+  font-size: 0.9rem;
+  font-weight: 600;
+  color: rgba(248, 250, 255, 0.95);
+}
+
+.cardSubtitle {
+  margin: 4px 0 0;
+  font-size: 0.78rem;
+  color: rgba(148, 163, 184, 0.85);
+  line-height: 1.5;
+}
+
+/* ─────────────────────────────────────────────────────────────
+   Unified Carousel — one card at a time
+   ───────────────────────────────────────────────────────────── */
+
+.carouselArea {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  flex: 1;
+  min-height: 0;
+  overflow: hidden;
+}
+
+.carouselCard {
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+  min-height: 0;
+  padding: 14px 16px;
+  background: rgba(255, 255, 255, 0.03);
+  border: 1px solid rgba(148, 163, 184, 0.08);
+  border-radius: 10px;
+  transition: transform 0.2s ease, box-shadow 0.2s ease, border-color 0.2s ease, background 0.15s ease;
+  animation: slideInRight 0.25s ease-out;
+}
+
+.carouselCard:hover {
+  border-color: rgba(148, 163, 184, 0.12);
+  background: rgba(255, 255, 255, 0.05);
+  transform: scale(1.005);
+  box-shadow: 0 2px 12px rgba(0, 0, 0, 0.12);
+}
+
+/* Slide animations for carousel direction */
+@keyframes slideInRight {
+  from { opacity: 0; transform: translateX(12px); }
+  to { opacity: 1; transform: translateX(0); }
+}
+
+@keyframes slideInLeft {
+  from { opacity: 0; transform: translateX(-12px); }
+  to { opacity: 1; transform: translateX(0); }
+}
+
+.carouselCard[data-direction="prev"] {
+  animation: slideInLeft 0.25s ease-out;
+}
+
+/* Urgent meeting_prep — subtle background tint only */
+.carouselCard[data-urgent="true"] {
+  background: rgba(245, 158, 11, 0.03);
+}
+
+/* ─────────────────────────────────────────────────────────────
+   Type Badge — pill with accent-tinted background
+   ───────────────────────────────────────────────────────────── */
+
+.heroBadgeRow {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  margin-bottom: 6px;
+}
+
+.typeBadge {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  font-size: 0.72rem;
+  font-weight: 600;
+  letter-spacing: 0.01em;
+  color: rgba(148, 163, 184, 0.85);
+  background: rgba(148, 163, 184, 0.08);
+  padding: 2px 8px;
+  border-radius: 99px;
+  width: fit-content;
+}
+
+.heroBadgeRow .settingsLink,
+.heroBadgeRow .dismissBtn {
+  margin-left: 0;
+}
+
+.heroBadgeRow .settingsLink {
+  margin-left: auto;
+}
+
+/* Badge accent colours by hero type */
+.typeBadge[data-type="meeting_prep"] {
+  color: rgba(245, 158, 11, 0.9);
+  background: rgba(245, 158, 11, 0.1);
+}
+
+.typeBadge[data-type="coaching"] {
+  color: rgba(20, 184, 166, 0.9);
+  background: rgba(20, 184, 166, 0.1);
+}
+
+.typeBadge[data-type="improvement"] {
+  color: rgba(99, 102, 241, 0.9);
+  background: rgba(99, 102, 241, 0.1);
+}
+
+.typeBadge[data-type="use_case"] {
+  color: rgba(139, 92, 246, 0.9);
+  background: rgba(139, 92, 246, 0.1);
+}
+
+.typeBadge[data-type="insight"] {
+  color: rgba(245, 158, 11, 0.9);
+  background: rgba(245, 158, 11, 0.1);
+}
+
+.typeBadge[data-urgent="true"] {
+  color: rgba(245, 158, 11, 0.95);
+  background: rgba(245, 158, 11, 0.12);
+}
+
+/* ─────────────────────────────────────────────────────────────
+   Carousel Card Content — shared by all card types
+   ───────────────────────────────────────────────────────────── */
+
+.cardItemHeader {
+  display: flex;
+  align-items: flex-start;
+  gap: 8px;
+  margin-bottom: 4px;
+}
+
+.cardItemHeader .cardItemTitle {
+  margin: 0;
+}
+
+.cardItemTitle {
+  margin: 0 0 4px;
+  font-size: 0.85rem;
+  font-weight: 600;
+  color: rgba(248, 250, 255, 0.92);
+  flex: 1;
+  min-width: 0;
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.insightTypeIcon {
+  float: left;
+  margin-right: 5px;
+  margin-top: 5px;
+  color: rgba(248, 250, 255, 0.92);
+}
+
+.cardItemSource {
+  margin: 0 0 4px;
+  font-size: 0.7rem;
+  color: rgba(148, 163, 184, 0.78);
+  font-weight: 500;
+}
+
+/* Description: improved readability with gradient fade */
+.cardItemDescription {
+  position: relative;
+  margin: 0 0 10px;
+  font-size: 0.78rem;
+  line-height: 1.65;
+  color: rgba(148, 163, 184, 0.82);
+  flex: 1;
+  min-height: 0;
+  overflow-y: auto;
+  padding-right: 2px;
+  scrollbar-gutter: stable;
+  mask-image: linear-gradient(to bottom, black 85%, transparent 100%);
+  -webkit-mask-image: linear-gradient(to bottom, black 85%, transparent 100%);
+}
+
+.carouselCard[data-kind="suggestion"] .cardItemDescription,
+.carouselCard[data-kind="hero-prompt"] .cardItemDescription {
+  flex: 0 0 auto;
+  min-height: auto;
+  overflow: visible;
+  mask-image: none;
+  -webkit-mask-image: none;
+}
+
+/* Footer: date (optional) + actions — pinned to bottom */
+.cardItemFooter {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-top: auto;
+}
+
+.cardItemDate {
+  font-size: 0.72rem;
+  color: rgba(148, 163, 184, 0.78);
+  flex-shrink: 0;
+}
+
+.dateLink {
+  font-size: 0.72rem;
+  color: rgba(148, 163, 184, 0.78);
+  text-decoration: underline;
+  text-underline-offset: 2px;
+  background: transparent;
+  border: none;
+  padding: 0;
+  cursor: pointer;
+  flex-shrink: 0;
+  transition: color 0.15s ease;
+}
+
+.dateLink:hover {
+  color: rgba(148, 163, 184, 0.9);
+}
+
+.footerDivider {
+  width: 1px;
+  height: 12px;
+  background: rgba(148, 163, 184, 0.15);
+  flex-shrink: 0;
+}
+
+/* ─────────────────────────────────────────────────────────────
+   Action Buttons — strong CTA, subtle secondary
+   ───────────────────────────────────────────────────────────── */
+
+.actionCta {
+  font-weight: 600;
+}
+
+.actionCtaPrimary {
+  margin-left: auto;
+}
+
+.dismissBtn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  padding: 4px;
+  color: rgba(148, 163, 184, 0.3);
+  background: transparent;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  transition: color 0.15s ease, background 0.15s ease;
+}
+
+.dismissBtn:hover {
+  color: rgba(148, 163, 184, 0.75);
+  background: rgba(148, 163, 184, 0.06);
+}
+
+.feedbackGroup {
+  display: flex;
+  align-items: center;
+  gap: 2px;
+  margin-left: 2px;
+}
+
+.thumbBtn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 4px;
+  color: rgba(148, 163, 184, 0.25);
+  background: transparent;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  transition: all 0.15s ease;
+}
+
+.thumbBtn:hover {
+  color: rgba(148, 163, 184, 0.7);
+  background: rgba(148, 163, 184, 0.06);
+}
+
+.thumbBtn[data-active="true"] {
+  color: rgba(99, 102, 241, 0.85);
+  animation: thumbPulse 0.2s ease-out;
+}
+
+@keyframes thumbPulse {
+  0% { transform: scale(1); }
+  50% { transform: scale(1.2); }
+  100% { transform: scale(1); }
+}
+
+/* ─────────────────────────────────────────────────────────────
+   Carousel Navigation — dots + arrows
+   ───────────────────────────────────────────────────────────── */
+
+.carouselNav {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+}
+
+.carouselBtn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 4px;
+  color: rgba(148, 163, 184, 0.5);
+  background: transparent;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  transition: color 0.15s ease;
+}
+
+.carouselBtn:hover:not(:disabled) {
+  color: rgba(148, 163, 184, 0.9);
+}
+
+.carouselBtn:disabled {
+  opacity: 0.3;
+  cursor: default;
+}
+
+.carouselDots {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+}
+
+.carouselDot {
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: rgba(148, 163, 184, 0.2);
+  border: none;
+  padding: 0;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.carouselDot[data-active="true"] {
+  background: rgba(99, 102, 241, 0.7);
+  transform: scale(1.3);
+}
+
+.carouselDot:hover:not([data-active="true"]) {
+  background: rgba(148, 163, 184, 0.4);
+}
+
+/* Hidden visually — kept for screen readers */
+.carouselIndicator {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border: 0;
+}
+
+/* ─────────────────────────────────────────────────────────────
+   Minimal state — compact
+   ───────────────────────────────────────────────────────────── */
+
+.coachCard[data-size="minimal"] {
+  padding: 16px 18px 20px;
+  gap: 12px;
+}
+
+.coachCard[data-size="minimal"] .carouselCard {
+  padding: 10px 12px;
+}
+
+/* ─────────────────────────────────────────────────────────────
+   Light Mode
+   ───────────────────────────────────────────────────────────── */
+
+:global(body.light) .coachCard {
+  background: rgba(0, 0, 0, 0.015);
+  border-color: rgba(148, 163, 184, 0.1);
+}
+
+:global(body.light) .mascot {
+  opacity: 0.15;
+}
+
+:global(body.light) .cardTitle {
+  color: var(--color-foreground);
+}
+
+:global(body.light) .cardSubtitle {
+  color: var(--color-muted-foreground);
+}
+
+:global(body.light) .carouselCard {
+  background: rgba(0, 0, 0, 0.02);
+  border-color: rgba(148, 163, 184, 0.1);
+}
+
+:global(body.light) .carouselCard:hover {
+  background: rgba(0, 0, 0, 0.04);
+  border-color: rgba(148, 163, 184, 0.18);
+  box-shadow: 0 2px 12px rgba(0, 0, 0, 0.06);
+}
+
+:global(body.light) .carouselCard[data-urgent="true"] {
+  background: rgba(245, 158, 11, 0.02);
+}
+
+:global(body.light) .typeBadge {
+  color: var(--color-muted-foreground);
+  background: rgba(0, 0, 0, 0.04);
+}
+
+:global(body.light) .typeBadge[data-type="meeting_prep"] {
+  color: rgba(217, 119, 6, 0.9);
+  background: rgba(245, 158, 11, 0.08);
+}
+
+:global(body.light) .typeBadge[data-type="coaching"] {
+  color: rgba(13, 148, 136, 0.9);
+  background: rgba(20, 184, 166, 0.08);
+}
+
+:global(body.light) .typeBadge[data-type="improvement"] {
+  color: rgba(79, 70, 229, 0.9);
+  background: rgba(99, 102, 241, 0.08);
+}
+
+:global(body.light) .typeBadge[data-type="use_case"] {
+  color: rgba(124, 58, 237, 0.9);
+  background: rgba(139, 92, 246, 0.08);
+}
+
+:global(body.light) .typeBadge[data-type="insight"] {
+  color: rgba(217, 119, 6, 0.9);
+  background: rgba(245, 158, 11, 0.08);
+}
+
+:global(body.light) .typeBadge[data-urgent="true"] {
+  color: rgba(217, 119, 6, 0.95);
+  background: rgba(245, 158, 11, 0.1);
+}
+
+:global(body.light) .cardItemTitle {
+  color: var(--color-foreground);
+}
+
+:global(body.light) .insightTypeIcon {
+  color: var(--color-foreground);
+}
+
+:global(body.light) .cardItemSource {
+  color: var(--color-muted-foreground);
+}
+
+:global(body.light) .cardItemDescription {
+  color: var(--color-muted-foreground);
+}
+
+:global(body.light) .cardItemDate {
+  color: var(--color-muted-foreground);
+}
+
+:global(body.light) .dismissBtn {
+  color: rgba(148, 163, 184, 0.35);
+}
+
+:global(body.light) .dismissBtn:hover {
+  color: var(--color-muted-foreground);
+  background: rgba(0, 0, 0, 0.03);
+}
+
+:global(body.light) .thumbBtn {
+  color: rgba(148, 163, 184, 0.3);
+}
+
+:global(body.light) .thumbBtn:hover {
+  color: var(--color-muted-foreground);
+  background: rgba(0, 0, 0, 0.03);
+}
+
+:global(body.light) .dateLink {
+  color: var(--color-muted-foreground);
+}
+
+:global(body.light) .dateLink:hover {
+  color: var(--color-foreground);
+}
+
+:global(body.light) .footerDivider {
+  background: rgba(148, 163, 184, 0.2);
+}
+
+:global(body.light) .carouselBtn {
+  color: rgba(148, 163, 184, 0.5);
+}
+
+:global(body.light) .carouselBtn:hover:not(:disabled) {
+  color: var(--color-muted-foreground);
+}
+
+:global(body.light) .carouselDot {
+  background: rgba(0, 0, 0, 0.1);
+}
+
+:global(body.light) .carouselDot[data-active="true"] {
+  background: rgba(79, 70, 229, 0.7);
+}
+
+:global(body.light) .carouselDot:hover:not([data-active="true"]) {
+  background: rgba(0, 0, 0, 0.2);
+}
+
+/* .carouselIndicator is visually hidden — no light mode override needed */
+
+/* ─────────────────────────────────────────────────────────────
+   Settings link — persistent gear icon in hero card footers
+   ───────────────────────────────────────────────────────────── */
+
+.settingsLink {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  padding: 4px;
+  color: rgba(148, 163, 184, 0.35);
+  background: none;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  transition: color 0.15s ease, background 0.15s ease;
+}
+
+.settingsLink:hover {
+  color: rgba(148, 163, 184, 0.7);
+  background: rgba(255, 255, 255, 0.05);
+}
+
+:global(body.light) .settingsLink {
+  color: rgba(148, 163, 184, 0.4);
+}
+
+:global(body.light) .settingsLink:hover {
+  color: var(--color-muted-foreground);
+  background: rgba(0, 0, 0, 0.04);
+}
+
+/* ─────────────────────────────────────────────────────────────
+   Prompt card — invitation to generate hero recommendations
+   Clear hierarchy: headline → description → CTA → utility row
+   ───────────────────────────────────────────────────────────── */
+
+.promptOutputHint {
+  margin: 0 0 2px;
+  font-size: 0.74rem;
+  line-height: 1.5;
+  color: rgba(148, 163, 184, 0.58);
+  font-style: italic;
+}
+
+.promptFooterRow {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-top: auto;
+}
+
+.promptCostButton {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  padding: 0;
+  font-size: 0.68rem;
+  color: rgba(148, 163, 184, 0.46);
+  background: none;
+  border: none;
+  cursor: help;
+  transition: color 0.15s ease;
+}
+
+.promptCostButton:hover {
+  color: rgba(226, 232, 240, 0.82);
+}
+
+.promptCostButton svg {
+  flex-shrink: 0;
+}
+
+:global(body.light) .promptOutputHint {
+  color: var(--color-muted-foreground);
+  opacity: 0.7;
+}
+
+:global(body.light) .promptCostButton {
+  color: rgba(71, 85, 105, 0.78);
+}
+
+:global(body.light) .promptCostButton:hover {
+  color: rgba(15, 23, 42, 0.92);
+}
+
+.promptSpinnerRow {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 8px 0;
+}
+
+.promptActionGroup {
+  margin-left: auto;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.promptSecondaryCta {
+  color: rgba(148, 163, 184, 0.58) !important;
+  background: transparent !important;
+  border: none !important;
+  box-shadow: none;
+}
+
+.promptSecondaryCta:hover {
+  color: rgba(203, 213, 225, 0.82) !important;
+  background: rgba(148, 163, 184, 0.06) !important;
+}
+
+:global(body.light) .promptSecondaryCta {
+  color: rgba(71, 85, 105, 0.68) !important;
+}
+
+:global(body.light) .promptSecondaryCta:hover {
+  color: rgba(15, 23, 42, 0.86) !important;
+  background: rgba(15, 23, 42, 0.04) !important;
+}
+
+/* ─────────────────────────────────────────────────────────────
+   Loading spinner for on-demand generation
+   ───────────────────────────────────────────────────────────── */
+
+.spinnerIcon {
+  animation: spin 1.2s linear infinite;
+  color: rgba(148, 163, 184, 0.5);
+}
+
+@keyframes spin {
+  from { transform: rotate(0deg); }
+  to { transform: rotate(360deg); }
+}

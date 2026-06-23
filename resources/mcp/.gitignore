@@ -1,0 +1,5 @@
+# MCP build artifacts and dependencies (shared across all MCPs)
+*/node_modules/
+*/build/
+*.log
+.env

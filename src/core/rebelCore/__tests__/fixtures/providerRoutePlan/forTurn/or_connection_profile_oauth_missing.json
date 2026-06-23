@@ -1,0 +1,37 @@
+{
+  "description": "OpenRouter connection-managed profile without OAuth token fails closed as missing-openrouter",
+  "input": {
+    "model": "profile:or-connection-profile-missing",
+    "settings": {
+      "activeProvider": "anthropic",
+      "models": {
+        "apiKey": "sk-ant-test",
+        "authMethod": "api-key",
+        "model": "claude-sonnet-4-6",
+        "oauthToken": null
+      },
+      "localModel": {
+        "activeProfileId": null,
+        "profiles": [
+          {
+            "createdAt": 0,
+            "id": "or-connection-profile-missing",
+            "model": "anthropic/claude-sonnet-4.6",
+            "name": "OR Connection Missing OAuth",
+            "profileSource": "connection",
+            "providerType": "openrouter",
+            "serverUrl": "https://openrouter.ai/api/v1"
+          }
+        ]
+      },
+      "openRouter": {
+        "enabled": true,
+        "oauthToken": null,
+        "selectedModel": "anthropic/claude-sonnet-4.6"
+      },
+      "providerKeys": {}
+    },
+    "codexConnectivity": "unknown"
+  },
+  "name": "or_connection_profile_oauth_missing"
+}

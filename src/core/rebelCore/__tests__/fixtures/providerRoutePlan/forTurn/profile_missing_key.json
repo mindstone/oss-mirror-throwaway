@@ -1,0 +1,36 @@
+{
+  "description": "Cloud profile without credential fails closed",
+  "input": {
+    "model": "profile:openai-missing",
+    "settings": {
+      "activeProvider": "anthropic",
+      "models": {
+        "apiKey": "sk-ant-test",
+        "authMethod": "api-key",
+        "model": "claude-sonnet-4-6",
+        "oauthToken": null
+      },
+      "localModel": {
+        "activeProfileId": null,
+        "profiles": [
+          {
+            "createdAt": 0,
+            "id": "openai-missing",
+            "model": "gpt-5.5",
+            "name": "Openai Missing",
+            "providerType": "openai",
+            "serverUrl": "https://api.openai.com/v1"
+          }
+        ]
+      },
+      "openRouter": {
+        "enabled": false,
+        "oauthToken": null,
+        "selectedModel": "anthropic/claude-sonnet-4.6"
+      },
+      "providerKeys": {}
+    },
+    "codexConnectivity": "unknown"
+  },
+  "name": "profile_missing_key"
+}

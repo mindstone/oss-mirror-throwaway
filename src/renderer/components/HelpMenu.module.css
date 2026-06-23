@@ -1,0 +1,279 @@
+.trigger {
+  position: relative;
+}
+
+/* Small status dot in top-right corner. Static by design — if a pulse animation
+   is ever added, wrap it in @media (prefers-reduced-motion: no-preference). */
+.trigger[data-health='warn']::after,
+.trigger[data-health='critical']::after {
+  content: '';
+  position: absolute;
+  top: 4px;
+  right: 4px;
+  border-radius: 50%;
+}
+
+.trigger[data-health='warn']::after {
+  width: 6px;
+  height: 6px;
+  background: rgba(139, 92, 246, 0.85);
+  box-shadow: 0 0 4px rgba(139, 92, 246, 0.3);
+}
+
+.trigger[data-health='critical']::after {
+  width: 8px;
+  height: 8px;
+  background: rgba(239, 68, 68, 0.9);
+  box-shadow: 0 0 5px rgba(239, 68, 68, 0.4);
+}
+
+.menu {
+  z-index: 9999;
+  min-width: 200px;
+  padding: 8px;
+  border-radius: 14px;
+  background: rgba(13, 17, 28, 0.98);
+  border: 1px solid rgba(148, 163, 184, 0.22);
+  box-shadow: 0 16px 40px rgba(2, 6, 23, 0.55);
+  backdrop-filter: blur(var(--glass-overlay-blur));
+  visibility: hidden;
+}
+
+.menu[data-positioned='true'] {
+  visibility: visible;
+  animation: menuFade 150ms var(--motion-ease-out, cubic-bezier(0.16, 1, 0.3, 1));
+}
+
+@keyframes menuFade {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+.menuItem {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  width: 100%;
+  padding: 10px 12px;
+  border: none;
+  border-radius: 10px;
+  background: transparent;
+  color: rgba(248, 250, 255, 0.9);
+  font-size: 0.875rem;
+  font-weight: 500;
+  text-align: left;
+  cursor: pointer;
+  transition:
+    background 0.15s ease,
+    color 0.15s ease;
+}
+
+.menuItem:hover {
+  background: rgba(139, 92, 246, 0.12);
+  color: rgba(248, 250, 255, 1);
+}
+
+.menuItem:focus-visible {
+  outline: none;
+  background: rgba(139, 92, 246, 0.15);
+  box-shadow: 0 0 0 2px rgba(139, 92, 246, 0.4);
+}
+
+.menuItemIcon {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 18px;
+  height: 18px;
+  color: rgba(203, 213, 225, 0.7);
+  flex-shrink: 0;
+}
+
+.menuItem:hover .menuItemIcon {
+  color: rgba(167, 139, 250, 0.9);
+}
+
+.divider {
+  height: 1px;
+  margin: 6px 0;
+  background: rgba(148, 163, 184, 0.15);
+}
+
+/* Submenu styles */
+.submenuChevron {
+  margin-left: auto;
+  color: rgba(148, 163, 184, 0.5);
+  flex-shrink: 0;
+}
+
+.menuItem:hover .submenuChevron {
+  color: rgba(167, 139, 250, 0.8);
+}
+
+.submenu {
+  z-index: 10000;
+  min-width: 220px;
+  padding: 8px;
+  border-radius: 14px;
+  background: rgba(13, 17, 28, 0.98);
+  border: 1px solid rgba(148, 163, 184, 0.22);
+  box-shadow: 0 16px 40px rgba(2, 6, 23, 0.55);
+  backdrop-filter: blur(var(--glass-overlay-blur));
+  animation: menuFade 150ms var(--motion-ease-out, cubic-bezier(0.16, 1, 0.3, 1));
+}
+
+.submenuItemContent {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.submenuItemHint {
+  font-size: 0.7rem;
+  color: rgba(148, 163, 184, 0.6);
+  font-weight: 400;
+}
+
+/* Health status menu item */
+.menuItemHealthy {
+  composes: menuItem;
+  color: rgba(148, 163, 184, 0.6);
+  cursor: default;
+}
+
+.menuItemHealthy:hover {
+  background: transparent;
+  color: rgba(148, 163, 184, 0.6);
+}
+
+.menuItemHealthy .menuItemIcon {
+  color: rgba(34, 197, 94, 0.7);
+}
+
+.menuItemTroubleshoot {
+  composes: menuItem;
+}
+
+.menuItemTroubleshoot .menuItemIcon {
+  color: rgba(251, 191, 36, 0.8);
+}
+
+.menuItemTroubleshoot:hover .menuItemIcon {
+  color: rgba(251, 191, 36, 1);
+}
+
+.issueCount {
+  margin-left: auto;
+  padding: 2px 6px;
+  border-radius: 10px;
+  background: rgba(251, 191, 36, 0.15);
+  color: rgba(251, 191, 36, 0.9);
+  font-size: 0.75rem;
+  font-weight: 600;
+}
+
+/* Tooltip */
+.tooltip {
+  z-index: 10000;
+  padding: 6px 10px;
+  border-radius: 8px;
+  background: rgba(13, 17, 28, 0.95);
+  border: 1px solid rgba(148, 163, 184, 0.2);
+  box-shadow: 0 4px 12px rgba(2, 6, 23, 0.4);
+  color: rgba(248, 250, 255, 0.9);
+  font-size: 0.8rem;
+  font-weight: 500;
+  white-space: nowrap;
+  animation: tooltipFade 150ms ease-out;
+}
+
+@keyframes tooltipFade {
+  from {
+    opacity: 0;
+    transform: translateY(-2px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* ─────────────────────────────────────────────────────────────
+   Light Mode Overrides
+   ───────────────────────────────────────────────────────────── */
+
+:global(body.light) .menu {
+  background: var(--color-popover);
+  border: 1px solid var(--color-border);
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.1);
+}
+
+:global(body.light) .menuItem {
+  color: var(--color-foreground);
+}
+
+:global(body.light) .menuItem:hover {
+  background: color-mix(in srgb, var(--color-primary) 8%, transparent);
+}
+
+:global(body.light) .menuItemIcon {
+  color: var(--color-primary);
+}
+
+:global(body.light) .menuItem:hover .menuItemIcon {
+  color: var(--color-primary-hover);
+}
+
+:global(body.light) .menuItemHealthy {
+  color: var(--color-muted-foreground);
+}
+
+:global(body.light) .menuItemHealthy:hover {
+  background: transparent;
+}
+
+:global(body.light) .menuItemHealthy .menuItemIcon {
+  color: var(--color-success);
+}
+
+:global(body.light) .menuItemTroubleshoot .menuItemIcon {
+  color: #f59e0b;
+}
+
+:global(body.light) .menuItemTroubleshoot:hover .menuItemIcon {
+  color: #d97706;
+}
+
+:global(body.light) .issueCount {
+  background: rgba(251, 191, 36, 0.12);
+  color: #d97706;
+}
+
+:global(body.light) .tooltip {
+  background: var(--color-popover);
+  border-color: var(--color-border);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+  color: var(--color-foreground);
+}
+
+:global(body.light) .submenu {
+  background: var(--color-popover);
+  border: 1px solid var(--color-border);
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.1);
+}
+
+:global(body.light) .submenuChevron {
+  color: var(--color-muted-foreground);
+}
+
+:global(body.light) .menuItem:hover .submenuChevron {
+  color: var(--color-primary);
+}
+
+:global(body.light) .submenuItemHint {
+  color: var(--color-muted-foreground);
+}

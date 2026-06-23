@@ -1,0 +1,234 @@
+/* Collapsible strip for staged files — lives inside the review panel */
+.strip {
+  min-width: 0;
+  border-radius: 10px;
+  border: 1px solid rgba(99, 102, 241, 0.15);
+  background: rgba(99, 102, 241, 0.04);
+  overflow: hidden;
+  transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.strip[data-expanded="true"] {
+  border-color: rgba(99, 102, 241, 0.25);
+  background: rgba(99, 102, 241, 0.06);
+}
+
+/* Collapsed header bar */
+.header {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  width: 100%;
+  padding: 8px 12px;
+  background: transparent;
+  border: none;
+  cursor: pointer;
+  transition: background 0.15s ease;
+  text-align: left;
+}
+
+.header:hover {
+  background: rgba(99, 102, 241, 0.06);
+}
+
+.header:focus-visible {
+  outline: 2px solid rgba(99, 102, 241, 0.5);
+  outline-offset: -2px;
+  border-radius: 10px;
+}
+
+/* Icon */
+.icon {
+  flex-shrink: 0;
+  color: #6366F1;
+}
+
+/* Label text */
+.label {
+  flex: 1;
+  font-size: 0.82rem;
+  font-weight: 500;
+  color: var(--color-foreground);
+}
+
+/* Hint for single file */
+.singleHint {
+  font-size: 0.72rem;
+  color: var(--color-muted-foreground);
+  font-weight: 500;
+}
+
+/* Chevron */
+.chevron {
+  flex-shrink: 0;
+  color: var(--color-muted-foreground);
+  transition: transform 0.25s ease;
+}
+
+.strip[data-expanded="true"] .chevron {
+  transform: rotate(180deg);
+}
+
+/* Expanded body */
+.body {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  padding: 0 16px 16px;
+  max-height: 280px;
+  overflow-y: auto;
+  animation: bodySlideDown 0.25s ease-out;
+}
+
+@keyframes bodySlideDown {
+  from {
+    opacity: 0;
+    transform: translateY(-8px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* Batch action buttons */
+.batchActions {
+  display: flex;
+  gap: 8px;
+  padding: 8px 0;
+  border-bottom: 1px solid rgba(99, 102, 241, 0.15);
+  margin-bottom: 8px;
+}
+
+.publishAllButton {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 6px 12px;
+  font-size: 0.8rem;
+  font-weight: 600;
+  color: #22C55E;
+  background: rgba(34, 197, 94, 0.1);
+  border: 1px solid rgba(34, 197, 94, 0.25);
+  border-radius: 6px;
+  cursor: pointer;
+  transition: all 0.15s ease;
+}
+
+.publishAllButton:hover {
+  background: rgba(34, 197, 94, 0.18);
+  border-color: rgba(34, 197, 94, 0.4);
+}
+
+.discardAllButton {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 6px 12px;
+  font-size: 0.8rem;
+  font-weight: 600;
+  color: rgba(148, 163, 184, 0.8);
+  background: transparent;
+  border: 1px solid rgba(148, 163, 184, 0.2);
+  border-radius: 6px;
+  cursor: pointer;
+  transition: all 0.15s ease;
+}
+
+.discardAllButton:hover {
+  color: #EF4444;
+  background: rgba(239, 68, 68, 0.1);
+  border-color: rgba(239, 68, 68, 0.3);
+}
+
+/* Scrollbar styling for expanded body - macOS-like thin */
+.body::-webkit-scrollbar {
+  width: 8px;
+  background: transparent;
+}
+
+.body::-webkit-scrollbar-track {
+  background: transparent;
+  margin: 4px 0;
+}
+
+.body::-webkit-scrollbar-thumb {
+  background: rgba(148, 163, 184, 0.15);
+  border-radius: 999px;
+  border: 2px solid transparent;
+  background-clip: padding-box;
+}
+
+.body::-webkit-scrollbar-thumb:hover {
+  background: rgba(148, 163, 184, 0.3);
+  border: 2px solid transparent;
+  background-clip: padding-box;
+}
+
+/* ─────────────────────────────────────────────────────────────
+   Light Mode Overrides
+   ───────────────────────────────────────────────────────────── */
+
+:global(body.light) .strip {
+  border-color: transparent;
+  background: transparent;
+}
+
+:global(body.light) .strip[data-expanded="true"] {
+  border-color: rgba(79, 70, 229, 0.2);
+  background: linear-gradient(
+    135deg,
+    rgba(99, 102, 241, 0.06),
+    rgba(139, 92, 246, 0.03)
+  );
+}
+
+:global(body.light) .header:hover {
+  background: rgba(79, 70, 229, 0.05);
+}
+
+:global(body.light) .header:focus-visible {
+  outline-color: rgba(79, 70, 229, 0.5);
+}
+
+:global(body.light) .icon {
+  color: #4F46E5;
+}
+
+:global(body.light) .batchActions {
+  border-bottom-color: rgba(79, 70, 229, 0.15);
+}
+
+:global(body.light) .publishAllButton {
+  color: #16A34A;
+  background: rgba(22, 163, 74, 0.08);
+  border-color: rgba(22, 163, 74, 0.25);
+}
+
+:global(body.light) .publishAllButton:hover {
+  background: rgba(22, 163, 74, 0.15);
+  border-color: rgba(22, 163, 74, 0.4);
+}
+
+:global(body.light) .discardAllButton {
+  color: var(--color-muted-foreground);
+  border-color: var(--color-border);
+}
+
+:global(body.light) .discardAllButton:hover {
+  color: #DC2626;
+  background: rgba(220, 38, 38, 0.08);
+  border-color: rgba(220, 38, 38, 0.3);
+}
+
+:global(body.light) .body::-webkit-scrollbar-thumb {
+  background: rgba(100, 116, 139, 0.15);
+  border: 2px solid transparent;
+  background-clip: padding-box;
+}
+
+:global(body.light) .body::-webkit-scrollbar-thumb:hover {
+  background: rgba(100, 116, 139, 0.3);
+  border: 2px solid transparent;
+  background-clip: padding-box;
+}

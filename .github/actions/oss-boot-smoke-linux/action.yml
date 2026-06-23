@@ -1,0 +1,220 @@
+# OSS launch boot-smoke (Linux, headless) — single source of truth.
+#
+# Builds the FAITHFUL transformed-mirror FORGE bundle and launches it under xvfb to
+# assert the main process boots PAST bootstrap (no import-time boundary-read crash —
+# the `import_time_boundary_read_bootstrap_crash` class that "won't even start"). This
+# composite is consumed by BOTH the publish gate (reusable-mirror-validation.yml's
+# `boot-smoke` job, which feeds `gates_passed`) and the standalone manual/verify
+# workflow (oss-boot-smoke.yml), so the Linux steps live in exactly one place — no
+# two-copy drift.
+#
+# CONTRACT: the caller job has ALREADY run `actions/checkout`. This composite does the
+# submodule checkout, toolchain, install, and the two boot-smoke steps.
+#
+# The Build and Launch steps are DELIBERATELY split into two named, separately-failing
+# steps: an infra/build failure (apt/Electron-download/transform/forge build/xvfb) must
+# be visibly distinct from a real launch RED. There is NO blanket retry — a transient
+# infra failure must never silently mask a genuine boot-crash regression.
+#
+# Scope note (see docs/project/OSS_BUILD_SMOKE_RUNBOOK.md): Linux is the cheap, correct
+# host because the root cause is bundler-determined module-init order (platform-
+# independent). It deliberately does NOT catch platform-specific
+# native-module-at-import issues; per-OS packaged builds cover that separately.
+
+name: 'OSS boot-smoke (Linux)'
+description: 'Build the transformed OSS mirror forge bundle and launch it headless to prove the main process boots past bootstrap.'
+
+inputs:
+  rebel-system-token:
+    description: 'Token used to check out the required private submodules (REBEL_SYSTEM_TOKEN).'
+    required: true
+
+runs:
+  using: 'composite'
+  steps:
+    # Retry-wrapped INFRA step (apt mirror/network flake is the single most common
+    # runner-transient — mirrors linux-smoke.yml's `npm ci` retry shape). Retry here is
+    # SAFE because an apt failure is a distinguishable infra-RED, NOT a boot-crash signal.
+    # Deliberately NOT applied to Build/Launch below: a retry there would mask a real boot
+    # crash (a blanket retry on the detector is explicitly forbidden by the task).
+    - name: Install GUI runtime libraries
+      # @v3 matches every other nick-fields/retry usage in this repo (linux-smoke.yml,
+      # release.yml, reusable-validation.yml) — kept unpinned for consistency with the
+      # canonical pattern we mirror.
+      uses: nick-fields/retry@v3
+      with:
+        timeout_minutes: 15
+        max_attempts: 3
+        retry_wait_seconds: 20
+        retry_on: error
+        # The proven linux-smoke.yml apt list — Electron's headless launch under xvfb
+        # needs these GUI/runtime libs. Kept byte-for-byte in sync with linux-smoke.yml.
+        command: |
+          set -euo pipefail
+          sudo apt-get update
+          sudo apt-get install -y \
+            xvfb xauth dbus-x11 \
+            libnss3 libatk1.0-0 libatk-bridge2.0-0 libatspi2.0-0 libcups2 \
+            libxkbcommon0 libxcomposite1 libxdamage1 libxfixes3 libxrandr2 \
+            libxtst6 libxi6 libxcursor1 libxss1 libxshmfence1 libxcb-dri3-0 \
+            libgbm1 libgtk-3-0 libpango-1.0-0 libcairo2 libasound2 \
+            libdrm2 libnotify4 libsecret-1-0 xdg-utils
+
+    - name: Set up Node
+      uses: actions/setup-node@49933ea5288caeca8642d1e84afbd3f7d6820020 # v4.4.0
+      with:
+        # node 22 matches the other mirror-validation jobs (validate/test/test-rest),
+        # NOT linux-smoke.yml's node 20.
+        node-version: '22'
+        cache: npm
+
+    - name: Checkout required private submodules
+      shell: bash
+      env:
+        REBEL_TOKEN: ${{ inputs.rebel-system-token }}
+      run: |
+        set -euo pipefail
+        if [ -z "${REBEL_TOKEN}" ]; then
+          echo "::error::rebel-system-token is required for OSS boot-smoke submodule checkout"
+          exit 1
+        fi
+        git config --global credential.helper ""
+        export GIT_TERMINAL_PROMPT=0
+        # Same four submodules the `validate`/`test` jobs init: rebel-system (prompt
+        # files), super-mcp, coding-agent-instructions, mcp-servers. The transform reads
+        # these; the build needs a complete source tree to produce a faithful mirror.
+        git -c "url.https://${REBEL_TOKEN}@github.com/.insteadOf=[external-email]:" submodule update --init rebel-system
+        git -c "url.https://${REBEL_TOKEN}@github.com/.insteadOf=[external-email]:" submodule update --init super-mcp
+        git -c "url.https://${REBEL_TOKEN}@github.com/.insteadOf=[external-email]:" submodule update --init coding-agent-instructions
+        git -c "url.https://${REBEL_TOKEN}@github.com/.insteadOf=[external-email]:" submodule update --init mcp-servers
+        if git config --global --get-regexp '^url\.' | grep -F -q "${REBEL_TOKEN}"; then
+          echo "::error::rebel-system token remained in global git config after submodule checkout"
+          exit 1
+        fi
+        unset REBEL_TOKEN
+
+    # Retry-wrapped INFRA step. `npm ci` downloads Electron (large, network-bound) — the
+    # other common runner-transient. Same SAFE rationale as the apt step: an npm/network
+    # failure is a distinguishable infra-RED, never a boot-crash signal. `setup-node`
+    # already caches npm; retry still wraps the `npm ci` RUN step, not the setup-node step.
+    # NOT applied to Build/Launch below. Kept a SEPARATE step from apt so each retries
+    # independently and a failure is attributable to the right phase. Plain `npm ci` (no
+    # --legacy-peer-deps) matches the other mirror-validation jobs.
+    - name: Install dependencies
+      uses: nick-fields/retry@v3
+      with:
+        timeout_minutes: 15
+        max_attempts: 3
+        retry_wait_seconds: 20
+        retry_on: error
+        command: npm ci
+
+    # ---- Boot-smoke step 1 of 2: BUILD (infra/build failure surface) ----------------
+    # The build spawns `electron-forge start`, which launches a real Electron window, so
+    # it MUST run under xvfb on a headless runner. The builder prints the absolute bundle
+    # path on its LAST stdout line as `OSS_MIRROR_BUNDLE=<path>` (all diagnostics go to
+    # stderr); we tee stdout to a log for the failure artifact and grep the last matching
+    # line, mirroring how scripts/run-oss-boot-smoke.mjs parses it.
+    - name: Build OSS mirror bundle
+      id: build
+      shell: bash
+      run: |
+        set -euo pipefail
+        mkdir -p /tmp/oss-boot-smoke-logs
+        # Stream ALL output (stdout+stderr) to the JOB LOG via `tee` so a hang or crash is
+        # visible live (the previous `> file 2> >(tee file)` hid stdout entirely — a silent
+        # 38-min hang in the first CI run). The builder's machine-readable contract
+        # (`OSS_MIRROR_BUNDLE=<path>`) goes to stdout and all diagnostics to stderr; both are
+        # captured to build.log, which we awk for the path below. The build spawns
+        # `electron-forge start` (a real window), so it MUST run under xvfb.
+        #
+        # Wrap in `timeout` so a build hang fails THIS step FAST (~distinct exit 124) instead
+        # of consuming the 40-min job budget. This is an infra/build bound (the builder also
+        # kills the forge process tree on its own) — it is NOT a retry and does not mask a
+        # boot crash; the Launch step's crash detection is unchanged. 12m comfortably exceeds
+        # a cold forge build (the builder's own BUILD_TIMEOUT_MS is 8m) + transform + deps.
+        set +e
+        timeout --signal=KILL 12m \
+          xvfb-run -a --server-args="-screen 0 1280x720x24" \
+          node scripts/build-oss-mirror-bundle.mjs \
+          2>&1 | tee /tmp/oss-boot-smoke-logs/build.log
+        build_rc=${PIPESTATUS[0]}
+        set -e
+        if [ "${build_rc}" = "137" ] || [ "${build_rc}" = "124" ]; then
+          echo "::error::OSS mirror build hit the 12m step timeout (exit ${build_rc}) — likely a build hang"
+          exit "${build_rc}"
+        fi
+        if [ "${build_rc}" != "0" ]; then
+          echo "::error::OSS mirror build failed (exit ${build_rc})"
+          exit "${build_rc}"
+        fi
+        # Parse with awk (NOT a grep pipeline): under `set -euo pipefail`, a grep that
+        # matches nothing exits 1 and the command substitution would abort the step BEFORE
+        # the explicit ::error:: diagnostic below runs. awk exits 0 on no-match, keeping the
+        # OSS_MIRROR_BUNDLE-missing message reachable. Last matching line wins (END+overwrite).
+        bundle="$(awk -F= '/^OSS_MIRROR_BUNDLE=/ { v=substr($0, index($0, "=") + 1) } END { print v }' /tmp/oss-boot-smoke-logs/build.log)"
+        if [ -z "${bundle}" ]; then
+          echo "::error::could not parse OSS_MIRROR_BUNDLE=<path> from build output"
+          exit 1
+        fi
+        echo "Built OSS mirror bundle: ${bundle}"
+        echo "bundle=${bundle}" >> "${GITHUB_OUTPUT}"
+
+    # ---- Boot-smoke step 2 of 2: LAUNCH (the actual gate — a launch RED here is the
+    # signal we want to block on) ------------------------------------------------------
+    # Launch via the ORCHESTRATOR (run-oss-boot-smoke.mjs --main), NOT check-oss-boot-smoke.ts
+    # directly. The checker resolves the Electron binary via path.resolve(process.cwd(),
+    # 'node_modules/.bin/electron'); invoked from the canonical repo root it would launch the
+    # CANONICAL repo's Electron, not the transformed-mirror workdir's — a false-green risk
+    # (the gate wouldn't be exercising the faithful mirror bundle's own runtime). The
+    # orchestrator's --main path SKIPS the build and runs the checker with cwd set to the
+    # bundle's source root (<root>/.vite/build/bootstrap.js -> dirname x3), so Electron
+    # resolves from the mirror workdir. The build/launch split stays intact: --main skips
+    # the build, so this step only launches. (Verified run-oss-boot-smoke.mjs forwards no
+    # build flags on the --main path.)
+    - name: Launch OSS boot smoke
+      id: launch
+      shell: bash
+      run: |
+        set -euo pipefail
+        mkdir -p /tmp/oss-boot-smoke-logs
+        # Stream to the job log AND capture to launch.log. Wrap in `timeout` so a launch hang
+        # fails THIS step fast rather than burning the job budget. This bounds infra hangs ONLY;
+        # the gate's own crash detection (check-oss-boot-smoke.ts: "App threw an error during
+        # load", non-zero/signal exit) is unchanged — a real boot RED still fails here, distinctly.
+        set +e
+        timeout --signal=KILL 4m \
+          xvfb-run -a --server-args="-screen 0 1280x720x24" \
+          node scripts/run-oss-boot-smoke.mjs --main "${{ steps.build.outputs.bundle }}" \
+          2>&1 | tee /tmp/oss-boot-smoke-logs/launch.log
+        launch_rc=${PIPESTATUS[0]}
+        set -e
+        if [ "${launch_rc}" = "137" ] || [ "${launch_rc}" = "124" ]; then
+          echo "::error::OSS boot-smoke launch hit the 4m step timeout (exit ${launch_rc}) — likely a launch hang"
+        fi
+        exit "${launch_rc}"
+
+    # On any failure (build OR launch), tail + upload the logs so a maintainer can tell an
+    # infra flake (build-stderr) from a real launch RED (launch.log's
+    # `App threw an error during load` signature) without re-running.
+    # if: always() (not failure()) so logs surface even on a step-level TIMEOUT — a `timeout`
+    # exit (124/137) does fail the step, but a JOB-level cancellation (the old 40-min budget)
+    # is NOT a step failure, and the original failure()-gated upload never ran in that case
+    # (the first CI run produced no log artifact at all). always() guarantees diagnostics.
+    - name: Tail boot-smoke logs
+      if: always()
+      shell: bash
+      run: |
+        echo "---- build.log (tail 120) ----"
+        tail -120 /tmp/oss-boot-smoke-logs/build.log 2>/dev/null || true
+        echo "---- launch.log (tail 100) ----"
+        tail -100 /tmp/oss-boot-smoke-logs/launch.log 2>/dev/null || true
+
+    - name: Upload boot-smoke logs
+      if: always()
+      uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02 # v4.6.2
+      with:
+        name: oss-boot-smoke-logs
+        path: /tmp/oss-boot-smoke-logs/
+        if-no-files-found: warn
+        retention-days: 14

@@ -1,0 +1,27 @@
+{
+  "description": "Subagent Codex unknown fails closed",
+  "input": {
+    "codexConnectivity": "unknown",
+    "model": "gpt-5.4-mini",
+    "settings": {
+      "activeProvider": "codex",
+      "models": {
+        "apiKey": "sk-ant-test",
+        "authMethod": "api-key",
+        "model": "claude-sonnet-4-6",
+        "oauthToken": null
+      },
+      "localModel": {
+        "activeProfileId": null,
+        "profiles": []
+      },
+      "openRouter": {
+        "enabled": false,
+        "oauthToken": null,
+        "selectedModel": "anthropic/claude-sonnet-4.6"
+      },
+      "providerKeys": {}
+    }
+  },
+  "name": "subagent_codex_unknown"
+}

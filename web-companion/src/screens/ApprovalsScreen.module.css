@@ -1,0 +1,325 @@
+/* ApprovalsScreen.module.css */
+
+.container {
+  padding: var(--space-lg) 0;
+}
+
+.header {
+  display: flex;
+  align-items: baseline;
+  gap: var(--space-sm);
+  margin-bottom: var(--space-lg);
+}
+
+.headerTitle {
+  font-size: 1.75rem;
+  font-weight: 700;
+  color: var(--color-text-primary);
+  letter-spacing: -0.02em;
+  margin: 0;
+}
+
+.headerCount {
+  font-size: 0.875rem;
+  font-weight: 600;
+  color: var(--color-text-tertiary);
+}
+
+.inlineError {
+  font-size: 0.875rem;
+  color: var(--color-error);
+  background: var(--color-error-bg);
+  border: 1px solid var(--color-error);
+  border-radius: var(--radius-sm);
+  padding: var(--space-sm) var(--space-md);
+  margin: 0 0 var(--space-md);
+}
+
+/* Card list */
+.list {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-md);
+}
+
+/* Approval card */
+.card {
+  background: var(--color-surface);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-md);
+  padding: var(--space-md);
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.cardHeader {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: var(--space-sm);
+}
+
+.toolName {
+  font-size: 1rem;
+  font-weight: 700;
+  color: var(--color-text-primary);
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  flex: 1;
+}
+
+.timestamp {
+  font-size: 0.75rem;
+  color: var(--color-text-tertiary);
+  flex-shrink: 0;
+}
+
+.category {
+  font-size: 0.75rem;
+  font-weight: 600;
+  color: var(--color-text-tertiary);
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+}
+
+.reason {
+  font-size: 0.875rem;
+  color: var(--color-text-secondary);
+  line-height: 1.4;
+  margin: 0;
+}
+
+.memoryCard {
+  gap: var(--space-sm);
+}
+
+.memoryPath {
+  font-family: var(--font-mono);
+  font-size: 0.75rem;
+  color: var(--color-text-tertiary);
+  line-height: 1.4;
+  margin: 0;
+  word-break: break-word;
+}
+
+/* Risk badge */
+.riskBadge {
+  font-size: 0.6875rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+  color: var(--color-text-secondary);
+  background: rgba(251, 191, 36, 0.15);
+  border-radius: var(--radius-sm);
+  padding: 3px 8px;
+  flex-shrink: 0;
+}
+
+.riskHigh {
+  background: var(--color-error-bg);
+  color: var(--color-error);
+}
+
+/* Input details (collapsed by default) */
+.inputDetails {
+  margin: 0;
+}
+
+.inputSummary {
+  font-size: 0.75rem;
+  color: var(--color-text-tertiary);
+  cursor: pointer;
+  padding: var(--space-xs) 0;
+  user-select: none;
+}
+
+.inputSummary:hover {
+  color: var(--color-text-secondary);
+}
+
+/* Input preview */
+.inputPreview {
+  background: var(--color-bg);
+  border-radius: var(--radius-sm);
+  padding: var(--space-sm) var(--space-md);
+  overflow-x: auto;
+}
+
+.inputText {
+  font-family: var(--font-mono);
+  font-size: 0.75rem;
+  color: var(--color-text-secondary);
+  line-height: 1.5;
+  margin: 0;
+  white-space: pre-wrap;
+  word-break: break-word;
+  max-height: 120px;
+  overflow-y: auto;
+}
+
+/* Card footer with checkbox and actions */
+.cardFooter {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: var(--space-sm);
+  flex-wrap: wrap;
+}
+
+.sessionCheckbox {
+  display: flex;
+  align-items: center;
+  gap: var(--space-xs);
+  font-size: 0.8125rem;
+  color: var(--color-text-tertiary);
+  cursor: pointer;
+  user-select: none;
+}
+
+.sessionCheckbox input[type="checkbox"] {
+  accent-color: var(--color-accent);
+  width: 16px;
+  height: 16px;
+  cursor: pointer;
+}
+
+/* Action buttons */
+.actions {
+  display: flex;
+  gap: var(--space-sm);
+  justify-content: flex-end;
+}
+
+.approveButton {
+  background: #16a34a;
+  color: #fff;
+  border: none;
+  border-radius: var(--radius-sm);
+  padding: 8px 18px;
+  font-size: 0.875rem;
+  font-weight: 600;
+  font-family: var(--font-sans);
+  cursor: pointer;
+  transition: opacity var(--transition-fast);
+}
+
+.approveButton:hover {
+  opacity: 0.85;
+}
+
+.approveButton:active {
+  transform: scale(0.96);
+  transition: transform 0.1s ease;
+}
+
+.executeButton {
+  background: var(--color-accent);
+  color: #fff;
+  border: none;
+  border-radius: var(--radius-sm);
+  padding: 8px 18px;
+  font-size: 0.875rem;
+  font-weight: 600;
+  font-family: var(--font-sans);
+  cursor: pointer;
+  transition: opacity var(--transition-fast);
+}
+
+.executeButton:hover {
+  opacity: 0.85;
+}
+
+.executeButton:active {
+  transform: scale(0.96);
+  transition: transform 0.1s ease;
+}
+
+.denyButton {
+  background: none;
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-sm);
+  padding: 8px 18px;
+  font-size: 0.875rem;
+  font-weight: 600;
+  font-family: var(--font-sans);
+  color: var(--color-text-secondary);
+  cursor: pointer;
+  transition: border-color var(--transition-fast), color var(--transition-fast);
+}
+
+.denyButton:hover {
+  border-color: var(--color-error);
+  color: var(--color-error);
+}
+
+.denyButton:active {
+  transform: scale(0.96);
+  transition: transform 0.1s ease;
+}
+
+/* Empty state */
+.emptyState {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: var(--space-2xl) var(--space-lg);
+  text-align: center;
+  min-height: 300px;
+}
+
+.emptyTitle {
+  font-size: 1.25rem;
+  font-weight: 600;
+  color: var(--color-text-primary);
+  margin: 0;
+}
+
+.emptySubtitle {
+  font-size: 0.9375rem;
+  color: var(--color-text-secondary);
+  margin-top: var(--space-sm);
+}
+
+/* Error / loading states */
+.centered {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: var(--space-2xl) var(--space-lg);
+  text-align: center;
+  min-height: 200px;
+}
+
+.errorText {
+  font-size: 0.9375rem;
+  color: var(--color-error);
+  margin-bottom: var(--space-md);
+}
+
+.retryButton {
+  background: var(--color-accent);
+  color: #fff;
+  border: none;
+  border-radius: var(--radius-sm);
+  padding: 10px 20px;
+  font-size: 0.9375rem;
+  font-weight: 600;
+  font-family: var(--font-sans);
+  cursor: pointer;
+  transition: background var(--transition-fast);
+}
+
+.retryButton:hover {
+  background: var(--color-accent-hover);
+}
+
+/* Responsive */
+@media (min-width: 768px) {
+  .inputText {
+    max-height: 160px;
+  }
+}

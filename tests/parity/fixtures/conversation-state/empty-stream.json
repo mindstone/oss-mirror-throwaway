@@ -1,0 +1,10 @@
+{
+  "name": "empty-stream",
+  "input": [],
+  "expected": {
+    "visibleIds": [],
+    "messagesByTurnIds": {},
+    "activeTurnId": null,
+    "isBusy": false
+  }
+}

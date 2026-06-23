@@ -1,0 +1,134 @@
+/* FindBar — floating find-in-page bar (top-right, Chrome-style) */
+
+::highlight(rebel-find-match) {
+  background-color: rgba(250, 204, 21, 0.45);
+  color: inherit;
+}
+
+::highlight(rebel-find-active) {
+  background-color: rgba(250, 204, 21, 0.9);
+  color: #111827;
+}
+
+.overlay {
+  position: fixed;
+  top: 12px;
+  right: 16px;
+  z-index: 900;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  padding: 6px 10px;
+  border-radius: 10px;
+  background: rgba(30, 41, 59, 0.96);
+  border: 1px solid rgba(148, 163, 184, 0.18);
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.25), 0 1px 4px rgba(0, 0, 0, 0.15);
+  backdrop-filter: blur(var(--glass-overlay-blur));
+}
+
+.input {
+  width: 200px;
+  padding: 5px 10px;
+  border-radius: 6px;
+  border: 1px solid rgba(148, 163, 184, 0.2);
+  background: rgba(15, 23, 42, 0.6);
+  color: rgba(248, 250, 255, 0.95);
+  font-size: 0.8125rem;
+  font-family: inherit;
+  outline: none;
+  transition: border-color 0.15s ease, box-shadow 0.15s ease;
+}
+
+.input:focus {
+  border-color: rgba(99, 102, 241, 0.55);
+  box-shadow: 0 0 0 2px rgba(99, 102, 241, 0.15);
+}
+
+.input::placeholder {
+  color: rgba(148, 163, 184, 0.5);
+}
+
+.matchCount {
+  font-size: 0.75rem;
+  color: rgba(148, 163, 184, 0.7);
+  min-width: 60px;
+  text-align: center;
+  white-space: nowrap;
+  user-select: none;
+}
+
+.navButton {
+  padding: 4px;
+  min-width: 28px;
+  height: 28px;
+  border-radius: 6px;
+  color: rgba(203, 213, 225, 0.7);
+}
+
+.navButton:hover:not(:disabled) {
+  color: rgba(248, 250, 255, 0.95);
+  background: rgba(99, 102, 241, 0.12);
+}
+
+.navButton:disabled {
+  opacity: 0.4;
+  cursor: not-allowed;
+}
+
+.closeButton {
+  padding: 4px;
+  min-width: 28px;
+  height: 28px;
+  border-radius: 6px;
+  color: rgba(203, 213, 225, 0.6);
+}
+
+.closeButton:hover {
+  color: rgba(248, 250, 255, 0.95);
+  background: rgba(248, 113, 113, 0.12);
+}
+
+/* ─── Light theme ─── */
+
+:global(body.light) .overlay {
+  background: rgba(255, 255, 255, 0.97);
+  border: 1px solid rgba(148, 163, 184, 0.2);
+  box-shadow: 0 4px 16px rgba(15, 23, 42, 0.1), 0 1px 4px rgba(15, 23, 42, 0.06);
+}
+
+:global(body.light) .input {
+  border: 1px solid rgba(148, 163, 184, 0.25);
+  background: rgba(248, 250, 252, 0.95);
+  color: var(--color-foreground);
+}
+
+:global(body.light) .input:focus {
+  border-color: rgba(139, 92, 246, 0.45);
+  box-shadow: 0 0 0 2px rgba(139, 92, 246, 0.12);
+}
+
+:global(body.light) .input::placeholder {
+  color: var(--color-muted-foreground);
+}
+
+:global(body.light) .matchCount {
+  color: var(--color-muted-foreground);
+}
+
+:global(body.light) .navButton {
+  color: var(--color-muted-foreground);
+}
+
+:global(body.light) .navButton:hover:not(:disabled) {
+  color: var(--color-foreground);
+  background: color-mix(in srgb, var(--color-primary) 8%, transparent);
+}
+
+:global(body.light) .closeButton {
+  color: var(--color-muted-foreground);
+}
+
+:global(body.light) .closeButton:hover {
+  color: var(--color-foreground);
+  background: color-mix(in srgb, var(--color-destructive) 8%, transparent);
+}

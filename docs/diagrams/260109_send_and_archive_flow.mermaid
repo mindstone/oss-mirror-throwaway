@@ -1,0 +1,85 @@
+%% Send & Archive Feature - Code Path Diagram
+%% Created: 2026-01-09
+%% Context: Planning doc at docs/plans/finished/260109_send_and_archive_dropdown.md
+%%
+%% This diagram shows the existing Send → Turn → Completion flow
+%% with NEW integration points marked for the "Send & Archive" feature.
+%%
+%% Key insight: Archive check MUST happen BEFORE the background-session
+%% early return in processAgentEvent, otherwise background sessions
+%% won't trigger archive.
+
+sequenceDiagram
+    participant User
+    participant AgentComposer as AgentComposer.tsx
+    participant Composer as ComposerWithState.tsx
+    participant App as App.tsx
+    participant Queue as useMessageQueue.ts
+    participant Engine as useAgentSessionEngine.ts
+    participant Store as sessionStore.ts
+    participant IPC as Main Process
+
+    %% === SEND FLOW ===
+    rect rgb(240, 248, 255)
+        Note over User,Store: SEND MESSAGE FLOW
+        User->>AgentComposer: Click "Send & Archive" dropdown
+        Note right of AgentComposer: NEW: onSendAndArchive()
+        AgentComposer->>Composer: onSendAndArchive()
+        Composer->>App: handleSendAndArchive()
+        App->>Store: setArchiveAfterTurnId(null) - clear any stale
+        App->>App: handleSubmitTextPrompt()
+    end
+
+    rect rgb(255, 250, 240)
+        Note over App,Engine: MESSAGE PROCESSING
+        App->>Queue: submitQueuedMessage(text, attachments, options)
+        
+        alt Busy (message queued)
+            Queue->>Queue: enqueueMessage()
+            Note over Queue: Message waits in queue
+        else Not Busy (immediate)
+            Queue->>Engine: processMessage()
+            Engine->>IPC: window.agentApi.turn({...})
+            IPC-->>Engine: { turnId }
+            Engine->>Store: assignTurnToMessage(messageId, turnId)
+            Note right of Store: NEW: setArchiveAfterTurnId(turnId)
+        end
+    end
+
+    %% === TURN EXECUTION ===
+    rect rgb(240, 255, 240)
+        Note over IPC,Store: TURN EXECUTION (streaming)
+        loop Agent Events
+            IPC-->>Engine: onAgentEvent({turnId, event})
+            Engine->>Engine: resolveSessionId(turnId)
+            Engine->>Engine: processAgentEvent(turnId, sessionId, event)
+            
+            alt event.type === 'result' (SUCCESS)
+                Note over Engine: CRITICAL: Archive check HERE
+                Note over Engine: BEFORE background early return!
+                Engine->>Engine: Check archiveAfterTurnId === turnId
+                Engine->>Engine: Check !stoppedTurnsRef.has(turnId)
+                Engine->>Store: archiveSession(sessionId)
+                Engine->>Store: setArchiveAfterTurnId(null)
+            else event.type === 'error'
+                Engine->>Store: setArchiveAfterTurnId(null)
+                Note over Store: Clear flag, do NOT archive
+            end
+
+            alt sessionId !== activeSessionId
+                Engine->>Store: processHistoryEvent(...)
+                Note over Engine: EARLY RETURN (background)
+            else sessionId === activeSessionId
+                Engine->>Store: processEvent(...)
+            end
+        end
+    end
+
+    %% === ARCHIVE FUNCTION ===
+    rect rgb(255, 240, 245)
+        Note over Store: ARCHIVE IMPLEMENTATION
+        Store->>Store: archiveSession(sessionId)
+        Note right of Store: Guard: if pinnedAt === null, no-op
+        Store->>Store: togglePinSession(sessionId)
+        Note right of Store: Sets pinnedAt = null (archived)
+    end

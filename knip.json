@@ -1,0 +1,213 @@
+{
+  "$schema": "https://unpkg.com/knip@5/schema.json",
+  // Dependency false-positive policy & rationale:
+  //   docs/research/tools/251230_Knip_Dead_Code_Detection.md
+  // The `ignoreDependencies` block below lists deps knip flags as unused but that
+  // ARE consumed via paths knip cannot trace (dynamic imports, native-module
+  // wrappers, bundler-alias targets, CSS @plugin/@import, root config files
+  // outside the `project` glob, mcp.json runtime spawns, and the `evals/` tree
+  // which is not in `project`). Each entry cites its real consumer.
+  // All entry/project globs carry the `!` production suffix so the SAME config
+  // serves both knip modes: default mode ignores the suffix entirely (verified
+  // byte-identical counts before/after, 260612), while `knip --production`
+  // (the tested-only-export leg in scripts/check-knip-health.ts) only honours
+  // `!`-suffixed globs — without the suffix, production mode analyzes nothing.
+  // See docs/project/DEAD_CODE_DETECTION_AND_REMOVAL.md.
+  "entry": [
+    "src/main/index.ts!",
+    "src/main/bootstrap.ts!",
+    "src/preload/index.ts!",
+    "src/renderer/main.tsx!",
+    "src/main/workers/embeddingWorker.ts!",
+    "src/main/workers/atlasWorker.ts!",
+    "src/main/workers/preTurnWorker.ts!",
+    "src/main/workers/indexHealthWorker.ts!",
+    // Forked child-process cloud-liveness prober (S2 isolation engine). Loaded at runtime
+    // by its COMPILED .js path (path.join(__dirname,'workers','cloudLivenessWorker.js')) in
+    // cloudFsExecutorService.ts + cloudLivenessProbeService.ts — never statically imported,
+    // so knip can't see the consumer without this entry.
+    "src/main/workers/cloudLivenessWorker.ts!",
+    "src/main/gpu-worker/preload.ts!",
+    "src/main/gpu-worker/renderer.ts!",
+    "evals/session-coaching.ts!",
+    "src/**/*.stories.{ts,tsx}!",
+    "mirror/transform.ts!",
+    // Mirror standalone CLI checkers (260618): each is invoked directly via an npm
+    // script (validate:recall-sdk-parity / check:oss-surface / mirror:check-output /
+    // validate:mirror-exclusion-list-parity / mirror:regen-patch) — they are roots of
+    // the import graph, not imported by transform.ts, so without an entry they read as
+    // unused production files (the OSS-mirror relocation surfaced them once the
+    // production leg flipped to ENFORCING on 260612). mirror/oss-forbidden-patterns.ts
+    // is a shared lib imported by these, so it's covered transitively (no entry needed).
+    "mirror/check-recall-sdk-parity.ts!",
+    "mirror/check-oss-surface-leaks.ts!",
+    "mirror/check-mirror-output.ts!",
+    "mirror/check-mirror-exclusion-list-parity.ts!",
+    "mirror/regen-patch.ts!",
+    // Cloud-service entry points — without these, src/core/ files imported only by
+    // cloud-service (e.g. @core/services/meeting/coaching) appear unused.
+    "cloud-service/src/entry.ts!",
+    "cloud-service/src/server.ts!",
+    "cloud-service/src/bootstrap.ts!",
+    // B3 carve-out (260607): the @private/mindstone/bootstrap alias is resolved at
+    // build/config-load time by an existsSync guard, which knip cannot trace — so
+    // BOTH resolution targets are intentional entry points. Without these, the OSS
+    // stub bootstrap reads as an unused file and the real bootstrap's exports
+    // (LIVE_AUTH_PROVIDER, registrars, current-user factory, forceAuthConfigRefresh)
+    // read as unused.
+    "src/main/oss/private-mindstone-stub/bootstrap.ts!",
+    "private/mindstone/src/bootstrap.ts!"
+  ],
+  "project": [
+    "src/**/*.{ts,tsx}!",
+    "private/mindstone/src/**/*.{ts,tsx}!",
+    "cloud-service/src/**/*.{ts,tsx}!",
+    "mirror/**/*.ts!"
+  ],
+  "ignore": [
+    "out/**",
+    ".vite/**",
+    "release/**",
+    "resources/**",
+    "super-mcp/**",
+    "rebel-system/**",
+    "scripts/**",
+    "**/*.d.ts",
+    // Type-assertion tests (*.type-test.ts) are compile-time-only: verified by tsc,
+    // never imported at runtime, so knip cannot trace them through the import graph
+    // and flags them as unused. Same rationale as the *.d.ts entry above.
+    // See src/core/services/__tests__/superMcpRestartConstruction.type-test.ts.
+    "**/*.type-test.ts",
+    "src/renderer/features/plugins/compiler/__tests__/fixtures/**",
+    // Deliberately invalid TypeScript fixtures are consumed only via an ESLint subprocess
+    // in src/main/services/__tests__/turnPipelineLintFixtures.test.ts, so Knip cannot
+    // discover them through import-graph tracing. See:
+    // src/main/services/turnPipeline/__lint_fixtures__/README.md
+    // Class-anchored on purpose to cover future ESLint shell-out fixture dirs too.
+    "**/__lint_fixtures__/**",
+    // ESLint rule self-test fixtures consumed via path strings (not imports) by
+    // src/main/services/meetingBot/__tests__/saveMeetingSource.eslintRuleSelfTest.test.ts
+    // and scripts/check-meeting-emit-eslint-scope.ts. Same pattern as __lint_fixtures__.
+    "**/__eslintViolationFixtures__/**",
+    // Boot-regression child fixture spawned as a fresh node process via a path string
+    // (node --import tsx ... <path>) by toolIndexService.platformConfigBoot.test.ts — it
+    // verifies importing toolIndexService never reads PlatformConfig. Not an import, so
+    // knip can't trace it. Same path-string-subprocess rationale as the fixtures above.
+    "src/core/services/toolIndex/__tests__/toolIndexService.platformConfigBoot.child.ts",
+    // Stage 2.E.1 transitional split chunks pending Stage 2.F core-move work
+    // (see docs/plans/260516_cross_surface_centralization.md). These re-export
+    // shims have no current consumers but are scaffolding for the upcoming
+    // agentTurnExecute split. Marker: `// CORE-MOVE-EXEMPT`.
+    "src/core/services/turnPipeline/agentTurnEvents.ts",
+    "src/core/services/turnPipeline/agentTurnInit.ts",
+    "src/core/services/turnPipeline/agentTurnPersistence.ts",
+    "src/core/services/turnPipeline/agentTurnPolling.ts",
+    "src/core/services/turnPipeline/agentTurnRecovery.ts",
+    // Stage 2.A landing-zone re-export shims for the future canonical settingsStore split
+    // (see src/core/services/settingsStore/README.md). Forward-looking placeholders with
+    // no current consumers; populated when defaults/migrations/normalizer are extracted
+    // from settingsStore/index.ts.
+    "src/core/services/settingsStore/defaults.ts",
+    "src/core/services/settingsStore/migrations.ts",
+    "src/core/services/settingsStore/normalizer.ts",
+    // Cloud/eval/CLI esbuild bundles alias @sentry/electron, @sentry/electron/main,
+    // and @sentry/core to this no-op shim (see cloud-service/build.mjs,
+    // evals/build*.mjs, scripts/rebel-cli/build.mjs). Knip can't trace bundler
+    // alias targets through TypeScript imports.
+    "cloud-service/src/sentryShim.ts",
+    // Cloud-sync test harness platform bootstrap. Consumed ONLY by
+    // scripts/cloud-sync-harness.ts and scripts/cloud-sync-harness-smoke.ts;
+    // since scripts/** is ignored (above), knip can't trace those consumers and
+    // false-positives this file as unused. Verified live: both scripts import and
+    // invoke bootstrapDesktopPlatform(). Same scripts/-untraceable rationale as the
+    // ignoreDependencies entries below (e.g. @sentry/vite-plugin, madge).
+    "src/test-utils/cloudHarness/bootstrapDesktopPlatform.ts",
+    // Model-recommendation engine (src/core/modelRecommendation/**) — public API
+    // intentionally shipped AHEAD of its consumers. The Add-a-model UI rewrite
+    // (ChoosePathStep.tsx) and the runtime-router usable-pool projection are
+    // SEPARATE follow-up runs (DECISION F in docs/plans/260614_recommended-models-engine/PLAN.md),
+    // so the engine has no production consumer yet (test-only usage). Same
+    // shipped-ahead-of-consumer rationale as the settingsStore/turnPipeline
+    // placeholders above. REMOVE these entries when the UI/router consumer lands.
+    "src/core/modelRecommendation/**",
+    // Source-capture prefilter kernel (src/core/sourceCapture/**) — the scripted
+    // (no-LLM) prefilter for automation cost-efficiency (docs/plans/260614_automation-cost-efficiency/
+    // Part B, Stage 1, landed 260615). Its only consumers today are the eval arm
+    // (evals/source-capture-prefilter-wiring.ts + evals/__tests__) and unit tests;
+    // evals/ is outside the `project` glob so knip can't trace that consumer, and
+    // automationScheduler.ts only references it by local variable NAME, not import —
+    // there is no production consumer yet. So the kernel reads as an unused file
+    // (mcpProgrammaticClient.ts in the default leg; the whole dir in the production
+    // leg). Same shipped-ahead-of-consumer rationale as modelRecommendation/** above.
+    // REMOVE this entry when the production automation consumer (Part B Stage 2+) lands.
+    "src/core/sourceCapture/**",
+    // OSS build alias target for @rudderstack/analytics-js (Elastic-2.0). Both renderer
+    // Vite configs (vite.renderer.config.mjs + the renderer section of electron.vite.config.ts)
+    // alias the specifier to this no-op stub in OSS builds only (isOssBuild-guarded). Knip
+    // can't trace bundler alias targets through the TypeScript import graph, so it
+    // false-positives the stub as unused (default leg) and as a production-path unused file
+    // (production leg). It IS live — just reached via a build-time alias, not an import. Same
+    // untraceable-alias rationale as the ignoreDependencies entries below. See
+    // src/renderer/src/oss/rudderstack-analytics-stub.ts (added 260619, mirror commit b77fbf85f).
+    "src/renderer/src/oss/rudderstack-analytics-stub.ts",
+    // Provider rate-limit cooldown store (src/core/services/providerRateLimitCooldowns.ts) —
+    // multi-provider failover Stage 4a, shipped AHEAD of its consumer. The route-decision
+    // selection seam that will read its cooldown snapshot is the deferred Stage 4b run;
+    // providerRouting.ts references it by NAME in a comment only, not by import, so the file
+    // has no production consumer yet (test-only usage) and knip's production leg reads it as a
+    // production-path unused file. Same shipped-ahead-of-consumer rationale as
+    // modelRecommendation/** and sourceCapture/** above. REMOVE this entry when Stage 4b wires
+    // the cooldown snapshot into the router. See docs/plans/260618_multiprovider-foundation/PLAN.md.
+    "src/core/services/providerRateLimitCooldowns.ts"
+  ],
+  "ignoreDependencies": [
+    // reason: wrapped via @core/storeFactory — src/main/index.ts, src/core/services/settingsStore/index.ts
+    "electron-store",
+    // reason: dynamic Pino transport register('pino-roll', ...) — src/core/logger.ts
+    "pino-roll",
+    // reason: native module via loadNativeModule<SherpaOnnxModule>('sherpa-onnx-node') — src/main/services/localSttService.ts
+    "sherpa-onnx-node",
+    // reason: Windows packaging only — forge.config.cjs packageAfterCopy copies node_modules/win-ca to app.asar.unpacked (~line 1585) and it's externalized in electron.vite.config.ts / vite.main.config.mjs / cloud-service/build.mjs / scripts/rebel-cli/build.mjs. Runtime TLS was migrated to native Node (NO win-ca import remains; src/main/bootstrap.ts:295 + autoUpdateService.ts only have stale comments). Removing the dep + its build scaffolding is a tracked FOLLOW-UP (see PLAN.md Discovered Improvements "win-ca migration-leftover sweep").
+    "win-ca",
+    // reason: runtime spawn (npx -y @playwright/mcp) — mcp.json
+    "@playwright/mcp",
+    // reason: forge.config.cjs string-name maker / src/forge.env.d.ts
+    "@electron-forge/maker-deb",
+    // reason: forge.config.cjs string-name maker / src/forge.env.d.ts
+    "@electron-forge/maker-dmg",
+    // reason: forge.config.cjs string-name maker / src/forge.env.d.ts
+    "@electron-forge/maker-zip",
+    // reason: forge.config.cjs plugin / src/forge.env.d.ts (@electron-forge/plugin-vite/forge-vite-env)
+    "@electron-forge/plugin-vite",
+    // reason: scripts/vite-sentry-plugin.mjs (scripts/** is ignored, so knip can't see the consumer)
+    "@sentry/vite-plugin",
+    // reason: CSS @plugin in src/renderer/styles/index.css
+    "@tailwindcss/typography",
+    // reason: CSS @import "tailwindcss" in src/renderer/styles/index.css
+    "tailwindcss",
+    // reason: CSS @plugin in src/renderer/styles/index.css
+    "tailwindcss-animate",
+    // reason: vi.mock('expo-server-sdk', ...) — vitest.setup.ts
+    "expo-server-sdk",
+    // reason: shelled via npx in scripts/** (scripts/check-circular-deps.ts, scripts/generate-impact-map.ts)
+    "madge",
+    // reason: import { defineConfig } from 'electron-vite' in electron.vite.config.ts:2 (root config outside the project glob), AND the build/dev binary is spawned from scripts/** — build:legacy/dist:legacy → scripts/run-electron-vite-build-with-heap-bump.ts; dev:legacy → scripts/run-dev-with-cdp-default.mjs (scripts/** is ignored so knip can't trace either).
+    "electron-vite",
+    // reason: import { visualizer } from 'rollup-plugin-visualizer' — vite.preload.config.mjs, vite.main.config.mjs (root configs outside project glob)
+    "rollup-plugin-visualizer",
+    // reason: root configs vite.renderer.config.mjs:3 + electron.vite.config.ts:3 (NOT subpackages — knip can't see root config files outside the project glob)
+    "@vitejs/plugin-react-swc",
+    // reason: evals/conversation-search.ts + evals/benchmarks/{semantic-search,tool-search-quality}.ts + super-mcp/ (evals/ tree is not in the project glob)
+    "wink-bm25-text-search",
+    // reason: evals/cowork/spike.ts + evals/cowork/mcp-config.ts (evals/ tree is not in the project glob)
+    "@anthropic-ai/claude-agent-sdk"
+  ],
+  "ignoreBinaries": [],
+  // An export/type that's also referenced within its OWN defining file is not
+  // dead code — it's merely over-exported (the value/type is live; only the
+  // `export` keyword is unnecessary). Reporting those as "unused" was ~72% of
+  // the unused-export findings and ~84% of unused-types (1353→380 / 2451→397).
+  // Ignoring them makes the dead-code gate (scripts/check-knip-health.ts) track
+  // TRULY-unreferenced symbols. See docs/project/DEAD_CODE_DETECTION_AND_REMOVAL.md.
+  "ignoreExportsUsedInFile": true
+}

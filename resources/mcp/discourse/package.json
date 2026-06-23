@@ -1,0 +1,19 @@
+{
+  "name": "rebel-discourse-mcp",
+  "version": "1.0.0",
+  "description": "Vendored Discourse MCP for Mindstone Rebel",
+  "private": true,
+  "type": "module",
+  "main": "build/index.js",
+  "scripts": {
+    "build": "tsc",
+    "start": "node build/index.js"
+  },
+  "dependencies": {
+    "@discourse/mcp": "0.1.10"
+  },
+  "devDependencies": {
+    "@types/node": "^20.11.24",
+    "typescript": "^5.3.3"
+  }
+}

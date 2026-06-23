@@ -1,0 +1,478 @@
+{
+  "id": 45,
+  "description": "modelMcp-throws-pre-runtime-failure",
+  "stage": "S3",
+  "addedIn": "round-3",
+  "notes": [
+    "Recorded against the Stage 3 pre-runtime-failure path; no recovery dispatch or retry is expected."
+  ],
+  "input": {
+    "turnId": "<TURN_ID>",
+    "prompt": "hello",
+    "turnOptions": {
+      "sessionId": "<SESSION_ID>"
+    },
+    "mockOverrides": {
+      "sessionHadTurns": true,
+      "resolveMcpServersThrows": true
+    }
+  },
+  "expected": {
+    "events": [
+      {
+        "sequence": 5,
+        "method": "dispatchAgentEvent",
+        "args": [
+          null,
+          "<TURN_ID>",
+          {
+            "timestamp": "<TIMESTAMP>",
+            "type": "turn_started"
+          }
+        ]
+      },
+      {
+        "sequence": 19,
+        "method": "dispatchAgentEvent",
+        "args": [
+          null,
+          "<TURN_ID>",
+          {
+            "message": "Starting agent turn...",
+            "timestamp": "<TIMESTAMP>",
+            "type": "status"
+          }
+        ]
+      },
+      {
+        "sequence": 24,
+        "method": "dispatchAgentEvent",
+        "args": [
+          null,
+          "<TURN_ID>",
+          {
+            "error": "model MCP assembly threw before runtime",
+            "errorSource": "main",
+            "timestamp": "<TIMESTAMP>",
+            "type": "error"
+          }
+        ]
+      }
+    ],
+    "registry": [
+      {
+        "sequence": 0,
+        "method": "setActiveTurnController",
+        "args": [
+          "<TURN_ID>",
+          {}
+        ]
+      },
+      {
+        "sequence": 3,
+        "method": "recordSessionTurn",
+        "args": [
+          "<SESSION_ID>",
+          null
+        ]
+      },
+      {
+        "sequence": 4,
+        "method": "setRendererSession",
+        "args": [
+          "<TURN_ID>",
+          "<SESSION_ID>"
+        ]
+      },
+      {
+        "sequence": 6,
+        "method": "setTurnCategory",
+        "args": [
+          "<TURN_ID>",
+          "conversation"
+        ]
+      },
+      {
+        "sequence": 7,
+        "method": "setTurnLogger",
+        "args": [
+          "<TURN_ID>"
+        ]
+      },
+      {
+        "sequence": 14,
+        "method": "setTurnPrompt",
+        "args": [
+          "<TURN_ID>",
+          "hello"
+        ]
+      },
+      {
+        "sequence": 27,
+        "method": "cleanupTurn",
+        "args": [
+          "<TURN_ID>"
+        ]
+      }
+    ],
+    "sentry": [
+      {
+        "sequence": 23,
+        "method": "captureException",
+        "message": "model MCP assembly threw before runtime",
+        "context": {
+          "extra": {
+            "recoverable": false,
+            "turnId": "<TURN_ID>"
+          },
+          "tags": {
+            "failurePhase": "primaryQueryShell",
+            "pre_runtime": true,
+            "source": "rebel-core-runtime"
+          }
+        }
+      }
+    ],
+    "log": [
+      {
+        "sequence": 1,
+        "method": "warn",
+        "args": [
+          {
+            "err": {}
+          },
+          "Failed to emit pre-turn worker stats snapshot"
+        ]
+      },
+      {
+        "sequence": 2,
+        "method": "debug",
+        "args": [
+          {
+            "attempt": 1,
+            "event": "turnPhase.entry",
+            "phaseName": "admission",
+            "sessionId": "<SESSION_ID>",
+            "turnId": "<TURN_ID>"
+          },
+          "turnPhase.entry"
+        ]
+      },
+      {
+        "sequence": 8,
+        "method": "info",
+        "args": [
+          {
+            "effectiveResetConversation": false,
+            "rendererHint": "undefined",
+            "rendererSessionId": "<SESSION_ID>"
+          },
+          "Initializing agent turn — main process resetConversation decision"
+        ]
+      },
+      {
+        "sequence": 9,
+        "method": "debug",
+        "args": [
+          {
+            "durationMs": "<DURATION_MS>",
+            "event": "turnPhase.exit",
+            "phaseName": "admission",
+            "status": "ok",
+            "turnId": "<TURN_ID>"
+          },
+          "turnPhase.exit"
+        ]
+      },
+      {
+        "sequence": 10,
+        "method": "debug",
+        "args": [
+          "Using pre-turn worker for context assembly"
+        ]
+      },
+      {
+        "sequence": 11,
+        "method": "debug",
+        "args": [
+          "No semantic context added (no results above threshold)"
+        ]
+      },
+      {
+        "sequence": 12,
+        "method": "debug",
+        "args": [
+          "Attempting main process fallback for conversation auto-injection"
+        ]
+      },
+      {
+        "sequence": 13,
+        "method": "info",
+        "args": [
+          {
+            "promptLengthBeforeAssembly": 5,
+            "sectionCount": 0,
+            "sections": {},
+            "totalSectionChars": 0
+          },
+          "Pre-turn context sections assembled"
+        ]
+      },
+      {
+        "sequence": 15,
+        "method": "info",
+        "args": [
+          {
+            "rendererSessionId": "<SESSION_ID>",
+            "resetConversation": false,
+            "sessionKind": "conversation"
+          },
+          "Injecting disk-based conversation history for agent turn context"
+        ]
+      },
+      {
+        "sequence": 16,
+        "method": "warn",
+        "args": [
+          {
+            "rendererSessionId": "<SESSION_ID>",
+            "sessionKind": "conversation"
+          },
+          "History injection returned empty — turn will have NO conversation context"
+        ]
+      },
+      {
+        "sequence": 17,
+        "method": "info",
+        "args": [
+          {
+            "binaryAttachments": 0,
+            "documentAttachments": 0,
+            "extractedPdfAttachments": 0,
+            "hasMedia": false,
+            "imageAttachments": 0,
+            "officeAttachments": 0,
+            "promptLength": 5,
+            "resetConversation": false,
+            "textAttachments": 0,
+            "textFileAttachments": 0
+          },
+          "Agent turn requested"
+        ]
+      },
+      {
+        "sequence": 18,
+        "method": "info",
+        "args": [
+          {
+            "sessionLogPath": "/tmp/test-turn.log",
+            "turnId": "<TURN_ID>"
+          },
+          "Agent turn session log created"
+        ]
+      },
+      {
+        "sequence": 20,
+        "method": "info",
+        "args": [
+          "Starting agent turn"
+        ]
+      },
+      {
+        "sequence": 22,
+        "method": "warn",
+        "args": [
+          {
+            "errorMessage": "model MCP assembly threw before runtime",
+            "failurePhase": "primaryQueryShell",
+            "recoverable": false
+          },
+          "Pre-runtime phase failure — running minimum-viable terminal cleanup"
+        ]
+      },
+      {
+        "sequence": 25,
+        "method": "info",
+        "args": [
+          {
+            "reason": "pre-runtime-failure",
+            "sessionLogPath": "/tmp/test-turn.log",
+            "turnId": "<TURN_ID>"
+          },
+          "Agent turn session log finalized"
+        ]
+      },
+      {
+        "sequence": 26,
+        "method": "info",
+        "args": [
+          {
+            "reason": "turn:<TURN_ID>"
+          },
+          "Power save block released (system sleep allowed)"
+        ]
+      }
+    ],
+    "cost": [],
+    "proxy": [],
+    "tracking": [],
+    "cooldown": [],
+    "checkpoint": [],
+    "sleepBlocker": [],
+    "fileChange": [],
+    "dynamicImport": [],
+    "envMutation": [
+      {
+        "sequence": 21,
+        "method": "setPath",
+        "args": [
+          "<PATH_MUTATED>"
+        ]
+      }
+    ],
+    "settingsMutation": [],
+    "query": [],
+    "timeline": [
+      {
+        "sequence": 0,
+        "surface": "registry",
+        "method": "setActiveTurnController"
+      },
+      {
+        "sequence": 1,
+        "surface": "log",
+        "method": "warn"
+      },
+      {
+        "sequence": 2,
+        "surface": "log",
+        "method": "debug"
+      },
+      {
+        "sequence": 3,
+        "surface": "registry",
+        "method": "recordSessionTurn"
+      },
+      {
+        "sequence": 4,
+        "surface": "registry",
+        "method": "setRendererSession"
+      },
+      {
+        "sequence": 5,
+        "surface": "event",
+        "method": "dispatchAgentEvent"
+      },
+      {
+        "sequence": 6,
+        "surface": "registry",
+        "method": "setTurnCategory"
+      },
+      {
+        "sequence": 7,
+        "surface": "registry",
+        "method": "setTurnLogger"
+      },
+      {
+        "sequence": 8,
+        "surface": "log",
+        "method": "info"
+      },
+      {
+        "sequence": 9,
+        "surface": "log",
+        "method": "debug"
+      },
+      {
+        "sequence": 10,
+        "surface": "log",
+        "method": "debug"
+      },
+      {
+        "sequence": 11,
+        "surface": "log",
+        "method": "debug"
+      },
+      {
+        "sequence": 12,
+        "surface": "log",
+        "method": "debug"
+      },
+      {
+        "sequence": 13,
+        "surface": "log",
+        "method": "info"
+      },
+      {
+        "sequence": 14,
+        "surface": "registry",
+        "method": "setTurnPrompt"
+      },
+      {
+        "sequence": 15,
+        "surface": "log",
+        "method": "info"
+      },
+      {
+        "sequence": 16,
+        "surface": "log",
+        "method": "warn"
+      },
+      {
+        "sequence": 17,
+        "surface": "log",
+        "method": "info"
+      },
+      {
+        "sequence": 18,
+        "surface": "log",
+        "method": "info"
+      },
+      {
+        "sequence": 19,
+        "surface": "event",
+        "method": "dispatchAgentEvent"
+      },
+      {
+        "sequence": 20,
+        "surface": "log",
+        "method": "info"
+      },
+      {
+        "sequence": 21,
+        "surface": "envMutation",
+        "method": "setPath"
+      },
+      {
+        "sequence": 22,
+        "surface": "log",
+        "method": "warn"
+      },
+      {
+        "sequence": 23,
+        "surface": "sentry",
+        "method": "captureException"
+      },
+      {
+        "sequence": 24,
+        "surface": "event",
+        "method": "dispatchAgentEvent"
+      },
+      {
+        "sequence": 25,
+        "surface": "log",
+        "method": "info"
+      },
+      {
+        "sequence": 26,
+        "surface": "log",
+        "method": "info"
+      },
+      {
+        "sequence": 27,
+        "surface": "registry",
+        "method": "cleanupTurn"
+      }
+    ]
+  }
+}

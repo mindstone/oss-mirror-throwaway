@@ -1,0 +1,85 @@
+.badge {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 2px 6px;
+  font-size: 0.6875rem;
+  font-weight: 500;
+  border-radius: var(--radius-sm, 4px);
+  border: none;
+  cursor: pointer;
+  transition:
+    background var(--motion-duration-fast, 120ms) ease,
+    color var(--motion-duration-fast, 120ms) ease,
+    transform var(--motion-duration-fast, 120ms) ease;
+  white-space: nowrap;
+  line-height: 1.2;
+}
+
+.badge:hover {
+  transform: translateY(-1px);
+}
+
+.badge:active {
+  transform: translateY(0);
+}
+
+/* Labs - icon-only badge with muted gray tones */
+.badge--labs {
+  padding: 3px;
+  background: transparent;
+  color: var(--color-muted-foreground, #94a3b8);
+}
+
+.badge--labs:hover {
+  background: rgba(148, 163, 184, 0.15);
+}
+
+/* Early - purple/violet tones matching Rebel brand */
+.badge--early {
+  background: rgba(139, 92, 246, 0.12);
+  color: var(--color-primary, #8b5cf6);
+}
+
+.badge--early:hover {
+  background: rgba(139, 92, 246, 0.2);
+}
+
+/* Beta - icon-only badge with muted gray tones (similar to labs, slightly more prominent) */
+.badge--beta {
+  padding: 3px;
+  background: transparent;
+  color: var(--color-muted-foreground, #94a3b8);
+}
+
+.badge--beta:hover {
+  background: rgba(148, 163, 184, 0.15);
+}
+
+/* Light mode - slightly stronger backgrounds for visibility */
+:global(body.light) .badge--labs {
+  background: transparent;
+  color: #64748b;
+}
+
+:global(body.light) .badge--labs:hover {
+  background: rgba(100, 116, 139, 0.15);
+}
+
+:global(body.light) .badge--early {
+  background: rgba(139, 92, 246, 0.15);
+  color: #7c3aed;
+}
+
+:global(body.light) .badge--early:hover {
+  background: rgba(139, 92, 246, 0.25);
+}
+
+:global(body.light) .badge--beta {
+  background: transparent;
+  color: #64748b;
+}
+
+:global(body.light) .badge--beta:hover {
+  background: rgba(100, 116, 139, 0.15);
+}

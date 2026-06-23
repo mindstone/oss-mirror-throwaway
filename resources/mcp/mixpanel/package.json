@@ -1,0 +1,21 @@
+{
+  "name": "mixpanel-mcp-server",
+  "version": "0.1.0",
+  "private": true,
+  "description": "Mixpanel MCP server — read-only access to events, cohorts, retention, funnels, insights, and user profiles",
+  "type": "module",
+  "main": "build/index.js",
+  "scripts": {
+    "build": "tsc",
+    "dev": "tsc --watch",
+    "start": "node build/index.js"
+  },
+  "dependencies": {
+    "@modelcontextprotocol/sdk": "^1.0.0",
+    "zod": "^3.22.0"
+  },
+  "devDependencies": {
+    "@types/node": "^20.11.24",
+    "typescript": "^5.3.3"
+  }
+}

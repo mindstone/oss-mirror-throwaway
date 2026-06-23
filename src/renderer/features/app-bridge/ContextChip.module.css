@@ -1,0 +1,70 @@
+/* ═══════════════════════════════════════════════════════════════════════════
+   ContextChip
+   Small pill that tags a conversation as originating from external context.
+   Colour is intentionally muted to sit above the composer without competing
+   with the primary content. Theming follows the shared design tokens so
+   both light and dark modes stay on-brand.
+   ═══════════════════════════════════════════════════════════════════════════ */
+
+.chip {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-1);
+  padding: var(--space-1) var(--space-2);
+  border-radius: var(--radius-pill);
+  background: color-mix(in srgb, var(--color-muted-foreground) 8%, transparent);
+  border: 1px solid color-mix(in srgb, var(--color-muted-foreground) 18%, transparent);
+  color: var(--color-muted-foreground);
+  font-size: var(--font-size-xs);
+  line-height: 1.2;
+  white-space: nowrap;
+  max-width: 100%;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.icon {
+  flex-shrink: 0;
+  opacity: 0.9;
+}
+
+.label {
+  font-weight: 500;
+  letter-spacing: 0.01em;
+}
+
+.separator {
+  opacity: 0.5;
+}
+
+.host {
+  font-variant-numeric: tabular-nums;
+  opacity: 0.85;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.chipLink {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-1);
+  color: var(--color-link);
+  font-weight: 500;
+  text-decoration: none;
+}
+
+.chipLink:hover {
+  color: var(--color-link-hover);
+  text-decoration: underline;
+}
+
+.chipLink:focus-visible {
+  outline: 2px solid var(--color-ring);
+  outline-offset: 2px;
+  border-radius: var(--radius-sm);
+}
+
+:global(body.light) .chip {
+  background: color-mix(in srgb, var(--color-muted-foreground) 10%, transparent);
+  border-color: color-mix(in srgb, var(--color-muted-foreground) 22%, transparent);
+}

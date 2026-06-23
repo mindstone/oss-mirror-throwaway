@@ -1,0 +1,118 @@
+.section {
+  margin-bottom: var(--space-md);
+}
+
+.sectionTitle {
+  font-size: 0.8125rem;
+  font-weight: 700;
+  color: var(--color-text-tertiary);
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  margin: 0 0 var(--space-sm);
+}
+
+.cards {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-sm);
+}
+
+.card {
+  display: flex;
+  align-items: center;
+  gap: var(--space-sm);
+  background: var(--color-surface);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-md);
+  padding: 12px;
+  box-shadow: var(--shadow-sm);
+}
+
+.cardApproval {
+  border-left: 4px solid var(--color-error);
+}
+
+.cardInbox {
+  border-left: 4px solid var(--color-accent);
+}
+
+.iconWrap {
+  width: 34px;
+  height: 34px;
+  border-radius: var(--radius-sm);
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+}
+
+.iconWrapApproval {
+  background: rgba(239, 68, 68, 0.12);
+}
+
+.iconWrapInbox {
+  background: rgba(99, 102, 241, 0.12);
+}
+
+.iconApproval {
+  color: var(--color-error);
+}
+
+.iconInbox {
+  color: var(--color-accent);
+}
+
+.cardBody {
+  flex: 1;
+  min-width: 0;
+}
+
+.cardTitle {
+  font-size: 0.9375rem;
+  font-weight: 600;
+  color: var(--color-text-primary);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  margin: 0;
+}
+
+.cardSubtitle {
+  font-size: 0.8125rem;
+  color: var(--color-text-secondary);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  margin: 2px 0 0;
+}
+
+.ctaButton {
+  background: var(--color-accent);
+  color: #fff;
+  border: none;
+  border-radius: var(--radius-sm);
+  text-decoration: none;
+  font-size: 0.75rem;
+  font-weight: 700;
+  padding: 7px 12px;
+  white-space: nowrap;
+  flex-shrink: 0;
+  transition: background var(--transition-fast), opacity var(--transition-fast);
+}
+
+.ctaButton:hover {
+  background: var(--color-accent-hover);
+}
+
+.overflowLink {
+  display: inline-flex;
+  margin-top: var(--space-sm);
+  font-size: 0.8125rem;
+  font-weight: 600;
+  color: var(--color-accent);
+  text-decoration: none;
+}
+
+.overflowLink:hover {
+  text-decoration: underline;
+}

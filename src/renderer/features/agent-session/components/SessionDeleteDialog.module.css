@@ -1,0 +1,152 @@
+.overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(15, 23, 42, 0.45);
+  backdrop-filter: blur(var(--glass-overlay-blur));
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 24px;
+  z-index: 120;
+}
+
+.dialog {
+  width: min(520px, 96vw);
+  border-radius: 28px;
+  background: var(--color-card);
+  border: 1px solid var(--color-border);
+  box-shadow: 0 32px 90px rgba(0, 0, 0, 0.4);
+  padding: 28px 32px 24px;
+  color: var(--color-card-foreground);
+  animation: dialog-pop 200ms cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.header {
+  display: flex;
+  gap: 16px;
+  align-items: flex-start;
+}
+
+.icon {
+  width: 54px;
+  height: 54px;
+  border-radius: 16px;
+  background: rgba(248, 113, 113, 0.15);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.9rem;
+  box-shadow: inset 0 0 0 1px rgba(248, 113, 113, 0.4);
+}
+
+.heading {
+  flex: 1;
+  min-width: 0;
+}
+
+.overline {
+  display: block;
+  font-size: 0.75rem;
+  text-transform: uppercase;
+  letter-spacing: 0.15em;
+  color: var(--color-text-muted);
+  margin-bottom: 6px;
+}
+
+.title {
+  margin: 0;
+  font-size: 1.4rem;
+  line-height: 1.2;
+}
+
+.meta {
+  margin-top: 8px;
+  font-size: 0.85rem;
+  color: var(--color-text-secondary);
+  display: flex;
+  gap: 8px;
+  flex-wrap: wrap;
+}
+
+.originBadge {
+  padding: 2px 8px;
+  border-radius: 999px;
+  background: rgba(16, 185, 129, 0.14);
+  color: var(--color-success);
+  font-size: 0.68rem;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+}
+
+.originBadgeRole {
+  background: rgba(79, 70, 229, 0.15);
+  color: rgba(129, 120, 246, 0.9);
+}
+
+.body {
+  margin-top: 20px;
+}
+
+.lede {
+  margin: 0;
+  font-size: 0.98rem;
+  line-height: 1.5;
+  color: var(--color-text-secondary);
+}
+
+.warningList {
+  list-style: none;
+  margin: 18px 0 0;
+  padding: 12px 18px;
+  border-radius: 18px;
+  background: rgba(248, 113, 113, 0.08);
+  border: 1px solid rgba(248, 113, 113, 0.35);
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.warningItem {
+  display: flex;
+  gap: 10px;
+  font-size: 0.9rem;
+  color: rgba(185, 28, 28, 0.9);
+}
+
+.warningDot {
+  width: 10px;
+  height: 10px;
+  border-radius: 999px;
+  background: rgba(248, 113, 113, 1);
+  margin-top: 6px;
+  flex-shrink: 0;
+}
+
+.actions {
+  margin-top: 28px;
+  display: flex;
+  justify-content: flex-end;
+  gap: 12px;
+}
+
+.deleteButton {
+  background: linear-gradient(120deg, #dc2626, #f97316);
+  border: none;
+  color: white;
+  box-shadow: 0 14px 30px rgba(220, 38, 38, 0.25);
+}
+
+.deleteButton:hover {
+  filter: brightness(1.02);
+}
+
+@keyframes dialog-pop {
+  0% {
+    opacity: 0;
+    transform: translateY(16px) scale(0.98);
+  }
+  100% {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+}

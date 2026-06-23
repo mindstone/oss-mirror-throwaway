@@ -1,0 +1,339 @@
+.rawEventsTab {
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+  padding: 4px 0;
+}
+
+/* ------------------------------------------------------------------ */
+/* Header / controls                                                   */
+/* ------------------------------------------------------------------ */
+
+.headerRow {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  flex-wrap: wrap;
+}
+
+.devBadge {
+  flex-shrink: 0;
+}
+
+.controls {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  flex-wrap: wrap;
+}
+
+.filterGroup {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  flex-wrap: wrap;
+}
+
+.filterLabel {
+  font-size: 0.72rem;
+  color: var(--color-text-muted);
+  text-transform: uppercase;
+  letter-spacing: 0.03em;
+  flex-shrink: 0;
+}
+
+.filterCheckbox {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  font-size: 0.76rem;
+  color: var(--color-text-secondary);
+  cursor: pointer;
+}
+
+.filterCheckbox input {
+  margin: 0;
+  cursor: pointer;
+}
+
+.turnSelect {
+  padding: 4px 8px;
+  border: 1px solid rgba(148, 163, 184, 0.28);
+  border-radius: 6px;
+  background: rgba(255, 255, 255, 0.82);
+  font-size: 0.76rem;
+  color: var(--color-text-primary);
+  cursor: pointer;
+}
+
+/* ------------------------------------------------------------------ */
+/* Compacted banner                                                    */
+/* ------------------------------------------------------------------ */
+
+.compactedBanner {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 8px 12px;
+  border-radius: 10px;
+  border: 1px solid rgba(148, 163, 184, 0.28);
+  background: rgba(241, 245, 249, 0.7);
+  color: var(--color-text-secondary);
+  font-size: 0.82rem;
+}
+
+/* ------------------------------------------------------------------ */
+/* Event list                                                          */
+/* ------------------------------------------------------------------ */
+
+.eventList {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.eventRow {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 6px 10px;
+  border-radius: 8px;
+  border: 1px solid rgba(148, 163, 184, 0.12);
+  background: rgba(255, 255, 255, 0.82);
+  cursor: pointer;
+  transition: background 0.12s ease;
+  font-size: 0.76rem;
+}
+
+.eventRow:hover {
+  background: rgba(248, 250, 252, 0.92);
+}
+
+.eventRow:focus-visible {
+  outline: 2px solid rgba(99, 102, 241, 0.55);
+  outline-offset: -1px;
+}
+
+.eventRowExpanded {
+  background: rgba(248, 250, 252, 0.64);
+  border-color: rgba(99, 102, 241, 0.22);
+}
+
+.eventTimestamp {
+  flex-shrink: 0;
+  width: 52px;
+  font-size: 0.72rem;
+  color: var(--color-text-muted);
+  font-family: monospace;
+}
+
+.eventTurnBadge {
+  flex-shrink: 0;
+}
+
+.eventSummary {
+  flex: 1;
+  min-width: 0;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  color: var(--color-text-primary);
+  font-size: 0.76rem;
+}
+
+.eventActions {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  flex-shrink: 0;
+}
+
+.copyButton {
+  padding: 2px 6px;
+  border: 1px solid rgba(148, 163, 184, 0.28);
+  border-radius: 4px;
+  background: transparent;
+  font-size: 0.68rem;
+  color: var(--color-text-muted);
+  cursor: pointer;
+  transition: color 0.12s ease, border-color 0.12s ease;
+}
+
+.copyButton:hover {
+  color: var(--color-text-primary);
+  border-color: rgba(148, 163, 184, 0.48);
+}
+
+.expandIcon {
+  flex-shrink: 0;
+  font-size: 0.72rem;
+  color: var(--color-text-muted);
+  transition: transform 0.15s ease;
+}
+
+.expandIconOpen {
+  transform: rotate(90deg);
+}
+
+/* ------------------------------------------------------------------ */
+/* Expanded JSON                                                       */
+/* ------------------------------------------------------------------ */
+
+.jsonWrap {
+  padding: 8px 12px;
+  margin: 0 0 4px 60px;
+  border-radius: 8px;
+  border: 1px solid rgba(148, 163, 184, 0.18);
+  background: rgba(248, 250, 252, 0.74);
+  overflow: auto;
+  max-height: 300px;
+}
+
+.jsonContent {
+  margin: 0;
+  font-family: monospace;
+  font-size: 0.72rem;
+  line-height: 1.5;
+  color: var(--color-text-primary);
+  white-space: pre-wrap;
+  word-break: break-all;
+}
+
+/* ------------------------------------------------------------------ */
+/* Pagination / empty                                                  */
+/* ------------------------------------------------------------------ */
+
+.showAllButton {
+  align-self: center;
+  padding: 8px 16px;
+  border: 1px solid rgba(148, 163, 184, 0.28);
+  border-radius: 8px;
+  background: rgba(255, 255, 255, 0.82);
+  font-size: 0.82rem;
+  color: var(--color-text-secondary);
+  cursor: pointer;
+  transition: background 0.12s ease;
+}
+
+.showAllButton:hover {
+  background: rgba(248, 250, 252, 0.92);
+}
+
+.emptyState {
+  padding: 32px 16px;
+  text-align: center;
+  color: var(--color-text-muted);
+  font-size: 0.88rem;
+}
+
+/* ------------------------------------------------------------------ */
+/* Event type badge colors                                             */
+/* ------------------------------------------------------------------ */
+
+.badgeAssistant {
+  border-color: rgba(59, 130, 246, 0.42);
+  color: rgba(37, 99, 235, 0.95);
+}
+
+.badgeTool {
+  border-color: rgba(168, 85, 247, 0.42);
+  color: rgba(126, 34, 206, 0.95);
+}
+
+.badgeError {
+  border-color: rgba(239, 68, 68, 0.42);
+  color: rgba(220, 38, 38, 0.95);
+}
+
+.badgeResult {
+  border-color: rgba(34, 197, 94, 0.42);
+  color: rgba(22, 163, 74, 0.95);
+}
+
+.badgeStatus {
+  border-color: rgba(148, 163, 184, 0.42);
+  color: rgba(100, 116, 139, 0.95);
+}
+
+.badgeOther {
+  border-color: rgba(148, 163, 184, 0.32);
+  color: rgba(100, 116, 139, 0.8);
+}
+
+/* ------------------------------------------------------------------ */
+/* Dark mode                                                           */
+/* ------------------------------------------------------------------ */
+
+:global(.dark) .turnSelect {
+  border-color: rgba(148, 163, 184, 0.34);
+  background: rgba(15, 23, 42, 0.78);
+  color: rgba(226, 232, 240, 0.95);
+}
+
+:global(.dark) .compactedBanner {
+  border-color: rgba(148, 163, 184, 0.28);
+  background: rgba(15, 23, 42, 0.68);
+  color: rgba(203, 213, 225, 0.88);
+}
+
+:global(.dark) .eventRow {
+  background: rgba(15, 23, 42, 0.78);
+  border-color: rgba(148, 163, 184, 0.14);
+}
+
+:global(.dark) .eventRow:hover {
+  background: rgba(15, 23, 42, 0.92);
+}
+
+:global(.dark) .eventRowExpanded {
+  background: rgba(15, 23, 42, 0.68);
+  border-color: rgba(129, 140, 248, 0.24);
+}
+
+:global(.dark) .jsonWrap {
+  border-color: rgba(148, 163, 184, 0.22);
+  background: rgba(2, 6, 23, 0.62);
+}
+
+:global(.dark) .showAllButton {
+  border-color: rgba(148, 163, 184, 0.34);
+  background: rgba(15, 23, 42, 0.78);
+}
+
+:global(.dark) .showAllButton:hover {
+  background: rgba(15, 23, 42, 0.92);
+}
+
+:global(.dark) .copyButton:hover {
+  color: rgba(226, 232, 240, 0.95);
+}
+
+:global(.dark) .badgeAssistant {
+  border-color: rgba(96, 165, 250, 0.42);
+  color: rgba(147, 197, 253, 0.95);
+}
+
+:global(.dark) .badgeTool {
+  border-color: rgba(192, 132, 252, 0.42);
+  color: rgba(216, 180, 254, 0.95);
+}
+
+:global(.dark) .badgeError {
+  border-color: rgba(248, 113, 113, 0.42);
+  color: rgba(252, 165, 165, 0.95);
+}
+
+:global(.dark) .badgeResult {
+  border-color: rgba(74, 222, 128, 0.42);
+  color: rgba(134, 239, 172, 0.95);
+}
+
+:global(.dark) .badgeStatus {
+  border-color: rgba(148, 163, 184, 0.42);
+  color: rgba(203, 213, 225, 0.95);
+}
+
+:global(.dark) .badgeOther {
+  border-color: rgba(148, 163, 184, 0.32);
+  color: rgba(203, 213, 225, 0.8);
+}

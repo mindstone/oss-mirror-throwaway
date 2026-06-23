@@ -1,0 +1,28 @@
+{
+  "name": "compaction-mid-turn",
+  "input": [
+    {
+      "id": "u3",
+      "turnId": "t3",
+      "role": "user",
+      "text": "Compaction summary: previous context compressed for continuity.",
+      "messageOrigin": "queue-drain",
+      "createdAt": 3001
+    },
+    {
+      "id": "a3",
+      "turnId": "t3",
+      "role": "assistant",
+      "text": "Got it, continuing from compacted context.",
+      "createdAt": 3002
+    }
+  ],
+  "expected": {
+    "visibleIds": ["u3", "a3"],
+    "messagesByTurnIds": {
+      "t3": ["u3", "a3"]
+    },
+    "activeTurnId": "t3",
+    "isBusy": true
+  }
+}

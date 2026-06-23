@@ -1,0 +1,22 @@
+{
+  "name": "@rebel/shared",
+  "version": "0.0.1",
+  "type": "module",
+  "main": "src/index.ts",
+  "types": "src/index.ts",
+  "private": true,
+  "scripts": {
+    "lint:ts": "npx tsc --ignoreConfig --noEmit --strict --target ES2022 --module ESNext --moduleResolution Bundler --resolveJsonModule --isolatedModules --allowSyntheticDefaultImports --esModuleInterop --skipLibCheck --types vitest/globals,node src/intentClient/*.ts src/intentClient/__tests__/*.test.ts",
+    "test": "npx vitest --root ../.. --config vitest.config.ts --project desktop ../../packages/shared/src/intentClient/__tests__ ../../packages/shared/src/chatController/__tests__ ../../packages/shared/src/chatUI/__tests__"
+  },
+  "dependencies": {
+    "diff": "5.2.2",
+    "pathe": "^2.0.3",
+    "remark-gfm": "^4.0.1",
+    "zod": "4.3.6"
+  },
+  "peerDependencies": {
+    "react": ">=18.0.0",
+    "unified": "^11.0.5"
+  }
+}

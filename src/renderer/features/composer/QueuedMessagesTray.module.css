@@ -1,0 +1,208 @@
+/* ═══════════════════════════════════════════════════════════════════════════
+   QueuedMessagesTray - Shows pending messages above the composer
+   ═══════════════════════════════════════════════════════════════════════════ */
+
+/* Wrapper provides centering and matches the composer/input width */
+.wrapper {
+  display: flex;
+  flex-direction: column;
+  width: calc(100% - 32px);
+  max-width: calc(100% - 32px);
+  margin: 0 auto;
+  padding: 0;
+  box-sizing: border-box;
+  animation: wrapperSlideIn 0.2s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+@keyframes wrapperSlideIn {
+  from {
+    opacity: 0;
+    transform: translateY(8px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.tray {
+  display: flex;
+  flex-direction: column;
+  background: transparent;
+  border: none;
+}
+
+.list {
+  list-style: none;
+  margin: 0;
+  padding: 2px 12px;
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.item {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  min-height: 34px;
+  padding: 5px 8px;
+  background: transparent;
+  border: 1px solid rgba(148, 163, 184, 0.18);
+  border-radius: 10px 10px 0 0;
+  animation: itemFadeIn 0.15s ease-out;
+}
+
+@keyframes itemFadeIn {
+  from {
+    opacity: 0;
+    transform: scale(0.98);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+.itemContent {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  flex: 1;
+  min-width: 0;
+}
+
+.queueBadge {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  width: 20px;
+  height: 20px;
+  border-radius: 999px;
+  border: 1px solid rgba(148, 163, 184, 0.24);
+  color: rgba(203, 213, 225, 0.8);
+  line-height: 1;
+}
+
+.queueBadgeSpacer {
+  flex-shrink: 0;
+  width: 20px;
+  height: 20px;
+}
+
+.preview {
+  flex: 1;
+  font-size: 0.8rem;
+  color: rgba(226, 232, 240, 0.7);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  min-width: 0;
+}
+
+.sessionBadge {
+  flex-shrink: 0;
+  padding: 2px 6px;
+  border-radius: 4px;
+  background: rgba(245, 158, 11, 0.15);
+  border: 1px solid rgba(245, 158, 11, 0.25);
+  color: rgba(251, 191, 36, 0.95);
+  font-size: 0.68rem;
+  font-weight: 500;
+  white-space: nowrap;
+}
+
+.actions {
+  display: flex;
+  align-items: center;
+  gap: 2px;
+  justify-content: flex-end;
+  flex-shrink: 0;
+  min-width: 0;
+}
+
+.confirmation {
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  gap: 6px;
+  min-width: 0;
+}
+
+.confirmationPrompt {
+  max-width: 220px;
+  color: var(--color-muted-foreground);
+  font-size: 0.68rem;
+  line-height: 1.2;
+  text-align: right;
+}
+
+.confirmationActions {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  flex-shrink: 0;
+}
+
+.removeButton {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  width: 22px;
+  height: 22px;
+  border: none;
+  border-radius: 6px;
+  background: transparent;
+  color: rgba(148, 163, 184, 0.6);
+  cursor: pointer;
+  transition: background 0.15s ease, color 0.15s ease;
+}
+
+.removeButton:hover {
+  background: rgba(239, 68, 68, 0.15);
+  color: rgba(252, 165, 165, 0.95);
+}
+
+.removeButton:focus-visible {
+  outline: 2px solid rgba(99, 102, 241, 0.6);
+  outline-offset: 1px;
+}
+
+/* ─────────────────────────────────────────────────────────────
+   Light Mode Overrides
+   ───────────────────────────────────────────────────────────── */
+
+:global(body.light) .tray {
+  background: transparent;
+}
+
+:global(body.light) .preview {
+  color: var(--color-muted-foreground);
+}
+
+:global(body.light) .item {
+  border-color: rgba(148, 163, 184, 0.24);
+}
+
+:global(body.light) .queueBadge {
+  border-color: rgba(148, 163, 184, 0.28);
+  color: var(--color-muted-foreground);
+}
+
+:global(body.light) .sessionBadge {
+  background: rgba(245, 158, 11, 0.1);
+  border-color: rgba(245, 158, 11, 0.2);
+  color: rgba(180, 83, 9, 0.95);
+}
+
+:global(body.light) .removeButton {
+  color: var(--color-muted-foreground);
+}
+
+:global(body.light) .removeButton:hover {
+  background: rgba(239, 68, 68, 0.1);
+  color: rgba(185, 28, 28, 0.95);
+}
+

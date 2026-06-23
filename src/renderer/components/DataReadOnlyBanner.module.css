@@ -1,0 +1,64 @@
+/**
+ * DataReadOnlyBanner — inline banner below the tab navigation.
+ *
+ * Warning-level severity with session-scoped dismiss.
+ * Uses --color-warning tokens for cross-theme consistency.
+ * Same layout pattern as VersionOutdatedBanner.
+ */
+
+.banner {
+  display: flex;
+  align-items: center;
+  gap: var(--space-3, 12px);
+  padding: var(--space-2, 8px) var(--space-4, 16px);
+  background: var(--color-warning-subtle, rgba(217, 119, 6, 0.15));
+  font-size: 13px;
+  line-height: 1.4;
+  -webkit-app-region: no-drag;
+}
+
+.icon {
+  flex-shrink: 0;
+  color: var(--color-warning, #d97706);
+}
+
+.text {
+  flex: 1;
+  min-width: 0;
+  color: var(--color-text-primary);
+}
+
+.actions {
+  display: flex;
+  align-items: center;
+  gap: var(--space-3, 12px);
+  flex-shrink: 0;
+}
+
+.banner .updateButton {
+  font-size: 12px;
+  font-weight: 600;
+  padding: var(--space-1, 4px) var(--space-3, 12px);
+  background: var(--color-warning, #d97706);
+  color: #fff;
+  border: none;
+  border-radius: 8px;
+  height: auto;
+  white-space: nowrap;
+}
+
+.banner .updateButton:hover {
+  opacity: 0.88;
+}
+
+.banner .dismissButton {
+  flex-shrink: 0;
+  width: 24px;
+  height: 24px;
+  padding: 0;
+  opacity: 0.5;
+}
+
+.banner .dismissButton:hover {
+  opacity: 0.9;
+}

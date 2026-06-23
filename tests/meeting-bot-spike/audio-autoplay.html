@@ -1,0 +1,226 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=1280, height=720">
+  <title>Rebel Avatar - Audio Autoplay Test</title>
+  <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    body {
+      width: 1280px;
+      height: 720px;
+      background: linear-gradient(135deg, #1a1a2e 0%, #16213e 100%);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+      color: white;
+      overflow: hidden;
+    }
+    .avatar-container {
+      text-align: center;
+    }
+    .avatar {
+      width: 200px;
+      height: 200px;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin: 0 auto 24px;
+      box-shadow: 0 8px 32px rgba(0,0,0,0.3);
+      transition: all 0.3s ease;
+    }
+    .avatar.idle {
+      background: linear-gradient(145deg, #4a90a4 0%, #2d5a6b 100%);
+    }
+    .avatar.speaking {
+      background: linear-gradient(145deg, #6bc46d 0%, #3d8b40 100%);
+      transform: scale(1.05);
+    }
+    .avatar.error {
+      background: linear-gradient(145deg, #c44a4a 0%, #8b3d3d 100%);
+    }
+    .avatar-icon {
+      font-size: 80px;
+    }
+    .bot-name {
+      font-size: 32px;
+      font-weight: 600;
+      margin-bottom: 8px;
+    }
+    .status {
+      font-size: 18px;
+      opacity: 0.7;
+      margin-bottom: 16px;
+    }
+    .test-result {
+      font-size: 24px;
+      font-weight: bold;
+      padding: 12px 24px;
+      border-radius: 8px;
+      margin-top: 20px;
+    }
+    .test-result.success {
+      background: rgba(107, 196, 109, 0.2);
+      color: #6bc46d;
+    }
+    .test-result.failure {
+      background: rgba(196, 74, 74, 0.2);
+      color: #c44a4a;
+    }
+    .test-result.pending {
+      background: rgba(196, 166, 74, 0.2);
+      color: #c4a64a;
+    }
+    .debug-info {
+      position: absolute;
+      bottom: 20px;
+      left: 20px;
+      font-size: 12px;
+      opacity: 0.5;
+      font-family: monospace;
+      max-width: 600px;
+    }
+  </style>
+</head>
+<body>
+  <div class="avatar-container">
+    <div class="avatar idle" id="avatar">
+      <span class="avatar-icon">🤖</span>
+    </div>
+    <div class="bot-name">Audio Autoplay Test</div>
+    <div class="status" id="status">Attempting autoplay...</div>
+    <div class="test-result pending" id="result">Testing...</div>
+  </div>
+  <div class="debug-info" id="debugInfo">Loading...</div>
+
+  <audio id="testAudio" preload="auto">
+    <!-- Using a data URI for a short beep sound (base64 encoded) -->
+  </audio>
+
+  <script>
+    const avatar = document.getElementById('avatar');
+    const status = document.getElementById('status');
+    const result = document.getElementById('result');
+    const debugInfo = document.getElementById('debugInfo');
+    const audio = document.getElementById('testAudio');
+    
+    let logs = [];
+    function log(msg) {
+      const timestamp = new Date().toISOString().substr(11, 12);
+      const entry = `[${timestamp}] ${msg}`;
+      logs.push(entry);
+      console.log('[Spike Test]', msg);
+      debugInfo.textContent = logs.slice(-5).join('\n');
+    }
+    
+    // Generate a simple beep using Web Audio API
+    function createBeepAudio() {
+      const audioContext = new (window.AudioContext || window.webkitAudioContext)();
+      const oscillator = audioContext.createOscillator();
+      const gainNode = audioContext.createGain();
+      
+      oscillator.connect(gainNode);
+      gainNode.connect(audioContext.destination);
+      
+      oscillator.frequency.value = 440; // A4 note
+      oscillator.type = 'sine';
+      gainNode.gain.value = 0.3;
+      
+      return { audioContext, oscillator, gainNode };
+    }
+    
+    async function testAutoplay() {
+      log('Starting autoplay test...');
+      
+      try {
+        // Method 1: Try Web Audio API (more likely to work)
+        log('Attempting Web Audio API...');
+        const { audioContext, oscillator, gainNode } = createBeepAudio();
+        
+        oscillator.start();
+        
+        // Play for 1 second
+        setTimeout(() => {
+          oscillator.stop();
+          audioContext.close();
+        }, 1000);
+        
+        // If we got here without error, autoplay works
+        avatar.className = 'avatar speaking';
+        status.textContent = 'Playing audio...';
+        log('Web Audio API: SUCCESS - audio playing');
+        
+        setTimeout(() => {
+          avatar.className = 'avatar idle';
+          status.textContent = 'Audio completed';
+          result.textContent = '✓ AUTOPLAY WORKS';
+          result.className = 'test-result success';
+          log('Test PASSED: Autoplay succeeded');
+        }, 1000);
+        
+      } catch (err) {
+        log(`Web Audio API failed: ${err.message}`);
+        
+        // Method 2: Try HTML Audio element with generated tone
+        try {
+          log('Attempting HTML Audio element...');
+          
+          // Create audio context to generate audio
+          const audioContext = new (window.AudioContext || window.webkitAudioContext)();
+          const oscillator = audioContext.createOscillator();
+          const dest = audioContext.createMediaStreamDestination();
+          oscillator.connect(dest);
+          oscillator.start();
+          
+          const mediaRecorder = new MediaRecorder(dest.stream);
+          const chunks = [];
+          
+          mediaRecorder.ondataavailable = (e) => chunks.push(e.data);
+          mediaRecorder.onstop = async () => {
+            const blob = new Blob(chunks, { type: 'audio/webm' });
+            audio.src = URL.createObjectURL(blob);
+            
+            try {
+              await audio.play();
+              avatar.className = 'avatar speaking';
+              status.textContent = 'Playing audio...';
+              log('HTML Audio: SUCCESS - audio playing');
+              
+              audio.onended = () => {
+                avatar.className = 'avatar idle';
+                status.textContent = 'Audio completed';
+                result.textContent = '✓ AUTOPLAY WORKS';
+                result.className = 'test-result success';
+                log('Test PASSED: Autoplay succeeded');
+              };
+            } catch (playErr) {
+              throw playErr;
+            }
+          };
+          
+          mediaRecorder.start();
+          setTimeout(() => {
+            mediaRecorder.stop();
+            oscillator.stop();
+          }, 1000);
+          
+        } catch (err2) {
+          log(`HTML Audio failed: ${err2.message}`);
+          avatar.className = 'avatar error';
+          status.textContent = 'Autoplay blocked';
+          result.textContent = '✗ AUTOPLAY BLOCKED';
+          result.className = 'test-result failure';
+          log('Test FAILED: All autoplay methods blocked');
+        }
+      }
+    }
+    
+    // Run test on page load
+    log('Page loaded, waiting 500ms before test...');
+    setTimeout(testAutoplay, 500);
+  </script>
+</body>
+</html>

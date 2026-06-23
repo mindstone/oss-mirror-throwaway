@@ -1,0 +1,229 @@
+/* HomeScreen.module.css */
+
+.container {
+  padding: var(--space-lg) 0;
+}
+
+.header {
+  margin-bottom: var(--space-xl);
+}
+
+.greeting {
+  font-size: 2rem;
+  font-weight: 700;
+  color: var(--color-text-primary);
+  letter-spacing: -0.02em;
+  margin: 0;
+}
+
+.connectedTo {
+  font-size: 0.8125rem;
+  color: var(--color-text-tertiary);
+  margin-top: var(--space-xs);
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+/* Quick input */
+.inputRow {
+  display: flex;
+  gap: var(--space-sm);
+  align-items: flex-end;
+  margin-bottom: var(--space-lg);
+}
+
+.input {
+  flex: 1;
+  background: var(--color-surface);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-lg);
+  padding: 12px 16px;
+  font-size: 1rem;
+  color: var(--color-text-primary);
+  font-family: var(--font-sans);
+  resize: none;
+  min-height: 44px;
+  max-height: 80px;
+  outline: none;
+  transition: border-color var(--transition-fast);
+}
+
+.input::placeholder {
+  color: var(--color-text-tertiary);
+}
+
+.input:focus {
+  border-color: var(--color-accent);
+}
+
+.sendButton {
+  background: var(--color-accent);
+  color: #fff;
+  border: none;
+  border-radius: var(--radius-lg);
+  padding: 12px 18px;
+  font-size: 0.9375rem;
+  font-weight: 700;
+  font-family: var(--font-sans);
+  cursor: pointer;
+  transition: background var(--transition-fast), opacity var(--transition-fast);
+  white-space: nowrap;
+}
+
+.sendButton:hover:not(:disabled) {
+  background: var(--color-accent-hover);
+}
+
+.sendButton:active:not(:disabled) {
+  transform: scale(0.95);
+  transition: transform 0.1s ease;
+}
+
+.sendButton:disabled {
+  opacity: 0.4;
+  cursor: not-allowed;
+}
+
+/* Approval banner */
+.approvalBanner {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  background: var(--color-error-bg);
+  border-radius: var(--radius-md);
+  padding: 14px var(--space-md);
+  margin-bottom: var(--space-lg);
+  text-decoration: none;
+  transition: opacity var(--transition-fast);
+}
+
+.approvalBanner:hover {
+  opacity: 0.85;
+}
+
+.approvalBanner:active {
+  transform: scale(0.98);
+  transition: transform 0.1s ease;
+}
+
+.approvalText {
+  font-size: 0.9375rem;
+  font-weight: 600;
+  color: var(--color-error);
+}
+
+.approvalArrow {
+  font-size: 1rem;
+  color: var(--color-error);
+}
+
+/* Sections */
+.section {
+  margin-bottom: var(--space-xl);
+}
+
+.sectionTitle {
+  font-size: 0.8125rem;
+  font-weight: 700;
+  color: var(--color-text-tertiary);
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  margin-bottom: var(--space-sm);
+}
+
+/* Session rows */
+.sessionRow {
+  display: block;
+  padding: 10px 0;
+  border-bottom: 1px solid var(--color-border);
+  text-decoration: none;
+  color: inherit;
+  transition: opacity var(--transition-fast);
+  cursor: pointer;
+}
+
+.sessionRow:hover {
+  opacity: 0.8;
+}
+
+.sessionRow:active {
+  transform: scale(0.98);
+  transition: transform 0.1s ease;
+}
+
+.sessionRowContent {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: var(--space-sm);
+}
+
+.sessionTitle {
+  font-size: 0.9375rem;
+  font-weight: 600;
+  color: var(--color-text-primary);
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  flex: 1;
+}
+
+.sessionTime {
+  font-size: 0.75rem;
+  color: var(--color-text-tertiary);
+  flex-shrink: 0;
+}
+
+.sessionPreview {
+  font-size: 0.8125rem;
+  color: var(--color-text-secondary);
+  margin-top: 2px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+/* Active sessions with busy dot */
+.activeRow {
+  display: flex;
+  align-items: center;
+  padding: 10px 0;
+  border-bottom: 1px solid var(--color-border);
+  text-decoration: none;
+  color: inherit;
+  cursor: pointer;
+  gap: var(--space-sm);
+  transition: opacity var(--transition-fast);
+}
+
+.activeRow:hover {
+  opacity: 0.8;
+}
+
+.activeRow:active {
+  transform: scale(0.98);
+  transition: transform 0.1s ease;
+}
+
+.busyDot {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: var(--color-accent);
+  flex-shrink: 0;
+  animation: pulse 2s ease-in-out infinite;
+}
+
+@keyframes pulse {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0.4; }
+}
+
+/* Empty state */
+.empty {
+  text-align: center;
+  padding: var(--space-2xl) var(--space-lg);
+  color: var(--color-text-secondary);
+  font-size: 0.9375rem;
+}

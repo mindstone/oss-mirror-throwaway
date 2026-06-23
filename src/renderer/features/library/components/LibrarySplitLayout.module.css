@@ -1,0 +1,49 @@
+
+/* ─────────────────────────────────────────────────────────────
+   Floating Editor Mode
+   When the Library editor is floating (absolute positioned on right),
+   these rules must come LAST to override shared split-layout defaults.
+   ───────────────────────────────────────────────────────────── */
+
+/* Remove position context so the editor panel can escape to .flow-body */
+:global(.app-shell--library-editor-open) .splitLayout {
+  position: static;
+  overflow: visible;
+}
+
+/* Navigator takes full width when editor is floating */
+:global(.app-shell--library-editor-open) .splitLayout .navigatorPane {
+  flex: 1 1 100%;
+  max-width: none !important;
+  min-width: 280px;
+}
+
+:global(.app-shell--library-editor-open) .splitLayout[data-editor-open='true'][data-kiosk-level='wide'] .navigatorPane {
+  /*
+   * Note: the `flex` value here is overridden in practice by the inline
+   * `style.flex` written by EditorWithNavigatorLayout from
+   * `focusNavigatorWidthPercent`. We keep `min-width`/`max-width` as
+   * floating-mode safety rails; the `--library-kiosk-rail-width` variable
+   * itself is still consumed by `app-shell.css` for floating positioning.
+   */
+  flex: 0 0 var(--library-kiosk-rail-width);
+  min-width: 160px;
+  max-width: 45%;
+}
+
+:global(.app-shell--library-editor-open) .splitLayout[data-kiosk-level='zen'] .navigatorPane {
+  display: none !important;
+}
+
+/* Keep resize hidden only in zen mode while floating */
+:global(.app-shell--library-editor-open) .splitLayout[data-kiosk-level='zen'] .resizeHandle {
+  display: none;
+}
+
+/* Editor pane wrapper collapses - the panel inside escapes via absolute positioning */
+:global(.app-shell--library-editor-open) .splitLayout .editorPane {
+  flex: 0 0 0 !important;
+  min-width: 0 !important;
+  width: 0;
+  overflow: visible !important;
+}

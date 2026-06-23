@@ -1,0 +1,283 @@
+/* Inbox Filter Dropdown — unified filter button with floating menu
+   Follows HistoryFilterDropdown pattern */
+
+.filterWrapper {
+  display: contents;
+}
+
+.filterButton {
+  position: relative;
+  width: 38px;
+  min-width: 38px;
+  height: 38px;
+  border-radius: var(--radius-md, 10px);
+}
+
+.filterIcon {
+  flex-shrink: 0;
+}
+
+.activeIndicator {
+  position: absolute;
+  top: 3px;
+  right: 3px;
+  width: 6px;
+  height: 6px;
+  border-radius: 999px;
+  background: #a78bfa;
+}
+
+/* Floating dropdown menu */
+.menu {
+  position: absolute;
+  z-index: 9999;
+  min-width: 220px;
+  padding: 6px;
+  border-radius: 14px;
+  background: rgba(13, 17, 28, 0.98);
+  border: 1px solid rgba(148, 163, 184, 0.22);
+  box-shadow:
+    0 16px 40px rgba(2, 6, 23, 0.55),
+    0 0 0 1px rgba(99, 102, 241, 0.08);
+  backdrop-filter: blur(var(--glass-overlay-blur));
+  animation: menuFade 150ms var(--motion-ease-out, cubic-bezier(0.16, 1, 0.3, 1));
+}
+
+@keyframes menuFade {
+  from {
+    opacity: 0;
+    transform: scale(0.96) translateY(-4px);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1) translateY(0);
+  }
+}
+
+.menuSection {
+  padding: 2px 0;
+}
+
+.menuHeader {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  padding: 8px 10px 6px;
+  font-size: 0.7rem;
+  font-weight: 600;
+  letter-spacing: 0.03em;
+  text-transform: uppercase;
+  color: rgba(148, 163, 184, 0.65);
+}
+
+.menuDivider {
+  height: 1px;
+  margin: 4px 10px;
+  background: linear-gradient(
+    90deg,
+    rgba(148, 163, 184, 0.0),
+    rgba(148, 163, 184, 0.25),
+    rgba(148, 163, 184, 0.0)
+  );
+}
+
+.menuItem {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  width: 100%;
+  padding: 10px 10px;
+  border: none;
+  border-radius: 10px;
+  background: transparent;
+  color: rgba(248, 250, 255, 0.88);
+  font-size: 0.875rem;
+  text-align: left;
+  cursor: pointer;
+  transition:
+    background 0.15s ease,
+    color 0.15s ease;
+}
+
+.menuItem:hover {
+  background: rgba(99, 102, 241, 0.12);
+  color: rgba(248, 250, 255, 1);
+}
+
+.menuItemActive {
+  background: rgba(99, 102, 241, 0.16);
+  color: rgba(248, 250, 255, 1);
+}
+
+.menuItemActive:hover {
+  background: rgba(99, 102, 241, 0.2);
+}
+
+.menuItem:focus-visible {
+  outline: none;
+  background: rgba(99, 102, 241, 0.15);
+  box-shadow: 0 0 0 2px rgba(99, 102, 241, 0.4);
+}
+
+.menuItemCompact {
+  padding: 8px 10px;
+}
+
+.menuItemIcon {
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 20px;
+  height: 20px;
+  color: rgba(167, 139, 250, 0.8);
+  flex-shrink: 0;
+}
+
+.menuItemContent {
+  display: flex;
+  flex-direction: column;
+  gap: 1px;
+  flex: 1;
+  min-width: 0;
+}
+
+.menuItemLabel {
+  font-weight: 500;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.menuItemCount {
+  font-size: 0.72rem;
+  font-weight: 600;
+  padding: 1px 6px;
+  border-radius: 999px;
+  background: rgba(148, 163, 184, 0.12);
+  color: rgba(148, 163, 184, 0.7);
+  min-width: 18px;
+  text-align: center;
+}
+
+.menuItemActive .menuItemCount {
+  background: rgba(139, 92, 246, 0.2);
+  color: #a78bfa;
+}
+
+.menuItemCheck {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 18px;
+  height: 18px;
+  color: #a78bfa;
+  flex-shrink: 0;
+}
+
+/* Toggle switch (for behaviour settings) */
+.toggleSwitch {
+  width: 28px;
+  height: 14px;
+  border-radius: 7px;
+  background: rgba(148, 163, 184, 0.3);
+  position: relative;
+  flex-shrink: 0;
+  transition: background 0.15s ease;
+}
+
+.toggleSwitch::after {
+  content: '';
+  position: absolute;
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  background: rgba(248, 250, 255, 0.9);
+  top: 2px;
+  left: 2px;
+  transition: transform 0.15s ease;
+}
+
+.toggleSwitchOn {
+  background: var(--color-primary, #8b5cf6);
+}
+
+.toggleSwitchOn::after {
+  transform: translateX(14px);
+}
+
+/* ─────────────────────────────────────────────────────────────
+   Light Mode Overrides
+   ───────────────────────────────────────────────────────────── */
+
+:global(body.light) .activeIndicator {
+  background: var(--color-primary);
+}
+
+:global(body.light) .menu {
+  background: var(--color-popover);
+  border: 1px solid var(--color-border);
+  box-shadow:
+    0 8px 24px rgba(0, 0, 0, 0.1),
+    0 0 0 1px color-mix(in srgb, var(--color-primary) 6%, transparent);
+}
+
+:global(body.light) .menuHeader {
+  color: var(--color-muted-foreground);
+}
+
+:global(body.light) .menuDivider {
+  background: linear-gradient(
+    90deg,
+    rgba(148, 163, 184, 0.0),
+    rgba(148, 163, 184, 0.3),
+    rgba(148, 163, 184, 0.0)
+  );
+}
+
+:global(body.light) .menuItem {
+  color: var(--color-foreground);
+}
+
+:global(body.light) .menuItem:hover {
+  background: color-mix(in srgb, var(--color-primary) 8%, transparent);
+}
+
+:global(body.light) .menuItemActive {
+  background: color-mix(in srgb, var(--color-primary) 10%, transparent);
+}
+
+:global(body.light) .menuItemActive:hover {
+  background: color-mix(in srgb, var(--color-primary) 14%, transparent);
+}
+
+:global(body.light) .menuItemIcon {
+  color: var(--color-primary);
+}
+
+:global(body.light) .menuItemCount {
+  background: rgba(148, 163, 184, 0.12);
+  color: var(--color-muted-foreground);
+}
+
+:global(body.light) .menuItemActive .menuItemCount {
+  background: rgba(139, 92, 246, 0.15);
+  color: var(--color-primary);
+}
+
+:global(body.light) .menuItemCheck {
+  color: var(--color-primary);
+}
+
+:global(body.light) .toggleSwitch {
+  background: rgba(148, 163, 184, 0.25);
+}
+
+:global(body.light) .toggleSwitchOn {
+  background: var(--color-primary, #8b5cf6);
+}
+
+:global(body.light) .toggleSwitch::after {
+  background: white;
+  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.1);
+}

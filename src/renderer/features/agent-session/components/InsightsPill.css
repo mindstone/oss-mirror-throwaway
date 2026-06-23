@@ -1,0 +1,71 @@
+/* InsightsPill - Small secondary pill button to open "Behind the scenes" drawer */
+
+.insights-pill {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  margin-left: 8px;
+  padding: 2px 8px 2px 6px;
+  border: 1px solid rgba(148, 163, 184, 0.25);
+  border-radius: 999px;
+  background: transparent;
+  color: rgba(148, 163, 184, 0.75);
+  font-size: 0.68rem;
+  font-weight: 500;
+  letter-spacing: 0.02em;
+  text-transform: none;
+  cursor: pointer;
+  max-width: 180px;
+  min-width: 0;
+  transition: 
+    background 0.15s ease, 
+    border-color 0.15s ease,
+    color 0.15s ease;
+}
+
+.insights-pill:hover {
+  background: rgba(148, 163, 184, 0.08);
+  border-color: rgba(148, 163, 184, 0.4);
+  color: rgba(203, 213, 225, 0.95);
+}
+
+.insights-pill:focus-visible {
+  outline: none;
+  box-shadow: 0 0 0 2px rgba(148, 163, 184, 0.25);
+}
+
+.insights-pill--active {
+  background: rgba(139, 92, 246, 0.12);
+  border-color: rgba(139, 92, 246, 0.35);
+  color: #c4b5fd;
+}
+
+.insights-pill--active:hover {
+  background: rgba(139, 92, 246, 0.18);
+  border-color: rgba(139, 92, 246, 0.45);
+  color: #d4c4ff;
+}
+
+.insights-pill__label {
+  line-height: 1;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.insights-pill__icon-left {
+  flex-shrink: 0;
+  width: 12px;
+  height: 12px;
+  opacity: 0.7;
+  transition: opacity 0.15s ease;
+}
+
+.insights-pill:hover .insights-pill__icon-left {
+  opacity: 1;
+}
+
+.insights-pill--active .insights-pill__icon-left {
+  opacity: 1;
+}
+

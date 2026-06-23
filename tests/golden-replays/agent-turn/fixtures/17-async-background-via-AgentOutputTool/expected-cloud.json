@@ -1,0 +1,126 @@
+{
+  "fixture": "17-async-background-via-AgentOutputTool",
+  "steps": [
+    {
+      "index": 0,
+      "eventType": "turn_started",
+      "state": {
+        "isSending": false,
+        "streamingText": "",
+        "statusText": null,
+        "activeTurnId": "turn-1",
+        "completedSteps": [],
+        "missionContext": null,
+        "taskProgress": [],
+        "subAgentItems": [],
+        "error": null,
+        "hasMissionSet": false,
+        "touchedTaskIds": [],
+        "userQuestionEventsByTurn": {}
+      }
+    },
+    {
+      "index": 1,
+      "eventType": "tool",
+      "state": {
+        "isSending": false,
+        "streamingText": "",
+        "statusText": "Using Agent...",
+        "activeTurnId": "turn-1",
+        "completedSteps": [],
+        "missionContext": null,
+        "taskProgress": [],
+        "subAgentItems": [
+          {
+            "id": "agent-1",
+            "toolUseId": "agent-1",
+            "label": "Research Worker",
+            "subagentType": "research-worker",
+            "summary": "Research",
+            "status": "running",
+            "isBackground": false,
+            "startedAt": 2000
+          }
+        ],
+        "error": null,
+        "hasMissionSet": false,
+        "touchedTaskIds": [],
+        "userQuestionEventsByTurn": {}
+      }
+    },
+    {
+      "index": 2,
+      "eventType": "tool",
+      "state": {
+        "isSending": false,
+        "streamingText": "",
+        "statusText": null,
+        "activeTurnId": "turn-1",
+        "completedSteps": [
+          {
+            "label": "Agent",
+            "timestamp": 3000,
+            "toolName": "Agent",
+            "detail": "{\"agent\":\"research-worker\",\"prompt\":\"Research\"}",
+            "toolUseId": "agent-1"
+          }
+        ],
+        "missionContext": null,
+        "taskProgress": [],
+        "subAgentItems": [
+          {
+            "id": "agent-1",
+            "toolUseId": "agent-1",
+            "label": "Research Worker",
+            "subagentType": "research-worker",
+            "summary": "Research",
+            "status": "running",
+            "isBackground": true,
+            "startedAt": 2000
+          }
+        ],
+        "error": null,
+        "hasMissionSet": false,
+        "touchedTaskIds": [],
+        "userQuestionEventsByTurn": {}
+      }
+    },
+    {
+      "index": 3,
+      "eventType": "result",
+      "state": {
+        "isSending": false,
+        "streamingText": "",
+        "statusText": null,
+        "activeTurnId": null,
+        "completedSteps": [
+          {
+            "label": "Agent",
+            "timestamp": 3000,
+            "toolName": "Agent",
+            "detail": "{\"agent\":\"research-worker\",\"prompt\":\"Research\"}",
+            "toolUseId": "agent-1"
+          }
+        ],
+        "missionContext": null,
+        "taskProgress": [],
+        "subAgentItems": [
+          {
+            "id": "agent-1",
+            "toolUseId": "agent-1",
+            "label": "Research Worker",
+            "subagentType": "research-worker",
+            "summary": "Research",
+            "status": "running",
+            "isBackground": true,
+            "startedAt": 2000
+          }
+        ],
+        "error": null,
+        "hasMissionSet": false,
+        "touchedTaskIds": [],
+        "userQuestionEventsByTurn": {}
+      }
+    }
+  ]
+}

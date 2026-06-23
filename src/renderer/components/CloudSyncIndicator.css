@@ -1,0 +1,117 @@
+/* Cloud sync indicator - header icon button with status badge */
+
+.cloud-sync-indicator {
+  position: relative;
+}
+
+/* Synced state: subdued, calm - nothing to worry about */
+.cloud-sync-indicator--synced {
+  opacity: 0.55;
+}
+
+.cloud-sync-indicator--synced:hover {
+  opacity: 1;
+}
+
+/* Syncing state: slightly more visible */
+.cloud-sync-indicator--syncing {
+  opacity: 0.8;
+  color: #a78bfa !important;
+}
+
+/* Badge dot - positioned like notification bell badge */
+.cloud-sync-indicator__badge {
+  position: absolute;
+  top: 4px;
+  right: 4px;
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  border: 1.5px solid rgba(13, 17, 28, 0.9);
+}
+
+body.light .cloud-sync-indicator__badge {
+  border-color: rgba(255, 255, 255, 0.9);
+}
+
+/* Syncing badge - amber with pulse */
+.cloud-sync-indicator__badge--syncing {
+  background-color: #f59e0b;
+  animation: cloud-sync-pulse 2s ease-in-out infinite;
+}
+
+@keyframes cloud-sync-pulse {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0.4; }
+}
+
+/* Offline state: muted red */
+.cloud-sync-indicator--offline {
+  opacity: 0.8;
+  color: #ef4444 !important;
+}
+
+/* Error state: amber */
+.cloud-sync-indicator--error {
+  opacity: 0.8;
+  color: #f59e0b !important;
+}
+
+/* Offline badge - red with gentle pulse */
+.cloud-sync-indicator__badge--offline {
+  background-color: #ef4444;
+  animation: cloud-sync-pulse 3s ease-in-out infinite;
+}
+
+/* Error badge - amber with gentle pulse */
+.cloud-sync-indicator__badge--error {
+  background-color: #f59e0b;
+  animation: cloud-sync-pulse 3s ease-in-out infinite;
+}
+
+/* Pressure-warning state: amber tone, same calm weight as error */
+.cloud-sync-indicator--pressure-warning {
+  opacity: 0.8;
+  color: #f59e0b !important;
+}
+
+/* Pressure-critical state: orange-red, more urgent than warning */
+.cloud-sync-indicator--pressure-critical {
+  opacity: 0.9;
+  color: #f97316 !important;
+}
+
+/* Pressure-warning badge — slow amber pulse */
+.cloud-sync-indicator__badge--pressure-warning {
+  background-color: #f59e0b;
+  animation: cloud-sync-pulse 3s ease-in-out infinite;
+}
+
+/* Pressure-critical badge — faster orange-red pulse */
+.cloud-sync-indicator__badge--pressure-critical {
+  background-color: #f97316;
+  animation: cloud-sync-pulse 2s ease-in-out infinite;
+}
+
+/* Light mode adjustments */
+body.light .cloud-sync-indicator--syncing {
+  color: #7c3aed !important;
+}
+
+body.light .cloud-sync-indicator--offline {
+  color: #dc2626 !important;
+}
+
+body.light .cloud-sync-indicator--error {
+  color: #d97706 !important;
+}
+
+body.light .cloud-sync-indicator--pressure-warning {
+  color: #d97706 !important;
+}
+
+body.light .cloud-sync-indicator--pressure-critical {
+  color: #ea580c !important;
+}
+
+

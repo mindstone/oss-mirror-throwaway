@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=1280, height=720">
+  <title>Rebel Avatar</title>
+  <link rel="stylesheet" href="src/styles.css">
+</head>
+<body>
+  <div class="avatar-container">
+    <div class="avatar" id="avatar">
+      <div class="avatar-glow"></div>
+      <div class="avatar-ring"></div>
+      <video 
+        id="avatarVideo" 
+        class="avatar-image" 
+        autoplay
+        muted
+        playsinline
+      ></video>
+      <div class="pulse-ring" id="pulseRing"></div>
+    </div>
+    
+    <div class="bot-info">
+      <div class="bot-name" id="botName">Rebel</div>
+      <div class="bot-status" id="botStatus" aria-live="polite">Taking notes...</div>
+    </div>
+    
+    <div class="caption-bar" id="captionBar" aria-live="polite"></div>
+    
+    <div class="knowledge-indicator" id="knowledgeIndicator" style="display: none;">
+      <span class="knowledge-icon">🧠</span>
+      <span class="knowledge-text">Q&A Active</span>
+    </div>
+  </div>
+  
+  <div class="connection-indicator" id="connectionIndicator">
+    <div class="connection-dot"></div>
+    <span class="connection-text">Standalone</span>
+  </div>
+  
+  <div class="caption-indicator" id="captionIndicator">
+    <div class="caption-dot"></div>
+    <span class="caption-text">Waiting for captions</span>
+  </div>
+  
+  <!-- Trigger legend - shows voice commands -->
+  <div class="trigger-legend" id="triggerLegend">
+    <div class="trigger-legend-title">Voice commands</div>
+    <div class="trigger-item">
+      <span class="trigger-phrase" id="triggerAsk">Hey Spark</span>
+      <span class="trigger-action">Ask a question</span>
+    </div>
+    <div class="trigger-item" id="triggerInterruptItem" style="display: none;">
+      <span class="trigger-phrase" id="triggerInterrupt">Okay Spark</span>
+      <span class="trigger-action">Stop speaking</span>
+    </div>
+  </div>
+  
+  <audio id="audioPlayer" preload="auto"></audio>
+  
+  <script type="module" src="src/main.js"></script>
+</body>
+</html>

@@ -1,0 +1,60 @@
+/**
+ * RiskBadge.module.css
+ *
+ * Shared risk badge styles extracted from UnifiedApprovalCard.
+ * Used across approval surfaces for consistent risk level display.
+ */
+
+.badge {
+  flex-shrink: 0;
+  width: 22px;
+  height: 22px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 6px;
+}
+
+.low {
+  background: rgba(16, 185, 129, 0.15);
+  color: #34d399;
+}
+
+.medium {
+  background: rgba(245, 158, 11, 0.15);
+  color: #fbbf24;
+}
+
+.high {
+  background: rgba(239, 68, 68, 0.15);
+  color: #f87171;
+}
+
+.unknown {
+  background: rgba(148, 163, 184, 0.16);
+  color: #cbd5e1;
+}
+
+/* ─────────────────────────────────────────────────────────────
+   Light Mode
+   ───────────────────────────────────────────────────────────── */
+
+:global(body.light) .low {
+  background: rgba(16, 185, 129, 0.12);
+  color: #059669;
+}
+
+:global(body.light) .medium {
+  background: rgba(245, 158, 11, 0.12);
+  color: #d97706;
+}
+
+:global(body.light) .high {
+  background: rgba(239, 68, 68, 0.12);
+  color: #dc2626;
+}
+
+:global(body.light) .unknown {
+  background: rgba(148, 163, 184, 0.12);
+  color: #475569;
+}

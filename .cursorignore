@@ -1,0 +1,5 @@
+# Cursor: paths to exclude from AI context.
+#
+# See `.factoryignore` for the full rationale. Same exclusion content here
+# so that Cursor users get the same agent-isolation property as Droid users.
+mirror/patches/**

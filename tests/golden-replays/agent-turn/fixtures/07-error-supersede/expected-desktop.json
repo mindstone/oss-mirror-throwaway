@@ -1,0 +1,47 @@
+{
+  "fixture": "07-error-supersede",
+  "steps": [
+    {
+      "index": 0,
+      "eventType": "turn_started",
+      "state": {
+        "messages": [],
+        "activeTurnId": "turn-1",
+        "isBusy": true,
+        "lastError": null,
+        "runtime": {
+          "activeTurnId": "turn-1",
+          "terminated": false
+        }
+      }
+    },
+    {
+      "index": 1,
+      "eventType": "error",
+      "state": {
+        "messages": [],
+        "activeTurnId": null,
+        "isBusy": false,
+        "lastError": "Provider returned error",
+        "runtime": {
+          "activeTurnId": null,
+          "terminated": true
+        }
+      }
+    },
+    {
+      "index": 2,
+      "eventType": "error",
+      "state": {
+        "messages": [],
+        "activeTurnId": null,
+        "isBusy": false,
+        "lastError": "Rate limited",
+        "runtime": {
+          "activeTurnId": null,
+          "terminated": true
+        }
+      }
+    }
+  ]
+}

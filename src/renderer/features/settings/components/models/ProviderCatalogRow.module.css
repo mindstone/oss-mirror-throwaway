@@ -1,0 +1,119 @@
+.row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  padding: 8px 10px;
+  border-radius: var(--radius-md, 6px);
+  border: 1px solid transparent;
+  transition: background-color 120ms ease;
+}
+
+.row:hover {
+  background-color: rgba(139, 92, 246, 0.04);
+}
+
+:global(body.light) .row:hover {
+  background-color: rgba(139, 92, 246, 0.06);
+}
+
+.info {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  min-width: 0;
+}
+
+.name {
+  font-size: 13px;
+  font-weight: 500;
+  color: var(--color-text-primary, inherit);
+}
+
+.provider {
+  font-size: 11px;
+  color: var(--color-text-muted);
+}
+
+.metaLine {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  flex-wrap: wrap;
+}
+
+.capabilities {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  flex-wrap: wrap;
+}
+
+.teamActions {
+  display: inline-flex;
+  align-items: center;
+  justify-content: flex-end;
+  gap: var(--space-2);
+  flex-shrink: 0;
+}
+
+/* ─── Segmented control ─────────────────────────────────────────────────── */
+
+.effortGroup {
+  display: inline-flex;
+  align-items: center;
+  border-radius: var(--radius-sm, 6px);
+  overflow: hidden;
+  border: 1px solid var(--color-border-subtle, rgba(139, 92, 246, 0.2));
+  flex-shrink: 0;
+}
+
+.effortButton {
+  padding: 4px 10px;
+  font-size: 11px;
+  font-weight: 400;
+  border: none;
+  background-color: transparent;
+  color: var(--color-text-secondary);
+  cursor: pointer;
+  transition: background-color 120ms ease, color 120ms ease;
+}
+
+.effortButton:hover {
+  background-color: rgba(139, 92, 246, 0.08);
+  color: var(--color-text-primary, inherit);
+}
+
+.effortButton:focus-visible {
+  outline: 2px solid rgba(139, 92, 246, 0.6);
+  outline-offset: -2px;
+}
+
+.effortButtonActive {
+  composes: effortButton;
+  font-weight: 500;
+  background-color: rgba(139, 92, 246, 0.16);
+  color: var(--color-accent, #8b5cf6);
+}
+
+/* ─── "No reasoning" label ──────────────────────────────────────────────── */
+
+.noReasoning {
+  font-size: 11px;
+  color: var(--color-text-muted);
+  font-style: italic;
+  padding: 4px 8px;
+  flex-shrink: 0;
+}
+
+/* ─── Responsive ─────────────────────────────────────────────────────────── */
+
+@media (max-width: 479px) {
+  .row {
+    gap: 8px;
+    padding: 6px 8px;
+  }
+  .effortButton {
+    padding: 4px 8px;
+  }
+}

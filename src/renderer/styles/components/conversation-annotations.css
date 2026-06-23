@@ -1,0 +1,17 @@
+/**
+ * Conversation Annotation Highlights
+ *
+ * Uses CSS Custom Highlight API for non-DOM-mutating text highlights.
+ * The 'conversation-annotations' highlight is registered via JavaScript.
+ */
+
+/* Existing saved annotations */
+::highlight(conversation-annotations) {
+  background-color: rgba(99, 102, 241, 0.25);
+  border-bottom: 2px solid rgba(99, 102, 241, 0.8);
+}
+
+/* Pending annotation selection (while popover is open) */
+::highlight(annotation-pending) {
+  background-color: rgba(59, 130, 246, 0.3);
+}

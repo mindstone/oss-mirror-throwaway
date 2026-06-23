@@ -1,0 +1,18 @@
+{
+  "commits": [
+    { "hash": "0101010101010101010101010101010101010101", "subject": "feat(homepage): Added clearer welcome summary copy", "body": "" },
+    { "hash": "0202020202020202020202020202020202020202", "subject": "feat(homepage): Added upcoming meetings count chip", "body": "" },
+    { "hash": "0303030303030303030303030303030303030303", "subject": "feat(homepage): Added shortcut hints under Today card", "body": "" },
+    { "hash": "0404040404040404040404040404040404040404", "subject": "feat(homepage): Added progress ring for daily tasks", "body": "" },
+    { "hash": "0505050505050505050505050505050505050505", "subject": "feat(homepage): Added compact mode toggle for cards", "body": "" },
+    { "hash": "0606060606060606060606060606060606060606", "subject": "feat(homepage): Added draft restore banner for sessions", "body": "" },
+    { "hash": "0707070707070707070707070707070707070707", "subject": "feat(homepage): Added keyboard shortcut tooltip for quick actions", "body": "" },
+    { "hash": "0808080808080808080808080808080808080808", "subject": "feat(homepage): Added pinned recents section in sidebar", "body": "" },
+    { "hash": "0909090909090909090909090909090909090909", "subject": "feat(homepage): Added visual grouping for focus timers", "body": "" },
+    { "hash": "1010101010101010101010101010101010101010", "subject": "feat(homepage): Added one-click resume for paused sessions", "body": "" },
+    { "hash": "1112131415161718192021222324252627282930", "subject": "feat(homepage): Added richer empty-state guidance text", "body": "" },
+    { "hash": "3132333435363738394041424344454647484950", "subject": "feat(homepage): Added inline reminder setup action", "body": "" },
+    { "hash": "5152535455565758596061626364656667686970", "subject": "feat(homepage): Added quick switch chips for workspaces", "body": "" },
+    { "hash": "7172737475767778798081828384858687888990", "subject": "fix(homepage): Corrected stale counts after refresh", "body": "" }
+  ]
+}

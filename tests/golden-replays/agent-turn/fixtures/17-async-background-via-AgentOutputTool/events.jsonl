@@ -1,0 +1,4 @@
+{"type":"turn_started","timestamp":1,"turnId":"turn-1"}
+{"type":"tool","timestamp":2,"stage":"start","toolName":"Agent","toolUseId":"agent-1","detail":"{\"agent\":\"research-worker\",\"prompt\":\"Research\"}"}
+{"type":"tool","timestamp":3,"stage":"end","toolName":"Agent","toolUseId":"agent-1","detail":"Async agent launched successfully"}
+{"type":"result","timestamp":4,"text":"Launched"}

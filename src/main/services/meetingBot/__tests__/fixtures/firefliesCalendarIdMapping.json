@@ -1,0 +1,19 @@
+{
+  "scenarios": [
+    {
+      "name": "fireflies_with_explicit_calendar_id",
+      "input": {
+        "meetingUrl": "https://meet.google.com/aaa",
+        "calendarEventId": "cal_event_123"
+      },
+      "expected_frontmatter_calendar_event_id": "cal_event_123"
+    },
+    {
+      "name": "fireflies_no_calendar_id_falls_back_to_meeting_url",
+      "input": {
+        "meetingUrl": "https://meet.google.com/bbb"
+      },
+      "expected_frontmatter_calendar_event_id": null
+    }
+  ]
+}

@@ -1,0 +1,39 @@
+name = "meeting-bot-interactive"
+main = "src/index.ts"
+compatibility_date = "2024-01-01"
+
+# Account ID for Mindstone Learning
+account_id = "09a8de2f5d5a19893dcdd0d2b3ef2dd3"
+
+# KV Namespace for bot data (same as existing worker)
+[[kv_namespaces]]
+binding = "MEETING_BOTS"
+id = "20f11495af5c4e709f0ec7e8b7500478"
+
+# R2 Bucket for TTS audio files (Phase 3a - not yet implemented)
+# [[r2_buckets]]
+# binding = "TTS_BUCKET"
+# bucket_name = "mindstone-assets"
+
+# Durable Objects for WebSocket relay
+[[durable_objects.bindings]]
+name = "BOT_RELAY"
+class_name = "BotRelay"
+
+[[migrations]]
+tag = "v1"
+new_classes = ["BotRelay"]
+
+# Environment variables (use wrangler secret for sensitive values)
+[vars]
+RECALL_BASE_URL = "https://us-west-2.recall.ai/api/v1"
+KV_TTL_SECONDS = "604800"  # 7 days
+CLOUD_TRANSCRIPT_FORWARD_ENABLED = "false"
+CLOUD_SERVICE_URL = ""
+
+# Secrets (set via `wrangler secret put`):
+# - RECALL_API_KEY
+# - MINDSTONE_AUTH_SECRET
+# - RECALL_WEBHOOK_SECRET
+# - MINDSTONE_TRANSCRIPT_HMAC_SECRET
+# - JWT_SECRET

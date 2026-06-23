@@ -1,0 +1,7 @@
+{
+  "name": "09_corrupted-double-encoded",
+  "description": "Double-encoded HTML entity ('&amp;nbsp;') — the '&amp;' decodes to '&', producing '&nbsp;', which then sanitises to a regular space. Shape comes from values that round-tripped through an HTML escaper twice (e.g. legacy clipboard pipelines). Sanitiser must handle the post-decode form.",
+  "input": "foo&amp;nbsp;bar",
+  "expectedSanitised": "foo bar",
+  "expectedDocShape": ""
+}

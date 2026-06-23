@@ -1,0 +1,22 @@
+/**
+ * PluginWidgetSection — responsive grid of plugin widgets on the homepage
+ *
+ * Max 3 widgets per row, collapses to 2 and 1 column at narrower widths.
+ */
+
+.section {
+  width: 100%;
+}
+
+.grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+  gap: 16px;
+}
+
+/* Cap at 3 columns on wide screens */
+@media (min-width: 960px) {
+  .grid {
+    grid-template-columns: repeat(3, 1fr);
+  }
+}

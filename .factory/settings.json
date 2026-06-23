@@ -1,0 +1,30 @@
+{
+  "hooks": {
+    "SessionEnd": [
+      {
+        "hooks": [
+          {
+            "type": "command",
+            "command": "python3 \"$FACTORY_PROJECT_DIR\"/coding-agent-instructions/hooks/export_transcript.py --hook",
+            "timeout": 30
+          }
+        ]
+      }
+    ],
+    "SessionStart": [
+      {
+        "matcher": "startup",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "python3 \"$FACTORY_PROJECT_DIR\"/coding-agent-instructions/hooks/export_transcript.py --backup",
+            "timeout": 15
+          }
+        ]
+      }
+    ]
+  },
+  "enabledPlugins": {
+    "core@factory-plugins": true
+  }
+}

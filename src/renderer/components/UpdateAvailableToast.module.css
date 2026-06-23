@@ -1,0 +1,170 @@
+/*
+ * Update-available toast — glass-morphism card matching Sonner toasts.
+ *
+ * Visual spec: docs/project/UI_INTERNAL_NOTIFICATIONS.md
+ *
+ * Positioned bottom-left (intentionally distinct from top-right Sonner toasts)
+ * so the update prompt doesn't compete with workflow notifications.
+ * Uses blue/info accent since updates are informational.
+ */
+
+.toast {
+  position: fixed;
+  bottom: var(--space-6, 24px);
+  left: var(--space-6, 24px);
+  display: flex;
+  align-items: flex-start;
+  gap: var(--space-3, 12px);
+  width: 350px;
+  max-width: calc(100vw - 48px);
+  padding: 16px 20px;
+  padding-right: 36px;
+  border-radius: var(--radius-lg);
+  z-index: var(--z-toast, 1400);
+
+  /* Glass surface */
+  background: rgba(22, 27, 42, 0.98);
+  backdrop-filter: blur(var(--glass-overlay-blur));
+  -webkit-backdrop-filter: blur(var(--glass-overlay-blur));
+
+  /* Indigo glow — matches Sonner toasts */
+  border: 1px solid rgba(99, 102, 241, 0.7);
+  box-shadow:
+    0 0 0 1px rgba(99, 102, 241, 0.3),
+    0 0 32px rgba(99, 102, 241, 0.3),
+    0 0 20px 6px rgba(0, 0, 0, 0.4),
+    0 4px 32px 12px rgba(0, 0, 0, 0.35),
+    0 0 0 1px rgba(255, 255, 255, 0.06) inset;
+
+  animation: toast-enter 200ms var(--motion-ease-out, cubic-bezier(0.16, 1, 0.3, 1));
+}
+
+.toast.exiting {
+  animation: toast-exit 200ms var(--motion-ease-out) forwards;
+}
+
+/* ─── Light mode ─────────────────────────────────────────────── */
+
+:global(body.light) .toast {
+  background: rgba(255, 255, 255, 0.99);
+  border-color: rgba(99, 102, 241, 0.55);
+  box-shadow:
+    0 0 0 1px rgba(99, 102, 241, 0.2),
+    0 0 24px rgba(99, 102, 241, 0.18),
+    0 0 16px 5px rgba(0, 0, 0, 0.14),
+    0 4px 28px 10px rgba(0, 0, 0, 0.16),
+    0 0 0 1px rgba(99, 102, 241, 0.1) inset;
+}
+
+/* ═══════════════════════════════════════════════════════════════
+   Icon — matches approval sidebar type indicator style
+   ═══════════════════════════════════════════════════════════════ */
+
+.icon {
+  flex-shrink: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 24px;
+  height: 24px;
+  border-radius: var(--radius-sm);
+  color: #a78bfa;
+}
+
+:global(body.light) .icon {
+  color: #6366f1;
+}
+
+.mascot {
+  width: 24px;
+  height: 24px;
+  object-fit: contain;
+}
+
+/* ═══════════════════════════════════════════════════════════════
+   Content
+   ═══════════════════════════════════════════════════════════════ */
+
+.content {
+  flex: 1;
+  min-width: 0;
+}
+
+.title {
+  font-size: 0.8125rem;
+  font-weight: 600;
+  color: var(--color-text-primary);
+  line-height: 1.4;
+}
+
+.description {
+  margin-top: var(--space-1, 4px);
+  font-size: 0.75rem;
+  color: var(--color-text-secondary);
+  line-height: 1.4;
+}
+
+.actions {
+  display: flex;
+  gap: var(--space-2, 8px);
+  margin-top: var(--space-3, 12px);
+}
+
+/* ═══════════════════════════════════════════════════════════════
+   Close Button — matches approval sidebar dismiss style
+   ═══════════════════════════════════════════════════════════════ */
+
+.close {
+  position: absolute;
+  top: 12px;
+  right: 12px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 18px;
+  height: 18px;
+  border: none;
+  background: transparent;
+  border-radius: var(--radius-xs);
+  color: var(--color-text-muted);
+  cursor: pointer;
+  opacity: 0.4;
+  transition: all var(--motion-duration-fast) var(--motion-ease-out);
+}
+
+.close:hover {
+  background: rgba(239, 68, 68, 0.15);
+  color: #f87171;
+  opacity: 1;
+}
+
+:global(body.light) .close:hover {
+  background: rgba(239, 68, 68, 0.12);
+  color: #dc2626;
+}
+
+/* ═══════════════════════════════════════════════════════════════
+   Animations
+   ═══════════════════════════════════════════════════════════════ */
+
+@keyframes toast-enter {
+  from {
+    opacity: 0;
+    transform: translateX(-100%);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
+@keyframes toast-exit {
+  from {
+    opacity: 1;
+    transform: translateX(0);
+  }
+  to {
+    opacity: 0;
+    transform: translateX(-100%);
+  }
+}

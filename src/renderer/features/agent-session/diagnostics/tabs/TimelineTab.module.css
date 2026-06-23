@@ -1,0 +1,438 @@
+/* ------------------------------------------------------------------ */
+/* Timeline tab – vertical, downward-extending layout                  */
+/* ------------------------------------------------------------------ */
+
+.timelineTab {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  padding: 4px 0;
+}
+
+/* ------------------------------------------------------------------ */
+/* Controls bar (turn filter)                                          */
+/* ------------------------------------------------------------------ */
+
+.controls {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  flex-wrap: wrap;
+}
+
+.controlLabel {
+  font-size: 0.78rem;
+  color: var(--color-text-muted);
+  letter-spacing: 0.03em;
+  text-transform: uppercase;
+}
+
+.turnPill {
+  padding: 4px 12px;
+  border-radius: 20px;
+  border: 1px solid rgba(148, 163, 184, 0.22);
+  background: rgba(255, 255, 255, 0.82);
+  font-size: 0.78rem;
+  color: var(--color-text-secondary);
+  cursor: pointer;
+  transition: background 0.15s ease, border-color 0.15s ease;
+}
+
+.turnPill:hover {
+  background: rgba(248, 250, 252, 0.92);
+  border-color: rgba(148, 163, 184, 0.36);
+}
+
+.turnPillActive {
+  background: rgba(59, 130, 246, 0.1);
+  border-color: rgba(59, 130, 246, 0.36);
+  color: var(--color-text-primary);
+  font-weight: 600;
+}
+
+/* ------------------------------------------------------------------ */
+/* Turn sections                                                       */
+/* ------------------------------------------------------------------ */
+
+.turnSection {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  border-radius: 12px;
+  border: 1px solid rgba(148, 163, 184, 0.18);
+  background: rgba(255, 255, 255, 0.82);
+  padding: 14px 16px;
+  transition: background 0.15s ease;
+}
+
+.turnHeader {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  flex-wrap: wrap;
+}
+
+.turnNumber {
+  flex-shrink: 0;
+  width: 28px;
+  height: 28px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 8px;
+  background: rgba(148, 163, 184, 0.1);
+  font-size: 0.78rem;
+  font-weight: 600;
+  color: var(--color-text-secondary);
+}
+
+.turnSnippet {
+  flex: 1;
+  min-width: 0;
+  font-size: 0.86rem;
+  color: var(--color-text-primary);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.turnMeta {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  flex-shrink: 0;
+}
+
+.turnMetaItem {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  font-size: 0.76rem;
+  color: var(--color-text-muted);
+  white-space: nowrap;
+}
+
+.turnMetaItem svg {
+  flex-shrink: 0;
+}
+
+/* ------------------------------------------------------------------ */
+/* Timeline entries (tools, thinking, errors within a turn)            */
+/* ------------------------------------------------------------------ */
+
+.entryList {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  margin-top: 6px;
+  padding-left: 18px;
+  border-left: 2px solid rgba(148, 163, 184, 0.18);
+}
+
+.entry {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  padding: 8px 12px;
+  border-radius: 8px;
+  transition: background 0.15s ease;
+}
+
+.entryClickable {
+  cursor: pointer;
+}
+
+.entryClickable:hover {
+  background: rgba(248, 250, 252, 0.82);
+}
+
+/* ------------------------------------------------------------------ */
+/* Tool bar entry                                                      */
+/* ------------------------------------------------------------------ */
+
+.toolRow {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.toolIcon {
+  flex-shrink: 0;
+  font-size: 0.82rem;
+  line-height: 1;
+}
+
+.toolName {
+  flex-shrink: 0;
+  font-size: 0.82rem;
+  font-weight: 500;
+  color: var(--color-text-primary);
+  min-width: 80px;
+  max-width: 160px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.barContainer {
+  flex: 1;
+  min-width: 40px;
+  height: 18px;
+  border-radius: 4px;
+  background: rgba(148, 163, 184, 0.08);
+  overflow: hidden;
+  position: relative;
+}
+
+.bar {
+  height: 100%;
+  border-radius: 4px;
+  min-width: 4px;
+  transition: width 0.3s ease;
+}
+
+.barSuccess {
+  background: rgba(59, 130, 246, 0.32);
+}
+
+.barError {
+  background: rgba(239, 68, 68, 0.36);
+}
+
+.barInProgress {
+  background: rgba(148, 163, 184, 0.28);
+  animation: pulse 1.5s ease-in-out infinite;
+}
+
+@keyframes pulse {
+  0%, 100% { opacity: 0.5; }
+  50% { opacity: 1; }
+}
+
+.toolDuration {
+  flex-shrink: 0;
+  font-size: 0.74rem;
+  color: var(--color-text-muted);
+  white-space: nowrap;
+  min-width: 40px;
+  text-align: right;
+}
+
+.toolStatus {
+  flex-shrink: 0;
+  font-size: 0.78rem;
+  line-height: 1;
+}
+
+/* ------------------------------------------------------------------ */
+/* Thinking entry                                                      */
+/* ------------------------------------------------------------------ */
+
+.thinkingEntry {
+  background: rgba(148, 163, 184, 0.05);
+}
+
+.thinkingRow {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 0.8rem;
+  color: var(--color-text-muted);
+}
+
+.thinkingRow svg {
+  flex-shrink: 0;
+}
+
+/* ------------------------------------------------------------------ */
+/* Error entry                                                         */
+/* ------------------------------------------------------------------ */
+
+.errorEntry {
+  background: rgba(254, 242, 242, 0.42);
+  border: 1px solid rgba(239, 68, 68, 0.16);
+  border-radius: 8px;
+}
+
+.errorRow {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 0.8rem;
+  color: rgba(185, 28, 28, 0.88);
+}
+
+.errorRow svg {
+  flex-shrink: 0;
+  color: rgba(239, 68, 68, 0.72);
+}
+
+/* ------------------------------------------------------------------ */
+/* Turn complete row                                                   */
+/* ------------------------------------------------------------------ */
+
+.turnCompleteRow {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 6px 12px;
+  font-size: 0.78rem;
+  color: var(--color-text-muted);
+}
+
+.turnCompleteRow svg {
+  flex-shrink: 0;
+  color: rgba(34, 197, 94, 0.72);
+}
+
+/* ------------------------------------------------------------------ */
+/* Expanded detail (click-to-expand on tool entries)                    */
+/* ------------------------------------------------------------------ */
+
+.expandedDetail {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  padding: 8px 10px;
+  margin-top: 4px;
+  border-radius: 8px;
+  background: rgba(248, 250, 252, 0.74);
+  border: 1px solid rgba(148, 163, 184, 0.14);
+  font-size: 0.78rem;
+  color: var(--color-text-secondary);
+  overflow: hidden;
+  animation: slideDown 0.2s ease;
+}
+
+@keyframes slideDown {
+  from {
+    opacity: 0;
+    max-height: 0;
+  }
+  to {
+    opacity: 1;
+    max-height: 400px;
+  }
+}
+
+.detailRow {
+  display: flex;
+  gap: 8px;
+}
+
+.detailLabel {
+  flex-shrink: 0;
+  min-width: 64px;
+  font-weight: 600;
+  color: var(--color-text-muted);
+  text-transform: uppercase;
+  font-size: 0.7rem;
+  letter-spacing: 0.03em;
+  padding-top: 1px;
+}
+
+.detailValue {
+  flex: 1;
+  min-width: 0;
+  word-break: break-word;
+  white-space: pre-wrap;
+  max-height: 120px;
+  overflow: auto;
+  font-family: 'SF Mono', 'Menlo', 'Monaco', 'Consolas', monospace;
+  font-size: 0.74rem;
+  line-height: 1.45;
+}
+
+.compactedNote {
+  font-style: italic;
+  color: var(--color-text-muted);
+}
+
+/* ------------------------------------------------------------------ */
+/* Empty state                                                         */
+/* ------------------------------------------------------------------ */
+
+.emptyState {
+  padding: 32px 16px;
+  text-align: center;
+  color: var(--color-text-muted);
+  font-size: 0.88rem;
+}
+
+/* ------------------------------------------------------------------ */
+/* Dark mode                                                           */
+/* ------------------------------------------------------------------ */
+
+:global(.dark) .turnPill {
+  background: rgba(15, 23, 42, 0.78);
+  border-color: rgba(148, 163, 184, 0.22);
+}
+
+:global(.dark) .turnPill:hover {
+  background: rgba(15, 23, 42, 0.92);
+  border-color: rgba(148, 163, 184, 0.36);
+}
+
+:global(.dark) .turnPillActive {
+  background: rgba(59, 130, 246, 0.16);
+  border-color: rgba(59, 130, 246, 0.36);
+}
+
+:global(.dark) .turnSection {
+  background: rgba(15, 23, 42, 0.78);
+  border-color: rgba(148, 163, 184, 0.22);
+}
+
+:global(.dark) .turnNumber {
+  background: rgba(148, 163, 184, 0.14);
+}
+
+:global(.dark) .entryList {
+  border-left-color: rgba(148, 163, 184, 0.22);
+}
+
+:global(.dark) .entryClickable:hover {
+  background: rgba(30, 41, 59, 0.72);
+}
+
+:global(.dark) .barContainer {
+  background: rgba(148, 163, 184, 0.1);
+}
+
+:global(.dark) .barSuccess {
+  background: rgba(59, 130, 246, 0.38);
+}
+
+:global(.dark) .barError {
+  background: rgba(239, 68, 68, 0.38);
+}
+
+:global(.dark) .barInProgress {
+  background: rgba(148, 163, 184, 0.32);
+}
+
+:global(.dark) .thinkingEntry {
+  background: rgba(148, 163, 184, 0.06);
+}
+
+:global(.dark) .errorEntry {
+  background: rgba(127, 29, 29, 0.22);
+  border-color: rgba(239, 68, 68, 0.24);
+}
+
+:global(.dark) .errorRow {
+  color: rgba(252, 165, 165, 0.88);
+}
+
+:global(.dark) .errorRow svg {
+  color: rgba(239, 68, 68, 0.72);
+}
+
+:global(.dark) .turnCompleteRow svg {
+  color: rgba(34, 197, 94, 0.72);
+}
+
+:global(.dark) .expandedDetail {
+  background: rgba(2, 6, 23, 0.62);
+  border-color: rgba(148, 163, 184, 0.18);
+}

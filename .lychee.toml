@@ -1,0 +1,39 @@
+## Lychee configuration for docs link-checking.
+## Used by .github/workflows/docs-link-check.yml and local invocation
+## (quote globs so lychee expands `**`, not the shell):
+##   lychee --config .lychee.toml './docs/project/**/*.md' './AGENTS.md' \
+##     './README.md' './src/**/AGENTS.md' './cloud-service/AGENTS.md' \
+##     './mobile/AGENTS.md' './evals/AGENTS.md'
+##
+## Today we run in --offline mode (no network requests) — that gives us strong
+## signal on internal cross-references without flaky external-URL noise. When we
+## later want to validate external URLs, drop `offline = true` and either rely
+## on `cache = true` or scope external checks to a nightly job. See
+## docs/plans/260514_documentation_best_practices_rollout.md (Stage C).
+
+## ---- Mode ----
+offline = true
+no_progress = true
+
+## ---- Output ----
+format = "detailed"
+
+## ---- Performance ----
+max_concurrency = 32
+
+## ---- What to skip ----
+## Patterns matched against the *fully-resolved* path/URL. Used to silence
+## known noise — not to hide real breakage. Keep this list small and revisit
+## any entry that lives here for more than ~a month.
+exclude = [
+  ## Anchors lychee can't resolve into HTML pages (changelog explainers)
+  "260402_changes\\.html",
+  "260406_changes\\.html",
+  ## Submodule-vendored dependency READMEs — pure noise, never our links to fix.
+  ## No-op under the current CI scope; future-proofs the Stage E.1 scope broadening.
+  "/node_modules/",
+]
+
+## Cache between local invocations
+cache = true
+max_cache_age = "1d"

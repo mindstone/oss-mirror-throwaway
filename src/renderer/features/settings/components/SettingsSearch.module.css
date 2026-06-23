@@ -1,0 +1,194 @@
+.root {
+  position: relative;
+  margin: 0 0 var(--space-2) 0;
+}
+
+.inputWrap {
+  position: relative;
+  border-radius: var(--radius-md, 10px);
+}
+
+.inputWrap::after {
+  content: '';
+  position: absolute;
+  inset: -2px;
+  border-radius: inherit;
+  pointer-events: none;
+  opacity: 0;
+}
+
+.inputWrap:focus-within::after {
+  animation: searchFocusRingIn 150ms ease-out forwards;
+}
+
+.icon {
+  position: absolute;
+  left: 10px;
+  top: 50%;
+  transform: translateY(-50%);
+  color: var(--color-text-muted);
+  pointer-events: none;
+  z-index: 1;
+}
+
+.input {
+  width: 100%;
+  padding-left: 32px;
+  padding-right: 34px;
+  font-size: 0.9rem;
+}
+
+.clearButton {
+  position: absolute;
+  right: 8px;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 22px;
+  height: 22px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  border: none;
+  border-radius: 999px;
+  background: transparent;
+  color: var(--color-text-muted);
+  cursor: pointer;
+  transition: background-color 150ms ease, color 150ms ease;
+}
+
+.clearButton:hover {
+  background: rgba(99, 102, 241, 0.12);
+  color: var(--color-text-primary);
+}
+
+.clearButton:focus-visible {
+  outline: none;
+  background: rgba(99, 102, 241, 0.14);
+  color: var(--color-text-primary);
+}
+
+.results {
+  margin-top: var(--space-2);
+  display: flex;
+  flex-direction: column;
+  max-height: 260px;
+  overflow-y: auto;
+  border: 1px solid var(--color-border-soft);
+  border-radius: 10px;
+  background: var(--color-card);
+  box-shadow: 0 8px 24px rgba(15, 23, 42, 0.2);
+  animation: searchResultsIn 150ms ease-out;
+}
+
+.result {
+  appearance: none;
+  border: none;
+  border-bottom: 1px solid var(--color-border-soft);
+  background: transparent;
+  color: inherit;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 2px;
+  text-align: left;
+  width: 100%;
+  padding: 10px 12px;
+  cursor: pointer;
+  transition: background-color 120ms ease;
+}
+
+.result:last-child {
+  border-bottom: none;
+}
+
+.result:hover {
+  background: rgba(99, 102, 241, 0.12);
+}
+
+.result:focus-visible {
+  outline: 2px solid var(--color-ring, var(--color-accent));
+  outline-offset: -2px;
+  background: rgba(99, 102, 241, 0.14);
+}
+
+.resultLabel {
+  font-size: 0.86rem;
+  font-weight: 500;
+  color: var(--color-text-primary);
+}
+
+.resultTab {
+  font-size: 0.75rem;
+  color: var(--color-text-muted);
+}
+
+.highlight {
+  background: rgba(99, 102, 241, 0.18);
+  color: inherit;
+  border-radius: 2px;
+  padding: 0 1px;
+}
+
+.keywordHint {
+  font-style: italic;
+}
+
+.empty {
+  margin: 0;
+  padding: 10px 12px;
+  font-size: 0.82rem;
+  color: var(--color-text-muted);
+}
+
+@keyframes searchFocusRingIn {
+  from {
+    opacity: 0;
+    box-shadow: 0 0 0 0 rgba(167, 139, 250, 0.08);
+  }
+
+  to {
+    opacity: 1;
+    box-shadow: 0 0 0 2px rgba(167, 139, 250, 0.2);
+  }
+}
+
+@keyframes searchResultsIn {
+  from {
+    opacity: 0;
+    transform: translateY(-2px);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+:global(body.light) .results {
+  box-shadow: 0 8px 24px rgba(15, 23, 42, 0.1);
+}
+
+:global(body.light) .highlight {
+  background: rgba(99, 102, 241, 0.14);
+}
+
+:global(body.light) .result:hover {
+  background: rgba(99, 102, 241, 0.08);
+}
+
+:global(body.light) .clearButton:hover,
+:global(body.light) .clearButton:focus-visible {
+  background: rgba(99, 102, 241, 0.1);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .inputWrap:focus-within::after,
+  .results {
+    animation: none;
+  }
+
+  .result,
+  .clearButton {
+    transition: none;
+  }
+}

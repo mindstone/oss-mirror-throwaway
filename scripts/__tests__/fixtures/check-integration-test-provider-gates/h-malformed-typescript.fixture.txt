@@ -1,0 +1,17 @@
+// Fixture (h) — malformed TypeScript with an otherwise-correct gate.
+// Expected: FAIL with a syntax/error-handling diagnostic, not silent PASS.
+
+import { describe } from 'vitest';
+import {
+  hasDirectAuth,
+  isDirectAnthropicConfig,
+} from '@core/utils/authEnvUtils';
+import type { AppSettings } from '@shared/types';
+
+declare const settings: AppSettings;
+
+const canRun = isDirectAnthropicConfig(settings) && hasDirectAuth(settings
+
+describe.skipIf(!canRun)('live API', () => {
+  // ...
+});

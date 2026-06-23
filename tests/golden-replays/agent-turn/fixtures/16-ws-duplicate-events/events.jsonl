@@ -1,0 +1,4 @@
+{"type":"turn_started","timestamp":1,"turnId":"turn-1"}
+{"type":"user_question","timestamp":2,"batchId":"dup","question":"Q?","options":[]}
+{"type":"user_question","timestamp":3,"batchId":"dup","question":"Q?","options":[]}
+{"type":"result","timestamp":4,"text":""}

@@ -1,0 +1,464 @@
+.costTab {
+  --cost-bar-track: rgba(226, 232, 240, 0.72);
+  --cost-bar-normal: rgba(99, 102, 241, 0.72);
+  --cost-bar-costliest: rgba(79, 70, 229, 0.86);
+  --cost-bar-expensive: rgba(245, 158, 11, 0.82);
+  --cost-bar-border: rgba(148, 163, 184, 0.28);
+
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  padding: 4px 0;
+}
+
+.section {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.sectionHeading {
+  margin: 0;
+  font-size: 0.82rem;
+  font-weight: 600;
+  color: var(--color-text-secondary);
+  letter-spacing: 0.03em;
+  text-transform: uppercase;
+}
+
+.emptyState {
+  padding: 24px 14px;
+  border-radius: 12px;
+  border: 1px solid rgba(148, 163, 184, 0.24);
+  background: rgba(248, 250, 252, 0.7);
+  color: var(--color-text-muted);
+  font-size: 0.86rem;
+  text-align: center;
+}
+
+/* ------------------------------------------------------------------ */
+/* Section 1: Per-turn bars                                            */
+/* ------------------------------------------------------------------ */
+
+.barList {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.barRowButton {
+  width: 100%;
+  border: 1px solid rgba(148, 163, 184, 0.22);
+  border-radius: 10px;
+  background: rgba(255, 255, 255, 0.82);
+  padding: 8px 10px;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  text-align: left;
+  cursor: pointer;
+  transition: background 0.15s ease, border-color 0.15s ease;
+}
+
+.barRowButton:hover {
+  background: rgba(248, 250, 252, 0.92);
+}
+
+.barRowButton:focus-visible {
+  outline: 2px solid rgba(99, 102, 241, 0.55);
+  outline-offset: 1px;
+}
+
+.barRowButtonSelected {
+  border-color: rgba(99, 102, 241, 0.46);
+  box-shadow: inset 0 0 0 1px rgba(99, 102, 241, 0.22);
+}
+
+.turnLabel {
+  width: 56px;
+  flex-shrink: 0;
+  font-size: 0.78rem;
+  font-weight: 600;
+  color: var(--color-text-secondary);
+}
+
+.costLabel {
+  width: 48px;
+  flex-shrink: 0;
+  text-align: right;
+  font-size: 0.78rem;
+  font-weight: 600;
+  color: var(--color-text-primary);
+}
+
+.tokenSummary {
+  min-width: 124px;
+  flex-shrink: 0;
+  font-size: 0.72rem;
+  color: var(--color-text-muted);
+}
+
+.badgeCluster {
+  display: inline-flex;
+  align-items: center;
+  justify-content: flex-end;
+  gap: 6px;
+  min-width: 124px;
+}
+
+.expensiveBadge {
+  border-color: rgba(245, 158, 11, 0.42);
+  color: rgba(180, 83, 9, 0.95);
+}
+
+.selectionHint {
+  margin: 0;
+  font-size: 0.76rem;
+  color: var(--color-text-muted);
+}
+
+.selectionCard {
+  border: 1px solid rgba(148, 163, 184, 0.24);
+  border-radius: 10px;
+  background: rgba(248, 250, 252, 0.74);
+  padding: 10px 12px;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.selectionTitle {
+  margin: 0;
+  font-size: 0.78rem;
+  font-weight: 600;
+  color: var(--color-text-secondary);
+}
+
+.selectionGrid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(110px, 1fr));
+  gap: 8px;
+}
+
+.selectionItem {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.selectionLabel {
+  font-size: 0.7rem;
+  color: var(--color-text-muted);
+  text-transform: uppercase;
+  letter-spacing: 0.03em;
+}
+
+.selectionValue {
+  font-size: 0.84rem;
+  color: var(--color-text-primary);
+  font-weight: 600;
+}
+
+.modelBreakdownSection {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  padding-top: 4px;
+  border-top: 1px solid rgba(148, 163, 184, 0.18);
+}
+
+.modelBreakdownTitle,
+.modelBreakdownTableLabel {
+  margin: 0;
+  font-size: 0.7rem;
+  color: var(--color-text-muted);
+  text-transform: uppercase;
+  letter-spacing: 0.03em;
+}
+
+.modelBreakdownList {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  padding: 8px 10px;
+  border-radius: 10px;
+  border: 1px solid rgba(148, 163, 184, 0.18);
+  background: rgba(255, 255, 255, 0.7);
+}
+
+.modelBreakdownListCompact {
+  padding: 0;
+  border: 0;
+  border-radius: 0;
+  background: transparent;
+}
+
+.modelBreakdownRow {
+  display: grid;
+  grid-template-columns: minmax(0, 1.8fr) repeat(3, minmax(68px, auto));
+  gap: 10px;
+  align-items: center;
+}
+
+.modelBreakdownHeader {
+  padding-bottom: 4px;
+  border-bottom: 1px solid rgba(148, 163, 184, 0.18);
+}
+
+.modelBreakdownListCompact .modelBreakdownHeader {
+  padding-bottom: 2px;
+}
+
+.modelBreakdownHeaderLabel {
+  font-size: 0.68rem;
+  color: var(--color-text-muted);
+  text-transform: uppercase;
+  letter-spacing: 0.03em;
+}
+
+.modelBreakdownHeaderLabel:not(:first-child),
+.modelBreakdownMetric,
+.modelBreakdownCost {
+  text-align: right;
+}
+
+.modelBreakdownModel {
+  min-width: 0;
+  font-size: 0.74rem;
+  color: var(--color-text-secondary);
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.modelBreakdownMetric {
+  font-size: 0.74rem;
+  color: var(--color-text-secondary);
+}
+
+.modelBreakdownCost {
+  font-size: 0.74rem;
+  color: var(--color-text-primary);
+  font-weight: 600;
+}
+
+/* ------------------------------------------------------------------ */
+/* Section 2: Token table                                               */
+/* ------------------------------------------------------------------ */
+
+.tableWrap {
+  border: 1px solid rgba(148, 163, 184, 0.24);
+  border-radius: 12px;
+  background: rgba(248, 250, 252, 0.74);
+  overflow: auto;
+}
+
+.table {
+  width: 100%;
+  min-width: 560px;
+  border-collapse: collapse;
+}
+
+.table th,
+.table td {
+  padding: 8px 10px;
+  border-bottom: 1px solid rgba(148, 163, 184, 0.16);
+  font-size: 0.76rem;
+  text-align: left;
+  color: var(--color-text-primary);
+  white-space: nowrap;
+}
+
+.table thead th {
+  color: var(--color-text-secondary);
+  font-size: 0.72rem;
+  text-transform: uppercase;
+  letter-spacing: 0.03em;
+}
+
+.table tbody th,
+.table tfoot th {
+  color: var(--color-text-secondary);
+  font-weight: 600;
+}
+
+.table tfoot td,
+.table tfoot th {
+  border-bottom: 0;
+}
+
+.totalsRow {
+  background: rgba(255, 255, 255, 0.78);
+}
+
+.modelBreakdownTableRow td {
+  padding-top: 2px;
+  padding-bottom: 10px;
+  background: rgba(255, 255, 255, 0.42);
+}
+
+.modelBreakdownTableCell {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+/* ------------------------------------------------------------------ */
+/* Section 3: Cumulative sparkline                                      */
+/* ------------------------------------------------------------------ */
+
+.sparklineWrap {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.sparkline {
+  min-height: 60px;
+  display: flex;
+  align-items: flex-end;
+  gap: 6px;
+  padding: 10px 12px;
+  border-radius: 12px;
+  border: 1px solid rgba(148, 163, 184, 0.24);
+  background: rgba(248, 250, 252, 0.74);
+}
+
+.sparkPoint {
+  display: block;
+  width: 14px;
+  min-height: 8px;
+  border-radius: 4px 4px 2px 2px;
+  background: var(--cost-bar-normal);
+  transition: opacity 0.15s ease, transform 0.15s ease;
+  opacity: 0.86;
+}
+
+.sparkPoint:hover,
+.sparkPoint:focus-visible {
+  opacity: 1;
+  transform: translateY(-1px);
+}
+
+.sparklineSummary {
+  margin: 0;
+  font-size: 0.76rem;
+  color: var(--color-text-secondary);
+}
+
+/* ------------------------------------------------------------------ */
+/* Section 4: Cache efficiency card                                     */
+/* ------------------------------------------------------------------ */
+
+.cacheCard {
+  border: 1px solid rgba(148, 163, 184, 0.24);
+  border-radius: 12px;
+  background: rgba(248, 250, 252, 0.74);
+  padding: 12px 14px;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.cacheHeadingRow {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.cacheHeading {
+  font-size: 0.74rem;
+  color: var(--color-text-muted);
+  text-transform: uppercase;
+  letter-spacing: 0.03em;
+}
+
+.infoDot {
+  font-size: 0.72rem;
+  color: var(--color-text-muted);
+  cursor: help;
+}
+
+.cacheValue {
+  margin: 0;
+  font-size: 0.94rem;
+  color: var(--color-text-primary);
+  font-weight: 600;
+}
+
+.cacheSubtext {
+  margin: 0;
+  font-size: 0.74rem;
+  color: var(--color-text-secondary);
+}
+
+/* ------------------------------------------------------------------ */
+/* Dark mode                                                            */
+/* ------------------------------------------------------------------ */
+
+:global(.dark) .costTab {
+  --cost-bar-track: rgba(30, 41, 59, 0.78);
+  --cost-bar-normal: rgba(99, 102, 241, 0.74);
+  --cost-bar-costliest: rgba(129, 140, 248, 0.82);
+  --cost-bar-expensive: rgba(245, 158, 11, 0.76);
+  --cost-bar-border: rgba(148, 163, 184, 0.34);
+}
+
+:global(.dark) .emptyState,
+:global(.dark) .selectionCard,
+:global(.dark) .tableWrap,
+:global(.dark) .sparkline,
+:global(.dark) .cacheCard {
+  border-color: rgba(148, 163, 184, 0.26);
+  background: rgba(15, 23, 42, 0.78);
+}
+
+:global(.dark) .barRowButton {
+  border-color: rgba(148, 163, 184, 0.24);
+  background: rgba(15, 23, 42, 0.78);
+}
+
+:global(.dark) .barRowButton:hover {
+  background: rgba(15, 23, 42, 0.92);
+}
+
+:global(.dark) .barRowButtonSelected {
+  border-color: rgba(129, 140, 248, 0.48);
+  box-shadow: inset 0 0 0 1px rgba(129, 140, 248, 0.24);
+}
+
+:global(.dark) .modelBreakdownSection {
+  border-top-color: rgba(148, 163, 184, 0.24);
+}
+
+:global(.dark) .modelBreakdownList {
+  border-color: rgba(148, 163, 184, 0.24);
+  background: rgba(2, 6, 23, 0.42);
+}
+
+:global(.dark) .modelBreakdownHeader {
+  border-bottom-color: rgba(148, 163, 184, 0.22);
+}
+
+:global(.dark) .table th,
+:global(.dark) .table td {
+  border-bottom-color: rgba(148, 163, 184, 0.2);
+}
+
+:global(.dark) .totalsRow {
+  background: rgba(2, 6, 23, 0.7);
+}
+
+:global(.dark) .modelBreakdownTableRow td {
+  background: rgba(2, 6, 23, 0.28);
+}
+
+:global(.dark) .sparklineSummary,
+:global(.dark) .cacheSubtext {
+  color: rgba(203, 213, 225, 0.88);
+}
+
+:global(.dark) .expensiveBadge {
+  border-color: rgba(245, 158, 11, 0.55);
+  color: rgba(252, 211, 77, 0.96);
+}

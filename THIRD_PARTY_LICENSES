@@ -1,0 +1,150 @@
+THIRD-PARTY NOTICES
+===================
+
+This file records third-party components whose licensing requires explicit
+notice for the open-source distribution of Rebel. It is a living document;
+entries are added as components are reviewed for the OSS release (see the OSS
+release strategy, §6.1/§6.4).
+
+--------------------------------------------------------------------------------
+@recallai/desktop-sdk  (RecallAI Desktop SDK)
+--------------------------------------------------------------------------------
+
+Used by:        the optional meeting recorder (Zoom / Google Meet / Microsoft
+                Teams local recording).
+Source:         https://www.npmjs.com/package/@recallai/desktop-sdk
+Vendor:         Recall.ai (https://www.recall.ai)
+
+Licensing notice:
+  The `@recallai/desktop-sdk` npm package declares NO license in its npm
+  metadata, and on install it downloads proprietary native binaries from
+  Recall.ai's own distribution. It is the intellectual property of Recall.ai
+  and is provided under Recall.ai's own terms — NOT under Rebel's license.
+
+  Rebel does NOT bundle or redistribute the RecallAI SDK or its native
+  binaries. The package is declared as a normal dependency for the
+  enterprise/internal build; in the open-source distribution the recorder is
+  opt-in: a user who enables it installs the SDK themselves, directly from
+  Recall.ai via npm, under Recall.ai's terms, and supplies their own Recall API
+  key (Recall pay-as-you-go, ~$0.50/hr). See the meeting-recorder setup docs.
+
+  Pinned version surfaced to opt-in users: see `src/shared/recallRecorder.ts`.
+
+  Status: a written redistribution/use confirmation from Recall.ai is being
+  sought as belt-and-braces (OSS strategy M9.a); not required for the
+  source-only launch, where users obtain the SDK from Recall.ai themselves.
+
+--------------------------------------------------------------------------------
+heic-to  (HEIC image conversion)
+--------------------------------------------------------------------------------
+
+Used by:        HEIC image conversion in the Electron renderer and
+                cloud-client/web companion build.
+Source:         https://www.npmjs.com/package/heic-to
+License:        LGPL-3.0
+
+Licensing notice:
+  `heic-to` is LGPL-3.0 and is bundled (NOT externalized) into the
+  Electron renderer and cloud-client/web companion build via dynamic import.
+
+  Status: NOT launch-cleared — pending written legal sign-off. Legal must
+  decide whether notices plus source/build/relinking mechanics satisfy LGPL
+  for the bundled Vite/Electron output.
+
+--------------------------------------------------------------------------------
+@m2d/remark-docx  (Markdown to DOCX export)
+--------------------------------------------------------------------------------
+
+Used by:        DOCX export in the Electron renderer.
+Source:         https://www.npmjs.com/package/@m2d/remark-docx
+License:        MPL-2.0
+
+Licensing notice:
+  `@m2d/remark-docx` is MPL-2.0 and is bundled into the renderer via
+  `src/renderer/utils/exportUtils.ts`.
+
+  MPL path: retain notices/license, do not modify MPL-covered package files
+  unless republished under MPL; BSL-1.1 is the Larger-Work license.
+
+  Status: NOT launch-cleared — pending written legal sign-off.
+
+--------------------------------------------------------------------------------
+mdast2docx  (Markdown AST to DOCX conversion)
+--------------------------------------------------------------------------------
+
+Used by:        transitive dependency of `@m2d/remark-docx` for DOCX export.
+Source:         https://www.npmjs.com/package/mdast2docx
+License:        MPL-2.0
+
+Licensing notice:
+  `mdast2docx` is MPL-2.0 and is bundled through `@m2d/remark-docx`.
+
+  MPL path: retain notices/license, do not modify MPL-covered package files
+  unless republished under MPL; BSL-1.1 is the Larger-Work license.
+
+  Status: NOT launch-cleared — pending written legal sign-off.
+
+--------------------------------------------------------------------------------
+@rudderstack/analytics-js  (RudderStack JS analytics SDK)
+--------------------------------------------------------------------------------
+
+Used by:        renderer product analytics (`src/renderer/src/analytics.ts`)
+                — COMMERCIAL builds only.
+Source:         https://www.npmjs.com/package/@rudderstack/analytics-js
+License:        Elastic License 2.0 (ELv2)
+
+Licensing notice:
+  `@rudderstack/analytics-js` is Elastic-2.0 (source-available, not OSI
+  open-source). It is a COMMERCIAL-BUILD-ONLY dependency: the commercial
+  renderer loads it via a guarded, brace-nested dynamic `import()` in
+  `src/renderer/src/analytics.ts` (code-split, not statically inlined). It is
+  EXCLUDED from the public/OSS mirror — stripped from the public `package.json`
+  and lockfiles (`mirror/substitutions.yaml#dependency_strips`) and resolved to
+  a local no-op stub (`src/renderer/src/oss/rudderstack-analytics-stub.ts`) via a
+  build alias — so it is in neither the public manifest nor the OSS renderer
+  bundle. Note this is the package LICENSE question only — it is distinct from
+  any phone-home concern, which is separately gated: in OSS builds analytics is
+  opt-in and the client is never constructed unless the user opts in with their
+  own keys (see `src/renderer/src/analytics.ossGate.test.ts`).
+
+  ELv2's restrictions are (i) do not provide the software to third parties as a
+  hosted/managed service, (ii) do not circumvent license-key functionality, and
+  (iii) preserve notices. Because the Elastic-2.0 package is excluded from the
+  public OSS mirror entirely, the source-available repo carries no Elastic-2.0
+  dependency; the commercial Rebel desktop app (not offered as a hosted
+  RudderStack-competing service) does not appear to trip these — but this is a
+  legal read.
+
+  Status: the OSS-exclusion (the "make the SDK optional so OSS builds need not
+  bundle it" should-have) is DONE — see OSS_TODO §7 "Minimal license-only fix"
+  and the dependency_strips entry above. The commercial-build legal read remains
+  pending written legal sign-off (low risk; the redistribution-in-source read
+  above).
+
+--------------------------------------------------------------------------------
+xlsx  (SheetJS Community Edition)
+--------------------------------------------------------------------------------
+
+Used by:        Excel attachment extraction in the Electron renderer and CLI
+                attachment handling.
+Source/origin:  https://cdn.sheetjs.com/xlsx-0.20.3/xlsx-0.20.3.tgz
+Vendored at:    vendor/xlsx-0.20.3.tgz
+Version:        0.20.3
+License:        Apache-2.0
+
+Licensing notice:
+  `xlsx` (SheetJS Community Edition) is distributed under Apache-2.0. Rebel
+  commits the exact upstream tarball for supply-chain reproducibility and to
+  avoid a remote CDN dependency in the open-source package metadata.
+
+  The vendored tarball contains upstream license files at `package/LICENSE`
+  and `package/dist/LICENSE`; no upstream NOTICE file is present. Preserve the
+  upstream license files and Apache-2.0 notices when redistributing the
+  vendored tarball.
+
+  Status: launch-cleared permissive dependency.
+
+--------------------------------------------------------------------------------
+TODO (OSS strategy §6.4): add notices for other bundled native assets
+(Node runtime, git-bundle, Moonshine/sherpa STT binaries) before public launch.
+--------------------------------------------------------------------------------

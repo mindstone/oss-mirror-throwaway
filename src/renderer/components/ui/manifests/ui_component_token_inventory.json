@@ -1,0 +1,709 @@
+{
+  "generatedAt": "2026-06-18T22:04:25.279Z",
+  "summary": {
+    "componentCount": 27,
+    "uniqueCssTokensUsed": 82,
+    "tokensDefinedInRendererStyles": 203,
+    "undefinedCssTokensCount": 4
+  },
+  "undefinedCssTokens": [
+    "--color-border-hover",
+    "--color-text-tertiary",
+    "--icon-tile-color",
+    "--icon-tile-icon-size"
+  ],
+  "components": [
+    {
+      "component": "Badge",
+      "sourceFile": "src/renderer/components/ui/Badge.tsx",
+      "styleFiles": [
+        "src/renderer/components/ui/Badge.module.css"
+      ],
+      "cssTokens": [
+        "--color-border",
+        "--color-destructive",
+        "--color-info",
+        "--color-muted",
+        "--color-muted-foreground",
+        "--color-primary",
+        "--color-primary-foreground",
+        "--color-secondary",
+        "--color-secondary-foreground",
+        "--color-success",
+        "--color-text-primary",
+        "--color-text-secondary",
+        "--color-warning",
+        "--motion-duration-fast",
+        "--radius-pill"
+      ],
+      "undefinedCssTokens": [],
+      "utilitySemanticClasses": [],
+      "cvaVariants": {
+        "variant": [
+          "default",
+          "destructive",
+          "info",
+          "muted",
+          "outline",
+          "primary",
+          "secondary",
+          "success",
+          "warning"
+        ],
+        "size": [
+          "lg",
+          "md",
+          "sm"
+        ]
+      },
+      "unionProps": {}
+    },
+    {
+      "component": "BillingBadge",
+      "sourceFile": "src/renderer/components/ui/BillingBadge.tsx",
+      "styleFiles": [],
+      "cssTokens": [],
+      "undefinedCssTokens": [],
+      "utilitySemanticClasses": [],
+      "cvaVariants": {},
+      "unionProps": {}
+    },
+    {
+      "component": "Button",
+      "sourceFile": "src/renderer/components/ui/Button.tsx",
+      "styleFiles": [
+        "src/renderer/components/ui/Button.css"
+      ],
+      "cssTokens": [],
+      "undefinedCssTokens": [],
+      "utilitySemanticClasses": [
+        "bg-primary",
+        "ring-ring",
+        "text-foreground",
+        "text-primary-foreground"
+      ],
+      "cvaVariants": {
+        "variant": [
+          "default",
+          "destructive",
+          "ghost",
+          "outline",
+          "secondary"
+        ],
+        "size": [
+          "default",
+          "icon",
+          "lg",
+          "sm",
+          "xs",
+          "xxs"
+        ]
+      },
+      "unionProps": {}
+    },
+    {
+      "component": "Card",
+      "sourceFile": "src/renderer/components/ui/Card.tsx",
+      "styleFiles": [
+        "src/renderer/components/ui/Card.module.css"
+      ],
+      "cssTokens": [
+        "--color-border",
+        "--color-border-strong",
+        "--color-card",
+        "--color-card-foreground",
+        "--color-text-primary",
+        "--color-text-secondary",
+        "--glass-panel-bg",
+        "--glass-panel-blur",
+        "--glass-panel-border",
+        "--glass-panel-shadow",
+        "--radius-lg",
+        "--shadow-medium",
+        "--space-1",
+        "--space-3",
+        "--space-6"
+      ],
+      "undefinedCssTokens": [],
+      "utilitySemanticClasses": [],
+      "cvaVariants": {},
+      "unionProps": {
+        "variant": [
+          "default",
+          "elevated",
+          "glass",
+          "outlined"
+        ]
+      }
+    },
+    {
+      "component": "ConversationPill",
+      "sourceFile": "src/renderer/components/ui/ConversationPill.tsx",
+      "styleFiles": [
+        "src/renderer/components/ui/ConversationPill.module.css"
+      ],
+      "cssTokens": [
+        "--color-text-primary",
+        "--color-text-secondary",
+        "--glass-overlay-blur",
+        "--motion-duration-fast",
+        "--radius-xs"
+      ],
+      "undefinedCssTokens": [],
+      "utilitySemanticClasses": [],
+      "cvaVariants": {},
+      "unionProps": {}
+    },
+    {
+      "component": "DecisionCardGroup",
+      "sourceFile": "src/renderer/components/ui/DecisionCardGroup.tsx",
+      "styleFiles": [
+        "src/renderer/components/ui/DecisionCardGroup.module.css"
+      ],
+      "cssTokens": [
+        "--color-border-soft",
+        "--color-card",
+        "--color-primary",
+        "--color-surface-elevated",
+        "--color-text-muted",
+        "--color-text-primary",
+        "--color-text-secondary",
+        "--motion-duration-fast",
+        "--radius-md",
+        "--space-2",
+        "--space-3",
+        "--space-5"
+      ],
+      "undefinedCssTokens": [],
+      "utilitySemanticClasses": [],
+      "cvaVariants": {},
+      "unionProps": {}
+    },
+    {
+      "component": "Dialog",
+      "sourceFile": "src/renderer/components/ui/Dialog.tsx",
+      "styleFiles": [
+        "src/renderer/components/ui/Dialog.module.css"
+      ],
+      "cssTokens": [
+        "--color-foreground",
+        "--color-muted-foreground",
+        "--color-text-primary",
+        "--color-text-secondary",
+        "--glass-overlay-blur",
+        "--motion-ease-out",
+        "--radius-lg",
+        "--radius-md",
+        "--radius-xl",
+        "--shadow-hard",
+        "--space-2",
+        "--space-3",
+        "--space-4",
+        "--space-5",
+        "--space-6",
+        "--space-7",
+        "--space-8",
+        "--z-modal"
+      ],
+      "undefinedCssTokens": [],
+      "utilitySemanticClasses": [],
+      "cvaVariants": {},
+      "unionProps": {
+        "size": [
+          "lg",
+          "md",
+          "sm",
+          "xl"
+        ]
+      }
+    },
+    {
+      "component": "FileLocationBadge",
+      "sourceFile": "src/renderer/components/ui/FileLocationBadge.tsx",
+      "styleFiles": [
+        "src/renderer/components/ui/FileLocationBadge.module.css"
+      ],
+      "cssTokens": [
+        "--color-muted-foreground",
+        "--color-text-secondary",
+        "--color-warning",
+        "--space-1"
+      ],
+      "undefinedCssTokens": [],
+      "utilitySemanticClasses": [],
+      "cvaVariants": {},
+      "unionProps": {}
+    },
+    {
+      "component": "IconButton",
+      "sourceFile": "src/renderer/components/ui/IconButton.tsx",
+      "styleFiles": [
+        "src/renderer/components/ui/IconButton.module.css"
+      ],
+      "cssTokens": [
+        "--color-destructive",
+        "--color-foreground",
+        "--color-muted-foreground",
+        "--color-primary",
+        "--color-text-primary",
+        "--color-text-secondary",
+        "--motion-duration-fast",
+        "--radius-md"
+      ],
+      "undefinedCssTokens": [],
+      "utilitySemanticClasses": [],
+      "cvaVariants": {},
+      "unionProps": {
+        "size": [
+          "lg",
+          "md",
+          "sm",
+          "xs"
+        ],
+        "variant": [
+          "framed",
+          "ghost",
+          "subtle"
+        ]
+      }
+    },
+    {
+      "component": "IconTile",
+      "sourceFile": "src/renderer/components/ui/IconTile.tsx",
+      "styleFiles": [
+        "src/renderer/components/ui/IconTile.module.css"
+      ],
+      "cssTokens": [
+        "--color-brand-indigo",
+        "--color-info",
+        "--color-primary",
+        "--color-success",
+        "--color-text-secondary",
+        "--color-warning",
+        "--icon-tile-color",
+        "--icon-tile-icon-size",
+        "--radius-md",
+        "--radius-sm"
+      ],
+      "undefinedCssTokens": [
+        "--icon-tile-color",
+        "--icon-tile-icon-size"
+      ],
+      "utilitySemanticClasses": [],
+      "cvaVariants": {},
+      "unionProps": {
+        "size": [
+          "lg",
+          "md",
+          "sm"
+        ]
+      }
+    },
+    {
+      "component": "InlineToggle",
+      "sourceFile": "src/renderer/components/ui/InlineToggle.tsx",
+      "styleFiles": [
+        "src/renderer/components/ui/InlineToggle.module.css"
+      ],
+      "cssTokens": [
+        "--motion-duration-fast"
+      ],
+      "undefinedCssTokens": [],
+      "utilitySemanticClasses": [],
+      "cvaVariants": {},
+      "unionProps": {}
+    },
+    {
+      "component": "Input",
+      "sourceFile": "src/renderer/components/ui/Input.tsx",
+      "styleFiles": [
+        "src/renderer/components/ui/Input.module.css"
+      ],
+      "cssTokens": [
+        "--color-background",
+        "--color-border-input",
+        "--color-destructive",
+        "--color-placeholder-foreground",
+        "--color-text-primary",
+        "--motion-duration-fast",
+        "--radius-md",
+        "--space-2",
+        "--space-3",
+        "--space-4",
+        "--space-5"
+      ],
+      "undefinedCssTokens": [],
+      "utilitySemanticClasses": [],
+      "cvaVariants": {},
+      "unionProps": {
+        "inputSize": [
+          "lg",
+          "md",
+          "sm"
+        ]
+      }
+    },
+    {
+      "component": "MaturityBadge",
+      "sourceFile": "src/renderer/components/ui/MaturityBadge.tsx",
+      "styleFiles": [
+        "src/renderer/components/ui/MaturityBadge.module.css"
+      ],
+      "cssTokens": [
+        "--color-muted-foreground",
+        "--color-primary",
+        "--motion-duration-fast",
+        "--radius-sm"
+      ],
+      "undefinedCssTokens": [],
+      "utilitySemanticClasses": [],
+      "cvaVariants": {},
+      "unionProps": {}
+    },
+    {
+      "component": "Notice",
+      "sourceFile": "src/renderer/components/ui/Notice.tsx",
+      "styleFiles": [
+        "src/renderer/components/ui/Notice.module.css"
+      ],
+      "cssTokens": [
+        "--color-accent",
+        "--color-black",
+        "--color-destructive-border",
+        "--color-destructive-border-strong",
+        "--color-destructive-icon",
+        "--color-destructive-surface",
+        "--color-destructive-surface-strong",
+        "--color-info-border",
+        "--color-info-border-strong",
+        "--color-info-icon",
+        "--color-info-surface",
+        "--color-info-surface-strong",
+        "--color-success-border",
+        "--color-success-border-strong",
+        "--color-success-icon",
+        "--color-success-surface",
+        "--color-success-surface-strong",
+        "--color-text-primary",
+        "--color-text-secondary",
+        "--color-warning-border",
+        "--color-warning-border-strong",
+        "--color-warning-icon",
+        "--color-warning-surface",
+        "--color-warning-surface-strong",
+        "--color-white",
+        "--motion-duration-fast",
+        "--motion-ease-out",
+        "--radius-md",
+        "--radius-sm",
+        "--space-1",
+        "--space-2",
+        "--space-3",
+        "--space-4",
+        "--space-5"
+      ],
+      "undefinedCssTokens": [],
+      "utilitySemanticClasses": [],
+      "cvaVariants": {},
+      "unionProps": {
+        "variant": [
+          "primary",
+          "secondary"
+        ]
+      }
+    },
+    {
+      "component": "PageHeader",
+      "sourceFile": "src/renderer/components/ui/PageHeader.tsx",
+      "styleFiles": [
+        "src/renderer/components/ui/PageHeader.module.css"
+      ],
+      "cssTokens": [
+        "--color-muted-foreground",
+        "--color-text-primary"
+      ],
+      "undefinedCssTokens": [],
+      "utilitySemanticClasses": [],
+      "cvaVariants": {},
+      "unionProps": {}
+    },
+    {
+      "component": "PrivacyIndicator",
+      "sourceFile": "src/renderer/components/ui/PrivacyIndicator.tsx",
+      "styleFiles": [
+        "src/renderer/components/ui/PrivacyIndicator.module.css"
+      ],
+      "cssTokens": [],
+      "undefinedCssTokens": [],
+      "utilitySemanticClasses": [],
+      "cvaVariants": {},
+      "unionProps": {
+        "tooltipPlacement": [
+          "bottom",
+          "left",
+          "right",
+          "top"
+        ]
+      }
+    },
+    {
+      "component": "RebelLoadingIndicator",
+      "sourceFile": "src/renderer/components/ui/RebelLoadingIndicator.tsx",
+      "styleFiles": [
+        "src/renderer/components/ui/RebelLoadingIndicator.module.css"
+      ],
+      "cssTokens": [
+        "--color-text-primary",
+        "--color-text-secondary",
+        "--space-1",
+        "--space-10",
+        "--space-12",
+        "--space-3",
+        "--space-6"
+      ],
+      "undefinedCssTokens": [],
+      "utilitySemanticClasses": [],
+      "cvaVariants": {},
+      "unionProps": {}
+    },
+    {
+      "component": "RichSelect",
+      "sourceFile": "src/renderer/components/ui/RichSelect.tsx",
+      "styleFiles": [
+        "src/renderer/components/ui/RichSelect.module.css"
+      ],
+      "cssTokens": [
+        "--color-background",
+        "--color-border",
+        "--color-border-hover",
+        "--color-border-input",
+        "--color-foreground",
+        "--color-popover",
+        "--color-primary",
+        "--color-ring",
+        "--color-text-primary",
+        "--color-text-secondary",
+        "--color-text-tertiary",
+        "--glass-overlay-blur",
+        "--motion-duration-fast",
+        "--radius-md",
+        "--space-2",
+        "--space-3",
+        "--space-4"
+      ],
+      "undefinedCssTokens": [
+        "--color-border-hover",
+        "--color-text-tertiary"
+      ],
+      "utilitySemanticClasses": [],
+      "cvaVariants": {},
+      "unionProps": {
+        "size": [
+          "md",
+          "sm"
+        ]
+      }
+    },
+    {
+      "component": "SectionHeader",
+      "sourceFile": "src/renderer/components/ui/SectionHeader.tsx",
+      "styleFiles": [
+        "src/renderer/components/ui/SectionHeader.module.css"
+      ],
+      "cssTokens": [
+        "--color-foreground",
+        "--color-muted-foreground"
+      ],
+      "undefinedCssTokens": [],
+      "utilitySemanticClasses": [],
+      "cvaVariants": {},
+      "unionProps": {}
+    },
+    {
+      "component": "Select",
+      "sourceFile": "src/renderer/components/ui/Select.tsx",
+      "styleFiles": [
+        "src/renderer/components/ui/Select.module.css"
+      ],
+      "cssTokens": [
+        "--color-background",
+        "--color-border-input",
+        "--color-destructive",
+        "--color-ring",
+        "--color-text-primary",
+        "--color-text-secondary",
+        "--motion-duration-fast",
+        "--radius-md",
+        "--space-2",
+        "--space-3",
+        "--space-4",
+        "--space-5"
+      ],
+      "undefinedCssTokens": [],
+      "utilitySemanticClasses": [],
+      "cvaVariants": {},
+      "unionProps": {
+        "selectSize": [
+          "lg",
+          "md",
+          "sm"
+        ]
+      }
+    },
+    {
+      "component": "Spinner",
+      "sourceFile": "src/renderer/components/ui/Spinner.tsx",
+      "styleFiles": [],
+      "cssTokens": [],
+      "undefinedCssTokens": [],
+      "utilitySemanticClasses": [
+        "text-muted-foreground"
+      ],
+      "cvaVariants": {},
+      "unionProps": {}
+    },
+    {
+      "component": "SplitButton",
+      "sourceFile": "src/renderer/components/ui/SplitButton.tsx",
+      "styleFiles": [
+        "src/renderer/components/ui/SplitButton.module.css"
+      ],
+      "cssTokens": [
+        "--color-border",
+        "--color-foreground",
+        "--color-muted-foreground",
+        "--color-popover",
+        "--color-primary",
+        "--color-primary-foreground",
+        "--glass-overlay-blur"
+      ],
+      "undefinedCssTokens": [],
+      "utilitySemanticClasses": [],
+      "cvaVariants": {},
+      "unionProps": {
+        "type": [
+          "button",
+          "submit"
+        ],
+        "size": [
+          "lg",
+          "md",
+          "sm"
+        ],
+        "variant": [
+          "default",
+          "outline"
+        ]
+      }
+    },
+    {
+      "component": "Tabs",
+      "sourceFile": "src/renderer/components/ui/Tabs.tsx",
+      "styleFiles": [
+        "src/renderer/components/ui/Tabs.module.css"
+      ],
+      "cssTokens": [
+        "--color-background",
+        "--color-border",
+        "--color-muted",
+        "--color-primary",
+        "--color-primary-foreground",
+        "--color-ring",
+        "--color-text-primary",
+        "--color-text-secondary",
+        "--motion-duration-fast",
+        "--motion-ease-out",
+        "--radius-md",
+        "--radius-pill",
+        "--radius-sm",
+        "--shadow-soft",
+        "--space-1",
+        "--space-2",
+        "--space-3",
+        "--space-4"
+      ],
+      "undefinedCssTokens": [],
+      "utilitySemanticClasses": [],
+      "cvaVariants": {},
+      "unionProps": {
+        "variant": [
+          "default",
+          "pills",
+          "underline"
+        ]
+      }
+    },
+    {
+      "component": "ThemeToggle",
+      "sourceFile": "src/renderer/components/ui/ThemeToggle.tsx",
+      "styleFiles": [
+        "src/renderer/components/ui/ThemeToggle.module.css"
+      ],
+      "cssTokens": [
+        "--color-border",
+        "--color-muted-foreground",
+        "--color-primary"
+      ],
+      "undefinedCssTokens": [],
+      "utilitySemanticClasses": [],
+      "cvaVariants": {},
+      "unionProps": {}
+    },
+    {
+      "component": "Toast",
+      "sourceFile": "src/renderer/components/ui/Toast.tsx",
+      "styleFiles": [
+        "src/renderer/components/ui/Toast.module.css"
+      ],
+      "cssTokens": [
+        "--color-text-muted",
+        "--color-text-primary",
+        "--color-text-secondary",
+        "--font-family-sans",
+        "--glass-overlay-blur",
+        "--motion-duration-fast",
+        "--motion-ease-out",
+        "--radius-lg",
+        "--radius-sm",
+        "--radius-xs",
+        "--z-toast"
+      ],
+      "undefinedCssTokens": [],
+      "utilitySemanticClasses": [],
+      "cvaVariants": {},
+      "unionProps": {}
+    },
+    {
+      "component": "Toggle",
+      "sourceFile": "src/renderer/components/ui/Toggle.tsx",
+      "styleFiles": [
+        "src/renderer/components/ui/Toggle.module.css"
+      ],
+      "cssTokens": [
+        "--color-primary",
+        "--color-primary-foreground",
+        "--color-text-secondary",
+        "--motion-duration-fast"
+      ],
+      "undefinedCssTokens": [],
+      "utilitySemanticClasses": [],
+      "cvaVariants": {},
+      "unionProps": {}
+    },
+    {
+      "component": "Tooltip",
+      "sourceFile": "src/renderer/components/ui/Tooltip.tsx",
+      "styleFiles": [
+        "src/renderer/components/ui/Tooltip.module.css"
+      ],
+      "cssTokens": [
+        "--motion-ease-out",
+        "--radius-md"
+      ],
+      "undefinedCssTokens": [],
+      "utilitySemanticClasses": [],
+      "cvaVariants": {},
+      "unionProps": {}
+    }
+  ]
+}

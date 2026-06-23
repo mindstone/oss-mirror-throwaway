@@ -1,0 +1,20 @@
+{
+  "commits": [
+    {
+      "hash": "a1a1a1a1a1a1a1a1a1a1a1a1a1a1a1a1a1a1a1a1",
+      "subject": "feat(ui): Added notice primitive usage in settings",
+      "body": "Keeps announcement copy style consistent."
+    }
+  ],
+  "submodule_advances": [
+    {
+      "submodule": "rebel-system",
+      "from_sha": "1111111111111111111111111111111111111111",
+      "to_sha": "2222222222222222222222222222222222222222",
+      "commits": [
+        "2222222 docs(help): update internal onboarding wording"
+      ]
+    }
+  ],
+  "mocked_llm_completion": "\n  \"what_youll_see\": [],\n  \"what_we_fixed\": [],\n  \"worth_a_look\": [\n    { \"bullet\": \"Internal helper guidance was refreshed for beta onboarding.\", \"submodule_indices\": [0] }\n  ]\n}"
+}

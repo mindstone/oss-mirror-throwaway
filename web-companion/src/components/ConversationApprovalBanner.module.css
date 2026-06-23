@@ -1,0 +1,210 @@
+.container {
+  border-top: 1px solid var(--color-border);
+  background: var(--color-bg);
+  padding: var(--space-sm) var(--space-md);
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-sm);
+  max-height: 34vh;
+  overflow-y: auto;
+}
+
+.header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--space-sm);
+}
+
+.headerTitle {
+  margin: 0;
+  font-size: 0.8125rem;
+  font-weight: 700;
+  color: var(--color-text-tertiary);
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+}
+
+.headerCount {
+  font-size: 0.75rem;
+  color: var(--color-text-tertiary);
+}
+
+.inlineError {
+  margin: 0;
+  padding: 8px 10px;
+  border-radius: var(--radius-sm);
+  border: 1px solid var(--color-error);
+  background: var(--color-error-bg);
+  color: var(--color-error);
+  font-size: 0.8125rem;
+}
+
+.list {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-sm);
+}
+
+.card {
+  background: var(--color-surface);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-md);
+  padding: 10px 12px;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.cardHeader {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--space-sm);
+}
+
+.title {
+  font-size: 0.875rem;
+  font-weight: 700;
+  color: var(--color-text-primary);
+  line-height: 1.3;
+  min-width: 0;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.timestamp {
+  font-size: 0.6875rem;
+  color: var(--color-text-tertiary);
+  flex-shrink: 0;
+}
+
+.reason {
+  margin: 0;
+  font-size: 0.8125rem;
+  line-height: 1.35;
+  color: var(--color-text-secondary);
+}
+
+.path {
+  margin: 0;
+  font-size: 0.75rem;
+  line-height: 1.35;
+  color: var(--color-text-tertiary);
+  font-family: var(--font-mono);
+  word-break: break-word;
+}
+
+.riskBadge {
+  font-size: 0.625rem;
+  font-weight: 700;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  color: var(--color-text-secondary);
+  background: rgba(251, 191, 36, 0.15);
+  border-radius: var(--radius-sm);
+  padding: 3px 6px;
+}
+
+.riskHigh {
+  color: var(--color-error);
+  background: var(--color-error-bg);
+}
+
+.details {
+  margin: 0;
+}
+
+.summary {
+  cursor: pointer;
+  font-size: 0.75rem;
+  color: var(--color-text-tertiary);
+  user-select: none;
+}
+
+.summary:hover {
+  color: var(--color-text-secondary);
+}
+
+.preview {
+  margin: var(--space-xs) 0 0;
+  background: var(--color-bg);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-sm);
+  padding: 8px;
+  max-height: 130px;
+  overflow: auto;
+  font-size: 0.75rem;
+  line-height: 1.45;
+  color: var(--color-text-secondary);
+  font-family: var(--font-mono);
+  white-space: pre-wrap;
+  word-break: break-word;
+}
+
+.footerRow {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--space-sm);
+  flex-wrap: wrap;
+}
+
+.checkboxLabel {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 0.75rem;
+  color: var(--color-text-tertiary);
+}
+
+.checkboxLabel input[type='checkbox'] {
+  accent-color: var(--color-accent);
+}
+
+.actions {
+  display: flex;
+  align-items: center;
+  gap: var(--space-xs);
+  justify-content: flex-end;
+}
+
+.primaryButton,
+.secondaryButton,
+.executeButton {
+  border-radius: var(--radius-sm);
+  border: none;
+  font-size: 0.75rem;
+  font-weight: 700;
+  font-family: var(--font-sans);
+  padding: 6px 12px;
+  cursor: pointer;
+  transition: opacity var(--transition-fast), border-color var(--transition-fast), color var(--transition-fast);
+}
+
+.primaryButton {
+  background: var(--color-success);
+  color: #fff;
+}
+
+.executeButton {
+  background: var(--color-accent);
+  color: #fff;
+}
+
+.secondaryButton {
+  background: transparent;
+  border: 1px solid var(--color-border);
+  color: var(--color-text-secondary);
+}
+
+.primaryButton:hover,
+.executeButton:hover {
+  opacity: 0.85;
+}
+
+.secondaryButton:hover {
+  border-color: var(--color-error);
+  color: var(--color-error);
+}

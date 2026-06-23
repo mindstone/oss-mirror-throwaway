@@ -1,0 +1,51 @@
+.itemTitle {
+  margin: 0 0 var(--space-3);
+  color: var(--color-foreground);
+  font-size: var(--font-size-sm);
+  font-weight: 600;
+  line-height: 1.4;
+}
+
+.reasonGrid {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-2);
+  margin-bottom: var(--space-4);
+}
+
+.reasonButton {
+  flex: 0 0 auto;
+}
+
+.textLabel {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-2);
+  color: var(--color-muted-foreground);
+  font-size: var(--font-size-xs);
+  font-weight: 600;
+}
+
+.textarea {
+  min-height: 88px;
+  resize: vertical;
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-lg);
+  background: var(--color-surface-elevated);
+  color: var(--color-foreground);
+  font: inherit;
+  font-size: var(--font-size-sm);
+  line-height: 1.45;
+  padding: var(--space-3);
+}
+
+.textarea:focus {
+  border-color: var(--color-primary);
+  outline: none;
+  box-shadow: 0 0 0 2px color-mix(in srgb, var(--color-primary) 18%, transparent);
+}
+
+.textarea::placeholder {
+  color: var(--color-muted-foreground);
+  opacity: 0.72;
+}

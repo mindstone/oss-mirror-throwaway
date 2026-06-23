@@ -1,0 +1,44 @@
+# EAS Build ignore — keep archive small for mobile builds.
+# The mobile project references ../cloud-client, ../src/shared, ../packages/shared,
+# and ../src/core via Metro config, so EAS uploads from the monorepo root.
+
+# Large directories not needed for mobile builds
+node_modules/
+out/
+dist/
+build/
+release/
+test-results/
+logs/
+tmp/
+.git/
+
+# Desktop Electron code (not needed for mobile)
+resources/
+avatar-webpage/
+meeting-bot-worker/
+web-companion/
+cloud-service/
+
+# Documentation and config not needed at build time
+docs/
+coding-agent-instructions/
+.factory/
+.github/
+skills/
+rebel-system/
+super-mcp/
+factory/
+
+# Renderer code (mobile uses its own UI)
+src/renderer/
+src/preload/
+src/main/
+
+# Build artifacts and caches
+*.dmg
+*.exe
+*.deb
+*.zip
+*.tgz
+.electron-vite/

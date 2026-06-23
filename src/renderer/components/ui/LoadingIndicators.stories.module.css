@@ -1,0 +1,135 @@
+.page {
+  display: grid;
+  gap: var(--space-6);
+  max-width: 1040px;
+  padding: var(--space-6);
+}
+
+.header {
+  display: grid;
+  gap: var(--space-2);
+}
+
+.title {
+  margin: 0;
+  color: var(--color-text-primary);
+  font-size: 1.75rem;
+  line-height: 1.2;
+}
+
+.intro {
+  max-width: 78ch;
+  margin: 0;
+  color: var(--color-text-secondary);
+  line-height: 1.55;
+}
+
+.grid {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: var(--space-4);
+}
+
+.cardContent {
+  display: grid;
+  gap: var(--space-4);
+  padding: var(--space-4);
+}
+
+.cardTitle {
+  margin: 0;
+  color: var(--color-text-primary);
+  font-size: 1rem;
+  line-height: 1.35;
+}
+
+.cardDescription {
+  margin: 0;
+  color: var(--color-text-secondary);
+  font-size: 0.875rem;
+  line-height: 1.5;
+}
+
+.sampleBox {
+  display: grid;
+  min-height: calc(var(--space-12) * 2);
+  place-items: center;
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-lg);
+  background: color-mix(in srgb, var(--color-card) 88%, transparent);
+  padding: var(--space-4);
+}
+
+.skeletonSampleBox {
+  border: none;
+  background: color-mix(in srgb, var(--color-card) 82%, transparent);
+}
+
+.compactRow {
+  display: flex;
+  align-items: center;
+  gap: var(--space-3);
+  color: var(--color-text-secondary);
+  font-size: 0.875rem;
+}
+
+.spinnerSamples {
+  display: grid;
+  gap: var(--space-3);
+  justify-items: start;
+}
+
+.mascotSamples {
+  display: grid;
+  gap: var(--space-3);
+  align-items: start;
+}
+
+.mascotRow {
+  display: flex;
+  align-items: center;
+  gap: var(--space-4);
+  flex-wrap: wrap;
+}
+
+
+.skeletonPreview {
+  display: grid;
+  width: 100%;
+  gap: var(--space-3);
+}
+
+.skeletonLine {
+  height: var(--space-3);
+  border: none;
+  border-radius: var(--radius-pill);
+  background: color-mix(in srgb, var(--color-text-secondary) 16%, transparent);
+  box-shadow: none;
+}
+
+.skeletonLineShort {
+  width: 42%;
+}
+
+.skeletonLineMedium {
+  width: 68%;
+}
+
+.skeletonLineLong {
+  width: 92%;
+}
+
+.rules {
+  display: grid;
+  gap: var(--space-2);
+  margin: 0;
+  padding-left: var(--space-5);
+  color: var(--color-text-secondary);
+  line-height: 1.55;
+}
+
+@media (max-width: 860px) {
+  .grid {
+    grid-template-columns: 1fr;
+  }
+}

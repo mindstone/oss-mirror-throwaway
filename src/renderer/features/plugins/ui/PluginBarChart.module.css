@@ -1,0 +1,48 @@
+.chartContainer {
+  width: 100%;
+  min-width: 0;
+}
+
+.chart {
+  display: block;
+  width: 100%;
+  overflow: visible;
+}
+
+.axis {
+  stroke: var(--color-border, #cbd5e1);
+  stroke-width: 1;
+}
+
+.bar {
+  transition: opacity 120ms ease-out;
+}
+
+.bar:hover {
+  opacity: 0.88;
+}
+
+.axisLabel {
+  fill: var(--color-muted-foreground, #64748b);
+  font-size: 11px;
+}
+
+.valueLabel {
+  fill: var(--color-foreground, #0f172a);
+  font-size: 11px;
+  font-weight: 600;
+}
+
+.emptyState {
+  display: flex;
+  min-height: 120px;
+  align-items: center;
+  justify-content: center;
+  border: 1px dashed var(--color-border, #cbd5e1);
+  border-radius: 10px;
+  padding: 12px;
+  text-align: center;
+  font-size: 0.85rem;
+  color: var(--color-muted-foreground, #64748b);
+  background: var(--color-bg-secondary, rgba(148, 163, 184, 0.08));
+}

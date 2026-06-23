@@ -1,0 +1,1524 @@
+/*
+ * ═══════════════════════════════════════════════════════════
+ * DESIGN TOKENS - Onboarding & Intro Screens
+ * ═══════════════════════════════════════════════════════════
+ *
+ * Title → Tagline spacing:    16px (marginBottom on headline)
+ * Tagline → CTA spacing:      40px (marginTop on actions)
+ * Tagline opacity:            0.65
+ * Primary CTA min-width:      180px
+ * Large button padding:       14px 24px
+ * Large button font-size:     16px
+ * Large button border-radius: 12px (matches --radius-button token)
+ *
+ * These tokens are shared between OnboardingWizard (welcome step)
+ * and AudioIntroScreen (Meet Rebel ready phase) for visual consistency.
+ * ═══════════════════════════════════════════════════════════
+ */
+
+ .overlay {
+   position: fixed;
+   inset: 0;
+   z-index: 1200;
+   display: flex;
+   align-items: center;
+   justify-content: center;
+  background: radial-gradient(1200px 800px at 20% 10%, rgba(135, 80, 255, 0.25) 0%, rgba(135, 80, 255, 0.0) 55%),
+    radial-gradient(1000px 700px at 80% 90%, rgba(0, 220, 255, 0.25) 0%, rgba(0, 220, 255, 0.0) 55%),
+    linear-gradient(180deg, rgba(10,10,14,0.92) 0%, rgba(6,6,10,0.96) 100%);
+  backdrop-filter: blur(var(--glass-overlay-blur));
+  color: var(--color-foreground);
+   overflow: hidden;
+ }
+ 
+ .overlay::before {
+   content: '';
+   position: absolute;
+   inset: -20%;
+   background:
+     radial-gradient(900px 600px at 15% 20%, rgba(124, 58, 237, 0.18), transparent 60%),
+     radial-gradient(800px 520px at 85% 80%, rgba(37, 99, 235, 0.16), transparent 60%),
+     conic-gradient(from 180deg at 50% 50%, rgba(59,130,246,0.06), rgba(16,185,129,0.06), rgba(124,58,237,0.06), rgba(59,130,246,0.06));
+   filter: blur(60px) saturate(110%);
+   opacity: 0.55;
+   animation: auroraDrift 42s ease-in-out infinite alternate;
+   pointer-events: none;
+   z-index: 0;
+ }
+ 
+/* Twinkling particles — identical to contextual dashboard */
+.particles {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  overflow: hidden;
+  z-index: 1;
+  will-change: transform, opacity;
+  animation: starLift 9s ease-in-out infinite alternate;
+}
+.particle {
+  position: absolute;
+  width: 2px;
+  height: 2px;
+  background: radial-gradient(circle, rgba(255,255,255,1) 0%, rgba(255,255,255,0) 70%);
+  border-radius: 50%;
+  opacity: 0;
+  animation: twinkle 2.6s ease-in-out infinite;
+}
+.particle:nth-child(3n) { animation-duration: 4.4s; }
+.particle:nth-child(4n) { animation-duration: 5s; }
+.particle:nth-child(5n) { animation-duration: 3.8s; }
+.particle:nth-child(2n) { width: 1px; height: 1px; opacity: 0.7; }
+.particle:nth-child(7n) { width: 4px; height: 4px; }
+
+.particleBlue {
+  background: radial-gradient(circle, rgba(147, 197, 253, 1) 0%, rgba(147, 197, 253, 0) 70%);
+}
+
+.particlePurple {
+  background: radial-gradient(circle, rgba(196, 181, 253, 1) 0%, rgba(196, 181, 253, 0) 70%);
+}
+
+.particleGlow {
+  width: 3px;
+  height: 3px;
+  background: radial-gradient(circle, rgba(255, 255, 255, 1) 0%, rgba(255, 255, 255, 0) 60%);
+  box-shadow: 0 0 6px rgba(255, 255, 255, 0.5);
+}
+
+@keyframes twinkle {
+  0% { transform: translateY(0px) scale(0.8); opacity: 0; }
+  10% { opacity: 0.9; }
+  50% { transform: translateY(-52px) scale(1.08); opacity: 0.75; }
+  80% { opacity: 0.0; }
+  100% { transform: translateY(-160px) scale(0.9); opacity: 0; }
+}
+
+@keyframes starLift {
+  0% { transform: translateY(0); opacity: 1; }
+  100% { transform: translateY(-60px); opacity: 0.98; }
+}
+
+/* Nebula layer for additional depth */
+.nebulaLayer {
+  position: absolute;
+  inset: 0;
+  background: radial-gradient(
+      ellipse 80% 60% at 20% 30%,
+      rgba(124, 58, 237, 0.08) 0%,
+      transparent 50%
+    ),
+    radial-gradient(ellipse 60% 80% at 80% 70%, rgba(59, 130, 246, 0.06) 0%, transparent 50%);
+  pointer-events: none;
+  z-index: 0;
+}
+
+/* ═══════════════════════════════════════════════════════════
+ * SHOOTING STARS
+ * ═══════════════════════════════════════════════════════════ */
+
+.shootingStarsLayer {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  overflow: hidden;
+  z-index: 1;
+}
+
+.shootingStar {
+  position: absolute;
+  width: 100px;
+  height: 1px;
+  background: linear-gradient(90deg, rgba(255, 255, 255, 0.8) 0%, transparent 100%);
+  transform: rotate(-45deg);
+  opacity: 0;
+  animation: shootingStarMove 6s ease-in-out infinite;
+}
+
+@keyframes shootingStarMove {
+  0% {
+    opacity: 0;
+    transform: rotate(-45deg) translateX(0);
+  }
+  5% {
+    opacity: 1;
+  }
+  15% {
+    opacity: 0;
+    transform: rotate(-45deg) translateX(300px);
+  }
+  100% {
+    opacity: 0;
+    transform: rotate(-45deg) translateX(300px);
+  }
+}
+
+ @keyframes auroraDrift {
+   0%   { transform: translate3d(-2%, 0, 0) rotate(0.2deg) scale(1.02); opacity: 0.45; }
+   50%  { transform: translate3d(2%, 1%, 0) rotate(-0.2deg) scale(1.04); opacity: 0.6; }
+   100% { transform: translate3d(-1%, -1%, 0) rotate(0deg) scale(1.02); opacity: 0.5; }
+ }
+ 
+ .container {
+   width: min(960px, 92vw);
+   padding: 40px;
+   border-radius: 28px;
+   background: rgba(13, 17, 28, 0.6);
+   box-shadow: 0 40px 120px rgba(2, 6, 23, 0.6);
+   border: 1px solid rgba(148, 163, 184, 0.18);
+   backdrop-filter: blur(var(--glass-panel-blur));
+   display: flex;
+   flex-direction: column;
+   gap: 16px;
+   align-items: center;
+   justify-content: center;
+   text-align: center;
+   min-height: clamp(420px, 52vh, 680px);
+   position: relative;
+   z-index: 2;
+ }
+ 
+ .headline {
+   margin: 0;
+  font-size: clamp(26px, 4.7vw, 38px);
+   line-height: 1.15;
+   letter-spacing: -0.01em;
+  color: var(--color-foreground);
+ }
+ 
+ .lead {
+   margin: 0;
+   font-size: 16px;
+  color: var(--color-muted-foreground);
+ }
+ 
+ .subhead {
+   margin: 0;
+   font-size: 16px;
+  color: var(--color-muted-foreground);
+ }
+ 
+ .callout {
+   display: grid;
+   grid-template-columns: 1fr;
+   gap: 16px;
+   background: linear-gradient(135deg, rgba(99, 102, 241, 0.14), rgba(59, 130, 246, 0.14));
+   border: 1px solid rgba(99, 102, 241, 0.28);
+   border-radius: 16px;
+   padding: 16px;
+  color: var(--color-foreground);
+ }
+ 
+ .actions {
+   display: flex;
+   align-items: center;
+   gap: 12px;
+   flex-wrap: wrap;
+ }
+ 
+ .wowButton {
+   position: relative;
+   transform: translateZ(0);
+ }
+ 
+.wowButton::after {
+  content: '';
+  position: absolute;
+  inset: -4px;
+  border-radius: 12px;
+  background: radial-gradient(180px 40px at 50% 0%, rgba(59, 130, 246, 0.35), transparent 60%),
+    radial-gradient(240px 80px at 50% 100%, rgba(124, 58, 237, 0.35), transparent 60%);
+  opacity: 0.8;
+  filter: blur(16px);
+  z-index: -1;
+  animation: wowPulse 2.2s ease-in-out infinite;
+}
+
+/* ─────────────────────────────────────────────────
+   Privacy + EULA card — Welcome step
+   ───────────────────────────────────────────────── */
+.privacyTrust {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  margin-top: 28px;
+  padding: 16px 20px;
+  max-width: 620px;
+  width: 100%;
+  background: rgba(255, 255, 255, 0.03);
+  border: 1px solid rgba(148, 163, 184, 0.1);
+  border-radius: 14px;
+  box-sizing: border-box;
+  text-align: left;
+}
+
+.privacyTrustItem {
+  display: flex;
+  align-items: flex-start;
+  gap: 10px;
+}
+
+.privacyTrustIcon {
+  flex-shrink: 0;
+  /* Align icon with the first line of the bold title */
+  margin-top: 2px;
+  color: rgba(99, 102, 241, 0.55);
+}
+
+.privacyTrustText {
+  margin: 0;
+  font-size: 13px;
+  line-height: 1.55;
+  color: rgba(203, 213, 225, 0.5);
+}
+
+.privacyTrustText strong {
+  display: block;
+  margin-bottom: 2px;
+  font-size: 13px;
+  font-weight: 600;
+  color: rgba(248, 250, 255, 0.85);
+}
+
+.privacyPolicyLink {
+  display: inline-flex;
+  align-items: center;
+  gap: 3px;
+  font-size: 12px;
+  color: rgba(99, 102, 241, 0.6);
+  text-decoration: none;
+  cursor: pointer;
+  transition: color 0.15s ease;
+}
+
+.privacyPolicyLink:hover {
+  color: rgba(129, 140, 248, 0.85);
+  text-decoration: underline;
+}
+
+.privacyPolicyLinkButton {
+  display: inline-flex;
+  align-items: center;
+  gap: 3px;
+  font-size: 12px;
+  color: rgba(99, 102, 241, 0.6);
+  text-decoration: none;
+  cursor: pointer;
+  transition: color 0.15s ease;
+  background: none;
+  border: none;
+  padding: 0;
+  font-family: inherit;
+}
+
+.privacyPolicyLinkButton:hover {
+  color: rgba(129, 140, 248, 0.85);
+  text-decoration: underline;
+}
+
+/* Shrink checkbox to match the ShieldCheck icon size */
+.privacyTrust input[type="checkbox"] {
+  width: 15px;
+  height: 15px;
+  min-width: 15px;
+  border-radius: 4px;
+}
+
+.privacyTrust input[type="checkbox"]::after {
+  width: 9px;
+  height: 9px;
+}
+
+.privacyTrustDivider {
+  height: 1px;
+  background: rgba(148, 163, 184, 0.08);
+  margin: 2px 0;
+}
+
+/* ─────────────────────────────────────────────────
+   Privacy Details Collapsible
+   ───────────────────────────────────────────────── */
+.privacyDetailsToggle {
+  margin-top: 4px;
+}
+
+.privacyDetailsButton {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 4px 0;
+  background: transparent;
+  border: none;
+  color: rgba(148, 163, 184, 0.6);
+  font-size: 12px;
+  cursor: pointer;
+  opacity: 0.85;
+  transition: opacity 150ms ease, color 150ms ease;
+}
+
+.privacyDetailsButton:hover {
+  opacity: 1;
+  color: rgba(148, 163, 184, 0.9);
+}
+
+.privacyDetailsChevron {
+  transition: transform 150ms ease;
+}
+
+.privacyDetailsChevronExpanded {
+  transform: rotate(180deg);
+}
+
+.privacyDetailsList {
+  margin: 8px 0 0 0;
+  padding: 0 0 0 16px;
+  list-style: none;
+  animation: privacyDetailsExpandIn 150ms ease-out;
+}
+
+.privacyDetailsItem {
+  font-size: 12px;
+  color: rgba(148, 163, 184, 0.6);
+  padding: 3px 0;
+  line-height: 1.5;
+  position: relative;
+}
+
+.privacyDetailsItem::before {
+  content: '•';
+  position: absolute;
+  left: -12px;
+  opacity: 0.5;
+}
+
+@keyframes privacyDetailsExpandIn {
+  from {
+    opacity: 0;
+    transform: translateY(-6px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+
+
+/* Welcome screen: Rebel mascot (delightful, subtle) */
+.welcomeMascot {
+  width: 96px;
+  height: 96px;
+  object-fit: contain;
+  margin: 4px 0 10px;
+  opacity: 0.95;
+  filter: drop-shadow(0 6px 18px rgba(0, 0, 0, 0.35));
+}
+
+/* Audio hint positioned in the tagline flow (prominent) */
+.audioHintTagline {
+  font-size: 15px;
+  color: var(--color-muted-foreground);
+  opacity: 0.85;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  padding: 10px 18px;
+  background: rgba(99, 102, 241, 0.08);
+  border: 1px solid rgba(99, 102, 241, 0.18);
+  border-radius: 10px;
+}
+.audioHintTaglineIcon {
+  width: 18px;
+  height: 18px;
+  opacity: 0.9;
+  flex-shrink: 0;
+  color: rgba(147, 197, 253, 0.95);
+}
+
+/* Legacy: Mic hint positioned at bottom of container card (deprecated) */
+.micHintInCard {
+  position: absolute;
+  left: 24px;
+  right: 24px;
+  bottom: 20px;
+  font-size: 12px;
+  color: var(--color-muted-foreground);
+  opacity: 0.85;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+}
+ 
+ @keyframes wowPulse {
+   0%, 100% { opacity: 0.6; transform: scale(0.98); }
+   50% { opacity: 1; transform: scale(1); }
+ }
+ 
+.cinematic {
+  width: min(960px, 92vw);
+  padding: 40px;
+  border-radius: 28px;
+  display: grid;
+  gap: 18px;
+  place-items: center;
+  background: rgba(13, 17, 28, 0.92);
+  border: 1px solid rgba(148, 163, 184, 0.18);
+  backdrop-filter: blur(var(--glass-panel-blur));
+  -webkit-backdrop-filter: blur(var(--glass-panel-blur));
+  text-align: center;
+  position: relative;
+  overflow: hidden;
+  box-shadow: 0 40px 120px rgba(2, 6, 23, 0.6);
+  z-index: 2;
+  min-height: clamp(420px, 52vh, 680px);
+}
+ 
+.cinematicTitle {
+   margin: 0;
+  font-size: clamp(26px, 4.7vw, 38px);
+   line-height: 1.15;
+   letter-spacing: -0.01em;
+  color: var(--color-foreground);
+   text-shadow: 0 8px 22px rgba(0,0,0,0.35);
+}
+ 
+ .cinematicSub {
+   margin: 0;
+   font-size: clamp(14px, 2.4vw, 18px);
+  color: var(--color-muted-foreground);
+ }
+
+/* Rolling subtitles for the intro voiceover */
+.subtitles {
+  display: grid;
+  gap: 4px;
+  min-height: 44px; /* reserve space to avoid layout shift */
+  max-width: 756px;
+}
+
+.subtitleLine {
+  font-size: clamp(13px, 2vw, 16px);
+  font-style: italic;
+  color: rgba(203, 213, 225, 0.85);
+  opacity: 0;
+  transform: translateY(6px);
+  animation: subtitleIn 420ms ease-out forwards;
+  text-shadow: 0 2px 8px rgba(0,0,0,0.4);
+}
+
+.subtitleStatus {
+  margin-top: 8px;
+  font-size: 13px;
+  color: rgba(148, 163, 184, 0.65);
+  opacity: 0.8;
+}
+
+@keyframes subtitleIn {
+  from { opacity: 0; transform: translateY(6px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+/* ═══════════════════════════════════════════════════════════
+ * TELEPROMPTER - Word-by-word highlighting with subtle glow
+ * ═══════════════════════════════════════════════════════════ */
+
+.teleprompter {
+  max-width: 756px;
+  min-height: 80px;
+  text-align: center;
+  font-size: clamp(14px, 2.2vw, 17px);
+  line-height: 1.7;
+  font-style: italic;
+}
+
+.teleprompterWord {
+  display: inline;
+  transition: color 200ms ease-out, opacity 200ms ease-out;
+}
+
+.wordUpcoming {
+  color: rgba(148, 163, 184, 0.4);
+}
+
+.wordPast {
+  color: rgba(203, 213, 225, 0.65);
+}
+
+.wordActive {
+  color: rgba(248, 250, 255, 0.95);
+  text-shadow: 0 0 8px rgba(147, 197, 253, 0.25);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .teleprompterWord {
+    transition: none;
+  }
+  .wordActive {
+    text-shadow: none;
+    font-weight: 500;
+  }
+}
+ 
+.boidsCanvas {
+  position: absolute;
+  inset: 0;
+  border-radius: 34px;
+  pointer-events: none;
+  mix-blend-mode: screen;
+  opacity: 0.9;
+  z-index: 1;
+}
+
+.content {
+  position: relative;
+  z-index: 2;
+  display: grid;
+  place-items: center;
+  gap: 18px;
+  padding: 6px 0;
+}
+
+/* Faded divider between transcript and controls */
+.contentDivider {
+  width: 100%;
+  height: 1px;
+  background: linear-gradient(90deg, rgba(148, 163, 184, 0.0), rgba(148, 163, 184, 0.28), rgba(148, 163, 184, 0.0));
+  margin: 16px 0;
+}
+
+.aurora {
+  position: absolute;
+  inset: -8%;
+  filter: blur(42px);
+  opacity: 0.65;
+  mix-blend-mode: screen;
+  pointer-events: none;
+  z-index: 2;
+}
+
+.morphBlob {
+  position: absolute;
+  inset: auto;
+  border-radius: 42% 58% 65% 35% / 38% 45% 55% 62%;
+  will-change: transform, border-radius, background-position, opacity;
+  background-size: 200% 200%;
+  mix-blend-mode: plus-lighter;
+  opacity: 0.62;
+  filter: blur(48px) saturate(120%);
+  animation:
+    morph 26s cubic-bezier(0.4, 0, 0.2, 1) infinite alternate,
+    drift 32s cubic-bezier(0.4, 0, 0.2, 1) infinite alternate,
+    hue 28s linear infinite alternate;
+}
+
+.morphA {
+  width: clamp(360px, 44vw, 720px);
+  height: clamp(360px, 44vw, 720px);
+  top: -14%;
+  left: -10%;
+  background-image:
+    radial-gradient(60% 60% at 30% 30%, rgba(79, 70, 229, 0.55), transparent 72%),
+    radial-gradient(55% 55% at 70% 70%, rgba(37, 99, 235, 0.35), transparent 74%);
+  animation-delay: 0s, -4s, -8s;
+}
+
+.morphB {
+  width: clamp(300px, 38vw, 580px);
+  height: clamp(300px, 38vw, 580px);
+  right: -12%;
+  top: 6%;
+  background-image:
+    radial-gradient(58% 58% at 70% 30%, rgba(168, 85, 247, 0.48), transparent 70%),
+    radial-gradient(52% 52% at 30% 70%, rgba(14, 165, 233, 0.28), transparent 72%);
+  animation-delay: -6s, -2s, -12s;
+}
+
+.morphC {
+  width: clamp(320px, 40vw, 680px);
+  height: clamp(320px, 40vw, 680px);
+  left: 12%;
+  bottom: -20%;
+  background-image:
+    radial-gradient(60% 60% at 40% 60%, rgba(236, 72, 153, 0.38), transparent 70%),
+    radial-gradient(46% 46% at 60% 40%, rgba(99, 102, 241, 0.24), transparent 72%);
+  animation-delay: -12s, -8s, -4s;
+}
+
+@keyframes morph {
+  0%   { border-radius: 42% 58% 65% 35% / 38% 45% 55% 62%; }
+  50%  { border-radius: 58% 42% 35% 65% / 62% 55% 45% 38%; }
+  100% { border-radius: 52% 48% 58% 42% / 40% 60% 48% 52%; }
+}
+@keyframes drift {
+  0%   { transform: translate3d(0, 0, 0) scale(1); background-position: 0% 0%; opacity: 0.42; }
+  50%  { transform: translate3d(16px, -12px, 0) scale(1.04); background-position: 50% 50%; opacity: 0.50; }
+  100% { transform: translate3d(-10px, 14px, 0) scale(1.02); background-position: 100% 100%; opacity: 0.46; }
+}
+@keyframes hue {
+  0% { filter: hue-rotate(0deg); }
+  100% { filter: hue-rotate(14deg); }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .morphBlob { animation: none; }
+}
+
+.blob {
+  position: absolute;
+  border-radius: 9999px;
+  width: 38vw;
+  height: 38vw;
+}
+
+.blob1 {
+  left: -8%;
+  top: -10%;
+  background: radial-gradient(circle at 30% 30%, rgba(124, 58, 237, 0.8), rgba(124, 58, 237, 0.0) 60%);
+  animation: blobFloatA 22s ease-in-out infinite alternate;
+}
+
+.blob2 {
+  right: -12%;
+  top: 10%;
+  background: radial-gradient(circle at 70% 40%, rgba(59, 130, 246, 0.7), rgba(59, 130, 246, 0.0) 60%);
+  animation: blobFloatB 26s ease-in-out infinite alternate;
+}
+
+.blob3 {
+  left: 20%;
+  bottom: -18%;
+  width: 50vw;
+  height: 50vw;
+  background: radial-gradient(circle at 50% 60%, rgba(16, 185, 129, 0.5), rgba(16, 185, 129, 0.0) 60%);
+  animation: blobFloatC 28s ease-in-out infinite alternate;
+}
+
+/* Modern moving orb that slowly “bounces” across the frame */
+.movingOrb {
+  position: absolute;
+  width: min(50vmax, 780px);
+  height: min(50vmax, 780px);
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%, -50%) translate(-18%, -22%);
+  border-radius: 9999px;
+  background: radial-gradient(closest-side, rgba(99,102,241,0.42), rgba(59,130,246,0.18) 55%, rgba(59,130,246,0) 72%);
+  filter: blur(48px) saturate(120%);
+  opacity: 0.55;
+  will-change: transform, filter, opacity;
+  animation:
+    orbTravel 48s cubic-bezier(0.35, 0, 0.2, 1) infinite alternate,
+    orbHue 64s linear infinite;
+  animation-fill-mode: both;
+}
+
+/* Keep the orb’s movement within safe margins so it doesn’t clip the rounded corners */
+@keyframes orbTravel {
+  0%   { transform: translate(-50%, -50%) translate(-18%, -22%) scale(1.00); opacity: 0.5; }
+  33%  { transform: translate(-50%, -50%) translate(16%, -8%) scale(1.04);  opacity: 0.6; }
+  66%  { transform: translate(-50%, -50%) translate(30%, 18%) scale(1.06);  opacity: 0.58; }
+  100% { transform: translate(-50%, -50%) translate(-6%, 24%) scale(1.02);  opacity: 0.55; }
+}
+@keyframes orbHue {
+  0% { filter: blur(50px) saturate(120%) hue-rotate(0deg); }
+  100% { filter: blur(50px) saturate(120%) hue-rotate(360deg); }
+}
+
+@keyframes blobFloatA {
+  0% { transform: translate3d(0, 0, 0) scale(1); }
+  100% { transform: translate3d(8%, 6%, 0) scale(1.08); }
+}
+@keyframes blobFloatB {
+  0% { transform: translate3d(0, 0, 0) scale(1.05); }
+  100% { transform: translate3d(-6%, 4%, 0) scale(1.12); }
+}
+@keyframes blobFloatC {
+  0% { transform: translate3d(0, 0, 0) scale(1); }
+  100% { transform: translate3d(-4%, -6%, 0) scale(1.06); }
+}
+
+ .soundWaves {
+   width: 100%;
+   height: 56px;
+   display: grid;
+   grid-auto-flow: column;
+   grid-auto-columns: 6px;
+   gap: 6px;
+   align-items: end;
+   margin: 8px 0 10px;
+ }
+ 
+ .bar {
+   width: 100%;
+   height: 12px;
+   background: linear-gradient(180deg, rgba(124, 58, 237, 0.8), rgba(37, 99, 235, 0.8));
+   border-radius: 999px;
+   animation: bounce 1.2s ease-in-out infinite;
+   transform-origin: center bottom;
+ }
+ 
+ .bar:nth-child(3n) { animation-delay: 0.12s; }
+ .bar:nth-child(3n+1) { animation-delay: 0.24s; }
+ .bar:nth-child(3n+2) { animation-delay: 0.36s; }
+ 
+ @keyframes bounce {
+   0%, 100% { height: 10px; opacity: 0.8; }
+   50% { height: 56px; opacity: 1; }
+ }
+ 
+ .bottomActions {
+   display: inline-flex;
+   gap: 10px;
+ }
+ 
+.controlsRow {
+  display: inline-flex;
+  gap: 10px;
+  align-items: center;
+}
+
+/* Mic button area - positioned above the audio hint */
+.micButtonArea {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 12px;
+  margin-bottom: 16px;
+}
+
+.micButtonHint {
+  font-size: 14px;
+  color: var(--color-muted-foreground);
+  opacity: 0.85;
+}
+
+/* Intro screen mic button - outline style */
+.introMicButton {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 72px;
+  height: 72px;
+  border-radius: 50%;
+  border: 2px solid rgba(148, 163, 184, 0.35);
+  background: rgba(15, 23, 42, 0.75);
+  backdrop-filter: blur(var(--glass-overlay-blur));
+  color: rgba(248, 250, 255, 0.95);
+  cursor: pointer;
+  transition: background 0.2s ease, border-color 0.2s ease, transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.introMicButton:hover {
+  background: rgba(30, 41, 59, 0.85);
+  border-color: rgba(99, 102, 241, 0.55);
+  transform: scale(1.06);
+  box-shadow: 0 0 20px rgba(99, 102, 241, 0.32);
+}
+
+.introMicButton:active {
+  transform: scale(0.96);
+}
+
+.introMicButtonRecording {
+  background: rgba(239, 68, 68, 0.35);
+  border-color: rgba(239, 68, 68, 0.6);
+  box-shadow: 0 0 16px rgba(239, 68, 68, 0.3);
+  animation: introMicPulse 1.5s ease-in-out infinite;
+}
+
+.introMicButtonPending {
+  cursor: wait;
+  opacity: 0.8;
+}
+
+@keyframes introMicPulse {
+  0%, 100% { box-shadow: 0 0 16px rgba(239, 68, 68, 0.3); }
+  50% { box-shadow: 0 0 24px rgba(239, 68, 68, 0.5); }
+}
+
+/* Small, faded hint anchored near the bottom of the card */
+.micHint {
+  position: absolute;
+  left: 24px;
+  right: 24px;
+  bottom: 12px; /* exactly 12px above the bottom edge */
+  font-size: 12px;
+  color: var(--color-muted-foreground);
+  opacity: 0.85;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  z-index: 2;
+}
+.micHintIcon {
+  width: 16px;
+  height: 16px;
+  opacity: 0.85;
+  flex-shrink: 0;
+}
+
+/* Hold-to-speak button with idle sheen and active pulse */
+.holdToSpeak {
+  position: relative;
+  border-radius: 12px;
+  padding: 14px 24px;
+  font-size: 16px;
+  color: var(--color-primary-foreground);
+  background:
+    linear-gradient(180deg, rgba(124,58,237,0.95), rgba(59,130,246,0.95)),
+    radial-gradient(240px 120px at 50% 0%, rgba(124,58,237,0.45), transparent 60%);
+  border: 1px solid rgba(255,255,255,0.08);
+  box-shadow:
+    0 16px 40px rgba(59,130,246,0.35),
+    0 6px 20px rgba(2,6,23,0.6);
+  cursor: pointer;
+  overflow: hidden;
+}
+.holdToSpeak::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(120deg, transparent, rgba(255,255,255,0.18), transparent);
+  transform: translateX(-100%);
+  animation: speakSheen 3s ease-in-out infinite;
+  pointer-events: none;
+}
+@keyframes speakSheen {
+  0%, 40% { transform: translateX(-120%); }
+  60% { transform: translateX(120%); }
+  100% { transform: translateX(120%); }
+}
+.holdActive {
+  border-color: rgba(59,130,246,0.55);
+  background:
+    linear-gradient(180deg, rgba(59,130,246,0.95), rgba(99,102,241,0.95)),
+    radial-gradient(240px 120px at 50% 50%, rgba(59,130,246,0.35), rgba(59,130,246,0.12));
+  box-shadow:
+    0 0 0 8px rgba(59,130,246,0.12),
+    0 20px 36px rgba(2,6,23,0.55);
+}
+.holdActive::before {
+  content: "";
+  position: absolute;
+  inset: -6px;
+  border-radius: 12px;
+  background: radial-gradient(closest-side, rgba(59,130,246,0.35), rgba(59,130,246,0.0));
+  filter: blur(14px);
+  animation: listenPulse 1.2s ease-in-out infinite;
+  pointer-events: none;
+}
+@keyframes listenPulse {
+  0% { opacity: 0.5; transform: scale(0.98); }
+  50% { opacity: 1; transform: scale(1.02); }
+  100% { opacity: 0.5; transform: scale(0.98); }
+}
+.holdSpeaking {
+  opacity: 0.9;
+}
+
+.holdPending {
+  cursor: wait;
+  opacity: 0.9;
+  filter: saturate(110%);
+}
+.holdToSpeak[disabled] {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+
+.chipButton {
+  border-radius: 999px;
+  padding: 10px 14px;
+  font-size: 14px;
+  color: var(--color-foreground);
+  background:
+    radial-gradient(140px 60px at 50% 0%, rgba(16,185,129,0.22), rgba(16,185,129,0.06) 65%),
+    rgba(255,255,255,0.06);
+  border: 1px solid rgba(148, 163, 184, 0.3);
+  box-shadow: 0 10px 22px rgba(2,6,23,0.42);
+}
+
+.ctaPrimary {
+  border-radius: 999px;
+  padding: 12px 18px;
+  background:
+    linear-gradient(180deg, rgba(124,58,237,0.95), rgba(59,130,246,0.95)),
+    radial-gradient(240px 120px at 50% 0%, rgba(124,58,237,0.45), transparent 60%);
+  color: var(--color-primary-foreground);
+  border: 1px solid rgba(255,255,255,0.08);
+  box-shadow:
+    0 16px 40px rgba(59,130,246,0.35),
+    0 6px 20px rgba(2,6,23,0.6);
+}
+
+.ctaSecondary {
+  border-radius: 999px;
+  padding: 12px 16px;
+  color: var(--color-foreground);
+  background: rgba(255,255,255,0.06);
+  border: 1px solid rgba(148,163,184,0.28);
+}
+
+ .dim {
+  color: var(--color-muted-foreground);
+ }
+ 
+/* Bottom-of-screen footer CTA */
+.screenFooter {
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 24px;
+  display: grid;
+  place-items: center;
+  z-index: 3;
+}
+.footerButton {
+  border-radius: 12px;
+  padding: 14px 24px;
+  font-size: 16px;
+  background:
+    linear-gradient(180deg, rgba(124,58,237,0.95), rgba(59,130,246,0.95)),
+    radial-gradient(240px 120px at 50% 0%, rgba(124,58,237,0.45), transparent 60%);
+  color: var(--color-primary-foreground);
+  border: 1px solid rgba(255,255,255,0.08);
+  box-shadow:
+    0 16px 40px rgba(59,130,246,0.35),
+    0 6px 20px rgba(2,6,23,0.6);
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+}
+.footerButton[disabled] {
+  opacity: 0.45;
+  cursor: not-allowed;
+  filter: grayscale(0.2);
+}
+.arrow {
+  display: inline-block;
+  margin-left: 10px;
+  transform: translateX(0);
+  transition: transform 200ms ease;
+}
+.footerButton:not([disabled]):hover .arrow,
+.wowButton:not([disabled]):hover .arrow {
+  transform: translateX(3px);
+}
+
+/* Reusable large button sizing for hero CTAs */
+.largeButton {
+  padding: 18px 32px;
+  font-size: 18px;
+  border-radius: 14px;
+}
+
+/* Temporary back button */
+.backButton {
+  position: absolute;
+  top: 24px;
+  left: 24px;
+  z-index: 10;
+  padding: 10px 16px;
+  font-size: 14px;
+  color: var(--color-muted-foreground);
+  background: rgba(255,255,255,0.08);
+  border: 1px solid rgba(148, 163, 184, 0.25);
+  border-radius: 8px;
+  cursor: pointer;
+  transition: all 150ms ease;
+  backdrop-filter: blur(var(--glass-overlay-blur));
+}
+.backButton:hover {
+  color: var(--color-foreground);
+  background: rgba(255,255,255,0.12);
+  border-color: rgba(148, 163, 184, 0.4);
+}
+
+/* Small detail caption placed at the bottom of the card */
+.replayHint {
+  position: absolute;
+  bottom: 16px;
+  left: 24px;
+  right: 24px;
+  margin: 0;
+  text-align: center;
+  font-size: 12px;
+  color: var(--color-muted-foreground);
+  opacity: 0.8;
+}
+
+ /* ═══════════════════════════════════════════════════════════
+ * LAUNCH TRANSITION - "Warp speed" effect for welcome → wizard
+ * ═══════════════════════════════════════════════════════════
+ */
+
+/* Container fades and scales down */
+.containerLaunching {
+  animation: containerLaunch 0.26s ease-in forwards;
+}
+
+@keyframes containerLaunch {
+  0% {
+    opacity: 1;
+    transform: scale(1);
+  }
+  100% {
+    opacity: 0;
+    transform: scale(0.9);
+  }
+}
+
+/* Particles enter hyperdrive mode - accelerate + streak upward */
+.particlesHyperdrive {
+  animation: particleHyperdrive 0.75s ease-in forwards !important;
+}
+
+.particlesHyperdrive .particle {
+  /* Override individual particle animations with warp speed - very fast streaks */
+  animation: twinkleWarp 0.08s ease-out infinite !important;
+}
+
+@keyframes twinkleWarp {
+  0% {
+    transform: translateY(0) scale(1);
+    opacity: 1;
+  }
+  100% {
+    transform: translateY(-180px) scale(1.4);
+    opacity: 0;
+  }
+}
+
+@keyframes particleHyperdrive {
+  0% {
+    transform: translateY(0);
+    opacity: 1;
+  }
+  60% {
+    transform: translateY(-100px);
+    opacity: 1;
+  }
+  100% {
+    transform: translateY(-250px);
+    opacity: 0;
+  }
+}
+
+/* Full-screen flash overlay that darkens everything */
+.launchFlash {
+  position: fixed;
+  inset: 0;
+  z-index: 1500;
+  background: radial-gradient(
+    ellipse 120% 100% at 50% 50%,
+    rgba(6, 6, 12, 0) 0%,
+    rgba(6, 6, 12, 0.98) 100%
+  );
+  opacity: 0;
+  pointer-events: none;
+  animation: flashDark 0.64s ease-in-out forwards;
+}
+
+@keyframes flashDark {
+  0% {
+    opacity: 0;
+  }
+  40% {
+    opacity: 1;
+  }
+  100% {
+    opacity: 1;
+  }
+}
+
+/* Flash variant that fades out (for the reveal) */
+.launchFlashOut {
+  animation: flashDarkOut 0.5s ease-out forwards;
+}
+
+@keyframes flashDarkOut {
+  0% {
+    opacity: 1;
+  }
+  100% {
+    opacity: 0;
+  }
+}
+
+/* Wizard reveal animation - dissolves in from center */
+.wizardReveal {
+  animation: wizardDissolveIn 0.5s ease-out forwards;
+}
+
+@keyframes wizardDissolveIn {
+  0% {
+    opacity: 0;
+    transform: scale(0.96);
+  }
+  100% {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+/* Reduced motion: skip the fancy stuff, just fade */
+@media (prefers-reduced-motion: reduce) {
+  .containerLaunching {
+    animation: simpleFadeOut 0.3s ease forwards;
+  }
+  .particlesHyperdrive,
+  .particlesHyperdrive .particle {
+    animation: none !important;
+    opacity: 0 !important;
+  }
+  .launchFlash {
+    animation: simpleFadeIn 0.2s ease forwards;
+  }
+  .wizardReveal {
+    animation: simpleFadeIn 0.3s ease forwards;
+  }
+
+  .buttonReady {
+    animation: simpleFadeIn 0.3s ease forwards;
+  }
+}
+
+@keyframes simpleFadeOut {
+  to { opacity: 0; }
+}
+
+@keyframes simpleFadeIn {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+ @media (max-width: 768px) {
+   .container {
+     padding: 24px;
+   }
+   .cinematic {
+     padding: 32px 22px;
+   }
+}
+
+/* ═══════════════════════════════════════════════════════════
+ * Preparation Card - Main content area status
+ * Prominent, delightful indicator shown after audio completes
+ * ═══════════════════════════════════════════════════════════ */
+
+.preparationCard {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 16px;
+  margin-top: 32px;
+  padding: 20px 28px;
+  background: rgba(99, 102, 241, 0.08);
+  border: 1px solid rgba(99, 102, 241, 0.2);
+  border-radius: 16px;
+  animation: preparationCardFadeIn 0.6s ease-out forwards;
+}
+
+.preparationDotLarge {
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  background: rgba(147, 197, 253, 0.7);
+  box-shadow: 0 0 12px rgba(147, 197, 253, 0.5);
+  animation: preparationPulse 2s ease-in-out infinite;
+  flex-shrink: 0;
+}
+
+.preparationContent {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  animation: phraseReveal 0.5s ease-out forwards;
+}
+
+.preparationMainText {
+  font-size: 15px;
+  font-weight: 500;
+  color: rgba(248, 250, 255, 0.9);
+  letter-spacing: 0.01em;
+}
+
+.preparationSubText {
+  font-size: 13px;
+  color: rgba(148, 163, 184, 0.7);
+}
+
+/* Button entrance animation when ready - ceremonial reveal with glow */
+.buttonReady {
+  animation: 
+    buttonReveal 0.6s cubic-bezier(0.34, 1.56, 0.64, 1) forwards,
+    buttonGlowPulse 2s ease-in-out 0.6s infinite;
+}
+
+@keyframes preparationCardFadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(8px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes preparationPulse {
+  0%, 100% { 
+    opacity: 0.5;
+    transform: scale(1);
+  }
+  50% { 
+    opacity: 1;
+    transform: scale(1.3);
+  }
+}
+
+@keyframes preparationFadeIn {
+  from { 
+    opacity: 0;
+    transform: translateX(-50%) translateY(8px);
+  }
+  to { 
+    opacity: 1;
+    transform: translateX(-50%) translateY(0);
+  }
+}
+
+@keyframes preparationFadeOut {
+  from { 
+    opacity: 1;
+    transform: translateX(-50%) translateY(0);
+  }
+  to { 
+    opacity: 0;
+    transform: translateX(-50%) translateY(-4px);
+  }
+}
+
+@keyframes phraseReveal {
+  0% { 
+    opacity: 0;
+    transform: translateY(4px);
+  }
+  100% { 
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes buttonReveal {
+  0% { 
+    opacity: 0;
+    transform: scale(0.85) translateY(16px);
+    filter: blur(4px);
+  }
+  50% {
+    filter: blur(0);
+  }
+  70% {
+    transform: scale(1.04) translateY(-2px);
+  }
+  85% {
+    transform: scale(0.98) translateY(1px);
+  }
+  100% { 
+    opacity: 1;
+    transform: scale(1) translateY(0);
+    filter: blur(0);
+  }
+}
+
+@keyframes buttonGlowPulse {
+  0%, 100% {
+    box-shadow: 
+      0 16px 40px rgba(59, 130, 246, 0.35),
+      0 6px 20px rgba(2, 6, 23, 0.6),
+      0 0 0 0 rgba(99, 102, 241, 0);
+  }
+  50% {
+    box-shadow: 
+      0 20px 50px rgba(59, 130, 246, 0.45),
+      0 8px 24px rgba(2, 6, 23, 0.5),
+      0 0 30px 4px rgba(99, 102, 241, 0.2);
+  }
+}
+
+
+
+/* ═══════════════════════════════════════════════════════════
+ * Video Player - Intro video styles
+ * ═══════════════════════════════════════════════════════════ */
+
+.videoContainer {
+  min-height: auto;
+  max-height: 90vh;
+}
+
+.videoWrapper {
+  position: relative;
+  width: 100%;
+  max-width: 800px;
+  border-radius: 16px;
+  overflow: hidden;
+  background: rgba(0, 0, 0, 0.4);
+  box-shadow: 
+    0 20px 60px rgba(0, 0, 0, 0.4),
+    0 0 0 1px rgba(148, 163, 184, 0.1);
+  animation: videoFadeIn 0.6s ease-out forwards;
+}
+
+.introVideo {
+  width: 100%;
+  height: auto;
+  display: block;
+  border-radius: 16px;
+}
+
+@keyframes videoFadeIn {
+  from {
+    opacity: 0;
+    transform: scale(0.96);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+/* ═══════════════════════════════════════════════════════════
+ * Video Status - Messaging below video during playback
+ * ═══════════════════════════════════════════════════════════ */
+
+.videoStatusCard {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 16px;
+  margin-top: 24px;
+  padding: 16px 24px;
+  animation: videoStatusFadeIn 0.5s ease-out forwards;
+}
+
+.videoStatusText {
+  font-size: 15px;
+  line-height: 1.5;
+  color: rgba(148, 163, 184, 0.9);
+  text-align: center;
+  max-width: 400px;
+}
+
+@keyframes videoStatusFadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(8px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* ═══════════════════════════════════════════════════════════
+ * Skip Video - Button and Dialog styles
+ * ═══════════════════════════════════════════════════════════ */
+
+.skipVideoArea {
+  display: flex;
+  justify-content: center;
+  margin-top: 8px;
+  animation: skipAreaFadeIn 0.5s ease-out forwards;
+}
+
+.skipVideoButton {
+  font-size: 14px;
+  color: rgba(148, 163, 184, 0.7);
+  transition: color 0.2s ease;
+}
+
+.skipVideoButton:hover {
+  color: rgba(248, 250, 255, 0.9);
+}
+
+@keyframes skipAreaFadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(8px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.skipDialog {
+  max-width: 420px;
+}
+
+.skipDialogText {
+  font-size: 15px;
+  line-height: 1.6;
+  color: var(--color-foreground);
+  margin-bottom: 12px;
+}
+
+.skipDialogSubtext {
+  font-size: 13px;
+  color: var(--color-muted-foreground);
+  opacity: 0.8;
+}
+
+/* ═══════════════════════════════════════════════════════════
+ * PLAY BUTTON - Appears when audio is paused unexpectedly
+ * Styled to match the mic button in voice mode (plain outline)
+ * ═══════════════════════════════════════════════════════════ */
+
+.playButtonContainer {
+  display: flex;
+  justify-content: center;
+  margin-top: 24px;
+  animation: playButtonFadeIn 0.4s ease-out forwards;
+}
+
+.playButton {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 64px;
+  height: 64px;
+  border-radius: 50%;
+  border: 2px solid rgba(148, 163, 184, 0.3);
+  background: rgba(15, 23, 42, 0.6);
+  backdrop-filter: blur(var(--glass-overlay-blur));
+  color: rgba(248, 250, 255, 0.95);
+  cursor: pointer;
+  transition: background 0.2s ease, border-color 0.2s ease, transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.playButton:hover {
+  background: rgba(30, 41, 59, 0.7);
+  border-color: rgba(99, 102, 241, 0.5);
+  transform: scale(1.05);
+  box-shadow: 0 0 30px rgba(99, 102, 241, 0.3);
+}
+
+.playButton:active {
+  transform: scale(0.98);
+}
+
+@keyframes playButtonFadeIn {
+  from {
+    opacity: 0;
+    transform: scale(0.8);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1);
+  }
+}

@@ -1,0 +1,557 @@
+.compositionTab {
+  --comp-input: rgba(59, 130, 246, 0.78);
+  --comp-output: rgba(34, 197, 94, 0.78);
+  --comp-cache-write: rgba(168, 85, 247, 0.78);
+  --comp-cache-read: rgba(249, 115, 22, 0.78);
+
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  padding: 4px 0;
+}
+
+/* ------------------------------------------------------------------ */
+/* Legend                                                               */
+/* ------------------------------------------------------------------ */
+
+.legend {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  flex-wrap: wrap;
+  padding: 6px 0;
+}
+
+.legendItem {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  font-size: 0.74rem;
+  color: var(--color-text-secondary);
+}
+
+.legendDot {
+  width: 10px;
+  height: 10px;
+  border-radius: 3px;
+  flex-shrink: 0;
+}
+
+/* ------------------------------------------------------------------ */
+/* Shared section styles                                               */
+/* ------------------------------------------------------------------ */
+
+.section {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.sectionHeaderRow {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.sectionHeading {
+  margin: 0;
+  font-size: 0.82rem;
+  font-weight: 600;
+  color: var(--color-text-secondary);
+  letter-spacing: 0.03em;
+  text-transform: uppercase;
+}
+
+.sectionIcon {
+  color: var(--color-text-muted);
+}
+
+.infoDot {
+  font-size: 0.72rem;
+  color: var(--color-text-muted);
+  cursor: help;
+}
+
+.emptyState {
+  padding: 32px 16px;
+  text-align: center;
+  color: var(--color-text-muted);
+  font-size: 0.88rem;
+}
+
+.noDataCard {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 12px 14px;
+  border-radius: 10px;
+  border: 1px solid rgba(148, 163, 184, 0.22);
+  background: rgba(248, 250, 252, 0.7);
+  font-size: 0.84rem;
+  color: var(--color-text-muted);
+}
+
+.noDataCard svg {
+  flex-shrink: 0;
+  color: var(--color-text-muted);
+}
+
+/* ------------------------------------------------------------------ */
+/* Section 1: Stacked bar chart                                        */
+/* ------------------------------------------------------------------ */
+
+.barList {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.barRow {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 6px 12px;
+  border-radius: 10px;
+  border: 1px solid rgba(148, 163, 184, 0.18);
+  background: rgba(255, 255, 255, 0.82);
+}
+
+.turnLabel {
+  width: 56px;
+  flex-shrink: 0;
+  font-size: 0.78rem;
+  font-weight: 600;
+  color: var(--color-text-secondary);
+}
+
+.stackedBarTrack {
+  flex: 1;
+  min-width: 120px;
+  height: 18px;
+  border-radius: 6px;
+  border: 1px solid rgba(148, 163, 184, 0.22);
+  background: rgba(226, 232, 240, 0.32);
+  overflow: hidden;
+}
+
+.stackedBar {
+  display: flex;
+  height: 100%;
+  border-radius: 5px;
+  overflow: hidden;
+  transition: width 0.3s ease;
+}
+
+.stackedSegment {
+  height: 100%;
+  min-width: 1px;
+  transition: width 0.3s ease;
+}
+
+.totalLabel {
+  width: 52px;
+  flex-shrink: 0;
+  text-align: right;
+  font-size: 0.78rem;
+  font-weight: 600;
+  color: var(--color-text-primary);
+}
+
+/* ------------------------------------------------------------------ */
+/* Section 2: Treemap blocks                                           */
+/* ------------------------------------------------------------------ */
+
+.treemap {
+  display: flex;
+  gap: 4px;
+  min-height: 72px;
+  border-radius: 12px;
+  border: 1px solid rgba(148, 163, 184, 0.22);
+  background: rgba(248, 250, 252, 0.6);
+  padding: 4px;
+  overflow: hidden;
+}
+
+.drillHint {
+  margin: 0;
+  font-size: 0.72rem;
+  color: var(--color-text-muted);
+  font-style: italic;
+}
+
+.treemapBlock {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 4px;
+  min-width: 48px;
+  padding: 8px 6px;
+  border-radius: 8px;
+  background: rgba(99, 102, 241, 0.14);
+  border: 1px solid rgba(99, 102, 241, 0.22);
+  transition: background 0.15s ease, box-shadow 0.15s ease;
+  cursor: pointer;
+  font-family: inherit;
+  font-size: inherit;
+  color: inherit;
+}
+
+.treemapBlockSelected {
+  box-shadow: 0 0 0 2px var(--color-primary, rgba(99, 102, 241, 0.6));
+  background: rgba(99, 102, 241, 0.28);
+}
+
+.treemapBlock:nth-child(2n) {
+  background: rgba(168, 85, 247, 0.12);
+  border-color: rgba(168, 85, 247, 0.22);
+}
+
+.treemapBlock:nth-child(3n) {
+  background: rgba(34, 197, 94, 0.12);
+  border-color: rgba(34, 197, 94, 0.22);
+}
+
+.treemapBlock:nth-child(4n + 3) {
+  background: rgba(249, 115, 22, 0.12);
+  border-color: rgba(249, 115, 22, 0.22);
+}
+
+.treemapBlock:hover {
+  background: rgba(99, 102, 241, 0.22);
+}
+
+.treemapLabel {
+  font-size: 0.7rem;
+  color: var(--color-text-secondary);
+  text-align: center;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  max-width: 100%;
+}
+
+.treemapValue {
+  font-size: 0.82rem;
+  font-weight: 600;
+  color: var(--color-text-primary);
+}
+
+.categoryRow {
+  display: flex;
+  gap: 6px;
+  flex-wrap: wrap;
+}
+
+/* ------------------------------------------------------------------ */
+/* Drill-down: individual tool calls                                   */
+/* ------------------------------------------------------------------ */
+
+.drillDown {
+  border: 1px solid rgba(148, 163, 184, 0.24);
+  border-radius: 12px;
+  background: rgba(248, 250, 252, 0.68);
+  padding: 12px;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.drillDownHeading {
+  margin: 0;
+  font-size: 0.78rem;
+  font-weight: 600;
+  color: var(--color-text-secondary);
+}
+
+.callList {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.callItem {
+  border: 1px solid rgba(148, 163, 184, 0.18);
+  border-radius: 8px;
+  background: rgba(255, 255, 255, 0.72);
+  overflow: hidden;
+}
+
+.callHeader {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  width: 100%;
+  padding: 8px 10px;
+  background: none;
+  border: none;
+  cursor: pointer;
+  font-family: inherit;
+  font-size: 0.78rem;
+  color: var(--color-text-primary);
+  text-align: left;
+  transition: background 0.12s ease;
+}
+
+.callHeader:hover {
+  background: rgba(226, 232, 240, 0.42);
+}
+
+.callHeader svg {
+  flex-shrink: 0;
+  color: var(--color-text-muted);
+}
+
+.callMethod {
+  font-weight: 600;
+  font-family: var(--font-mono, 'SF Mono', 'Fira Code', monospace);
+  font-size: 0.76rem;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  max-width: 200px;
+}
+
+.callMeta {
+  flex: 1;
+  font-size: 0.72rem;
+  color: var(--color-text-muted);
+  white-space: nowrap;
+}
+
+.callBody {
+  border-top: 1px solid rgba(148, 163, 184, 0.18);
+  padding: 8px 10px;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.callSection {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.callSectionLabel {
+  font-size: 0.7rem;
+  font-weight: 600;
+  color: var(--color-text-muted);
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+}
+
+.callContent {
+  margin: 0;
+  padding: 8px 10px;
+  border-radius: 6px;
+  background: rgba(15, 23, 42, 0.06);
+  font-family: var(--font-mono, 'SF Mono', 'Fira Code', monospace);
+  font-size: 0.72rem;
+  line-height: 1.5;
+  color: var(--color-text-primary);
+  white-space: pre-wrap;
+  word-break: break-word;
+  max-height: 300px;
+  overflow-y: auto;
+}
+
+.compactedNote {
+  font-size: 0.76rem;
+  color: var(--color-text-muted);
+  font-style: italic;
+  padding: 6px 0;
+}
+
+/* ------------------------------------------------------------------ */
+/* Section 3: Dot matrix                                               */
+/* ------------------------------------------------------------------ */
+
+.dotGrid {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 3px;
+  padding: 12px;
+  border-radius: 12px;
+  border: 1px solid rgba(148, 163, 184, 0.22);
+  background: rgba(248, 250, 252, 0.64);
+  max-height: 200px;
+  overflow-y: auto;
+}
+
+.dot {
+  width: 8px;
+  height: 8px;
+  border-radius: 2px;
+  flex-shrink: 0;
+  opacity: 0.82;
+  transition: opacity 0.12s ease, transform 0.12s ease;
+}
+
+.dot:hover {
+  opacity: 1;
+  transform: scale(1.3);
+}
+
+.dotSummary {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px;
+  font-size: 0.76rem;
+  color: var(--color-text-secondary);
+}
+
+.dotSummary > span {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+}
+
+.dotInline {
+  display: inline-block;
+  width: 8px;
+  height: 8px;
+  border-radius: 2px;
+  flex-shrink: 0;
+}
+
+/* ------------------------------------------------------------------ */
+/* Section 4: Context budget card                                      */
+/* ------------------------------------------------------------------ */
+
+.budgetCard {
+  border: 1px solid rgba(148, 163, 184, 0.24);
+  border-radius: 12px;
+  background: rgba(248, 250, 252, 0.74);
+  padding: 14px 16px;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.budgetRow {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.budgetLabel {
+  font-size: 0.76rem;
+  color: var(--color-text-muted);
+  text-transform: uppercase;
+  letter-spacing: 0.03em;
+}
+
+.budgetValue {
+  font-size: 0.92rem;
+  color: var(--color-text-primary);
+  font-weight: 600;
+}
+
+.gauge {
+  width: 100%;
+  height: 12px;
+  border-radius: 6px;
+  background: rgba(226, 232, 240, 0.52);
+  border: 1px solid rgba(148, 163, 184, 0.22);
+  overflow: hidden;
+}
+
+.gaugeFill {
+  height: 100%;
+  border-radius: 5px;
+  background: linear-gradient(90deg, rgba(34, 197, 94, 0.78) 0%, rgba(234, 179, 8, 0.78) 60%, rgba(239, 68, 68, 0.78) 100%);
+  transition: width 0.4s ease;
+}
+
+/* ------------------------------------------------------------------ */
+/* Dark mode                                                           */
+/* ------------------------------------------------------------------ */
+
+:global(.dark) .compositionTab {
+  --comp-input: rgba(96, 165, 250, 0.82);
+  --comp-output: rgba(74, 222, 128, 0.82);
+  --comp-cache-write: rgba(192, 132, 252, 0.82);
+  --comp-cache-read: rgba(251, 146, 60, 0.82);
+}
+
+:global(.dark) .barRow {
+  background: rgba(15, 23, 42, 0.78);
+  border-color: rgba(148, 163, 184, 0.22);
+}
+
+:global(.dark) .stackedBarTrack {
+  border-color: rgba(148, 163, 184, 0.3);
+  background: rgba(30, 41, 59, 0.64);
+}
+
+:global(.dark) .treemap {
+  border-color: rgba(148, 163, 184, 0.26);
+  background: rgba(15, 23, 42, 0.6);
+}
+
+:global(.dark) .treemapBlock {
+  background: rgba(99, 102, 241, 0.18);
+  border-color: rgba(99, 102, 241, 0.3);
+}
+
+:global(.dark) .treemapBlockSelected {
+  background: rgba(99, 102, 241, 0.35);
+}
+
+:global(.dark) .treemapBlock:nth-child(2n) {
+  background: rgba(168, 85, 247, 0.16);
+  border-color: rgba(168, 85, 247, 0.28);
+}
+
+:global(.dark) .treemapBlock:nth-child(3n) {
+  background: rgba(34, 197, 94, 0.14);
+  border-color: rgba(34, 197, 94, 0.26);
+}
+
+:global(.dark) .treemapBlock:nth-child(4n + 3) {
+  background: rgba(249, 115, 22, 0.14);
+  border-color: rgba(249, 115, 22, 0.26);
+}
+
+:global(.dark) .treemapBlock:hover {
+  background: rgba(99, 102, 241, 0.28);
+}
+
+:global(.dark) .dotGrid {
+  border-color: rgba(148, 163, 184, 0.26);
+  background: rgba(15, 23, 42, 0.68);
+}
+
+:global(.dark) .noDataCard {
+  border-color: rgba(148, 163, 184, 0.26);
+  background: rgba(15, 23, 42, 0.7);
+}
+
+:global(.dark) .budgetCard {
+  border-color: rgba(148, 163, 184, 0.26);
+  background: rgba(15, 23, 42, 0.78);
+}
+
+:global(.dark) .gauge {
+  background: rgba(30, 41, 59, 0.72);
+  border-color: rgba(148, 163, 184, 0.3);
+}
+
+:global(.dark) .drillDown {
+  border-color: rgba(148, 163, 184, 0.26);
+  background: rgba(15, 23, 42, 0.7);
+}
+
+:global(.dark) .callItem {
+  border-color: rgba(148, 163, 184, 0.22);
+  background: rgba(30, 41, 59, 0.6);
+}
+
+:global(.dark) .callHeader:hover {
+  background: rgba(51, 65, 85, 0.5);
+}
+
+:global(.dark) .callContent {
+  background: rgba(0, 0, 0, 0.3);
+}

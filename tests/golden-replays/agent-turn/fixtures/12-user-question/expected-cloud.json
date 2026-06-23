@@ -1,0 +1,165 @@
+{
+  "fixture": "12-user-question",
+  "steps": [
+    {
+      "index": 0,
+      "eventType": "turn_started",
+      "state": {
+        "isSending": false,
+        "streamingText": "",
+        "statusText": null,
+        "activeTurnId": "turn-1",
+        "completedSteps": [],
+        "missionContext": null,
+        "taskProgress": [],
+        "subAgentItems": [],
+        "error": null,
+        "hasMissionSet": false,
+        "touchedTaskIds": [],
+        "userQuestionEventsByTurn": {}
+      }
+    },
+    {
+      "index": 1,
+      "eventType": "user_question",
+      "state": {
+        "isSending": false,
+        "streamingText": "",
+        "statusText": null,
+        "activeTurnId": "turn-1",
+        "completedSteps": [],
+        "missionContext": null,
+        "taskProgress": [],
+        "subAgentItems": [],
+        "error": null,
+        "hasMissionSet": false,
+        "touchedTaskIds": [],
+        "userQuestionEventsByTurn": {
+          "turn-1": [
+            {
+              "type": "user_question",
+              "timestamp": 2,
+              "batchId": "b1",
+              "question": "Proceed?",
+              "options": [
+                "yes",
+                "no"
+              ]
+            }
+          ]
+        }
+      }
+    },
+    {
+      "index": 2,
+      "eventType": "user_question_answered",
+      "state": {
+        "isSending": false,
+        "streamingText": "",
+        "statusText": null,
+        "activeTurnId": "turn-1",
+        "completedSteps": [],
+        "missionContext": null,
+        "taskProgress": [],
+        "subAgentItems": [],
+        "error": null,
+        "hasMissionSet": false,
+        "touchedTaskIds": [],
+        "userQuestionEventsByTurn": {
+          "turn-1": [
+            {
+              "type": "user_question",
+              "timestamp": 2,
+              "batchId": "b1",
+              "question": "Proceed?",
+              "options": [
+                "yes",
+                "no"
+              ]
+            },
+            {
+              "type": "user_question_answered",
+              "timestamp": 3,
+              "batchId": "b1",
+              "answer": "yes"
+            }
+          ]
+        }
+      }
+    },
+    {
+      "index": 3,
+      "eventType": "user_question_answered",
+      "state": {
+        "isSending": false,
+        "streamingText": "",
+        "statusText": null,
+        "activeTurnId": "turn-1",
+        "completedSteps": [],
+        "missionContext": null,
+        "taskProgress": [],
+        "subAgentItems": [],
+        "error": null,
+        "hasMissionSet": false,
+        "touchedTaskIds": [],
+        "userQuestionEventsByTurn": {
+          "turn-1": [
+            {
+              "type": "user_question",
+              "timestamp": 2,
+              "batchId": "b1",
+              "question": "Proceed?",
+              "options": [
+                "yes",
+                "no"
+              ]
+            },
+            {
+              "type": "user_question_answered",
+              "timestamp": 3,
+              "batchId": "b1",
+              "answer": "yes"
+            }
+          ]
+        }
+      }
+    },
+    {
+      "index": 4,
+      "eventType": "result",
+      "state": {
+        "isSending": false,
+        "streamingText": "",
+        "statusText": null,
+        "activeTurnId": null,
+        "completedSteps": [],
+        "missionContext": null,
+        "taskProgress": [],
+        "subAgentItems": [],
+        "error": null,
+        "hasMissionSet": false,
+        "touchedTaskIds": [],
+        "userQuestionEventsByTurn": {
+          "turn-1": [
+            {
+              "type": "user_question",
+              "timestamp": 2,
+              "batchId": "b1",
+              "question": "Proceed?",
+              "options": [
+                "yes",
+                "no"
+              ]
+            },
+            {
+              "type": "user_question_answered",
+              "timestamp": 3,
+              "batchId": "b1",
+              "answer": "yes"
+            }
+          ]
+        }
+      }
+    }
+  ]
+}

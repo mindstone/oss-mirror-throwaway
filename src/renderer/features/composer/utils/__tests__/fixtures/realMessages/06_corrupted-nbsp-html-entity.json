@@ -1,0 +1,7 @@
+{
+  "name": "06_corrupted-nbsp-html-entity",
+  "description": "Lowercase '&nbsp;' HTML entity in two contexts: (a) inline between words ('hello&nbsp;world', 'foo&nbsp;bar') -> regular space (preserves word boundary, post-spike Gemini-Critical decision); (b) sentinel context ('&nbsp;' alone on a line) -> stripped to empty paragraph. Locks the H9 amended sanitisation contract.",
+  "input": "hello&nbsp;world\n\n&nbsp;\n\nfoo&nbsp;bar",
+  "expectedSanitised": "hello world\n\n\n\nfoo bar",
+  "expectedDocShape": ""
+}

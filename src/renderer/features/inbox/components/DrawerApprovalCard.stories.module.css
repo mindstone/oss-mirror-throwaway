@@ -1,0 +1,69 @@
+.page {
+  display: grid;
+  gap: var(--space-5);
+  min-height: 100vh;
+  padding: var(--space-5);
+  background: var(--color-background);
+}
+
+.intro {
+  max-width: 720px;
+}
+
+.eyebrow {
+  margin: 0 0 var(--space-1);
+  color: var(--color-text-muted);
+  font-size: 0.72rem;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+.title {
+  margin: 0;
+  color: var(--color-text-primary);
+  font-size: 1rem;
+  font-weight: 650;
+}
+
+.description {
+  margin: var(--space-2) 0 0;
+  color: var(--color-text-secondary);
+  font-size: 0.82rem;
+  line-height: 1.5;
+}
+
+.columns {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(320px, 340px));
+  gap: var(--space-4);
+  align-items: start;
+}
+
+.scenario {
+  overflow: hidden;
+  border: 1px solid color-mix(in srgb, var(--color-border) 58%, transparent);
+  border-radius: var(--radius-lg);
+  background: color-mix(in srgb, var(--color-surface-elevated) 42%, transparent);
+}
+
+.scenarioHeader {
+  display: grid;
+  gap: var(--space-1);
+  padding: var(--space-3) var(--space-4);
+  border-bottom: 1px solid color-mix(in srgb, var(--color-border) 44%, transparent);
+}
+
+.scenarioTitle {
+  margin: 0;
+  color: var(--color-text-primary);
+  font-size: 0.78rem;
+  font-weight: 650;
+}
+
+.scenarioNote {
+  margin: 0;
+  color: var(--color-text-muted);
+  font-size: 0.72rem;
+  line-height: 1.35;
+}

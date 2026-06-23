@@ -1,0 +1,1037 @@
+/**
+ * AddSpaceWizard CSS Module
+ *
+ * Styles for the AddSpaceWizard dialog and its step components.
+ * Uses design tokens from styles/foundations/tokens.css.
+ */
+
+/* Dialog customization */
+.wizardDialog {
+  max-width: 720px;
+  max-height: 85vh;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+}
+
+.wizardBody {
+  min-height: 0;
+  flex: 1;
+  overflow-y: auto;
+  padding-right: 8px;
+  scrollbar-gutter: stable;
+}
+
+/* Step indicator styles removed - we now skip directly to folder picker */
+
+/* Step content */
+.stepContent {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.stepDescription {
+  font-size: 14px;
+  color: var(--color-text-secondary);
+  margin: 0;
+  line-height: 1.5;
+}
+
+/* Location step */
+.locationSelector {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.selectedPath {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  padding: 12px;
+  background-color: var(--color-bg-secondary);
+  border: 1px solid var(--color-border);
+  border-radius: 6px;
+}
+
+.pathLabel {
+  font-size: 11px;
+  color: var(--color-text-tertiary);
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+}
+
+.pathValue {
+  font-family: var(--font-mono);
+  font-size: 13px;
+  color: var(--color-text-primary);
+  word-break: break-all;
+}
+
+.pathError {
+  padding: 8px 12px;
+  background-color: var(--color-error-bg, rgba(220, 38, 38, 0.1));
+  border: 1px solid var(--color-error, #dc2626);
+  border-radius: 6px;
+  color: var(--color-error, #dc2626);
+  font-size: 13px;
+}
+
+/* Validation issues (structured errors and warnings) */
+.validationIssues {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  animation: fadeIn 0.2s ease-out;
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(-4px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.validationIssue {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  padding: 10px 12px;
+  border-radius: 6px;
+  font-size: 13px;
+}
+
+.validationError {
+  background-color: var(--color-error-bg, rgba(220, 38, 38, 0.1));
+  border: 1px solid var(--color-error, #dc2626);
+}
+
+.validationWarning {
+  background-color: rgba(245, 158, 11, 0.1);
+  border: 1px solid rgb(245, 158, 11);
+}
+
+/* Cloud storage warning - more prominent teal/cyan style */
+.validationCloudWarning {
+  background: linear-gradient(135deg, rgba(6, 182, 212, 0.15) 0%, rgba(59, 130, 246, 0.12) 100%);
+  border: 1px solid rgb(6, 182, 212);
+  box-shadow: 0 2px 8px rgba(6, 182, 212, 0.15);
+}
+
+.validationIssueHeader {
+  display: flex;
+  align-items: flex-start;
+  gap: 8px;
+}
+
+.validationIconError {
+  flex-shrink: 0;
+  color: var(--color-error, #dc2626);
+  margin-top: 1px;
+}
+
+.validationIconWarning {
+  flex-shrink: 0;
+  color: rgb(245, 158, 11);
+  margin-top: 1px;
+}
+
+.validationIconCloud {
+  flex-shrink: 0;
+  color: rgb(6, 182, 212);
+  margin-top: 1px;
+}
+
+.validationMessage {
+  font-weight: 500;
+  line-height: 1.4;
+}
+
+.validationError .validationMessage {
+  color: var(--color-error, #dc2626);
+}
+
+.validationWarning .validationMessage {
+  color: rgb(180, 117, 8);
+}
+
+.validationCloudWarning .validationMessage {
+  color: rgb(14, 116, 144);
+}
+
+/* Combined cloud storage info box - consolidates cloud warning with external folder notes */
+.cloudStorageInfoBox {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  padding: 14px 16px;
+  background: linear-gradient(135deg, rgba(6, 182, 212, 0.12) 0%, rgba(59, 130, 246, 0.08) 100%);
+  border: 1px solid rgb(6, 182, 212);
+  border-radius: 8px;
+  box-shadow: 0 2px 8px rgba(6, 182, 212, 0.12);
+  animation: fadeIn 0.2s ease-out;
+}
+
+.cloudStorageHeader {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.cloudStorageIcon {
+  flex-shrink: 0;
+  color: rgb(6, 182, 212);
+}
+
+.cloudStorageTitle {
+  font-size: 14px;
+  font-weight: 600;
+  color: rgb(14, 116, 144);
+}
+
+.cloudStorageList {
+  margin: 0;
+  padding-left: 28px;
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.cloudStorageList li {
+  font-size: 13px;
+  line-height: 1.5;
+  color: var(--color-text-secondary);
+}
+
+.cloudStorageList li:first-child {
+  font-weight: 500;
+  color: rgb(14, 116, 144);
+}
+
+.validationSuggestion {
+  margin-left: 24px;
+  font-size: 12px;
+  line-height: 1.4;
+  color: var(--color-text-secondary);
+}
+
+/* About step form fields */
+.formField {
+  display: flex;
+  flex-direction: column;
+  /* Provide clear separation between title row and control */
+  gap: 8px;
+}
+
+/* Field labels should be bright and prominent */
+.formField label {
+  color: var(--color-text-primary);
+  font-size: 14px;
+  font-weight: 500;
+  /* Override shared UI Label defaults (block + margin-bottom) so icons align */
+  margin-bottom: 0;
+  display: inline-flex;
+  align-items: center;
+  line-height: 1.2;
+}
+
+/* Two-column layout for Category and Sharing fields */
+.twoColumnRow {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 16px;
+}
+
+@media (max-width: 500px) {
+  .twoColumnRow {
+    grid-template-columns: 1fr;
+  }
+}
+
+.fieldLabel {
+  font-size: 13px;
+  font-weight: 500;
+  color: var(--color-text-primary);
+}
+
+.loadingHint {
+  font-weight: 400;
+  font-style: italic;
+  color: var(--color-text-tertiary);
+}
+
+.fieldInput {
+  padding: 8px 12px;
+  font-size: 14px;
+  border: 1px solid var(--color-border);
+  border-radius: 6px;
+  background-color: var(--color-bg-primary);
+  color: var(--color-text-primary);
+  outline: none;
+  transition: border-color 0.15s ease;
+}
+
+.fieldInput:focus {
+  border-color: var(--color-primary);
+}
+
+.fieldHelpText {
+  margin: -2px 0 0;
+  font-size: 12px;
+  line-height: 1.4;
+  color: var(--color-text-secondary);
+}
+
+.fieldTextarea {
+  padding: 8px 12px;
+  font-size: 14px;
+  border: 1px solid var(--color-border);
+  border-radius: 6px;
+  background-color: var(--color-bg-primary);
+  color: var(--color-text-primary);
+  outline: none;
+  resize: vertical;
+  min-height: 60px;
+  transition: border-color 0.15s ease;
+  font-family: inherit;
+}
+
+.fieldTextarea:focus {
+  border-color: var(--color-primary);
+}
+
+/* Input error state */
+.inputError {
+  border-color: var(--color-error, #dc2626) !important;
+}
+
+.inputError:focus {
+  border-color: var(--color-error, #dc2626) !important;
+}
+
+/* Validation errors container */
+.validationErrors {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  margin-top: 4px;
+}
+
+.errorText {
+  font-size: 12px;
+  color: var(--color-error, #dc2626);
+}
+
+.regenerateButton {
+  align-self: flex-start;
+  margin-top: 4px;
+}
+
+/* Footer */
+.wizardFooter {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.footerSpacer {
+  flex: 1;
+}
+
+/* LocationStep styles */
+.selectFolderButton {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.pathDisplay {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.pathInput {
+  font-family: var(--font-mono);
+  font-size: 13px;
+}
+
+/* Path display box - multi-line wrapping for long paths */
+.pathDisplayBox {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  padding: 10px 12px;
+  background-color: var(--color-bg-secondary);
+  border: 1px solid var(--color-border);
+  border-radius: 6px;
+}
+
+.pathText {
+  font-family: var(--font-mono);
+  font-size: 12px;
+  color: var(--color-text-primary);
+  word-break: break-all;
+  line-height: 1.5;
+  max-height: 120px;
+  overflow-y: auto;
+}
+
+.pathActions {
+  display: flex;
+  justify-content: flex-end;
+  gap: 8px;
+  padding-top: 4px;
+  border-top: 1px solid var(--color-border);
+}
+
+.copyButton {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  padding: 4px 8px;
+  font-size: 11px;
+  color: var(--color-text-secondary);
+  background: transparent;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  transition: background-color 0.15s ease, color 0.15s ease;
+}
+
+.copyButton:hover {
+  background-color: var(--color-bg-tertiary, rgba(0, 0, 0, 0.05));
+  color: var(--color-text-primary);
+}
+
+.copyButton:focus-visible {
+  outline: 2px solid var(--color-primary);
+  outline-offset: 1px;
+}
+
+.copyButtonCopied {
+  color: var(--color-success, #22c55e);
+}
+
+.copyButtonCopied:hover {
+  color: var(--color-success, #22c55e);
+}
+
+/* Symlink section */
+.symlinkSection {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  padding-top: 8px;
+  border-top: 1px solid var(--color-border);
+  margin-top: 8px;
+}
+
+.symlinkInfo {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.symlinkBadge {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  width: fit-content;
+}
+
+.symlinkTarget {
+  font-size: 12px;
+  color: var(--color-text-tertiary);
+}
+
+.symlinkTarget code {
+  font-family: var(--font-mono);
+  font-size: 11px;
+  word-break: break-all;
+}
+
+/* Subfolder section */
+.subfolderSection {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.checkboxLabel {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  cursor: pointer;
+}
+
+.checkbox {
+  width: 16px;
+  height: 16px;
+  margin: 0;
+  accent-color: var(--color-primary);
+  cursor: pointer;
+}
+
+.checkboxText {
+  font-size: 14px;
+  color: var(--color-text-primary);
+}
+
+.subfolderHint {
+  display: flex;
+  align-items: flex-start;
+  gap: 8px;
+  padding: 8px 12px;
+  background-color: var(--color-bg-secondary);
+  border-radius: 6px;
+  font-size: 12px;
+  color: var(--color-text-secondary);
+}
+
+.subfolderHint svg {
+  flex-shrink: 0;
+  margin-top: 1px;
+  color: var(--color-text-tertiary);
+}
+
+.subfolderList {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  padding: 12px;
+  background-color: var(--color-bg-secondary);
+  border: 1px solid var(--color-border);
+  border-radius: 6px;
+}
+
+.subfolderHeader {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  font-size: 12px;
+  color: var(--color-text-secondary);
+  margin-bottom: 4px;
+}
+
+.subfolderActions {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+}
+
+.selectLink {
+  background: none;
+  border: none;
+  padding: 0;
+  font-size: 12px;
+  color: var(--color-primary);
+  cursor: pointer;
+  text-decoration: underline;
+}
+
+.selectLink:hover {
+  color: var(--color-primary-hover, var(--color-primary));
+}
+
+.selectDivider {
+  color: var(--color-text-tertiary);
+}
+
+.subfolderCheckbox {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  cursor: pointer;
+}
+
+.subfolderName {
+  font-family: var(--font-mono);
+  font-size: 13px;
+  color: var(--color-text-primary);
+  min-width: 70px;
+}
+
+.subfolderDescription {
+  font-size: 12px;
+  color: var(--color-text-secondary);
+}
+
+/* AboutStep styles */
+
+/* Folder header - compact display of selected folder */
+.folderHeader {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  padding: 10px 14px;
+  background-color: var(--color-bg-tertiary, rgba(0, 0, 0, 0.03));
+  border: 1px dashed var(--color-border-soft, rgba(128, 128, 128, 0.2));
+  border-radius: 8px;
+}
+
+.folderInfo {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  min-width: 0;
+  flex: 1;
+}
+
+.folderNameRow {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.folderIcon {
+  flex-shrink: 0;
+  color: var(--color-text-tertiary);
+  opacity: 0.7;
+}
+
+.folderName {
+  font-size: 14px;
+  font-weight: 500;
+  color: var(--color-text-primary);
+}
+
+.folderPath {
+  font-family: var(--font-mono);
+  font-size: 11px;
+  color: var(--color-text-tertiary);
+  opacity: 0.8;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  max-width: 100%;
+}
+
+.folderActions {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  flex-shrink: 0;
+}
+
+.changeFolderButton {
+  font-size: 12px;
+}
+
+/* Section divider */
+.sectionDivider {
+  height: 1px;
+  background-color: var(--color-border);
+  margin: 8px 0;
+}
+
+/* Field description - subtitle below label */
+.fieldDescription {
+  font-size: 12px;
+  color: var(--color-text-tertiary);
+  line-height: 1.4;
+  margin-top: -2px;
+  margin-bottom: 2px;
+}
+
+/* Label row with tooltip - clean horizontal alignment */
+.labelWithTooltip {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+}
+
+/* Help icon that sits inline with label text */
+.helpIconInline {
+  /* Neutral/muted by default (never text-primary) */
+  color: var(--color-text-secondary);
+  opacity: 0.65;
+  cursor: help;
+  transition: color 0.15s ease;
+  flex-shrink: 0;
+}
+
+.helpIconInline:hover {
+  color: var(--color-text-secondary);
+  opacity: 0.95;
+}
+
+/* Description label row - spreads label+tooltip and source hint */
+.descriptionLabelRow {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px;
+}
+
+/* Source hint that sits in label row (e.g., "Generated by AI") */
+.sourceHintInline {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  font-size: 12px;
+  color: var(--color-text-tertiary);
+}
+
+.sourceHintInline svg {
+  opacity: 0.7;
+}
+
+/* Legacy labelRow kept for backwards compatibility */
+.labelRow {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.helpIcon {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 14px;
+  height: 14px;
+  color: var(--color-text-tertiary);
+  cursor: help;
+  transition: color 0.15s ease;
+}
+
+.helpIcon:hover {
+  color: var(--color-text-secondary);
+}
+
+.descriptionLoading {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 16px;
+  background-color: var(--color-bg-secondary);
+  border: 1px solid var(--color-border);
+  border-radius: 6px;
+  color: var(--color-text-secondary);
+  font-size: 14px;
+}
+
+/* Smaller text for description textarea */
+.descriptionTextarea {
+  font-size: 13px;
+  line-height: 1.5;
+}
+
+.spinnerIcon {
+  animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+/* Description field wrapper for positioning the source hint */
+.descriptionFieldWrapper {
+  position: relative;
+}
+
+/* Source hint positioned at top-right of description field */
+.sourceHintTopRight {
+  position: absolute;
+  top: 8px;
+  right: 12px;
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  font-size: 11px;
+  color: var(--color-text-tertiary);
+  font-style: italic;
+  pointer-events: none;
+  z-index: 1;
+}
+
+.sourceHintTopRight svg {
+  opacity: 0.7;
+}
+
+/* Legacy styles kept for backwards compatibility */
+.descriptionMeta {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-top: 4px;
+}
+
+.sourceHint {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  font-size: 12px;
+  color: var(--color-text-tertiary);
+  font-style: italic;
+}
+
+.sourceHint svg {
+  opacity: 0.7;
+}
+
+/* Warning banner for empty folders needing description */
+.descriptionWarning {
+  display: flex;
+  align-items: flex-start;
+  gap: 8px;
+  padding: 10px 12px;
+  background-color: rgba(245, 158, 11, 0.1);
+  border: 1px solid rgba(245, 158, 11, 0.3);
+  border-radius: 6px;
+  font-size: 13px;
+  line-height: 1.4;
+  color: var(--color-text-secondary);
+}
+
+.descriptionWarningIcon {
+  flex-shrink: 0;
+  margin-top: 1px;
+  color: rgb(245, 158, 11);
+}
+
+.regenerateButton {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+}
+
+.storageProviderBadge {
+  display: inline-flex;
+  align-items: center;
+  gap: 3px;
+  width: fit-content;
+  font-size: 10px;
+  opacity: 0.6;
+  padding: 1px 5px;
+  margin-left: 4px;
+}
+
+.inferredHint {
+  font-size: 12px;
+  color: var(--color-text-tertiary);
+  font-style: italic;
+}
+
+/* Read-only name display (edit mode) */
+.readOnlyName {
+  font-size: 14px;
+  font-weight: 500;
+  color: var(--color-text-primary);
+  padding: 8px 0;
+}
+
+.nameHint {
+  font-size: 11px;
+  color: var(--color-text-tertiary);
+  margin-top: 4px;
+}
+
+/* Guidance box (What's a space?) */
+.guidanceBox {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  padding: 12px;
+  background-color: rgba(59, 130, 246, 0.08);
+  border: 1px solid rgba(59, 130, 246, 0.2);
+  border-radius: 6px;
+}
+
+.guidanceHeader {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.guidanceIcon {
+  flex-shrink: 0;
+  color: rgb(59, 130, 246);
+}
+
+.guidanceTitle {
+  font-size: 13px;
+  font-weight: 500;
+  color: rgb(59, 130, 246);
+}
+
+.guidanceText {
+  margin: 0;
+  font-size: 12px;
+  line-height: 1.5;
+  color: var(--color-text-secondary);
+}
+
+/* External folder info notes */
+.externalFolderNotes {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  animation: fadeIn 0.2s ease-out;
+}
+
+/* Info note (symlink explanation) */
+.infoNote {
+  display: flex;
+  align-items: flex-start;
+  gap: 8px;
+  padding: 10px 12px;
+  background-color: rgba(59, 130, 246, 0.08);
+  border: 1px solid rgba(59, 130, 246, 0.2);
+  border-radius: 6px;
+}
+
+/* Neutral banner for add-existing mode (distinct from blue .infoNote used in LocationStep) */
+.addExistingBanner {
+  display: flex;
+  align-items: flex-start;
+  gap: 8px;
+  padding: 10px 14px;
+  background-color: var(--color-bg-secondary);
+  border-radius: 8px;
+  font-size: 13px;
+  line-height: 1.5;
+}
+
+.addExistingBanner svg {
+  color: var(--color-text-tertiary);
+}
+
+.infoNoteIcon {
+  flex-shrink: 0;
+  margin-top: 1px;
+  color: rgb(59, 130, 246);
+}
+
+.infoNoteContent {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  flex: 1;
+}
+
+.infoNoteText {
+  font-size: 12px;
+  line-height: 1.5;
+  color: var(--color-text-secondary);
+}
+
+.editMetadataLink {
+  background: none;
+  border: none;
+  padding: 0;
+  font-size: 11px;
+  color: var(--color-text-tertiary);
+  cursor: pointer;
+  text-decoration: underline;
+  text-align: left;
+  width: fit-content;
+}
+
+.editMetadataLink:hover {
+  color: var(--color-text-secondary);
+}
+
+/* Warning note (external folder changes) */
+.warningNote {
+  display: flex;
+  align-items: flex-start;
+  gap: 8px;
+  padding: 10px 12px;
+  background-color: rgba(245, 158, 11, 0.1);
+  border: 1px solid rgba(245, 158, 11, 0.3);
+  border-radius: 6px;
+}
+
+.warningNoteIcon {
+  flex-shrink: 0;
+  margin-top: 1px;
+  color: rgb(217, 119, 6);
+}
+
+.warningNoteText {
+  font-size: 12px;
+  line-height: 1.5;
+  color: var(--color-text-secondary);
+}
+
+/* Location row (edit mode) */
+.locationRow {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  padding: 10px 12px;
+  background-color: var(--color-bg-secondary);
+  border: 1px solid var(--color-border);
+  border-radius: 6px;
+  margin-bottom: 4px;
+}
+
+.locationPath {
+  font-family: var(--font-mono);
+  font-size: 12px;
+  color: var(--color-text-secondary);
+  word-break: break-all;
+  line-height: 1.4;
+  flex: 1;
+  min-width: 0;
+}
+
+.revealButton {
+  flex-shrink: 0;
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+}
+
+/* Read-only fields for add-existing mode */
+.readOnlyDescription {
+  font-size: 14px;
+  color: var(--color-text-secondary);
+  background-color: var(--color-bg-secondary);
+  padding: 10px 12px;
+  border-radius: 6px;
+  border: 1px solid var(--color-border);
+  line-height: 1.5;
+}
+
+.readOnlyField {
+  font-size: 14px;
+  font-weight: 500;
+  color: var(--color-text-primary);
+  background-color: var(--color-bg-secondary);
+  padding: 8px 12px;
+  border-radius: 6px;
+  border: 1px solid var(--color-border);
+}
+
+.readOnlyHint {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  font-size: 12px;
+  color: var(--color-text-tertiary);
+  font-style: italic;
+  margin-top: 4px;
+}
+
+.readOnlyHint svg {
+  opacity: 0.7;
+}
+
+.emptyPlaceholder {
+  color: var(--color-text-tertiary);
+  font-style: italic;
+}

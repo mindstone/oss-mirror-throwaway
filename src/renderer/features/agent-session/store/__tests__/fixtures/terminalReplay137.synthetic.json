@@ -1,0 +1,823 @@
+{
+  "sessionId": "fixture-session-137-dedup",
+  "turnId": "turn-137-dedup",
+  "events": [
+    {
+      "type": "status",
+      "message": "[REDACTED]",
+      "timestamp": 1700000000000,
+      "seq": 1
+    },
+    {
+      "type": "status",
+      "message": "[REDACTED]",
+      "timestamp": 1700000000010,
+      "seq": 2
+    },
+    {
+      "type": "status",
+      "message": "[REDACTED]",
+      "timestamp": 1700000000020,
+      "seq": 3
+    },
+    {
+      "type": "status",
+      "message": "[REDACTED]",
+      "timestamp": 1700000000030,
+      "seq": 4
+    },
+    {
+      "type": "status",
+      "message": "[REDACTED]",
+      "timestamp": 1700000000040,
+      "seq": 5
+    },
+    {
+      "type": "status",
+      "message": "[REDACTED]",
+      "timestamp": 1700000000050,
+      "seq": 6
+    },
+    {
+      "type": "status",
+      "message": "[REDACTED]",
+      "timestamp": 1700000000060,
+      "seq": 7
+    },
+    {
+      "type": "status",
+      "message": "[REDACTED]",
+      "timestamp": 1700000000070,
+      "seq": 8
+    },
+    {
+      "type": "status",
+      "message": "[REDACTED]",
+      "timestamp": 1700000000080,
+      "seq": 9
+    },
+    {
+      "type": "status",
+      "message": "[REDACTED]",
+      "timestamp": 1700000000090,
+      "seq": 10
+    },
+    {
+      "type": "status",
+      "message": "[REDACTED]",
+      "timestamp": 1700000000100,
+      "seq": 11
+    },
+    {
+      "type": "status",
+      "message": "[REDACTED]",
+      "timestamp": 1700000000110,
+      "seq": 12
+    },
+    {
+      "type": "status",
+      "message": "[REDACTED]",
+      "timestamp": 1700000000120,
+      "seq": 13
+    },
+    {
+      "type": "status",
+      "message": "[REDACTED]",
+      "timestamp": 1700000000130,
+      "seq": 14
+    },
+    {
+      "type": "status",
+      "message": "[REDACTED]",
+      "timestamp": 1700000000140,
+      "seq": 15
+    },
+    {
+      "type": "status",
+      "message": "[REDACTED]",
+      "timestamp": 1700000000150,
+      "seq": 16
+    },
+    {
+      "type": "status",
+      "message": "[REDACTED]",
+      "timestamp": 1700000000160,
+      "seq": 17
+    },
+    {
+      "type": "status",
+      "message": "[REDACTED]",
+      "timestamp": 1700000000170,
+      "seq": 18
+    },
+    {
+      "type": "status",
+      "message": "[REDACTED]",
+      "timestamp": 1700000000180,
+      "seq": 19
+    },
+    {
+      "type": "status",
+      "message": "[REDACTED]",
+      "timestamp": 1700000000190,
+      "seq": 20
+    },
+    {
+      "type": "status",
+      "message": "[REDACTED]",
+      "timestamp": 1700000000200,
+      "seq": 21
+    },
+    {
+      "type": "status",
+      "message": "[REDACTED]",
+      "timestamp": 1700000000210,
+      "seq": 22
+    },
+    {
+      "type": "status",
+      "message": "[REDACTED]",
+      "timestamp": 1700000000220,
+      "seq": 23
+    },
+    {
+      "type": "status",
+      "message": "[REDACTED]",
+      "timestamp": 1700000000230,
+      "seq": 24
+    },
+    {
+      "type": "status",
+      "message": "[REDACTED]",
+      "timestamp": 1700000000240,
+      "seq": 25
+    },
+    {
+      "type": "status",
+      "message": "[REDACTED]",
+      "timestamp": 1700000000250,
+      "seq": 26
+    },
+    {
+      "type": "status",
+      "message": "[REDACTED]",
+      "timestamp": 1700000000260,
+      "seq": 27
+    },
+    {
+      "type": "status",
+      "message": "[REDACTED]",
+      "timestamp": 1700000000270,
+      "seq": 28
+    },
+    {
+      "type": "status",
+      "message": "[REDACTED]",
+      "timestamp": 1700000000280,
+      "seq": 29
+    },
+    {
+      "type": "status",
+      "message": "[REDACTED]",
+      "timestamp": 1700000000290,
+      "seq": 30
+    },
+    {
+      "type": "status",
+      "message": "[REDACTED]",
+      "timestamp": 1700000000300,
+      "seq": 31
+    },
+    {
+      "type": "status",
+      "message": "[REDACTED]",
+      "timestamp": 1700000000310,
+      "seq": 32
+    },
+    {
+      "type": "status",
+      "message": "[REDACTED]",
+      "timestamp": 1700000000320,
+      "seq": 33
+    },
+    {
+      "type": "status",
+      "message": "[REDACTED]",
+      "timestamp": 1700000000330,
+      "seq": 34
+    },
+    {
+      "type": "status",
+      "message": "[REDACTED]",
+      "timestamp": 1700000000340,
+      "seq": 35
+    },
+    {
+      "type": "status",
+      "message": "[REDACTED]",
+      "timestamp": 1700000000350,
+      "seq": 36
+    },
+    {
+      "type": "status",
+      "message": "[REDACTED]",
+      "timestamp": 1700000000360,
+      "seq": 37
+    },
+    {
+      "type": "status",
+      "message": "[REDACTED]",
+      "timestamp": 1700000000370,
+      "seq": 38
+    },
+    {
+      "type": "status",
+      "message": "[REDACTED]",
+      "timestamp": 1700000000380,
+      "seq": 39
+    },
+    {
+      "type": "status",
+      "message": "[REDACTED]",
+      "timestamp": 1700000000390,
+      "seq": 40
+    },
+    {
+      "type": "status",
+      "message": "[REDACTED]",
+      "timestamp": 1700000000400,
+      "seq": 41
+    },
+    {
+      "type": "status",
+      "message": "[REDACTED]",
+      "timestamp": 1700000000410,
+      "seq": 42
+    },
+    {
+      "type": "status",
+      "message": "[REDACTED]",
+      "timestamp": 1700000000420,
+      "seq": 43
+    },
+    {
+      "type": "status",
+      "message": "[REDACTED]",
+      "timestamp": 1700000000430,
+      "seq": 44
+    },
+    {
+      "type": "status",
+      "message": "[REDACTED]",
+      "timestamp": 1700000000440,
+      "seq": 45
+    },
+    {
+      "type": "status",
+      "message": "[REDACTED]",
+      "timestamp": 1700000000450,
+      "seq": 46
+    },
+    {
+      "type": "status",
+      "message": "[REDACTED]",
+      "timestamp": 1700000000460,
+      "seq": 47
+    },
+    {
+      "type": "status",
+      "message": "[REDACTED]",
+      "timestamp": 1700000000470,
+      "seq": 48
+    },
+    {
+      "type": "status",
+      "message": "[REDACTED]",
+      "timestamp": 1700000000480,
+      "seq": 49
+    },
+    {
+      "type": "status",
+      "message": "[REDACTED]",
+      "timestamp": 1700000000490,
+      "seq": 50
+    },
+    {
+      "type": "status",
+      "message": "[REDACTED]",
+      "timestamp": 1700000000500,
+      "seq": 51
+    },
+    {
+      "type": "status",
+      "message": "[REDACTED]",
+      "timestamp": 1700000000510,
+      "seq": 52
+    },
+    {
+      "type": "status",
+      "message": "[REDACTED]",
+      "timestamp": 1700000000520,
+      "seq": 53
+    },
+    {
+      "type": "status",
+      "message": "[REDACTED]",
+      "timestamp": 1700000000530,
+      "seq": 54
+    },
+    {
+      "type": "status",
+      "message": "[REDACTED]",
+      "timestamp": 1700000000540,
+      "seq": 55
+    },
+    {
+      "type": "status",
+      "message": "[REDACTED]",
+      "timestamp": 1700000000550,
+      "seq": 56
+    },
+    {
+      "type": "status",
+      "message": "[REDACTED]",
+      "timestamp": 1700000000560,
+      "seq": 57
+    },
+    {
+      "type": "status",
+      "message": "[REDACTED]",
+      "timestamp": 1700000000570,
+      "seq": 58
+    },
+    {
+      "type": "status",
+      "message": "[REDACTED]",
+      "timestamp": 1700000000580,
+      "seq": 59
+    },
+    {
+      "type": "status",
+      "message": "[REDACTED]",
+      "timestamp": 1700000000590,
+      "seq": 60
+    },
+    {
+      "type": "status",
+      "message": "[REDACTED]",
+      "timestamp": 1700000000600,
+      "seq": 61
+    },
+    {
+      "type": "status",
+      "message": "[REDACTED]",
+      "timestamp": 1700000000610,
+      "seq": 62
+    },
+    {
+      "type": "status",
+      "message": "[REDACTED]",
+      "timestamp": 1700000000620,
+      "seq": 63
+    },
+    {
+      "type": "status",
+      "message": "[REDACTED]",
+      "timestamp": 1700000000630,
+      "seq": 64
+    },
+    {
+      "type": "status",
+      "message": "[REDACTED]",
+      "timestamp": 1700000000640,
+      "seq": 65
+    },
+    {
+      "type": "status",
+      "message": "[REDACTED]",
+      "timestamp": 1700000000650,
+      "seq": 66
+    },
+    {
+      "type": "status",
+      "message": "[REDACTED]",
+      "timestamp": 1700000000660,
+      "seq": 67
+    },
+    {
+      "type": "status",
+      "message": "[REDACTED]",
+      "timestamp": 1700000000670,
+      "seq": 68
+    },
+    {
+      "type": "status",
+      "message": "[REDACTED]",
+      "timestamp": 1700000000000,
+      "seq": 1
+    },
+    {
+      "type": "status",
+      "message": "[REDACTED]",
+      "timestamp": 1700000000010,
+      "seq": 2
+    },
+    {
+      "type": "status",
+      "message": "[REDACTED]",
+      "timestamp": 1700000000020,
+      "seq": 3
+    },
+    {
+      "type": "status",
+      "message": "[REDACTED]",
+      "timestamp": 1700000000030,
+      "seq": 4
+    },
+    {
+      "type": "status",
+      "message": "[REDACTED]",
+      "timestamp": 1700000000040,
+      "seq": 5
+    },
+    {
+      "type": "status",
+      "message": "[REDACTED]",
+      "timestamp": 1700000000050,
+      "seq": 6
+    },
+    {
+      "type": "status",
+      "message": "[REDACTED]",
+      "timestamp": 1700000000060,
+      "seq": 7
+    },
+    {
+      "type": "status",
+      "message": "[REDACTED]",
+      "timestamp": 1700000000070,
+      "seq": 8
+    },
+    {
+      "type": "status",
+      "message": "[REDACTED]",
+      "timestamp": 1700000000080,
+      "seq": 9
+    },
+    {
+      "type": "status",
+      "message": "[REDACTED]",
+      "timestamp": 1700000000090,
+      "seq": 10
+    },
+    {
+      "type": "status",
+      "message": "[REDACTED]",
+      "timestamp": 1700000000100,
+      "seq": 11
+    },
+    {
+      "type": "status",
+      "message": "[REDACTED]",
+      "timestamp": 1700000000110,
+      "seq": 12
+    },
+    {
+      "type": "status",
+      "message": "[REDACTED]",
+      "timestamp": 1700000000120,
+      "seq": 13
+    },
+    {
+      "type": "status",
+      "message": "[REDACTED]",
+      "timestamp": 1700000000130,
+      "seq": 14
+    },
+    {
+      "type": "status",
+      "message": "[REDACTED]",
+      "timestamp": 1700000000140,
+      "seq": 15
+    },
+    {
+      "type": "status",
+      "message": "[REDACTED]",
+      "timestamp": 1700000000150,
+      "seq": 16
+    },
+    {
+      "type": "status",
+      "message": "[REDACTED]",
+      "timestamp": 1700000000160,
+      "seq": 17
+    },
+    {
+      "type": "status",
+      "message": "[REDACTED]",
+      "timestamp": 1700000000170,
+      "seq": 18
+    },
+    {
+      "type": "status",
+      "message": "[REDACTED]",
+      "timestamp": 1700000000180,
+      "seq": 19
+    },
+    {
+      "type": "status",
+      "message": "[REDACTED]",
+      "timestamp": 1700000000190,
+      "seq": 20
+    },
+    {
+      "type": "status",
+      "message": "[REDACTED]",
+      "timestamp": 1700000000200,
+      "seq": 21
+    },
+    {
+      "type": "status",
+      "message": "[REDACTED]",
+      "timestamp": 1700000000210,
+      "seq": 22
+    },
+    {
+      "type": "status",
+      "message": "[REDACTED]",
+      "timestamp": 1700000000220,
+      "seq": 23
+    },
+    {
+      "type": "status",
+      "message": "[REDACTED]",
+      "timestamp": 1700000000230,
+      "seq": 24
+    },
+    {
+      "type": "status",
+      "message": "[REDACTED]",
+      "timestamp": 1700000000240,
+      "seq": 25
+    },
+    {
+      "type": "status",
+      "message": "[REDACTED]",
+      "timestamp": 1700000000250,
+      "seq": 26
+    },
+    {
+      "type": "status",
+      "message": "[REDACTED]",
+      "timestamp": 1700000000260,
+      "seq": 27
+    },
+    {
+      "type": "status",
+      "message": "[REDACTED]",
+      "timestamp": 1700000000270,
+      "seq": 28
+    },
+    {
+      "type": "status",
+      "message": "[REDACTED]",
+      "timestamp": 1700000000280,
+      "seq": 29
+    },
+    {
+      "type": "status",
+      "message": "[REDACTED]",
+      "timestamp": 1700000000290,
+      "seq": 30
+    },
+    {
+      "type": "status",
+      "message": "[REDACTED]",
+      "timestamp": 1700000000300,
+      "seq": 31
+    },
+    {
+      "type": "status",
+      "message": "[REDACTED]",
+      "timestamp": 1700000000310,
+      "seq": 32
+    },
+    {
+      "type": "status",
+      "message": "[REDACTED]",
+      "timestamp": 1700000000320,
+      "seq": 33
+    },
+    {
+      "type": "status",
+      "message": "[REDACTED]",
+      "timestamp": 1700000000330,
+      "seq": 34
+    },
+    {
+      "type": "status",
+      "message": "[REDACTED]",
+      "timestamp": 1700000000340,
+      "seq": 35
+    },
+    {
+      "type": "status",
+      "message": "[REDACTED]",
+      "timestamp": 1700000000350,
+      "seq": 36
+    },
+    {
+      "type": "status",
+      "message": "[REDACTED]",
+      "timestamp": 1700000000360,
+      "seq": 37
+    },
+    {
+      "type": "status",
+      "message": "[REDACTED]",
+      "timestamp": 1700000000370,
+      "seq": 38
+    },
+    {
+      "type": "status",
+      "message": "[REDACTED]",
+      "timestamp": 1700000000380,
+      "seq": 39
+    },
+    {
+      "type": "status",
+      "message": "[REDACTED]",
+      "timestamp": 1700000000390,
+      "seq": 40
+    },
+    {
+      "type": "status",
+      "message": "[REDACTED]",
+      "timestamp": 1700000000400,
+      "seq": 41
+    },
+    {
+      "type": "status",
+      "message": "[REDACTED]",
+      "timestamp": 1700000000410,
+      "seq": 42
+    },
+    {
+      "type": "status",
+      "message": "[REDACTED]",
+      "timestamp": 1700000000420,
+      "seq": 43
+    },
+    {
+      "type": "status",
+      "message": "[REDACTED]",
+      "timestamp": 1700000000430,
+      "seq": 44
+    },
+    {
+      "type": "status",
+      "message": "[REDACTED]",
+      "timestamp": 1700000000440,
+      "seq": 45
+    },
+    {
+      "type": "status",
+      "message": "[REDACTED]",
+      "timestamp": 1700000000450,
+      "seq": 46
+    },
+    {
+      "type": "status",
+      "message": "[REDACTED]",
+      "timestamp": 1700000000460,
+      "seq": 47
+    },
+    {
+      "type": "status",
+      "message": "[REDACTED]",
+      "timestamp": 1700000000470,
+      "seq": 48
+    },
+    {
+      "type": "status",
+      "message": "[REDACTED]",
+      "timestamp": 1700000000480,
+      "seq": 49
+    },
+    {
+      "type": "status",
+      "message": "[REDACTED]",
+      "timestamp": 1700000000490,
+      "seq": 50
+    },
+    {
+      "type": "status",
+      "message": "[REDACTED]",
+      "timestamp": 1700000000500,
+      "seq": 51
+    },
+    {
+      "type": "status",
+      "message": "[REDACTED]",
+      "timestamp": 1700000000510,
+      "seq": 52
+    },
+    {
+      "type": "status",
+      "message": "[REDACTED]",
+      "timestamp": 1700000000520,
+      "seq": 53
+    },
+    {
+      "type": "status",
+      "message": "[REDACTED]",
+      "timestamp": 1700000000530,
+      "seq": 54
+    },
+    {
+      "type": "status",
+      "message": "[REDACTED]",
+      "timestamp": 1700000000540,
+      "seq": 55
+    },
+    {
+      "type": "status",
+      "message": "[REDACTED]",
+      "timestamp": 1700000000550,
+      "seq": 56
+    },
+    {
+      "type": "status",
+      "message": "[REDACTED]",
+      "timestamp": 1700000000560,
+      "seq": 57
+    },
+    {
+      "type": "status",
+      "message": "[REDACTED]",
+      "timestamp": 1700000000570,
+      "seq": 58
+    },
+    {
+      "type": "status",
+      "message": "[REDACTED]",
+      "timestamp": 1700000000580,
+      "seq": 59
+    },
+    {
+      "type": "status",
+      "message": "[REDACTED]",
+      "timestamp": 1700000000590,
+      "seq": 60
+    },
+    {
+      "type": "status",
+      "message": "[REDACTED]",
+      "timestamp": 1700000000600,
+      "seq": 61
+    },
+    {
+      "type": "status",
+      "message": "[REDACTED]",
+      "timestamp": 1700000000610,
+      "seq": 62
+    },
+    {
+      "type": "status",
+      "message": "[REDACTED]",
+      "timestamp": 1700000000620,
+      "seq": 63
+    },
+    {
+      "type": "status",
+      "message": "[REDACTED]",
+      "timestamp": 1700000000630,
+      "seq": 64
+    },
+    {
+      "type": "status",
+      "message": "[REDACTED]",
+      "timestamp": 1700000000640,
+      "seq": 65
+    },
+    {
+      "type": "status",
+      "message": "[REDACTED]",
+      "timestamp": 1700000000650,
+      "seq": 66
+    },
+    {
+      "type": "status",
+      "message": "[REDACTED]",
+      "timestamp": 1700000000660,
+      "seq": 67
+    },
+    {
+      "type": "status",
+      "message": "[REDACTED]",
+      "timestamp": 1700000000670,
+      "seq": 68
+    }
+  ],
+  "expectedUniqueCount": 68
+}

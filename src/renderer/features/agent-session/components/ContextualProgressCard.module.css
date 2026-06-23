@@ -1,0 +1,707 @@
+/* ─────────────────────────────────────────────────────────────
+   ContextualProgressCard — collapsed status bar + expandable
+   3-section card for the Thinking Panel UX redesign (FOX-3050)
+   ───────────────────────────────────────────────────────────── */
+
+.card {
+  border-radius: 10px;
+  margin-bottom: 8px;
+  overflow: hidden;
+  min-width: 600px;
+  animation: cardEntrance 250ms var(--motion-ease-out, cubic-bezier(0.16, 1, 0.3, 1)) backwards;
+}
+
+@keyframes cardEntrance {
+  0% { opacity: 0; transform: translateY(-6px); }
+  100% { opacity: 1; transform: translateY(0); }
+}
+
+/* ── Collapsed status bar ────────────────────────────────── */
+
+.collapsedBar {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 8px 14px;
+  border-radius: 10px;
+  background: rgba(0, 0, 0, 0.14);
+  border: 1px solid rgba(148, 163, 184, 0.06);
+  cursor: pointer;
+  transition: background 0.15s ease, border-color 0.15s ease;
+  width: 100%;
+  box-sizing: border-box;
+  min-height: 36px;
+}
+
+.collapsedBar:hover {
+  background: rgba(0, 0, 0, 0.2);
+  border-color: rgba(148, 163, 184, 0.1);
+}
+
+.collapsedBar:focus-visible {
+  outline: 2px solid rgba(99, 102, 241, 0.5);
+  outline-offset: 2px;
+}
+
+.statusIndicator {
+  width: 16px;
+  height: 16px;
+  flex-shrink: 0;
+}
+
+.statusGif {
+  width: 16px;
+  height: 16px;
+  object-fit: contain;
+}
+
+.statusIconDone {
+  width: 14px;
+  height: 14px;
+  color: #34d399;
+}
+
+.statusIconError {
+  width: 14px;
+  height: 14px;
+  color: var(--color-warning-hover);
+}
+
+.statusIconSilentStop {
+  width: 14px;
+  height: 14px;
+  color: var(--color-warning-hover);
+}
+
+.statusIconInfo {
+  width: 14px;
+  height: 14px;
+  color: rgba(148, 163, 184, 0.65);
+}
+
+
+.statusText {
+  flex: 1;
+  /* min-width: 0 lets the flex child actually shrink below its content width so
+     the nowrap+ellipsis clamp engages — without it a long recap sentence would
+     push the badge/elapsed/chevron out instead of truncating. */
+  min-width: 0;
+  font-size: 0.78rem;
+  color: rgba(226, 232, 240, 0.8);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  line-height: 1.3;
+}
+
+.statusTextComplete {
+  color: rgba(148, 163, 184, 0.65);
+}
+
+.statusTextWarning {
+  color: #f59e0b;
+}
+
+.statusTextInfo {
+  color: rgba(148, 163, 184, 0.8);
+}
+
+.progressBadge {
+  font-size: 0.7rem;
+  font-weight: 600;
+  color: rgba(148, 163, 184, 0.65);
+  white-space: nowrap;
+  flex-shrink: 0;
+}
+
+.chevron {
+  width: 14px;
+  height: 14px;
+  color: rgba(148, 163, 184, 0.4);
+  flex-shrink: 0;
+  transition: transform 0.15s ease;
+}
+
+.chevronOpen {
+  transform: rotate(90deg);
+}
+
+.elapsed {
+  font-size: 0.65rem;
+  font-weight: 500;
+  letter-spacing: 0.03em;
+  color: rgba(148, 163, 184, 0.5);
+  white-space: nowrap;
+  flex-shrink: 0;
+}
+
+/* ── Expanded content ────────────────────────────────────── */
+
+.expandedContent {
+  display: grid;
+  grid-template-rows: 1fr;
+  transition: grid-template-rows 0.2s ease-out;
+  background: rgba(0, 0, 0, 0.14);
+  border: 1px solid rgba(148, 163, 184, 0.06);
+  border-radius: 10px;
+}
+
+.expandedInner {
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  gap: 0;
+}
+
+.sectionDivider {
+  border: none;
+  border-top: 1px solid rgba(148, 163, 184, 0.08);
+  margin: 0;
+}
+
+/* Section label headers inside expanded card */
+.sectionLabel {
+  font-size: 0.68rem;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  color: rgba(148, 163, 184, 0.5);
+  padding: 10px 14px 4px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.sectionCount {
+  font-weight: 600;
+  margin-left: 6px;
+}
+
+.sectionLabelComplete {
+  color: rgba(52, 211, 153, 0.7);
+}
+
+/* Expanded header bar (click to collapse) */
+.expandedHeader {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 10px 14px 6px;
+  cursor: pointer;
+  background: none;
+  border: none;
+  width: 100%;
+  box-sizing: border-box;
+  text-align: left;
+}
+
+.expandedHeader:focus-visible {
+  outline: 2px solid rgba(99, 102, 241, 0.5);
+  outline-offset: -2px;
+}
+
+.expandedHeaderText {
+  flex: 1;
+  font-size: 0.72rem;
+  font-weight: 600;
+  color: rgba(226, 232, 240, 0.85);
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+}
+
+/* Section content wrappers */
+.planSection {
+  padding: 0 14px 8px;
+}
+
+.liveSection {
+  padding: 0 14px 8px;
+  border-top: 1px solid rgba(148, 163, 184, 0.06);
+}
+
+/* ── Section 2: Live activity line ───────────────────────── */
+
+.liveActivityLine {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 6px 0;
+  min-height: 24px;
+  flex: 1;
+}
+
+.liveActivityButton {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  width: 100%;
+  padding: 0;
+  border: none;
+  background: none;
+  cursor: pointer;
+  text-align: left;
+}
+
+.liveActivityButton:hover {
+  background: rgba(148, 163, 184, 0.03);
+}
+
+.liveActivityButton:focus-visible {
+  outline: 2px solid rgba(99, 102, 241, 0.5);
+  outline-offset: 2px;
+}
+
+.liveIcon {
+  width: 14px;
+  height: 14px;
+  flex-shrink: 0;
+}
+
+.liveGif {
+  width: 14px;
+  height: 14px;
+  flex-shrink: 0;
+  object-fit: contain;
+}
+
+.liveIconStatic {
+  color: rgba(148, 163, 184, 0.55);
+}
+
+.liveIconDone {
+  color: rgba(148, 163, 184, 0.55);
+}
+
+.liveIconError {
+  color: var(--color-warning-hover);
+}
+
+
+.liveText {
+  font-size: 0.82rem;
+  color: rgba(226, 232, 240, 0.8);
+  line-height: 1.4;
+  flex: 1;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.liveTextDone {
+  color: rgba(148, 163, 184, 0.6);
+}
+
+/* ── Stage 4: quiet persona-quip fallback line ───────────────
+   A demoted, secondary line that fills genuine silence / re-engages on a long
+   wait. Deliberately smaller and more muted than the primary live line so the
+   single concrete activity stays the primary signal ("one thing at a time").
+   Presentational only (aria-hidden in markup). */
+.personaQuip {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  padding: 2px 0 4px;
+  /* Indent to align under the primary live text (past the 14px icon + 8px gap). */
+  margin-left: 22px;
+  animation: personaQuipFade 320ms var(--motion-ease-out, cubic-bezier(0.16, 1, 0.3, 1)) backwards;
+}
+
+@keyframes personaQuipFade {
+  0% { opacity: 0; }
+  100% { opacity: 1; }
+}
+
+.personaQuipText {
+  font-size: 0.72rem;
+  font-style: italic;
+  color: rgba(148, 163, 184, 0.5);
+  line-height: 1.35;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .personaQuip {
+    animation: none;
+  }
+}
+
+:global(body.light) .personaQuipText {
+  color: var(--color-muted-foreground);
+}
+
+/* Connector name in the "Writing <name>" / "Testing <name>" live line.
+   A dashed underline signals the tooltip is available (replaces the
+   reassurance copy that used to live on the footer MCPBuildCard). */
+.liveTextConnector {
+  text-decoration: underline dashed rgba(148, 163, 184, 0.45);
+  text-underline-offset: 3px;
+  text-decoration-thickness: 1px;
+  cursor: help;
+}
+
+:global(body.light) .liveTextConnector {
+  text-decoration-color: rgba(100, 116, 139, 0.5);
+}
+
+.tipIcon {
+  display: inline;
+  vertical-align: -1px;
+  margin-right: 4px;
+  flex-shrink: 0;
+  color: currentColor;
+}
+
+.liveActivityChevron {
+  width: 12px;
+  height: 12px;
+  color: rgba(148, 163, 184, 0.35);
+  flex-shrink: 0;
+  transition: transform 0.15s ease;
+}
+
+.liveActivityChevronOpen {
+  transform: rotate(90deg);
+}
+
+/* ── Section 3: Technical details toggle ─────────────────── */
+
+.technicalContent {
+  border-top: 1px solid rgba(148, 163, 184, 0.06);
+  margin-top: 6px;
+  padding-top: 6px;
+}
+
+/* ── Silent stop warning ─────────────────────────────────── */
+
+.silentStopBanner {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 8px 14px;
+  border-top: 1px solid rgba(245, 158, 11, 0.15);
+  background: rgba(245, 158, 11, 0.06);
+}
+
+.silentStopText {
+  flex: 1;
+  font-size: 0.78rem;
+  color: var(--color-warning-hover);
+  line-height: 1.3;
+}
+
+.silentStopBannerInfo {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 8px 14px;
+  border-top: 1px solid rgba(148, 163, 184, 0.1);
+  background: rgba(148, 163, 184, 0.04);
+}
+
+.silentStopTextInfo {
+  flex: 1;
+  font-size: 0.78rem;
+  color: rgba(148, 163, 184, 0.8);
+  line-height: 1.3;
+}
+
+.silentStopContinue {
+  font-size: 0.72rem;
+  font-weight: 600;
+  color: rgba(99, 102, 241, 0.9);
+  background: rgba(99, 102, 241, 0.1);
+  border: 1px solid rgba(99, 102, 241, 0.2);
+  border-radius: 6px;
+  padding: 4px 10px;
+  cursor: pointer;
+  transition: background 0.15s ease;
+  white-space: nowrap;
+}
+
+.silentStopContinue:hover {
+  background: var(--color-brand-indigo-soft);
+}
+
+.silentStopContinue:focus-visible {
+  outline: 2px solid rgba(99, 102, 241, 0.5);
+  outline-offset: 2px;
+}
+
+/* ── Assistant activity indicator ─────────────────────────── */
+
+.assistantIndicator {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 16px;
+  height: 16px;
+  flex-shrink: 0;
+}
+
+.assistantIconCollapsed,
+.assistantIconLive {
+  color: rgba(129, 140, 248, 0.85);
+  animation: assistantPulse 2.5s ease-in-out infinite;
+}
+
+@keyframes assistantPulse {
+  0%, 100% { opacity: 0.85; }
+  50% { opacity: 0.5; }
+}
+
+.assistantBadge {
+  position: absolute;
+  top: -4px;
+  right: -8px;
+  font-size: 0.5rem;
+  font-weight: 700;
+  line-height: 1;
+  padding: 1px 3px;
+  border-radius: 6px;
+  background: rgba(99, 102, 241, 0.25);
+  color: rgba(165, 180, 252, 0.95);
+  white-space: nowrap;
+  pointer-events: none;
+}
+
+/* ── Compact assistant preview chips ─────────────────────── */
+
+.assistantChips {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  padding: 4px 0 2px;
+}
+
+/* Shared "breath" — fires when 2+ sub-agents are running in parallel.
+   Animates only background-color so the live section has a single
+   synchronized phase across all chips, never per-chip stagger. */
+@keyframes assistantChipsBreath {
+  0%, 100% {
+    background-color: transparent;
+  }
+  50% {
+    background-color: color-mix(in srgb, var(--color-brand-indigo) 6%, transparent);
+  }
+}
+
+.assistantChipsLive {
+  animation: assistantChipsBreath 3s ease-in-out infinite;
+  border-radius: 8px;
+}
+
+.assistantChip {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  padding: 3px 8px;
+  font-size: 0.75rem;
+  color: rgba(226, 232, 240, 0.7);
+  border-radius: 6px;
+  background: rgba(99, 102, 241, 0.06);
+}
+
+.assistantChipIcon {
+  color: rgba(129, 140, 248, 0.6);
+  flex-shrink: 0;
+}
+
+.assistantChipLabel {
+  flex: 1;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  line-height: 1.3;
+}
+
+.assistantChipDuration {
+  font-size: 0.65rem;
+  color: rgba(148, 163, 184, 0.5);
+  flex-shrink: 0;
+}
+
+.assistantChipMore {
+  font-size: 0.7rem;
+  color: rgba(148, 163, 184, 0.45);
+  padding: 2px 8px;
+}
+
+/* ── Reduced motion ──────────────────────────────────────── */
+
+@media (prefers-reduced-motion: reduce) {
+  .card {
+    animation: none;
+  }
+  .expandedContent {
+    transition: none;
+  }
+  .chevron, .liveActivityChevron {
+    transition: none;
+  }
+  .assistantIconCollapsed,
+  .assistantIconLive {
+    animation: none;
+    opacity: 0.85;
+  }
+  .assistantChipsLive {
+    animation: none;
+    background-color: color-mix(in srgb, var(--color-brand-indigo) 5%, transparent);
+  }
+}
+
+/* ─────────────────────────────────────────────────────────────
+   Light Mode Overrides
+   ───────────────────────────────────────────────────────────── */
+
+:global(body.light) .collapsedBar {
+  background: rgba(0, 0, 0, 0.03);
+  border-color: rgba(100, 116, 139, 0.1);
+}
+
+:global(body.light) .collapsedBar:hover {
+  background: rgba(0, 0, 0, 0.05);
+  border-color: rgba(100, 116, 139, 0.15);
+}
+
+:global(body.light) .statusText {
+  color: var(--color-foreground);
+}
+
+:global(body.light) .statusTextComplete {
+  color: var(--color-muted-foreground);
+}
+
+:global(body.light) .progressBadge {
+  color: var(--color-muted-foreground);
+}
+
+:global(body.light) .chevron {
+  color: rgba(100, 116, 139, 0.4);
+}
+
+:global(body.light) .elapsed {
+  color: var(--color-muted-foreground);
+}
+
+:global(body.light) .sectionDivider {
+  border-top-color: rgba(100, 116, 139, 0.1);
+}
+
+:global(body.light) .expandedContent {
+  background: rgba(0, 0, 0, 0.02);
+  border-color: rgba(100, 116, 139, 0.1);
+}
+
+:global(body.light) .sectionLabel {
+  color: rgba(100, 116, 139, 0.5);
+}
+
+:global(body.light) .expandedHeaderText {
+  color: var(--color-foreground);
+}
+
+:global(body.light) .liveText {
+  color: var(--color-foreground);
+}
+
+:global(body.light) .liveTextDone {
+  color: var(--color-muted-foreground);
+}
+
+:global(body.light) .liveActivityButton:hover {
+  background: rgba(100, 116, 139, 0.04);
+}
+
+:global(body.light) .liveActivityChevron {
+  color: rgba(100, 116, 139, 0.35);
+}
+
+:global(body.light) .liveSection,
+:global(body.light) .technicalContent {
+  border-top-color: rgba(100, 116, 139, 0.08);
+}
+
+:global(body.light) .silentStopBanner {
+  border-top-color: rgba(217, 119, 6, 0.15);
+  background: rgba(217, 119, 6, 0.05);
+}
+
+:global(body.light) .silentStopText {
+  color: var(--color-warning);
+}
+
+:global(body.light) .silentStopBannerInfo {
+  border-top-color: rgba(100, 116, 139, 0.12);
+  background: rgba(100, 116, 139, 0.04);
+}
+
+:global(body.light) .silentStopTextInfo {
+  color: var(--color-muted-foreground);
+}
+
+:global(body.light) .statusTextInfo {
+  color: var(--color-muted-foreground);
+}
+
+:global(body.light) .statusIconInfo {
+  color: rgba(100, 116, 139, 0.55);
+}
+
+:global(body.light) .statusIconDone {
+  color: #10b981;
+}
+
+:global(body.light) .statusIconSilentStop {
+  color: var(--color-warning);
+}
+
+:global(body.light) .liveIconStatic {
+  color: rgba(100, 116, 139, 0.55);
+}
+
+:global(body.light) .liveIconDone {
+  color: #10b981;
+}
+
+:global(body.light) .assistantIconCollapsed,
+:global(body.light) .assistantIconLive {
+  color: rgba(79, 70, 229, 0.75);
+}
+
+:global(body.light) .assistantBadge {
+  background: rgba(79, 70, 229, 0.12);
+  color: rgba(79, 70, 229, 0.85);
+}
+
+:global(body.light) .assistantChip {
+  color: var(--color-foreground);
+  background: rgba(79, 70, 229, 0.05);
+}
+
+:global(body.light) .assistantChipIcon {
+  color: rgba(79, 70, 229, 0.55);
+}
+
+:global(body.light) .assistantChipDuration {
+  color: var(--color-muted-foreground);
+}
+
+:global(body.light) .assistantChipMore {
+  color: var(--color-muted-foreground);
+}
+
+:global(body.light) .assistantChipsLive,
+:global(.light) .assistantChipsLive {
+  animation-name: assistantChipsBreathLight;
+}
+
+@keyframes assistantChipsBreathLight {
+  0%, 100% {
+    background-color: transparent;
+  }
+  50% {
+    background-color: color-mix(in srgb, var(--color-brand-indigo) 4%, transparent);
+  }
+}

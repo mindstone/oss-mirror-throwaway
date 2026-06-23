@@ -1,0 +1,255 @@
+/* RichSelect - Dropdown with title + description options */
+
+.container {
+  position: relative;
+  display: inline-flex;
+  width: 100%;
+}
+
+/* Trigger button - styled like a select */
+.trigger {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  width: 100%;
+  padding: var(--space-3, 12px) var(--space-4, 16px);
+  border-radius: var(--radius-md, 10px);
+  border: 1px solid var(--color-border-input, rgba(15, 23, 42, 0.18));
+  background: var(--color-background, #ffffff);
+  color: var(--color-text-primary, #0f172a);
+  font-size: 0.95rem;
+  line-height: 1.5;
+  cursor: pointer;
+  transition:
+    border-color var(--motion-duration-fast, 120ms) ease,
+    box-shadow var(--motion-duration-fast, 120ms) ease;
+}
+
+.triggerSm {
+  padding: var(--space-2, 8px) var(--space-3, 12px);
+  font-size: 0.875rem;
+}
+
+.trigger:hover:not(:disabled) {
+  border-color: var(--color-border-hover, rgba(15, 23, 42, 0.28));
+}
+
+.trigger:focus-visible {
+  outline: none;
+  border-color: var(--color-ring, #a78bfa);
+  box-shadow: 0 0 0 3px rgba(167, 139, 250, 0.2);
+}
+
+.triggerOpen {
+  border-color: var(--color-ring, #a78bfa);
+  box-shadow: 0 0 0 3px rgba(167, 139, 250, 0.2);
+}
+
+.triggerDisabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+.triggerContent {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  min-width: 0;
+}
+
+.triggerIcon {
+  flex-shrink: 0;
+  color: var(--color-text-secondary, rgba(15, 23, 42, 0.6));
+}
+
+.triggerLabel {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.triggerPlaceholder {
+  color: var(--color-text-tertiary, rgba(15, 23, 42, 0.45));
+}
+
+.chevron {
+  flex-shrink: 0;
+  margin-left: 8px;
+  color: var(--color-text-secondary, rgba(15, 23, 42, 0.6));
+  transition: transform 0.15s ease;
+}
+
+.chevronOpen {
+  transform: rotate(180deg);
+}
+
+/* Dropdown menu */
+.menu {
+  z-index: 9999;
+  min-width: 280px;
+  max-width: 340px;
+  padding: 6px;
+  border-radius: 12px;
+  background: rgba(13, 17, 28, 0.98);
+  border: 1px solid rgba(148, 163, 184, 0.22);
+  box-shadow:
+    0 12px 32px rgba(2, 6, 23, 0.55),
+    0 0 0 1px rgba(99, 102, 241, 0.08);
+  backdrop-filter: blur(var(--glass-overlay-blur));
+  /* Hidden AND off-screen until positioned to prevent flash at top-left */
+  opacity: 0;
+  pointer-events: none;
+}
+
+.menu[data-positioned='true'] {
+  opacity: 1;
+  pointer-events: auto;
+  animation: menuFadeIn 100ms cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+@keyframes menuFadeIn {
+  from {
+    transform: translateY(-4px);
+  }
+  to {
+    transform: translateY(0);
+  }
+}
+
+/* Option item */
+.option {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 12px;
+  width: 100%;
+  padding: 10px 12px;
+  border: none;
+  border-radius: 8px;
+  background: transparent;
+  color: rgba(248, 250, 255, 0.88);
+  text-align: left;
+  cursor: pointer;
+  transition:
+    background 0.15s ease,
+    color 0.15s ease;
+}
+
+.option:hover,
+.optionFocused {
+  background: rgba(99, 102, 241, 0.12);
+  color: rgba(248, 250, 255, 1);
+}
+
+.optionSelected {
+  background: rgba(99, 102, 241, 0.18);
+}
+
+.optionSelected:hover,
+.optionSelected.optionFocused {
+  background: rgba(99, 102, 241, 0.22);
+}
+
+.option:focus-visible {
+  outline: none;
+  background: rgba(99, 102, 241, 0.15);
+  box-shadow: 0 0 0 2px rgba(99, 102, 241, 0.4);
+}
+
+.optionContent {
+  display: flex;
+  align-items: flex-start;
+  gap: 10px;
+  min-width: 0;
+  flex: 1;
+}
+
+.optionIcon {
+  flex-shrink: 0;
+  margin-top: 2px;
+  opacity: 0.7;
+}
+
+.option:hover .optionIcon,
+.optionFocused .optionIcon,
+.optionSelected .optionIcon {
+  opacity: 1;
+}
+
+.optionText {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  min-width: 0;
+}
+
+.optionLabel {
+  font-size: 0.875rem;
+  font-weight: 500;
+  line-height: 1.35;
+}
+
+.optionDescription {
+  font-size: 0.78rem;
+  font-weight: 400;
+  line-height: 1.4;
+  color: rgba(248, 250, 255, 0.55);
+}
+
+.option:hover .optionDescription,
+.optionFocused .optionDescription {
+  color: rgba(248, 250, 255, 0.7);
+}
+
+.optionSelected .optionDescription {
+  color: rgba(248, 250, 255, 0.65);
+}
+
+.checkIcon {
+  flex-shrink: 0;
+  margin-top: 2px;
+  color: var(--color-primary, #a78bfa);
+}
+
+/* ─────────────────────────────────────────────────────────────
+   Light Mode Overrides
+   ───────────────────────────────────────────────────────────── */
+
+:global(body.light) .menu {
+  background: var(--color-popover, #ffffff);
+  border: 1px solid var(--color-border, rgba(15, 23, 42, 0.12));
+  box-shadow:
+    0 8px 24px rgba(0, 0, 0, 0.1),
+    0 0 0 1px color-mix(in srgb, var(--color-primary) 6%, transparent);
+}
+
+:global(body.light) .option {
+  color: var(--color-foreground, #0f172a);
+}
+
+:global(body.light) .option:hover,
+:global(body.light) .optionFocused {
+  background: color-mix(in srgb, var(--color-primary) 8%, transparent);
+}
+
+:global(body.light) .optionSelected {
+  background: color-mix(in srgb, var(--color-primary) 12%, transparent);
+}
+
+:global(body.light) .optionSelected:hover,
+:global(body.light) .optionSelected.optionFocused {
+  background: color-mix(in srgb, var(--color-primary) 16%, transparent);
+}
+
+:global(body.light) .optionDescription {
+  color: var(--color-text-secondary, rgba(15, 23, 42, 0.6));
+}
+
+:global(body.light) .option:hover .optionDescription,
+:global(body.light) .optionFocused .optionDescription {
+  color: var(--color-text-secondary, rgba(15, 23, 42, 0.7));
+}
+
+:global(body.light) .optionSelected .optionDescription {
+  color: var(--color-text-secondary, rgba(15, 23, 42, 0.65));
+}

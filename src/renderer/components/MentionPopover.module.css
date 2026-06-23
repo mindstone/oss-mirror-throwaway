@@ -1,0 +1,224 @@
+.popover {
+  position: absolute;
+  bottom: calc(100% + 6px);
+  left: 0;
+  right: 0;
+  background: rgba(13, 17, 28, 0.95);
+  border: 1px solid rgba(148, 163, 184, 0.22);
+  border-radius: 16px;
+  box-shadow: 0 16px 36px rgba(2, 6, 23, 0.35);
+  padding: 8px;
+  /* z-index must be high enough to appear above flow-content-nav which has no z-index
+     but is painted after flow-content-panels in DOM order. Using 1050 to be above
+     flow-overflow-menu (z-index: 1000) as well. */
+  z-index: 1050;
+}
+
+/* ─────────────────────────────────────────────────────────────
+   Filter Tabs (All / Skills / Conversations)
+   ───────────────────────────────────────────────────────────── */
+
+.filterTabs {
+  display: flex;
+  gap: 6px;
+  padding: 0 2px;
+  margin-bottom: 8px;
+}
+
+.filterTab {
+  padding: 5px 12px;
+  background: transparent;
+  border: 1px solid rgba(148, 163, 184, 0.15);
+  border-radius: 16px;
+  color: rgba(203, 213, 225, 0.7);
+  font-size: 0.75rem;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.15s ease;
+}
+
+.filterTab:hover:not(.filterTabDisabled) {
+  border-color: rgba(148, 163, 184, 0.3);
+  color: rgba(248, 250, 255, 0.95);
+}
+
+.filterTabActive {
+  background: rgba(99, 102, 241, 0.14);
+  border-color: rgba(99, 102, 241, 0.3);
+  color: rgba(248, 250, 255, 0.95);
+}
+
+.filterTabDisabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+.list {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  max-height: min(70vh, 480px);
+  overflow-y: auto;
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.item {
+  border-radius: 10px;
+  padding: 8px 10px;
+  cursor: pointer;
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  transition: background 0.15s ease;
+}
+
+.itemActive {
+  background: rgba(99, 102, 241, 0.14);
+}
+
+.itemDisabled {
+  cursor: default;
+  opacity: 0.78;
+}
+
+.primary {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-weight: 600;
+  color: rgba(248, 250, 255, 0.95);
+}
+
+.icon {
+  flex-shrink: 0;
+  color: rgba(148, 163, 184, 0.7);
+}
+
+.meta {
+  font-size: 0.78rem;
+  color: rgba(203, 213, 225, 0.7);
+}
+
+.inlineLink {
+  align-self: flex-start;
+  padding: 0;
+  border: 0;
+  background: transparent;
+  color: var(--color-primary);
+  font-size: var(--text-xs);
+  font-weight: 600;
+  cursor: pointer;
+}
+
+.inlineLink:hover {
+  text-decoration: underline;
+}
+
+.inlineLink:focus-visible {
+  outline: 2px solid var(--color-focus-ring);
+  outline-offset: 2px;
+  border-radius: var(--radius-sm);
+}
+
+.badge {
+  font-size: 0.65rem;
+  font-weight: 500;
+  padding: 1px 5px;
+  border-radius: 4px;
+  background: rgba(99, 102, 241, 0.2);
+  color: rgba(167, 139, 250, 0.9);
+  margin-left: 4px;
+}
+
+.popover mark {
+  background: rgba(79, 70, 229, 0.24);
+  color: rgba(248, 250, 255, 0.95);
+  border-radius: 4px;
+  padding: 0 2px;
+}
+
+.state {
+  font-size: 0.85rem;
+  color: rgba(203, 213, 225, 0.8);
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  min-height: 40px;
+}
+
+.stateError {
+  color: #b91c1c;
+  flex-direction: column;
+  align-items: flex-start;
+}
+
+/* ─────────────────────────────────────────────────────────────
+   Light Mode Overrides
+   ───────────────────────────────────────────────────────────── */
+
+:global(body.light) .popover {
+  background: var(--color-popover);
+  border: 1px solid var(--color-border);
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.1);
+}
+
+:global(body.light) .itemActive {
+  background: color-mix(in srgb, var(--color-primary) 10%, transparent);
+}
+
+:global(body.light) .primary {
+  color: var(--color-foreground);
+}
+
+:global(body.light) .icon {
+  color: var(--color-muted-foreground);
+}
+
+:global(body.light) .meta {
+  color: var(--color-muted-foreground);
+}
+
+:global(body.light) .inlineLink {
+  color: var(--color-primary);
+}
+
+:global(body.light) .popover mark {
+  background: color-mix(in srgb, var(--color-primary) 15%, transparent);
+  color: var(--color-foreground);
+}
+
+:global(body.light) .state {
+  color: var(--color-foreground);
+}
+
+:global(body.light) .stateError {
+  color: var(--color-destructive);
+}
+
+:global(body.light) .badge {
+  background: color-mix(in srgb, var(--color-primary) 12%, transparent);
+  color: var(--color-primary);
+}
+
+:global(body.light) .filterTab {
+  border-color: rgba(0, 0, 0, 0.1);
+  color: var(--color-muted-foreground);
+}
+
+:global(body.light) .filterTab:hover:not(.filterTabDisabled) {
+  border-color: rgba(0, 0, 0, 0.2);
+  color: var(--color-foreground);
+}
+
+:global(body.light) .filterTabActive {
+  background: color-mix(in srgb, var(--color-primary) 10%, transparent);
+  border-color: color-mix(in srgb, var(--color-primary) 30%, transparent);
+  color: var(--color-foreground);
+}
+
+:global(body.light) .filterTabDisabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}

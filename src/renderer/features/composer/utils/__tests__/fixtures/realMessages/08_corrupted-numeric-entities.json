@@ -1,0 +1,7 @@
+{
+  "name": "08_corrupted-numeric-entities",
+  "description": "All three numeric / raw-character NBSP forms in one fixture: decimal '&#160;', hex '&#xA0;', and the literal U+00A0 codepoint ('\\u00a0'). Each must sanitise to a regular space. Exercises full H9 NBSP-family regex coverage.",
+  "input": "foo&#160;bar\n\nbaz&#xA0;qux\n\nalpha\u00a0beta",
+  "expectedSanitised": "foo bar\n\nbaz qux\n\nalpha beta",
+  "expectedDocShape": ""
+}

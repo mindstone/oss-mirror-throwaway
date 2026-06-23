@@ -1,0 +1,30 @@
+# Reach the Conversations list screen and confirm it renders the seeded
+# conversation.
+#
+# Entry: there is no `rebel://conversation` deep link (the navigation parser
+# maps it to nothing on mobile). The Conversations list is the 3rd bottom tab.
+# The tab buttons have no stable testID, so we tap the "Conversations" label by
+# text. The deterministic cloud is seeded with one conversation ("Seed
+# conversation for Maestro") via /__e2e/seed/conversation, so the list is
+# non-empty.
+#
+# Run: maestro test mobile/.maestro/conversations.yaml
+appId: com.mindstone.rebel.mobile
+---
+- launchApp
+- extendedWaitUntil:
+    visible:
+      id: "home-screen"
+    timeout: 30000
+# Switch to the Conversations tab.
+- tapOn:
+    text: "Conversations"
+- extendedWaitUntil:
+    visible:
+      id: "conversations-screen"
+    timeout: 15000
+# The seeded conversation means the list (not the empty state) renders.
+- extendedWaitUntil:
+    visible:
+      id: "conversations-list"
+    timeout: 15000

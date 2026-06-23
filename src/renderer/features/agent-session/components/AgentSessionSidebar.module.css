@@ -1,0 +1,2048 @@
+.sidebar {
+  display: flex;
+  flex-direction: column;
+  padding: 12px 20px 28px;
+  gap: 0;
+  /* Remove background - parent glass panel handles this */
+  background: transparent;
+  border: none;
+  border-radius: 0;
+  overflow: hidden;
+  min-height: 0;
+  height: 100%;
+}
+
+.searchBox {
+  padding: 0;
+}
+
+::global(.flow-column--sessions) .searchBox {
+  padding-bottom: 12px;
+  margin-bottom: 6px;
+}
+
+.searchDivider {
+  height: 1px;
+  background: linear-gradient(90deg, rgba(148, 163, 184, 0.0), rgba(148, 163, 184, 0.28), rgba(148, 163, 184, 0.0));
+  margin: 16px 0 6px;
+  border: none;
+}
+
+/* In the sessions sidebar (flow mode), tighten spacing and keep divider visible */
+::global(.flow-column--sessions) .searchDivider {
+  margin: 8px 0 0;
+  background: linear-gradient(90deg, rgba(148, 163, 184, 0.0), rgba(148, 163, 184, 0.35), rgba(148, 163, 184, 0.0));
+}
+
+.searchHeader {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  width: 100%;
+}
+
+.searchControls {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  flex-wrap: wrap;
+  width: 100%;
+}
+
+.searchInputWrapper {
+  position: relative;
+  display: flex;
+  align-items: center;
+  background: rgba(22, 28, 42, 0.6);
+  border-radius: 8px;
+  border: 1px solid rgba(148, 163, 184, 0.28);
+  box-shadow: 0 14px 28px rgba(2, 6, 23, 0.22);
+  padding: 0 10px 0 34px;
+  flex: 1;
+  min-width: 0;
+}
+
+.searchInputWrapper:focus-within {
+  box-shadow: 0 0 0 2px rgba(99, 102, 241, 0.15), 0 14px 28px rgba(2, 6, 23, 0.22);
+  border-color: rgba(99, 102, 241, 0.35);
+}
+
+.searchIcon {
+  position: absolute;
+  left: 10px;
+  color: rgba(203, 213, 225, 0.82);
+  pointer-events: none;
+  width: 14px;
+  height: 14px;
+}
+
+.searchInput {
+  width: 100%;
+  padding: 5px 0 !important;
+  border: none !important;
+  background: transparent !important;
+  font-size: 0.82rem;
+  color: rgba(248, 250, 255, 0.95);
+  height: 28px;
+  box-shadow: none !important;
+}
+
+.searchInput:focus {
+  outline: none;
+  border-color: transparent !important;
+  box-shadow: none !important;
+}
+
+.searchInput::placeholder {
+  color: rgba(203, 213, 225, 0.7);
+}
+
+.searchClear {
+  position: absolute;
+  right: 8px;
+  width: 18px;
+  height: 18px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border: none;
+  background: rgba(148, 163, 184, 0.2);
+  color: rgba(203, 213, 225, 0.85);
+  border-radius: 50%;
+  cursor: pointer;
+  font-size: 0.75rem;
+  transition: background 0.2s ease;
+  padding: 0;
+}
+
+.searchClear:hover {
+  background: rgba(148, 163, 184, 0.25);
+}
+
+.recencyFilter {
+  flex-shrink: 0;
+  padding: 6px 8px;
+  font-size: 0.74rem;
+  color: rgba(203, 213, 225, 0.85);
+  background-color: rgba(13, 17, 28, 0.9);
+  border: 1px solid rgba(148, 163, 184, 0.28);
+  border-radius: 8px;
+  cursor: pointer;
+  transition: border-color 0.2s ease, box-shadow 0.2s ease;
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  appearance: none;
+  background-image: url("data:image/svg+xml;charset=UTF-8,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 12 12'%3E%3Cpath d='M3 4.5L6 7.5L9 4.5' fill='none' stroke='%23CBD5E1' stroke-width='1.5' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E");
+  background-repeat: no-repeat;
+  background-position: right 8px center;
+  background-size: 12px 12px;
+  padding-right: 24px;
+}
+
+.recencyFilter:hover {
+  border-color: rgba(148, 163, 184, 0.45);
+}
+
+.recencyFilter:focus {
+  outline: none;
+  border-color: rgba(99, 102, 241, 0.45);
+  box-shadow: 0 0 0 2px rgba(99, 102, 241, 0.2);
+}
+
+.recencyFilter option {
+  background: rgba(13, 17, 28, 0.98);
+  color: rgba(248, 250, 255, 0.95);
+}
+
+:global(body.light) .recencyFilter {
+  color: var(--color-foreground);
+  background-color: var(--color-background);
+  border-color: var(--color-border);
+  background-image: url("data:image/svg+xml;charset=UTF-8,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 12 12'%3E%3Cpath d='M3 4.5L6 7.5L9 4.5' fill='none' stroke='%2364748B' stroke-width='1.5' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E");
+}
+
+:global(body.light) .recencyFilter:hover {
+  border-color: var(--color-border-hover);
+}
+
+:global(body.light) .recencyFilter:focus {
+  border-color: var(--color-primary);
+  box-shadow: 0 0 0 2px rgba(99, 102, 241, 0.15);
+}
+
+:global(body.light) .recencyFilter option {
+  background: var(--color-background);
+  color: var(--color-foreground);
+}
+
+.searchCount {
+  margin-top: 6px;
+  font-size: 0.74rem;
+  color: rgba(99, 102, 241, 0.75);
+  font-weight: 500;
+  padding-left: 4px;
+}
+
+.findSimilarHeader {
+  display: flex;
+  flex-direction: column;
+  align-items: stretch;
+  gap: var(--space-1, 4px);
+  padding: var(--space-2, 8px) var(--space-3, 12px);
+}
+
+.findSimilarBackLink {
+  display: flex;
+  align-items: center;
+  gap: var(--space-1, 4px);
+  align-self: flex-start;
+  font-size: 0.75rem;
+  color: rgba(203, 213, 225, 0.7);
+  background: none;
+  border: none;
+  cursor: pointer;
+  padding: var(--space-1, 4px) var(--space-2, 8px);
+  border-radius: var(--radius-sm, 6px);
+  transition: color var(--motion-duration-fast, 0.15s) ease;
+}
+
+.findSimilarBackLink:hover {
+  color: rgba(248, 250, 255, 0.95);
+}
+
+.findSimilarLabel {
+  min-width: 0;
+  padding: 0 var(--space-2, 8px);
+  font-size: 0.7rem;
+  font-weight: 500;
+  color: rgba(203, 213, 225, 0.7);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.backToSearchLink {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  margin-top: 8px;
+  padding: 4px 8px;
+  font-size: 0.74rem;
+  color: rgba(99, 102, 241, 0.8);
+  background: transparent;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  transition: background 0.15s ease, color 0.15s ease;
+}
+
+.backToSearchLink:hover {
+  background: rgba(99, 102, 241, 0.1);
+  color: rgba(99, 102, 241, 1);
+}
+
+/* Active filter chips */
+.activeFilters {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+  margin-top: 10px;
+}
+
+.filterChip {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  padding: 5px 8px 5px 10px;
+  font-size: 0.74rem;
+  font-weight: 500;
+  color: rgba(167, 139, 250, 0.95);
+  background: rgba(99, 102, 241, 0.14);
+  border: 1px solid rgba(99, 102, 241, 0.25);
+  border-radius: 999px;
+  cursor: pointer;
+  transition: background 0.15s ease, border-color 0.15s ease;
+}
+
+.filterChip:hover {
+  background: rgba(99, 102, 241, 0.2);
+  border-color: rgba(99, 102, 241, 0.35);
+}
+
+.filterChipClose {
+  opacity: 0.6;
+  transition: opacity 0.15s ease;
+}
+
+.filterChip:hover .filterChipClose {
+  opacity: 1;
+}
+
+:global(body.light) .activeFilters {
+  /* Same layout, colors adapt via CSS variables */
+}
+
+:global(body.light) .filterChip {
+  color: var(--color-primary);
+  background: color-mix(in srgb, var(--color-primary) 10%, transparent);
+  border-color: color-mix(in srgb, var(--color-primary) 20%, transparent);
+}
+
+:global(body.light) .filterChip:hover {
+  background: color-mix(in srgb, var(--color-primary) 15%, transparent);
+  border-color: color-mix(in srgb, var(--color-primary) 30%, transparent);
+}
+
+.filterToggle {
+  margin-top: 0;
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  border-radius: 999px;
+  background: rgba(99, 102, 241, 0.16);
+  padding: 2px;
+  flex-shrink: 0;
+}
+
+.filterButton {
+  border: none;
+  border-radius: 999px;
+  width: 28px;
+  height: 28px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 0.72rem;
+  font-weight: 600;
+  color: rgba(226, 232, 240, 0.8);
+  background: transparent;
+  cursor: pointer;
+  transition: background 0.15s ease, color 0.15s ease, box-shadow 0.15s ease;
+}
+
+.filterButtonActive {
+  background: rgba(255, 255, 255, 0.12);
+  box-shadow: 0 2px 8px rgba(2, 6, 23, 0.5);
+  color: #a78bfa;
+}
+
+.filterButtonIcon {
+  width: 14px;
+  height: 14px;
+}
+
+.filterButtonIconWrapper {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.filterButtonIndicator {
+  position: absolute;
+  top: -2px;
+  right: -2px;
+  width: 8px;
+  height: 8px;
+  border-radius: 999px;
+  background: #34d399;
+  box-shadow: 0 0 0 0 rgba(52, 211, 153, 0.7);
+  animation: filterButtonIndicatorPulse 2s ease-out infinite;
+}
+
+@keyframes filterButtonIndicatorPulse {
+  0% {
+    box-shadow: 0 0 0 0 rgba(52, 211, 153, 0.35);
+    opacity: 1;
+  }
+  70% {
+    box-shadow: 0 0 0 8px rgba(52, 211, 153, 0);
+    opacity: 0.85;
+  }
+  100% {
+    box-shadow: 0 0 0 0 rgba(52, 211, 153, 0);
+    opacity: 0.7;
+  }
+}
+
+.sidebarBody {
+  flex: 1;
+  position: relative;
+  padding: 0 12px 0;
+  display: flex;
+  flex-direction: column;
+  gap: 0;
+  min-height: 0;
+  overflow: visible;
+  margin-top: 0;
+}
+
+.sidebarListContainer {
+  flex: 1;
+  min-height: 0;
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  padding-top: 0;
+  padding-right: 6px; /* gap between scrollbar and cards */
+  margin-top: 24px; /* extra gap so first hovered card doesn't overlap search shadow */
+  overflow-y: auto;
+  overflow-x: hidden;
+  scrollbar-width: thin;
+  scrollbar-color: transparent transparent;
+}
+
+/* Custom scrollbar for session list - macOS-like thin, hidden by default */
+.sidebarListContainer::-webkit-scrollbar {
+  width: 8px;
+  background: transparent;
+}
+
+.sidebarListContainer::-webkit-scrollbar-track {
+  background: transparent;
+  margin: 4px 0;
+}
+
+.sidebarListContainer::-webkit-scrollbar-thumb {
+  background: transparent;
+  border-radius: 999px;
+  border: 2px solid transparent;
+  background-clip: padding-box;
+  transition: background 0.2s ease;
+}
+
+/* Reveal scrollbar when sidebar is hovered or has focus within */
+.sidebar:hover .sidebarListContainer,
+.sidebar:focus-within .sidebarListContainer {
+  scrollbar-color: rgba(148, 163, 184, 0.15) transparent;
+}
+
+.sidebar:hover .sidebarListContainer::-webkit-scrollbar-thumb,
+.sidebar:focus-within .sidebarListContainer::-webkit-scrollbar-thumb {
+  background: rgba(148, 163, 184, 0.15);
+  border: 2px solid transparent;
+  background-clip: padding-box;
+}
+
+.sidebarListContainer::-webkit-scrollbar-thumb:hover {
+  background: rgba(148, 163, 184, 0.3);
+  border: 2px solid transparent;
+  background-clip: padding-box;
+}
+
+.sidebarListContainer :global(.scroll-fade-top),
+.sidebarListContainer :global(.scroll-fade-bottom) {
+  position: absolute;
+  left: 0;
+  right: 0;
+  height: 16px;
+  pointer-events: none;
+  z-index: 1;
+}
+
+.sidebarListContainer :global(.scroll-fade-top) {
+  top: 0;
+}
+
+.sidebarListContainer :global(.scroll-fade-bottom) {
+  bottom: 0;
+}
+
+.searchResults {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  min-height: 0;
+  padding-bottom: 12px;
+}
+
+.searchEmpty {
+  padding: 32px 16px;
+  text-align: center;
+  color: rgba(203, 213, 225, 0.7);
+}
+
+.searchEmpty p {
+  margin: 0 0 8px;
+  font-size: 0.92rem;
+}
+
+.searchEmptyHint {
+  font-size: 0.8rem;
+  color: rgba(203, 213, 225, 0.65);
+}
+
+/* F2: muted qualifier under "Search all messages" showing the active time window, so a
+   user doesn't conclude "I searched everything and it's not there" when the scan was
+   actually limited to the selected window. */
+.deepSearchScopeNote {
+  display: block;
+  margin: 4px 0 0;
+  font-size: 0.72rem;
+  color: rgba(203, 213, 225, 0.55);
+}
+:global(body.light) .deepSearchScopeNote {
+  color: var(--color-muted-foreground);
+}
+
+/* F4: backend-unavailable (error) state icon — muted, not alarming. Distinct from the
+   ⚠️ corrupted-conversation signal; pairs with text so colour is never the sole cue. */
+.searchStatusIcon {
+  color: rgba(203, 213, 225, 0.55);
+  margin: 0 auto 10px;
+  display: block;
+}
+:global(body.light) .searchStatusIcon {
+  color: var(--color-muted-foreground);
+}
+
+/* Semantic search UI elements */
+.semanticSearchingIndicator {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 12px;
+  padding: 16px;
+  color: rgba(203, 213, 225, 0.7);
+  font-size: 0.85rem;
+}
+
+.semanticSpinner {
+  width: 24px;
+  height: 24px;
+  color: rgba(99, 102, 241, 0.7);
+  animation: sidebar-inline-spin 1s linear infinite;
+}
+
+.semanticSearchingRow {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  padding: 12px 16px;
+  font-size: 0.78rem;
+  color: rgba(203, 213, 225, 0.72);
+  margin-top: 8px;
+}
+
+.semanticSpinnerSmall {
+  width: 14px;
+  height: 14px;
+  color: rgba(99, 102, 241, 0.7);
+  animation: sidebar-inline-spin 1s linear infinite;
+}
+
+.semanticDivider {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  padding: 14px 8px 6px;
+  font-size: 0.72rem;
+  font-weight: 500;
+  letter-spacing: 0.02em;
+  color: rgba(99, 102, 241, 0.75);
+  text-transform: uppercase;
+}
+
+.semanticDividerIcon {
+  color: rgba(99, 102, 241, 0.6);
+}
+
+/* Deep search UI */
+.deepSearchButton {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  margin-top: 12px;
+  padding: 10px 16px;
+  font-size: 0.82rem;
+  font-weight: 500;
+  color: rgba(99, 102, 241, 0.95);
+  background: rgba(99, 102, 241, 0.12);
+  border: 1px solid rgba(99, 102, 241, 0.25);
+  border-radius: 8px;
+  cursor: pointer;
+  transition: background 0.15s ease, border-color 0.15s ease, transform 0.15s ease;
+}
+
+.deepSearchButton:hover {
+  background: rgba(99, 102, 241, 0.18);
+  border-color: rgba(99, 102, 241, 0.35);
+  transform: translateY(-1px);
+}
+
+.deepSearchButton:active {
+  transform: translateY(0);
+}
+
+.deepSearchRow {
+  display: flex;
+  justify-content: center;
+  padding: 12px 8px;
+  margin-top: 8px;
+}
+
+.deepSearchButtonInline {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  padding: 6px 12px;
+  font-size: 0.74rem;
+  font-weight: 500;
+  color: rgba(99, 102, 241, 0.85);
+  background: rgba(99, 102, 241, 0.08);
+  border: 1px solid rgba(99, 102, 241, 0.18);
+  border-radius: 6px;
+  cursor: pointer;
+  transition: background 0.15s ease, border-color 0.15s ease;
+}
+
+.deepSearchButtonInline:hover {
+  background: rgba(99, 102, 241, 0.14);
+  border-color: rgba(99, 102, 241, 0.28);
+}
+
+:global(body.light) .deepSearchButton {
+  color: var(--color-primary);
+  background: color-mix(in srgb, var(--color-primary) 10%, transparent);
+  border-color: color-mix(in srgb, var(--color-primary) 20%, transparent);
+}
+
+:global(body.light) .deepSearchButton:hover {
+  background: color-mix(in srgb, var(--color-primary) 15%, transparent);
+  border-color: color-mix(in srgb, var(--color-primary) 30%, transparent);
+}
+
+:global(body.light) .deepSearchButtonInline {
+  color: var(--color-primary);
+  background: color-mix(in srgb, var(--color-primary) 6%, transparent);
+  border-color: color-mix(in srgb, var(--color-primary) 15%, transparent);
+}
+
+:global(body.light) .deepSearchButtonInline:hover {
+  background: color-mix(in srgb, var(--color-primary) 10%, transparent);
+  border-color: color-mix(in srgb, var(--color-primary) 25%, transparent);
+}
+
+.searchFooter {
+  padding: 8px 16px;
+  font-size: 0.75rem;
+  color: rgba(203, 213, 225, 0.6);
+  text-align: center;
+  border-top: 1px solid rgba(148, 163, 184, 0.18);
+  background: rgba(255, 255, 255, 0.06);
+  margin-top: 8px;
+}
+
+.sidebarList {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 0;
+  overflow-y: auto;
+  overflow-x: hidden;
+  min-height: 0;
+}
+
+/* When sidebarList is inside a sectioned container, don't scroll independently */
+.sidebarListContainer[data-sectioned="true"] .sidebarList {
+  flex: none;
+  overflow: visible;
+  min-height: auto;
+}
+
+/* ─── Virtualized session list ──────────────────────────────────────────────── */
+/* Uses the parent sidebarListContainer as the scroll element (no nested scroll) */
+
+.virtualizedList {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  position: relative;
+  width: 100%;
+}
+
+.virtualizedItem {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  box-sizing: border-box;
+}
+
+.sidebarList > .listItem {
+  margin-top: 8px;
+}
+
+.sidebarList > .listItem:first-child,
+.sidebarList > .pinnedDivider + .listItem {
+  margin-top: 0;
+}
+
+.folderChildDropZone {
+  position: relative;
+  padding-left: 16px;
+}
+
+.folderChildDropZone::before,
+.folderChildDropZone::after {
+  pointer-events: none;
+}
+
+.folderChildDropZoneActive::before {
+  content: '';
+  position: absolute;
+  top: -5px;
+  left: 18px;
+  right: 8px;
+  height: 2px;
+  border-radius: 999px;
+  background: rgba(167, 139, 250, 0.75);
+  box-shadow: 0 0 14px rgba(99, 102, 241, 0.45);
+  z-index: 4;
+}
+
+.folderChildDropZoneActive::after {
+  content: attr(data-drop-label);
+  position: absolute;
+  top: -14px;
+  right: 12px;
+  z-index: 6;
+  padding: 3px 8px;
+  border-radius: 999px;
+  max-width: min(180px, calc(100% - 36px));
+  font-size: 0.64rem;
+  font-weight: 600;
+  letter-spacing: 0.01em;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  color: rgba(248, 250, 255, 0.96);
+  background: rgba(99, 102, 241, 0.78);
+  box-shadow: 0 8px 18px rgba(2, 6, 23, 0.38);
+}
+
+.sidebarList > .folderChildDropZone {
+  margin-top: 8px;
+}
+
+.sidebarList > .folderChildDropZone:first-child {
+  margin-top: 0;
+}
+
+.listItem {
+  list-style: none;
+  display: flex;
+  align-items: stretch;
+  gap: 8px;
+  position: relative;
+  z-index: 0;
+}
+
+.listItem:hover,
+.listItem:focus-within {
+  z-index: 2;
+}
+
+.sidebarEntry {
+  flex: 1 1 auto;
+  border: none;
+  border-radius: 14px;
+  padding: 14px 18px;
+  display: grid;
+  grid-template-columns: 1fr auto;
+  gap: 18px;
+  align-items: start;
+  background: color-mix(in srgb, var(--color-card) 18%, transparent);
+  box-shadow: inset 0 0 0 1px color-mix(in srgb, var(--color-border) 14%, transparent);
+  cursor: pointer;
+  transition:
+    background var(--motion-duration-fast) var(--motion-ease-out),
+    box-shadow var(--motion-duration-fast) var(--motion-ease-out);
+  text-align: left;
+  position: relative;
+  min-width: 0;
+  max-width: 100%;
+  /* Isolate layout to prevent tooltip autoUpdate from causing jiggle */
+  contain: layout style;
+}
+
+
+.listItem:hover .sidebarEntry,
+.listItem:focus-within .sidebarEntry {
+  background: color-mix(in srgb, var(--color-primary) 10%, var(--color-card) 18%);
+  box-shadow: inset 0 0 0 1px color-mix(in srgb, var(--color-primary) 18%, transparent);
+  z-index: 3; /* ensure hovered card appears above search/drop shadows */
+}
+
+.listItem:hover .entrySelected,
+.listItem:focus-within .entrySelected,
+.listItem:hover .entryActive,
+.listItem:focus-within .entryActive {
+  box-shadow: inset 0 0 0 1px color-mix(in srgb, var(--color-primary) 30%, transparent);
+}
+
+.sidebarEntry:hover {
+  background: color-mix(in srgb, var(--color-primary) 10%, var(--color-card) 18%);
+  box-shadow: inset 0 0 0 1px color-mix(in srgb, var(--color-primary) 18%, transparent);
+  z-index: 3; /* ensure hovered card stays above surrounding UI */
+}
+
+.sidebarEntry:focus-visible {
+  outline: 2px solid rgba(79, 70, 229, 0.6);
+  outline-offset: 2px;
+}
+
+.entrySelected,
+.entryActive {
+  background: color-mix(in srgb, var(--color-primary) 15%, var(--color-card) 28%);
+  box-shadow: inset 0 0 0 1px color-mix(in srgb, var(--color-primary) 26%, transparent);
+}
+
+.entryCorrupted {
+  opacity: 0.5;
+  cursor: not-allowed;
+  background: rgba(30, 41, 59, 0.4);
+}
+
+.entryCorrupted:hover {
+  background: rgba(30, 41, 59, 0.5);
+  box-shadow: inset 0 0 0 1px rgba(148, 163, 184, 0.2);
+}
+
+.entryCorrupted .entryTitle {
+  font-style: italic;
+  color: rgba(148, 163, 184, 0.8);
+}
+
+.entryCorrupted .entryPreview {
+  color: rgba(148, 163, 184, 0.7);
+}
+
+/* NOTE: .entryResolved styling removed - sessions are auto-resolved when turns
+   complete, but users have no way to control this state, so visual distinction
+   was confusing. If we add user-controllable archiving in the future, restore this. */
+
+.unreadDot {
+  display: inline-block;
+  width: 7px;
+  height: 7px;
+  border-radius: 50%;
+  background: rgba(99, 102, 241, 0.85);
+  flex-shrink: 0;
+}
+
+
+.entryMain {
+  display: flex;
+  flex-direction: column;
+  gap: 0px; /* tighter title–subtitle spacing */
+  min-width: 0;
+}
+
+.entryMainWithIcon .entryMeta {
+  /* Subtitle starts aligned with the icon's left edge (no extra padding) */
+  padding-left: 0;
+}
+
+/* Done conversations shown in a folder's collapsed "Done (N)" subsection are
+   muted to read as quietly finished — never disabled. Opacity is applied to the
+   inner title/preview block ONLY (not the row container) so row height — and
+   therefore the virtualizer's scroll math — is unaffected. Hover/focus restores
+   full opacity for legibility. */
+.entryMutedDone {
+  opacity: 0.62;
+  transition: opacity 0.15s ease;
+}
+
+.listItem:hover .entryMutedDone,
+.listItem:focus-within .entryMutedDone {
+  opacity: 1;
+}
+
+/* Light mode needs a touch more contrast to stay legible at rest (AA). */
+:global(body.light) .entryMutedDone {
+  opacity: 0.7;
+}
+
+:global(body.light) .listItem:hover .entryMutedDone,
+:global(body.light) .listItem:focus-within .entryMutedDone {
+  opacity: 1;
+}
+
+/* Wrapper for the Done(N) subheader row — matches the spacing of folder
+   children so it tucks neatly beneath the active conversations. */
+.doneSubheaderRow {
+  position: relative;
+}
+
+/* Direct-child selector only matches the non-virtualized plain-list path (and
+   Storybook). In the virtualized path the wrapper sits inside .virtualizedItem,
+   where the virtualizer's own 8px row gap already provides equivalent spacing,
+   so this rule intentionally no-ops there. */
+.sidebarList > .doneSubheaderRow {
+  margin-top: 8px;
+}
+
+.entryTitleRow {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  min-width: 0;
+}
+
+.entryMeta {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  flex-wrap: wrap;
+}
+
+.entryTitle {
+  font-size: 0.88rem;
+  font-weight: 600;
+  color: rgba(248, 250, 255, 0.95);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.titleEditInput {
+  font-size: 0.88rem;
+  font-weight: 600;
+  color: rgba(248, 250, 255, 0.95);
+  background: rgba(2, 6, 23, 0.6);
+  border: 1px solid rgba(99, 102, 241, 0.5);
+  border-radius: 6px;
+  padding: 2px 6px;
+  margin: -2px -6px;
+  width: calc(100% + 12px);
+  outline: none;
+  box-shadow: 0 0 0 2px rgba(99, 102, 241, 0.25);
+}
+
+.titleEditInput:focus {
+  border-color: rgba(99, 102, 241, 0.7);
+  box-shadow: 0 0 0 2px rgba(99, 102, 241, 0.35);
+}
+
+.inlineIcon {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 16px;
+  height: 16px;
+  color: rgba(203, 213, 225, 0.9);
+  flex-shrink: 0;
+}
+
+.inlineIconSvg {
+  display: block;
+  width: 14px;
+  height: 14px;
+}
+
+.inlineSpinner {
+  display: inline-block;
+  width: 14px;
+  height: 14px;
+  border-radius: 999px;
+  border: 2px solid rgba(203, 213, 225, 0.35);
+  border-top-color: rgba(203, 213, 225, 0.9);
+  animation: sidebar-inline-spin 800ms linear infinite;
+  flex-shrink: 0;
+}
+
+@keyframes sidebar-inline-spin {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+/* Respect reduced-motion: the spinner's meaning is carried by adjacent text (the F4
+   "Getting search ready…" / "Searching…" copy), so degrading to a static glyph loses
+   nothing. */
+@media (prefers-reduced-motion: reduce) {
+  .semanticSpinner,
+  .semanticSpinnerSmall {
+    animation: none;
+  }
+}
+
+/* Category badge for Rebel-generated (background) conversations — automations,
+   use-case discovery, etc. See sessionKindBadgeLabel(). */
+.kindBadge {
+  display: block;
+  width: fit-content;
+  margin-bottom: 2px;
+  padding: 1px 5px;
+  border-radius: var(--radius-xs, 4px);
+  background: rgba(139, 92, 246, 0.15);
+  color: rgba(167, 139, 250, 0.9);
+  font-size: 0.58rem;
+  font-weight: 500;
+  text-transform: uppercase;
+  letter-spacing: 0.03em;
+}
+
+.roleBadge {
+  display: block;
+  width: fit-content;
+  margin-bottom: 2px;
+  padding: 1px 5px;
+  border-radius: var(--radius-xs, 4px);
+  background: rgba(79, 70, 229, 0.15);
+  color: rgba(129, 120, 246, 0.9);
+  font-size: 0.58rem;
+  font-weight: 500;
+  text-transform: uppercase;
+  letter-spacing: 0.03em;
+}
+
+.archivedBadge {
+  display: inline-flex;
+  align-items: center;
+  margin-left: 6px;
+  padding: 2px 6px;
+  border-radius: 999px;
+  background: rgba(148, 163, 184, 0.16);
+  color: rgba(148, 163, 184, 0.8);
+  font-size: 0.58rem;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+}
+
+.entryPreview {
+  font-size: 0.76rem;
+  color: rgba(203, 213, 225, 0.7);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.entryMetadata {
+  display: block;
+  font-size: 0.74rem;
+  color: rgba(203, 213, 225, 0.7);
+  margin-top: 1px;
+}
+
+.entryTimeGroup {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  gap: 2px;
+  padding-top: 3px;
+}
+
+/* When the time-saved pill is present (without recommends chip),
+   add bottom padding for the absolutely-positioned pill */
+.sidebarEntry:has(.entryTimeSavedPill):not(:has(.recommendsChip)) {
+  padding-bottom: 30px;
+}
+
+/* When recommends chip is present, stretch both columns to equal
+   height so the pill can align on the same row via margin-top:auto */
+.sidebarEntry:has(.recommendsChip) {
+  align-items: stretch;
+}
+
+/* When a kind/role badge is present, offset the time group down
+   so time stays aligned with the title (not the badge above it) */
+.sidebarEntry:has(.kindBadge) .entryTimeGroup,
+.sidebarEntry:has(.roleBadge) .entryTimeGroup {
+  padding-top: 20px;
+}
+
+.entryCost {
+  font-size: 0.68rem;
+  color: rgba(203, 213, 225, 0.62);
+}
+
+.entryTimeSavedPill {
+  position: absolute;
+  bottom: 8px;
+  right: 20px;
+  font-size: 0.6rem;
+  line-height: 1;
+  color: rgba(167, 139, 250, 0.85);
+  background: rgba(167, 139, 250, 0.1);
+  padding: 3px 7px;
+  border-radius: 4px;
+  white-space: nowrap;
+}
+
+/* When recommends chip is present, pill returns to normal flow
+   and pushes to the bottom of the stretched time group column */
+.sidebarEntry:has(.recommendsChip) .entryTimeSavedPill {
+  position: static;
+  margin-top: auto;
+}
+
+.entryTime {
+  font-size: 0.7rem;
+  color: rgba(203, 213, 225, 0.65);
+  transition: opacity 0.18s ease;
+}
+
+.entryMessageCount {
+  display: inline-flex;
+  align-items: center;
+  gap: 3px;
+  font-size: 0.68rem;
+  color: rgba(203, 213, 225, 0.4);
+  transition: opacity 0.18s ease;
+}
+
+.messageCountIcon {
+  flex-shrink: 0;
+}
+
+/* When hovering an individual item (while sidebar is hovered), 
+   hide the time group to make room for action buttons */
+.sidebar:hover .listItem:hover .entryTimeGroup,
+.sidebar:focus-within .listItem:hover .entryTimeGroup,
+.sidebar:hover .listItem:focus-within .entryTimeGroup,
+.sidebar:focus-within .listItem:focus-within .entryTimeGroup {
+  opacity: 0;
+}
+
+.status {
+  width: 12px;
+  height: 12px;
+  border-radius: 999px;
+  box-shadow: 0 0 0 3px rgba(255, 255, 255, 0.48);
+  position: relative;
+}
+
+.statusIdle {
+  background: rgba(148, 163, 184, 0.76);
+}
+
+.statusReady {
+  background: #10b981;
+  box-shadow: 0 0 0 3px rgba(16, 185, 129, 0.18);
+}
+
+.statusThinking {
+  background: #3b82f6;
+  box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.28);
+  animation: sidebar-status-pulse 1.8s ease-in-out infinite;
+}
+
+@keyframes sidebar-status-pulse {
+  0%,
+  100% {
+    transform: scale(1);
+    box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.28);
+  }
+  50% {
+    transform: scale(1.1);
+    box-shadow: 0 0 0 6px rgba(59, 130, 246, 0.12);
+  }
+}
+
+.actions {
+  position: absolute;
+  top: 50%;
+  right: 10px;
+  display: inline-flex;
+  flex-direction: row;
+  align-items: center;
+  gap: 2px;
+  opacity: 0;
+  transform: translateY(-50%) scale(0.96);
+  transition: opacity 0.18s ease, transform 0.18s ease;
+  pointer-events: none;
+  z-index: 5; /* above hovered card */
+  position: absolute;
+  isolation: isolate; /* allow layering the gradient behind icons */
+}
+
+.listItem:hover .actions,
+.listItem:focus-within .actions {
+  opacity: 1;
+  transform: translateY(-50%) scale(1);
+  pointer-events: auto;
+}
+
+.actions::before {
+  content: '';
+  position: absolute;
+  right: -6px;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 110px;
+  height: 32px;
+  border-radius: 12px;
+  background: linear-gradient(
+    90deg,
+    rgba(2, 6, 23, 0) 0%,
+    rgba(2, 6, 23, 0.35) 55%,
+    rgba(2, 6, 23, 0.65) 100%
+  );
+  filter: drop-shadow(0 6px 18px rgba(2, 6, 23, 0.55));
+  pointer-events: none;
+  z-index: 0;
+}
+
+.actionButton {
+  width: 24px;
+  height: 24px;
+  min-width: 24px;
+  border: none;
+  border-radius: 6px;
+  background: transparent;
+  color: rgba(226, 232, 240, 0.92); /* neutral light for dark card */
+  opacity: 1;
+  transition: color 0.18s ease, background 0.18s ease, transform 0.18s ease, opacity 0.18s ease;
+  z-index: 1; /* above gradient */
+}
+
+.actionIcon {
+  width: 16px;
+  height: 16px;
+  pointer-events: none; /* ensure the button receives the click */
+}
+
+.listItem:hover .actionButton,
+.listItem:focus-within .actionButton {
+  transform: translateY(-2px);
+}
+
+.actionButton:hover {
+  background: rgba(99, 102, 241, 0.12);
+  transform: translateY(-2px) scale(1.02);
+  color: rgba(241, 245, 249, 1); /* slightly brighter */
+}
+
+.actionButton:disabled {
+  opacity: 0.4;
+  cursor: default;
+  transform: none;
+}
+
+/* Lightweight custom tooltip for action buttons (hover/focus) */
+.actionButton[data-tooltip] {
+  position: relative;
+}
+
+.actionButton[data-tooltip]::after {
+  content: attr(data-tooltip);
+  position: absolute;
+  bottom: calc(100% + 8px);
+  right: 50%;
+  transform: translateX(50%) translateY(-4px);
+  background: rgba(2, 6, 23, 0.92);
+  color: rgba(248, 250, 255, 0.96);
+  border: 1px solid rgba(148, 163, 184, 0.35);
+  box-shadow: 0 10px 18px rgba(2, 6, 23, 0.45);
+  padding: 6px 8px;
+  font-size: 11px;
+  line-height: 1;
+  border-radius: 6px;
+  white-space: nowrap;
+  opacity: 0;
+  pointer-events: none;
+  z-index: 3;
+  transition: opacity 0.12s ease, transform 0.12s ease;
+  transition-delay: 0s; /* no delay when hiding */
+}
+
+.actionButton[data-tooltip]::before {
+  content: '';
+  position: absolute;
+  bottom: calc(100% + 3px);
+  right: 50%;
+  transform: translateX(50%) rotate(45deg);
+  width: 8px;
+  height: 8px;
+  background: rgba(2, 6, 23, 0.92);
+  border-left: 1px solid rgba(148, 163, 184, 0.35);
+  border-top: 1px solid rgba(148, 163, 184, 0.35);
+  opacity: 0;
+  z-index: 3;
+  transition: opacity 0.12s ease;
+  transition-delay: 0s; /* no delay when hiding */
+}
+
+.actionButton[data-tooltip]:hover::after,
+.actionButton[data-tooltip]:focus-visible::after,
+.actionButton[data-tooltip]:hover::before,
+.actionButton[data-tooltip]:focus-visible::before {
+  opacity: 1;
+  transform: translateX(50%) translateY(0);
+  transition-delay: 500ms; /* show after ~0.5s like native tooltips */
+}
+
+/* Neutralize any per-action colors (icons inherit neutral color) */
+.resolveButton,
+.resolveButton[data-state='resolved'],
+.deleteButton,
+.pinButton,
+.pinButton[data-state='pinned'],
+.renameButton {
+  color: inherit;
+  background: transparent;
+  border: none;
+}
+
+/* Distinguish pinned vs unpinned using icon styling */
+.pinButton[data-state='unpinned'] .actionIcon {
+  fill: none;
+  stroke: currentColor;
+}
+
+.pinButton[data-state='pinned'] .actionIcon {
+  fill: currentColor;
+  stroke: currentColor;
+  stroke-width: 2.5;
+  transform: rotate(-16deg) translateY(-1px);
+}
+
+.corruptedIcon {
+  display: inline-block;
+  font-style: normal;
+  margin-right: 2px;
+}
+
+/* Meeting companion badge - small boxed icon indicating a live meeting session */
+.meetingCompanionBadge {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 18px;
+  height: 18px;
+  margin-right: 5px;
+  border-radius: var(--radius-xs, 4px);
+  background: rgba(148, 163, 184, 0.25);
+  color: rgba(226, 232, 240, 0.9);
+  flex-shrink: 0;
+  vertical-align: text-bottom;
+}
+
+:global(body.light) .meetingCompanionBadge {
+  background: rgba(100, 116, 139, 0.18);
+  color: rgba(51, 65, 85, 0.85);
+}
+
+/* "Rebel recommends" chip — shown when coaching or memory approval is available */
+.recommendsChip {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  margin-top: 8px;
+  padding: 2px 8px;
+  font-size: 0.66rem;
+  font-weight: 500;
+  line-height: 1.5;
+  letter-spacing: 0.01em;
+  color: rgb(165, 160, 255);
+  background: rgba(129, 120, 255, 0.18);
+  border-radius: 6px;
+  animation: recommendsChipIn 0.3s ease-out;
+  white-space: nowrap;
+}
+
+.recommendsChipIcon {
+  flex-shrink: 0;
+  opacity: 0.9;
+}
+
+@keyframes recommendsChipIn {
+  from { opacity: 0; transform: translateY(4px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+:global(body.light) .recommendsChip {
+  color: rgb(67, 56, 202);
+  background: rgba(99, 102, 241, 0.13);
+}
+
+
+
+.pinnedDivider {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin: 4px 0;
+  padding: 0;
+}
+
+.pinnedHeader {
+  margin: 4px 2px 6px;
+  padding: 0 2px;
+  font-size: 0.72rem;
+  font-weight: 600;
+  letter-spacing: 0.02em;
+  color: rgba(203, 213, 225, 0.68);
+}
+
+.sidebarListContainer:has(.pinnedHeader) {
+  margin-top: 8px;
+}
+
+.pinnedDividerLine {
+  width: 100%;
+  height: 1px;
+  background: linear-gradient(
+    90deg,
+    rgba(148, 163, 184, 0.0),
+    rgba(148, 163, 184, 0.35),
+    rgba(148, 163, 184, 0.0)
+  );
+}
+
+:global(.flow-column--sessions) .sidebar {
+  flex: 1;
+  border: none;
+  border-radius: 0;
+  box-shadow: none;
+  padding: 16px 20px 16px;
+  gap: 0;
+  background: transparent;
+}
+
+:global(.flow-column--sessions) .sidebarBody {
+  padding: 0;
+  gap: 0;
+}
+
+::global(.flow-column--sessions) .sidebarListContainer :global(.scroll-fade-top),
+::global(.flow-column--sessions) .sidebarListContainer :global(.scroll-fade-bottom) {
+  height: 6px;
+}
+
+::global(.flow-column--sessions) .sidebarListContainer {
+  padding-top: 0;
+  margin-top: 12px;
+}
+
+/* Hide the top fade to avoid square dark corners over rounded cards */
+::global(.flow-column--sessions) .sidebarListContainer :global(.scroll-fade-top) {
+  display: none;
+  height: 0;
+}
+
+:global(.flow-column--sessions) .sidebarList {
+  gap: 0;
+}
+
+::global(.flow-column--sessions) .sidebarListContainer:has(.pinnedHeader) {
+  margin-top: 6px;
+}
+
+@keyframes panel-rise {
+  0% {
+    opacity: 0;
+    transform: translateY(32px);
+  }
+  100% {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+:global(.app-shell.visible) .sidebar {
+  animation: panel-rise 520ms var(--motion-ease-out) forwards;
+  opacity: 0;
+  animation-delay: 200ms;
+}
+
+/* ─── Drag-and-drop ───────────────────────────────────────────────────────── */
+
+.sessionDragging {
+  opacity: 0.4;
+  cursor: grabbing;
+}
+
+.sessionDragging .sidebarEntry {
+  box-shadow: none;
+  transform: none;
+}
+
+/* Delete animation - fade out + collapse */
+.sidebarList > .listItemDeleting,
+.sidebarList > .listItemDeleting:first-child {
+  overflow: hidden;
+  pointer-events: none;
+  animation: sessionCollapse 250ms ease-out forwards;
+}
+
+.listItemDeleting .sidebarEntry,
+.listItemDeleting .actions {
+  animation: sessionFadeOut 150ms ease-out forwards;
+}
+
+@keyframes sessionFadeOut {
+  from {
+    opacity: 1;
+    transform: scale(1) translateX(0);
+  }
+  to {
+    opacity: 0;
+    transform: scale(0.97) translateX(-12px);
+  }
+}
+
+@keyframes sessionCollapse {
+  0%, 30% {
+    max-height: 150px;
+    margin-top: 8px;
+  }
+  100% {
+    max-height: 0;
+    margin-top: 0;
+    padding: 0;
+    border: 0;
+  }
+}
+
+/* ─────────────────────────────────────────────────────────────
+   Light Mode Overrides
+   ───────────────────────────────────────────────────────────── */
+
+:global(body.light) .sidebar {
+  /* Transparent - parent glass panel handles background */
+  background: transparent;
+  border: none;
+}
+
+:global(body.light) .sidebar:hover .sidebarListContainer,
+:global(body.light) .sidebar:focus-within .sidebarListContainer {
+  scrollbar-color: rgba(148, 163, 184, 0.3) transparent;
+}
+
+:global(body.light) .sidebar:hover .sidebarListContainer::-webkit-scrollbar-thumb,
+:global(body.light) .sidebar:focus-within .sidebarListContainer::-webkit-scrollbar-thumb {
+  background: rgba(100, 116, 139, 0.15);
+  border: 2px solid transparent;
+  background-clip: padding-box;
+}
+
+:global(body.light) .sidebarListContainer::-webkit-scrollbar-thumb:hover {
+  background: rgba(100, 116, 139, 0.3);
+  border: 2px solid transparent;
+  background-clip: padding-box;
+}
+
+:global(body.light) .searchInputWrapper {
+  background: rgba(255, 255, 255, 0.65);
+  border: 1px solid rgba(148, 163, 184, 0.3);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.04);
+  backdrop-filter: blur(var(--glass-overlay-blur));
+}
+
+:global(body.light) .searchInputWrapper:focus-within {
+  box-shadow: 0 0 0 2px rgba(99, 102, 241, 0.12), 0 4px 12px rgba(0, 0, 0, 0.04);
+  border-color: rgba(99, 102, 241, 0.35);
+}
+
+:global(body.light) .searchIcon {
+  color: var(--color-muted-foreground);
+}
+
+:global(body.light) .searchInput {
+  color: var(--color-foreground);
+}
+
+:global(body.light) .searchInput::placeholder {
+  color: var(--color-muted-foreground);
+}
+
+:global(body.light) .searchClear {
+  background: var(--color-muted);
+  color: var(--color-muted-foreground);
+}
+
+:global(body.light) .searchClear:hover {
+  background: color-mix(in srgb, var(--color-muted) 80%, var(--color-foreground) 20%);
+}
+
+:global(body.light) .filterToggle {
+  background: rgba(139, 92, 246, 0.1);
+}
+
+:global(body.light) .filterButton {
+  color: var(--color-muted-foreground);
+}
+
+:global(body.light) .filterButtonActive {
+  background: var(--color-card);
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.08);
+  color: var(--color-primary);
+}
+
+:global(body.light) .sidebarEntry {
+  background: color-mix(in srgb, var(--color-card) 42%, transparent);
+  box-shadow: inset 0 0 0 1px color-mix(in srgb, var(--color-border) 18%, transparent);
+}
+
+:global(body.light) .folderChildDropZoneActive::before {
+  background: rgba(109, 40, 217, 0.62);
+  box-shadow: 0 0 12px rgba(139, 92, 246, 0.22);
+}
+
+:global(body.light) .folderChildDropZoneActive::after {
+  color: var(--color-primary);
+  background: color-mix(in srgb, var(--color-primary) 12%, white);
+  box-shadow: 0 6px 16px rgba(15, 23, 42, 0.12);
+}
+
+:global(body.light) .listItem:hover .sidebarEntry,
+:global(body.light) .listItem:focus-within .sidebarEntry,
+:global(body.light) .sidebarEntry:hover {
+  background: color-mix(in srgb, var(--color-primary) 8%, var(--color-card) 58%);
+  box-shadow: inset 0 0 0 1px color-mix(in srgb, var(--color-primary) 18%, transparent);
+}
+
+:global(body.light) .entrySelected,
+:global(body.light) .entryActive {
+  background: color-mix(in srgb, var(--color-primary) 13%, var(--color-card) 64%);
+  box-shadow: inset 0 0 0 1px color-mix(in srgb, var(--color-primary) 26%, transparent);
+}
+
+:global(body.light) .unreadDot {
+  background: rgba(99, 102, 241, 0.75);
+}
+
+:global(body.light) .listItem:hover .entrySelected,
+:global(body.light) .listItem:focus-within .entrySelected,
+:global(body.light) .listItem:hover .entryActive,
+:global(body.light) .listItem:focus-within .entryActive {
+  box-shadow: inset 0 0 0 1px color-mix(in srgb, var(--color-primary) 32%, transparent);
+}
+
+:global(body.light) .entryTitle {
+  color: var(--color-foreground);
+}
+
+:global(body.light) .entryPreview {
+  color: var(--color-muted-foreground);
+}
+
+:global(body.light) .entryMetadata {
+  color: var(--color-muted-foreground);
+}
+
+:global(body.light) .entryTime {
+  color: var(--color-muted-foreground);
+}
+
+:global(body.light) .entryMessageCount {
+  color: var(--color-muted-foreground);
+  opacity: 0.5;
+}
+
+:global(body.light) .entryCost {
+  color: var(--color-muted-foreground);
+}
+
+:global(body.light) .entryTimeSavedPill {
+  color: rgba(109, 40, 217, 0.7);
+  background: rgba(139, 92, 246, 0.08);
+}
+
+:global(body.light) .inlineIcon {
+  color: var(--color-muted-foreground);
+}
+
+:global(body.light) .actions::before {
+  background: linear-gradient(
+    90deg,
+    rgba(255, 255, 255, 0) 0%,
+    rgba(255, 255, 255, 0.7) 55%,
+    rgba(255, 255, 255, 0.95) 100%
+  );
+  filter: none;
+}
+
+:global(body.light) .actionButton {
+  color: var(--color-muted-foreground);
+}
+
+:global(body.light) .actionButton:hover {
+  color: var(--color-primary);
+}
+
+:global(body.light) .actionButton[data-tooltip]::after {
+  background: var(--color-popover);
+  color: var(--color-foreground);
+  border: 1px solid var(--color-border);
+  box-shadow: 0 6px 16px rgba(0, 0, 0, 0.1);
+}
+
+:global(body.light) .actionButton[data-tooltip]::before {
+  background: var(--color-popover);
+  border-left: 1px solid var(--color-border);
+  border-top: 1px solid var(--color-border);
+}
+
+:global(body.light) .searchEmpty {
+  color: var(--color-muted-foreground);
+}
+
+:global(body.light) .searchEmptyHint {
+  color: var(--color-muted-foreground);
+}
+
+:global(body.light) .pinnedHeader {
+  color: var(--color-muted-foreground);
+}
+
+:global(body.light) .searchCount {
+  color: var(--color-primary);
+}
+
+:global(body.light) .findSimilarBackLink,
+:global(body.light) .findSimilarLabel {
+  color: rgba(100, 116, 139, 0.7);
+}
+
+:global(body.light) .findSimilarBackLink:hover {
+  color: var(--color-foreground);
+}
+
+:global(body.light) .backToSearchLink {
+  color: var(--color-primary);
+}
+
+:global(body.light) .backToSearchLink:hover {
+  background: rgba(99, 102, 241, 0.08);
+}
+
+:global(body.light) .searchDivider,
+:global(body.light) .pinnedDividerLine {
+  background: linear-gradient(90deg, rgba(148, 163, 184, 0.0), rgba(148, 163, 184, 0.3), rgba(148, 163, 184, 0.0));
+}
+
+:global(body.light) ::global(.flow-column--sessions) .searchBox {
+  border-bottom: 1px solid rgba(148, 163, 184, 0.2);
+}
+
+/* Trash section actions container */
+.trashActions {
+  display: flex;
+  justify-content: flex-end;
+  padding: 4px 12px 8px;
+}
+
+/* Empty trash button */
+.emptyTrashButton {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  font-size: 0.68rem;
+  font-weight: 500;
+  text-transform: none;
+  letter-spacing: normal;
+  color: rgba(239, 68, 68, 0.85);
+  background: rgba(239, 68, 68, 0.08);
+  border: 1px solid rgba(239, 68, 68, 0.2);
+  cursor: pointer;
+  padding: 2px 8px 2px 6px;
+  border-radius: 4px;
+  transition: color 0.15s ease, background 0.15s ease, border-color 0.15s ease;
+}
+
+.emptyTrashButton:hover {
+  color: rgba(239, 68, 68, 1);
+  background: rgba(239, 68, 68, 0.15);
+  border-color: rgba(239, 68, 68, 0.35);
+}
+
+.emptyTrashButton:focus-visible {
+  outline: 2px solid rgba(239, 68, 68, 0.5);
+  outline-offset: 2px;
+}
+
+/* Restore button styling */
+.restoreButton {
+  color: rgba(74, 222, 128, 0.85);
+}
+
+.restoreButton:hover {
+  color: rgba(74, 222, 128, 1);
+}
+
+:global(body.light) .emptyTrashButton {
+  color: rgba(220, 38, 38, 0.85);
+  background: rgba(220, 38, 38, 0.06);
+  border-color: rgba(220, 38, 38, 0.15);
+}
+
+:global(body.light) .emptyTrashButton:hover {
+  color: rgba(220, 38, 38, 1);
+  background: rgba(220, 38, 38, 0.12);
+  border-color: rgba(220, 38, 38, 0.3);
+}
+
+:global(body.light) .restoreButton {
+  color: var(--color-primary);
+}
+
+:global(body.light) .restoreButton:hover {
+  color: var(--color-primary);
+}
+
+/* Semantic search light mode overrides */
+:global(body.light) .semanticSearchingIndicator {
+  color: var(--color-muted-foreground);
+}
+
+:global(body.light) .semanticSpinner,
+:global(body.light) .semanticSpinnerSmall {
+  color: var(--color-primary);
+}
+
+:global(body.light) .semanticSearchingRow {
+  color: var(--color-muted-foreground);
+}
+
+:global(body.light) .semanticDivider {
+  color: var(--color-primary);
+}
+
+:global(body.light) .semanticDividerIcon {
+  color: var(--color-primary);
+  opacity: 0.7;
+}
+
+/* ─── Filter bar (All | Active | Archived | ★) ──────────────────────────────── */
+
+.filterBar {
+  padding: 4px 0;
+  flex-shrink: 0;
+}
+
+/* When the filter bar is present, tighten the gap to the session list */
+.filterBar + .sidebarListContainer {
+  margin-top: 8px;
+}
+
+.filterBarList {
+  width: 100%;
+  display: flex;
+  gap: 1px;
+  background: rgba(255, 255, 255, 0.05);
+  padding: 2px;
+  border-radius: 6px;
+}
+
+.filterBarTrigger {
+  flex: 1;
+  padding: 2px 6px;
+  font-size: 0.7rem;
+  font-weight: 400;
+  border-radius: 4px;
+  min-height: 22px;
+  gap: 0;
+  color: rgba(203, 213, 225, 0.6);
+  background: transparent;
+  box-shadow: none;
+  transition: color 0.15s ease, background 0.15s ease, box-shadow 0.15s ease;
+  letter-spacing: 0.01em;
+}
+
+.filterBarTrigger:hover {
+  color: rgba(203, 213, 225, 0.85);
+}
+
+/* Active filter tab — iOS segmented control style */
+.filterBarTrigger:global([data-state="active"]) {
+  color: rgba(248, 250, 255, 0.9);
+  background: rgba(255, 255, 255, 0.09);
+  font-weight: 500;
+  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.18), 0 0 0 0.5px rgba(255, 255, 255, 0.05);
+}
+
+:global(body.light) .filterBarList {
+  background: rgba(0, 0, 0, 0.04);
+}
+
+:global(body.light) .filterBarTrigger {
+  color: rgba(100, 116, 139, 0.6);
+}
+
+:global(body.light) .filterBarTrigger:hover {
+  color: rgba(100, 116, 139, 0.9);
+}
+
+:global(body.light) .filterBarTrigger:global([data-state="active"]) {
+  color: var(--color-foreground);
+  background: rgba(255, 255, 255, 0.8);
+  font-weight: 500;
+  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.06), 0 0 0 0.5px rgba(0, 0, 0, 0.03);
+}
+
+/* ─── New folder affordance ───────────────────────────────────────────────────── */
+
+.newFolderButton {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  width: 100%;
+  padding: 8px 12px;
+  margin-top: 4px;
+  font-size: 0.72rem;
+  font-weight: 500;
+  color: rgba(148, 163, 184, 0.5);
+  background: transparent;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+  transition: color 0.15s ease, background 0.15s ease;
+}
+
+.newFolderButton:hover {
+  color: rgba(167, 139, 250, 0.85);
+  background: rgba(99, 102, 241, 0.06);
+}
+
+.newFolderInputRow {
+  padding: 4px 4px 2px;
+}
+
+.folderNameDuplicateWarning {
+  margin: 4px 2px 0;
+  font-size: 0.68rem;
+  line-height: 1.25;
+  color: rgba(251, 191, 36, 0.85);
+}
+
+:global(body.light) .folderNameDuplicateWarning {
+  color: rgba(180, 83, 9, 0.9);
+}
+
+.newFolderInput {
+  width: 100%;
+  font-size: 0.76rem;
+  font-weight: 600;
+  color: rgba(248, 250, 255, 0.95);
+  background: rgba(2, 6, 23, 0.6);
+  border: 1px solid rgba(99, 102, 241, 0.5);
+  border-radius: 6px;
+  padding: 6px 10px;
+  outline: none;
+  box-shadow: 0 0 0 2px rgba(99, 102, 241, 0.25);
+}
+
+.newFolderInput:focus {
+  border-color: rgba(99, 102, 241, 0.7);
+  box-shadow: 0 0 0 2px rgba(99, 102, 241, 0.35);
+}
+
+.newFolderInput::placeholder {
+  color: rgba(203, 213, 225, 0.4);
+}
+
+:global(body.light) .newFolderButton {
+  color: rgba(100, 116, 139, 0.5);
+}
+
+:global(body.light) .newFolderButton:hover {
+  color: var(--color-primary);
+  background: color-mix(in srgb, var(--color-primary) 6%, transparent);
+}
+
+:global(body.light) .newFolderInput {
+  color: var(--color-foreground);
+  background: var(--color-background);
+  border-color: rgba(139, 92, 246, 0.4);
+  box-shadow: 0 0 0 2px rgba(139, 92, 246, 0.15);
+}
+
+:global(body.light) .newFolderInput:focus {
+  border-color: rgba(139, 92, 246, 0.6);
+  box-shadow: 0 0 0 2px rgba(139, 92, 246, 0.2);
+}
+
+:global(body.light) .newFolderInput::placeholder {
+  color: var(--color-muted-foreground);
+  opacity: 0.5;
+}
+
+/* ─── Starred divider ────────────────────────────────────────────────────────── */
+
+.listItem[data-last-starred="true"] {
+  border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+  padding-bottom: var(--space-2, 8px);
+  margin-bottom: var(--space-1, 4px);
+}
+
+:global(body.light) .listItem[data-last-starred="true"] {
+  border-bottom-color: rgba(0, 0, 0, 0.08);
+}
+
+/* ─── Trash footer link ──────────────────────────────────────────────────────── */
+
+.trashFooterLink {
+  display: flex;
+  align-items: center;
+  gap: var(--space-2, 8px);
+  padding: var(--space-2, 8px) var(--space-4, 16px);
+  font-size: 0.75rem;
+  color: rgba(203, 213, 225, 0.5);
+  background: none;
+  border: none;
+  border-top: 1px solid rgba(255, 255, 255, 0.06);
+  cursor: pointer;
+  transition: color var(--motion-duration-fast, 0.15s) ease;
+  width: 100%;
+  flex-shrink: 0;
+}
+
+.trashFooterLink:hover {
+  color: rgba(203, 213, 225, 0.8);
+}
+
+:global(body.light) .trashFooterLink {
+  color: rgba(100, 116, 139, 0.6);
+  border-top-color: rgba(0, 0, 0, 0.08);
+}
+
+:global(body.light) .trashFooterLink:hover {
+  color: rgba(100, 116, 139, 0.8);
+}
+
+/* ─── Trash header (back link + empty button) ────────────────────────────────── */
+
+.trashHeader {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: var(--space-2, 8px) var(--space-3, 12px);
+}
+
+.trashBackLink {
+  display: flex;
+  align-items: center;
+  gap: var(--space-1, 4px);
+  font-size: 0.75rem;
+  color: rgba(203, 213, 225, 0.7);
+  background: none;
+  border: none;
+  cursor: pointer;
+  padding: var(--space-1, 4px) var(--space-2, 8px);
+  border-radius: var(--radius-sm, 6px);
+  transition: color var(--motion-duration-fast, 0.15s) ease;
+}
+
+.trashBackLink:hover {
+  color: rgba(248, 250, 255, 0.95);
+}
+
+:global(body.light) .trashBackLink {
+  color: rgba(100, 116, 139, 0.7);
+}
+
+:global(body.light) .trashBackLink:hover {
+  color: var(--color-foreground);
+}

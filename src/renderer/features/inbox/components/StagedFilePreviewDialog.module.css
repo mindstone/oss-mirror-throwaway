@@ -1,0 +1,626 @@
+/* Staged File Preview Dialog */
+.dialog {
+  width: 90vw;
+  max-width: 1400px;
+  min-height: 600px;
+  max-height: 90vh;
+  display: flex;
+  flex-direction: column;
+}
+
+.headerRow {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+}
+
+.title {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.titleIcon {
+  color: #6366F1;
+  flex-shrink: 0;
+}
+
+.viewToggle {
+  display: flex;
+  gap: 4px;
+  padding: 2px;
+  border-radius: 6px;
+  background: rgba(148, 163, 184, 0.1);
+}
+
+.toggleButton {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  padding: 4px 10px;
+  border: none;
+  border-radius: 4px;
+  background: transparent;
+  color: var(--color-muted-foreground);
+  font-size: 0.8rem;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.15s ease;
+}
+
+.toggleButton:hover {
+  color: var(--color-foreground);
+  background: rgba(148, 163, 184, 0.15);
+}
+
+.toggleButton.active {
+  color: var(--color-foreground);
+  background: rgba(99, 102, 241, 0.2);
+}
+
+.description {
+  color: var(--color-muted-foreground);
+}
+
+.pathRow {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  margin-top: 4px;
+}
+
+.spaceName {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  padding: 2px 8px;
+  border-radius: 4px;
+  background: rgba(99, 102, 241, 0.15);
+  color: #a5b4fc;
+  font-size: 0.75rem;
+  font-weight: 500;
+  flex-shrink: 0;
+}
+
+.spaceIcon {
+  opacity: 0.7;
+}
+
+.pathDisplay {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
+  font-size: 0.75rem;
+  color: var(--color-muted-foreground);
+  opacity: 0.7;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  max-width: 100%;
+  padding: 2px 0;
+  background: none;
+  border: none;
+  cursor: help;
+}
+
+.infoIcon {
+  opacity: 0.5;
+  flex-shrink: 0;
+}
+
+.pathClickable {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  cursor: pointer;
+  transition: opacity 0.15s ease, color 0.15s ease;
+}
+
+.pathClickable:hover {
+  opacity: 1;
+  color: #6366F1;
+  text-decoration: underline;
+}
+
+.pathLinkIcon {
+  opacity: 0.5;
+  flex-shrink: 0;
+}
+
+.pathClickable:hover .pathLinkIcon {
+  opacity: 1;
+}
+
+.pathCopyButton {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 20px;
+  height: 20px;
+  padding: 0;
+  border: none;
+  border-radius: 4px;
+  background: transparent;
+  color: var(--color-muted-foreground);
+  opacity: 0.5;
+  cursor: pointer;
+  transition: all 0.15s ease;
+  flex-shrink: 0;
+}
+
+.pathCopyButton:hover {
+  opacity: 1;
+  background: rgba(99, 102, 241, 0.15);
+  color: #6366F1;
+}
+
+.body {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  flex: 1;
+  min-height: 0;
+  overflow: hidden;
+}
+
+.summary {
+  display: flex;
+  align-items: flex-start;
+  gap: 8px;
+  padding: 12px;
+  border-radius: 8px;
+  background: rgba(251, 191, 36, 0.1);
+  border: 1px solid rgba(251, 191, 36, 0.25);
+  font-size: 0.88rem;
+  line-height: 1.5;
+  color: rgba(248, 250, 255, 0.9);
+}
+
+.summaryIcon {
+  color: #F59E0B;
+  flex-shrink: 0;
+  margin-top: 2px;
+}
+
+.contentWrapper {
+  flex: 1;
+  min-height: 350px;
+  max-height: 55vh;
+  overflow: auto;
+  border-radius: 8px;
+  border: 1px solid rgba(148, 163, 184, 0.18);
+  background: rgba(30, 41, 59, 0.6);
+}
+
+.diffWrapper {
+  font-size: 13px;
+  min-height: 300px;
+}
+
+.diffWrapper table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+/* Ensure diff viewer fills the wrapper */
+.diffWrapper > div {
+  min-height: 300px;
+}
+
+.content {
+  padding: 16px;
+  font-size: 0.9rem;
+  line-height: 1.6;
+}
+
+.content h1,
+.content h2,
+.content h3,
+.content h4,
+.content h5,
+.content h6 {
+  margin-top: 1em;
+  margin-bottom: 0.5em;
+  font-weight: 600;
+  color: rgba(248, 250, 255, 0.95);
+}
+
+.content h1 { font-size: 1.5em; }
+.content h2 { font-size: 1.3em; }
+.content h3 { font-size: 1.1em; }
+
+.content p {
+  margin: 0.75em 0;
+}
+
+.content ul,
+.content ol {
+  margin: 0.75em 0;
+  padding-left: 1.5em;
+}
+
+.content li {
+  margin: 0.25em 0;
+}
+
+.content code {
+  padding: 0.2em 0.4em;
+  border-radius: 4px;
+  background: rgba(99, 102, 241, 0.15);
+  font-size: 0.9em;
+  font-family: ui-monospace, monospace;
+}
+
+.content pre {
+  margin: 1em 0;
+  padding: 12px;
+  border-radius: 6px;
+  background: rgba(15, 23, 42, 0.8);
+  overflow-x: auto;
+}
+
+.content pre code {
+  padding: 0;
+  background: transparent;
+}
+
+.content blockquote {
+  margin: 1em 0;
+  padding: 0.5em 1em;
+  border-left: 3px solid rgba(99, 102, 241, 0.5);
+  background: rgba(99, 102, 241, 0.05);
+  color: rgba(226, 232, 240, 0.8);
+}
+
+.content a {
+  color: #6366F1;
+  text-decoration: underline;
+}
+
+.content table {
+  width: 100%;
+  border-collapse: collapse;
+  margin: 1em 0;
+}
+
+.content th,
+.content td {
+  padding: 8px 12px;
+  border: 1px solid rgba(148, 163, 184, 0.2);
+  text-align: left;
+}
+
+.content th {
+  background: rgba(99, 102, 241, 0.1);
+  font-weight: 600;
+}
+
+.loading {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 12px;
+  height: 200px;
+  color: var(--color-muted-foreground);
+}
+
+.spinner {
+  animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+  from { transform: rotate(0deg); }
+  to { transform: rotate(360deg); }
+}
+
+.error {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 12px;
+  height: 200px;
+  text-align: center;
+  padding: 0 24px;
+  color: #EF4444;
+}
+
+.empty {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 200px;
+  color: var(--color-muted-foreground);
+}
+
+.meta {
+  display: inline-flex;
+  align-items: center;
+  cursor: help;
+}
+
+.sharingBadge {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  padding: 4px 10px;
+  border-radius: 12px;
+  font-size: 0.75rem;
+  font-weight: 500;
+}
+
+.sharingBadge[data-sharing="private"] {
+  background: rgba(99, 102, 241, 0.15);
+  color: #a5b4fc;
+}
+
+.sharingBadge[data-sharing="shared"] {
+  background: rgba(251, 191, 36, 0.15);
+  color: #fcd34d;
+}
+
+.sharingBadge[data-sharing="unknown"] {
+  background: rgba(148, 163, 184, 0.15);
+  color: var(--color-muted-foreground);
+}
+
+.footer {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 8px;
+}
+
+.footerLeft {
+  display: flex;
+  gap: 8px;
+}
+
+.footerRight {
+  display: flex;
+  gap: 8px;
+}
+
+/* ─────────────────────────────────────────────────────────────
+   Conversational Approval Instructions Section
+   ───────────────────────────────────────────────────────────── */
+
+.instructionSection {
+  margin-top: 6px;
+  padding: 0 24px 12px;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.instructionDivider {
+  display: flex;
+  align-items: center;
+  color: var(--color-muted-foreground);
+  font-size: 0.76rem;
+  font-weight: 500;
+  margin-bottom: 2px;
+}
+
+.instructionDivider::before,
+.instructionDivider::after {
+  content: none;
+}
+
+.instructionInput {
+  display: flex;
+  gap: 8px;
+  align-items: flex-start;
+}
+
+.instructionTextarea {
+  flex: 1;
+  min-height: 42px;
+  resize: vertical;
+  font-size: 0.85rem;
+}
+
+.sendButton {
+  flex-shrink: 0;
+  height: 36px;
+  width: 36px;
+  padding: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.instructionError {
+  color: #EF4444;
+  font-size: 0.8rem;
+  padding: 4px 0;
+}
+
+.instructionHint {
+  color: var(--color-muted-foreground);
+  font-size: 0.75rem;
+  opacity: 0.7;
+}
+
+/* ─────────────────────────────────────────────────────────────
+   Conflict Resolution Banner
+   ───────────────────────────────────────────────────────────── */
+
+.conflictBanner {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 12px 16px;
+  border-radius: 8px;
+  background: rgba(239, 68, 68, 0.1);
+  border: 1px solid rgba(239, 68, 68, 0.3);
+  font-size: 0.9rem;
+  color: #fca5a5;
+}
+
+.conflictIcon {
+  color: #EF4444;
+  flex-shrink: 0;
+}
+
+/* New file indicator banner */
+.newFileBanner {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 12px 16px;
+  border-radius: 8px;
+  background: color-mix(in srgb, var(--color-surface-elevated) 62%, transparent);
+  border: 1px solid color-mix(in srgb, var(--color-border) 72%, transparent);
+  font-size: 0.9rem;
+  color: var(--color-text-secondary);
+}
+
+.newFileIcon {
+  color: var(--color-text-secondary);
+  flex-shrink: 0;
+}
+
+/* Scrollbar styling - macOS-like thin */
+.contentWrapper::-webkit-scrollbar {
+  width: 8px;
+  background: transparent;
+}
+
+.contentWrapper::-webkit-scrollbar-track {
+  background: transparent;
+  margin: 4px 0;
+}
+
+.contentWrapper::-webkit-scrollbar-thumb {
+  background: rgba(148, 163, 184, 0.15);
+  border-radius: 999px;
+  border: 2px solid transparent;
+  background-clip: padding-box;
+}
+
+.contentWrapper::-webkit-scrollbar-thumb:hover {
+  background: rgba(148, 163, 184, 0.3);
+  border: 2px solid transparent;
+  background-clip: padding-box;
+}
+
+/* ─────────────────────────────────────────────────────────────
+   Light Mode Overrides
+   ───────────────────────────────────────────────────────────── */
+
+:global(body.light) .titleIcon {
+  color: #4F46E5;
+}
+
+:global(body.light) .viewToggle {
+  background: rgba(148, 163, 184, 0.08);
+}
+
+:global(body.light) .toggleButton:hover {
+  background: rgba(148, 163, 184, 0.12);
+}
+
+:global(body.light) .toggleButton.active {
+  background: rgba(79, 70, 229, 0.15);
+}
+
+:global(body.light) .summary {
+  background: rgba(251, 191, 36, 0.08);
+  border-color: rgba(217, 119, 6, 0.25);
+  color: var(--color-foreground);
+}
+
+:global(body.light) .summaryIcon {
+  color: #D97706;
+}
+
+:global(body.light) .newFileBanner {
+  background: color-mix(in srgb, var(--color-surface-elevated) 72%, transparent);
+  border-color: var(--color-border);
+  color: var(--color-text-secondary);
+}
+
+:global(body.light) .newFileIcon {
+  color: var(--color-text-secondary);
+}
+
+:global(body.light) .contentWrapper {
+  border-color: var(--color-border);
+  background: rgba(255, 255, 255, 0.8);
+}
+
+:global(body.light) .content h1,
+:global(body.light) .content h2,
+:global(body.light) .content h3,
+:global(body.light) .content h4,
+:global(body.light) .content h5,
+:global(body.light) .content h6 {
+  color: var(--color-foreground);
+}
+
+:global(body.light) .content code {
+  background: rgba(79, 70, 229, 0.1);
+}
+
+:global(body.light) .content pre {
+  background: rgba(241, 245, 249, 0.8);
+}
+
+:global(body.light) .content blockquote {
+  border-left-color: rgba(79, 70, 229, 0.5);
+  background: rgba(79, 70, 229, 0.05);
+  color: var(--color-muted-foreground);
+}
+
+:global(body.light) .content a {
+  color: #4F46E5;
+}
+
+:global(body.light) .content th {
+  background: rgba(79, 70, 229, 0.08);
+}
+
+:global(body.light) .content th,
+:global(body.light) .content td {
+  border-color: var(--color-border);
+}
+
+:global(body.light) .sharingBadge[data-sharing="private"] {
+  background: rgba(79, 70, 229, 0.12);
+  color: #4338ca;
+}
+
+:global(body.light) .sharingBadge[data-sharing="shared"] {
+  background: rgba(217, 119, 6, 0.12);
+  color: #b45309;
+}
+
+:global(body.light) .spaceName {
+  background: rgba(79, 70, 229, 0.12);
+  color: #4338ca;
+}
+
+:global(body.light) .pathClickable:hover {
+  color: #4F46E5;
+}
+
+:global(body.light) .pathCopyButton:hover {
+  background: rgba(79, 70, 229, 0.12);
+  color: #4F46E5;
+}
+
+:global(body.light) .contentWrapper::-webkit-scrollbar-thumb {
+  background: rgba(100, 116, 139, 0.15);
+  border: 2px solid transparent;
+  background-clip: padding-box;
+}
+
+:global(body.light) .contentWrapper::-webkit-scrollbar-thumb:hover {
+  background: rgba(100, 116, 139, 0.3);
+  border: 2px solid transparent;
+  background-clip: padding-box;
+}

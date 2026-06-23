@@ -1,0 +1,66 @@
+apply plugin: 'com.android.library'
+apply plugin: 'kotlin-android'
+
+group = 'expo.modules.moonshineStt'
+version = '0.1.0'
+
+buildscript {
+  def expoModulesCorePlugin = new File(project(":expo-modules-core").projectDir.absolutePath, "ExpoModulesCorePlugin.gradle")
+  if (expoModulesCorePlugin.exists()) {
+    apply from: expoModulesCorePlugin
+    applyKotlinExpoModulesCorePlugin()
+  }
+}
+
+def safeExtGet(prop, fallback) {
+  rootProject.ext.has(prop) ? rootProject.ext.get(prop) : fallback
+}
+
+android {
+  namespace "expo.modules.moonshineStt"
+  compileSdkVersion safeExtGet("compileSdkVersion", 35)
+
+  defaultConfig {
+    minSdkVersion safeExtGet("minSdkVersion", 24)
+    targetSdkVersion safeExtGet("targetSdkVersion", 35)
+  }
+
+  compileOptions {
+    sourceCompatibility JavaVersion.VERSION_17
+    targetCompatibility JavaVersion.VERSION_17
+  }
+
+  kotlinOptions {
+    jvmTarget = '17'
+  }
+}
+
+repositories {
+  mavenCentral()
+}
+
+// Check if the Moonshine SDK can be resolved from Maven Central.
+// EAS builds may not have access to Maven Central (cache proxy miss).
+def moonshineAvailable = false
+try {
+  def result = configurations.detachedConfiguration(
+    project.dependencies.create('ai.moonshine:moonshine-voice:0.0.52')
+  )
+  result.resolve()
+  moonshineAvailable = true
+  logger.lifecycle("MoonshineStt: moonshine-voice SDK found")
+} catch (Exception e) {
+  logger.warn("MoonshineStt: moonshine-voice SDK not available (${e.message}), STT will use cloud fallback")
+}
+
+dependencies {
+  implementation project(':expo-modules-core')
+  implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:${safeExtGet('kotlinVersion', '1.9.24')}"
+
+  // MoonshineVoice Android SDK — only added if resolvable from Maven Central.
+  // All SDK access uses reflection (MoonshineSttModule.kt) so the module compiles
+  // and runs regardless. When absent, isAvailable() returns false.
+  if (moonshineAvailable) {
+    implementation 'ai.moonshine:moonshine-voice:0.0.52'
+  }
+}

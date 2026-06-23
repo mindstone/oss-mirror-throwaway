@@ -1,0 +1,80 @@
+/**
+ * CommunityWhisper - Minimal inline teaser
+ *
+ * Unobtrusive but alive single-line community teaser.
+ */
+
+.whisper {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  width: 100%;
+  padding: 12px 16px;
+  font-size: 0.8rem;
+  color: rgba(148, 163, 184, 0.7);
+  background: transparent;
+  border: none;
+  border-top: 1px solid rgba(148, 163, 184, 0.1);
+  border-bottom: 1px solid rgba(148, 163, 184, 0.1);
+  text-align: left;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.whisper:hover {
+  color: rgba(203, 213, 225, 0.9);
+  background: rgba(255, 255, 255, 0.02);
+}
+
+.whisper:focus-visible {
+  outline: 2px solid rgba(99, 179, 237, 0.6);
+  outline-offset: 2px;
+}
+
+.whisperLabel {
+  color: rgba(139, 92, 246, 0.7);
+  font-weight: 500;
+  flex-shrink: 0;
+}
+
+.whisperTitle {
+  flex: 1;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  font-style: italic;
+}
+
+.whisperMeta {
+  display: flex;
+  align-items: center;
+  gap: 3px;
+  flex-shrink: 0;
+  opacity: 0.6;
+}
+
+.whisperArrow {
+  flex-shrink: 0;
+  opacity: 0.4;
+  transition: transform 0.2s ease, opacity 0.2s ease;
+}
+
+.whisper:hover .whisperArrow {
+  transform: translateX(2px);
+  opacity: 0.7;
+}
+
+/* Light mode */
+:global(body.light) .whisper {
+  color: var(--color-muted-foreground);
+  border-color: rgba(148, 163, 184, 0.15);
+}
+
+:global(body.light) .whisper:hover {
+  color: var(--color-foreground);
+  background: rgba(0, 0, 0, 0.02);
+}
+
+:global(body.light) .whisperLabel {
+  color: rgba(139, 92, 246, 0.8);
+}

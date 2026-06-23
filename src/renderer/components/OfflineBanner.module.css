@@ -1,0 +1,42 @@
+.banner {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  z-index: var(--z-toast);
+  background: var(--color-note);
+  color: var(--color-note-foreground);
+  padding: 8px 16px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+  /* CRITICAL: Allow clicks to pass through to UI elements below.
+   * The banner is informational only (status indicator), not interactive.
+   * Without this, the banner blocks clicks on flow tabs, buttons, and other
+   * UI elements when navigator.onLine returns false (unreliable in Electron/CI).
+   * See: docs/plans/finished/260125_e2e_ci_failures_fix.md */
+  pointer-events: none;
+}
+
+/* Dark mode: use a more subdued amber background for better visual comfort */
+:global(.dark) .banner {
+  background: #78350f;
+  color: #fef3c7;
+}
+
+.content {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  max-width: 1200px;
+  margin: 0 auto;
+  font-size: 13px;
+}
+
+.icon {
+  flex-shrink: 0;
+  opacity: 0.8;
+}
+
+.text {
+  flex: 1;
+  min-width: 0;
+}

@@ -1,0 +1,7 @@
+[
+  "ws",
+  "tar",
+  "@sentry/node",
+  "expo-server-sdk",
+  "graceful-fs"
+]

@@ -1,0 +1,16 @@
+{
+  "_comment": "Hostile LLM-response fixture for the end-to-end render smoke (Stage 3, rec 0b4878d6 / 260607_make_beta_summaries_reliable_and_human). Every banned class (ticket/issue ID, stage/phase ref, follow-up ref, commit-style prefix, engineering jargon, file path, SCREAMING_SNAKE code constant) is salted into both `area` and `change` across all three buckets, with one clean user-facing bullet per bucket. The pipeline (parseLlmResponseDetailed -> renderMarkdown / renderSlackPayload) MUST drop every hostile bullet and render only the clean copy. If a future render path reintroduces unfiltered text, the smoke fails.",
+  "what_youll_see": [
+    { "area": "Conflict-copy cleanup (REBEL-62A)", "change": "Stage 2 refinement preserves the overlay.", "source_indices": [0] },
+    { "area": "Settings", "change": "USER_MESSAGE_MAX_CHARS was raised so long requests are not truncated.", "source_indices": [0] },
+    { "area": "Connectors", "change": "Setup now explains itself when it needs attention.", "source_indices": [0] }
+  ],
+  "what_we_fixed": [
+    { "area": "Recovery resolver", "change": "feat(safety): idempotent retry path is now parity-checked.", "source_indices": [0] },
+    { "area": "Sync", "change": "Files that failed to upload now retry quietly in the background.", "source_indices": [0] }
+  ],
+  "worth_a_look": [
+    { "area": "Phase 7 follow-up (cleanup)", "change": "see post-beta-summary.ts for the rollout detail.", "source_indices": [0] },
+    { "area": "Search", "change": "Results feel snappier during longer sessions.", "source_indices": [0] }
+  ]
+}

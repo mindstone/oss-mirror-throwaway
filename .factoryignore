@@ -1,0 +1,14 @@
+# Factory CLI / Droid: paths to exclude from AI agent context.
+#
+# `mirror/patches/` contains OSS public-mirror substitution artifacts used by
+# `mirror/transform.ts` at mirror-CI time. Internal-dev agents must NOT read
+# these as if they were canonical — canonical files live on `dev` outside this
+# path.
+#
+# Reading substitution material as canonical would cause an agent to:
+#   - Generate OSS-shaped output for internal-facing work
+#   - Lose internal-team context from the real AGENTS.md / README.md / CHANGELOG.md
+#   - Misinterpret patch-diff text as source-of-truth content
+#
+# See: mirror/AGENTS.md
+mirror/patches/**

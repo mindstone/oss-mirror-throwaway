@@ -1,0 +1,41 @@
+#!/usr/bin/env bash
+# Sentry Autopilot pre-push hook.
+#
+# Installed via per-worktree core.hooksPath inside each autopilot slot. Refuses
+# pushes that target main, dev, or any branch outside refs/heads/autopilot/*.
+# Chains to the superproject husky pre-push if present (so secret-scanning
+# and ratchet checks still run on autopilot/* pushes).
+#
+# Plan reference: docs/plans/260515_autopilot_deferred_items.md → Stage D
+# (pre-push hook + autopilot branch convention). The v2.2 revision history
+# explicitly calls out the `REPO_ROOT="$(git rev-parse --show-toplevel)"`
+# requirement: without that explicit resolution, the husky chain reference
+# silently never fires because `[[ -x "$REPO_ROOT/.husky/pre-push" ]]` would
+# expand to `[[ -x /.husky/pre-push ]]` and always evaluate false, bypassing
+# secret-scanning + ratchet checks.
+
+set -euo pipefail
+
+REPO_ROOT="$(git rev-parse --show-toplevel)"
+
+allowed_re='^refs/heads/autopilot/[A-Za-z0-9._-]+$'
+while IFS=' ' read -r local_ref local_sha remote_ref remote_sha; do
+  if [[ -z "$remote_ref" ]]; then continue; fi
+  if [[ "$remote_ref" == "refs/heads/main" ]]; then
+    echo "autopilot pre-push: refused — pushes to main are forbidden from autopilot worktrees" >&2
+    exit 1
+  fi
+  if [[ "$remote_ref" == "refs/heads/dev" ]]; then
+    echo "autopilot pre-push: refused — pushes to dev are forbidden from autopilot worktrees (use an autopilot/* branch)" >&2
+    exit 1
+  fi
+  if ! [[ "$remote_ref" =~ $allowed_re ]]; then
+    echo "autopilot pre-push: refused — only refs/heads/autopilot/* may be pushed (got $remote_ref)" >&2
+    exit 1
+  fi
+done
+
+# Chain to husky pre-push if present (secret-scanning, ratchet checks).
+if [[ -x "$REPO_ROOT/.husky/pre-push" ]]; then
+  exec "$REPO_ROOT/.husky/pre-push" "$@"
+fi

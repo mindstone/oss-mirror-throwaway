@@ -1,0 +1,231 @@
+.visually-hidden {
+  position: absolute !important;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border: 0;
+}
+
+.glass-panel {
+  background: var(--color-surface-glass);
+  backdrop-filter: blur(var(--glass-panel-blur, 24px));
+  box-shadow: var(--shadow-medium);
+}
+
+.text-gradient-brand {
+  background: linear-gradient(120deg, var(--color-brand-indigo), var(--color-brand-blue));
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+.focus-ring {
+  outline: 2px solid var(--color-brand-indigo);
+  outline-offset: 3px;
+}
+
+.scroll-fade-top,
+.scroll-fade-bottom {
+  position: sticky;
+  height: 12px;
+  pointer-events: none;
+  z-index: 1;
+}
+
+.scroll-fade-top {
+  top: 0;
+  background: linear-gradient(180deg, color-mix(in srgb, var(--color-background) 75%, transparent), transparent);
+}
+
+.scroll-fade-bottom {
+  bottom: 0;
+  background: linear-gradient(0deg, color-mix(in srgb, var(--color-background) 80%, transparent), transparent);
+}
+
+.empty-state {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 12px;
+  /* Stretch to full width so internal centering is truly centered in the pane */
+  align-self: stretch;
+  width: 100%;
+  text-align: center;
+  /* Theme-aware placeholder color */
+  color: var(--color-placeholder-foreground);
+}
+
+.empty-state--compact {
+  font-size: 14px;
+  opacity: 0.7;
+}
+
+.empty-state strong {
+  /* Use brand primary for headings to avoid random accent colors */
+  color: var(--color-primary);
+}
+
+/* Subtle icon + glow to make the empty state feel more intentional */
+.empty-state__icon {
+  display: grid;
+  place-items: center;
+  width: 56px;
+  height: 56px;
+  border-radius: var(--radius-pill);
+  color: var(--color-info);
+  background:
+    radial-gradient(60% 60% at 50% 40%, var(--color-brand-indigo-soft), transparent 70%),
+    linear-gradient(120deg, var(--color-brand-indigo-soft), rgba(37, 99, 235, 0.18));
+  box-shadow: 0 14px 44px rgba(37, 99, 235, 0.28);
+  animation: empty-state-pulse 2.8s ease-in-out infinite alternate;
+}
+
+.empty-state__icon svg {
+  width: 24px;
+  height: 24px;
+}
+
+.empty-state__sub {
+  opacity: 0.9;
+}
+
+.empty-state kbd {
+  font-family: var(--font-family-mono);
+  font-size: 12px;
+  line-height: 1;
+  padding: 2px 6px;
+  border-radius: var(--radius-sm);
+  border: 1px solid var(--color-border);
+  background: var(--color-muted);
+  color: var(--color-text-primary);
+}
+
+@keyframes empty-state-pulse {
+  from {
+    transform: scale(1);
+    box-shadow: 0 14px 44px rgba(37, 99, 235, 0.28);
+  }
+  to {
+    transform: scale(1.06);
+    box-shadow: 0 18px 56px rgba(37, 99, 235, 0.36);
+  }
+}
+
+.spinner-small {
+  display: inline-block;
+  width: 12px;
+  height: 12px;
+  border-radius: 50%;
+  border: 2px solid currentColor;
+  border-top-color: transparent;
+  animation: spinner-rotate 0.8s linear infinite;
+  flex-shrink: 0;
+}
+
+@keyframes spinner-rotate {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+/* ─────────────────────────────────────────────────────────────
+   Light Mode: Destructive button override
+   Outline style with dark text for legibility
+   ───────────────────────────────────────────────────────────── */
+body.light .btn-destructive {
+  background-color: transparent !important;
+  background: transparent !important;
+  color: #1f2937 !important;
+  border: 1.5px solid rgba(100, 116, 139, 0.4) !important;
+  box-shadow: none !important;
+  opacity: 1 !important;
+}
+
+body.light .btn-destructive:disabled {
+  opacity: 1 !important; /* keep legible when disabled */
+  color: #1f2937 !important;
+  border-color: rgba(100, 116, 139, 0.4) !important;
+  background: transparent !important;
+}
+
+body.light .btn-destructive:hover {
+  background-color: rgba(100, 116, 139, 0.08) !important;
+  background: rgba(100, 116, 139, 0.08) !important;
+  color: #0f172a !important;
+  border-color: rgba(100, 116, 139, 0.5) !important;
+  box-shadow: none !important;
+}
+
+/* Ensure inner icon/text adopt the dark color */
+body.light .btn-destructive svg,
+body.light .btn-destructive span,
+body.light .btn-destructive strong {
+  color: inherit !important;
+  stroke: currentColor !important;
+  fill: currentColor !important;
+}
+
+/* ─────────────────────────────────────────────────────────────
+   Scrollbar Utilities
+   macOS-like thin overlay scrollbars
+   ───────────────────────────────────────────────────────────── */
+
+/* 
+ * Apply .scrollbar-thin to any scrollable container for macOS-like scrollbars.
+ * The scrollbar appears as a thin, subtle overlay that doesn't take visual space.
+ */
+.scrollbar-thin::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+  background: transparent;
+}
+
+.scrollbar-thin::-webkit-scrollbar-track {
+  background: transparent;
+  margin: 4px 0;
+}
+
+.scrollbar-thin::-webkit-scrollbar-thumb {
+  background: rgba(148, 163, 184, 0.15);
+  border-radius: 999px;
+  border: 2px solid transparent;
+  background-clip: padding-box;
+  min-height: 40px;
+}
+
+.scrollbar-thin::-webkit-scrollbar-thumb:hover {
+  background: rgba(148, 163, 184, 0.3);
+  border: 2px solid transparent;
+  background-clip: padding-box;
+}
+
+.scrollbar-thin::-webkit-scrollbar-corner {
+  background: transparent;
+}
+
+/* Light mode adjustments */
+body.light .scrollbar-thin::-webkit-scrollbar-thumb {
+  background: rgba(100, 116, 139, 0.15);
+  border: 2px solid transparent;
+  background-clip: padding-box;
+}
+
+body.light .scrollbar-thin::-webkit-scrollbar-thumb:hover {
+  background: rgba(100, 116, 139, 0.3);
+  border: 2px solid transparent;
+  background-clip: padding-box;
+}
+
+/* 
+ * Mixin-like approach: Use these on any element with custom scrollbar styling.
+ * Copy these properties to maintain consistency across the app.
+ *
+ * --scrollbar-width: 8px
+ * --scrollbar-thumb-color: rgba(148, 163, 184, 0.15)
+ * --scrollbar-thumb-hover-color: rgba(148, 163, 184, 0.3)
+ */

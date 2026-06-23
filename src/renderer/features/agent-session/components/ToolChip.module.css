@@ -1,0 +1,143 @@
+.chip {
+  border-radius: 999px;
+  padding: 2px 8px;
+  font-size: 0.68rem;
+  font-weight: 500;
+  border: 1px solid transparent;
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  max-width: 100%;
+}
+
+.chipIcon {
+  display: none;
+}
+
+.chipLabel {
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.chipCount {
+  display: none;
+}
+
+.chipStatus {
+  display: none;
+}
+
+.chipStatusRunning {
+  background: #22d3ee;
+  animation: chipStatusPulse 1.2s ease-in-out infinite;
+}
+
+.chipStatusPending {
+  background: #fbbf24;
+  animation: chipStatusPulse 1.4s ease-in-out infinite;
+}
+
+.chipStatusSuccess {
+  background: #22c55e;
+}
+
+.chipStatusError {
+  background: #ef4444;
+}
+
+@keyframes chipStatusPulse {
+  0% {
+    transform: scale(0.8);
+    opacity: 0.7;
+  }
+  50% {
+    transform: scale(1);
+    opacity: 1;
+  }
+  100% {
+    transform: scale(0.8);
+    opacity: 0.7;
+  }
+}
+
+/* Tone variants - use CSS custom properties from theme */
+.chipFiles {
+  background: var(--chip-files-bg);
+  color: var(--chip-files-text);
+  border-color: var(--chip-files-border);
+}
+
+.chipShell {
+  background: var(--chip-shell-bg);
+  color: var(--chip-shell-text);
+  border-color: var(--chip-shell-border);
+}
+
+.chipNetwork {
+  background: var(--chip-network-bg);
+  color: var(--chip-network-text);
+  border-color: var(--chip-network-border);
+}
+
+.chipPlanning {
+  background: var(--chip-planning-bg);
+  color: var(--chip-planning-text);
+  border-color: var(--chip-planning-border);
+}
+
+.chipDefault {
+  background: var(--chip-default-bg);
+  color: var(--chip-default-text);
+  border-color: var(--chip-default-border);
+}
+
+.chipSubtle {
+  opacity: 0.8;
+  border-style: dashed;
+}
+
+.chipLegend {
+  cursor: default;
+  pointer-events: none;
+  font-size: 0.72rem;
+  padding: 4px 10px;
+}
+
+.chipOverflow {
+  border-style: dashed;
+  cursor: pointer;
+  background: rgba(148, 163, 184, 0.24);
+  color: rgba(248, 250, 255, 0.92);
+}
+
+.chipOverflow:focus-visible {
+  outline: 2px solid rgba(99, 102, 241, 0.5);
+  outline-offset: 2px;
+}
+
+.chipCompact {
+  padding: 2px 6px;
+  font-size: 0.68rem;
+}
+
+.chipCompact .chipIcon {
+  display: none;
+}
+
+.chipCompact .chipLabel {
+  font-size: 0.65rem;
+}
+
+/* ─────────────────────────────────────────────────────────────
+   Light Mode Overrides
+   ───────────────────────────────────────────────────────────── */
+
+:global(body.light) .chipCount {
+  color: var(--color-muted-foreground);
+}
+
+:global(body.light) .chipOverflow {
+  background: var(--color-muted);
+  color: var(--color-foreground);
+}

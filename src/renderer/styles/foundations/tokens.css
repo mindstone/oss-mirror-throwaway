@@ -1,0 +1,234 @@
+:root {
+  color-scheme: light;
+
+  /* Typeface families */
+  --font-family-sans: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+  --font-family-mono: 'SF Mono', 'Monaco', 'Cascadia Code', 'Fira Code', monospace;
+  --font-size-base: 16px;
+  /* Tiny metadata chips and auxiliary labels should stay readable without competing with primary text. */
+  --font-size-xs: 0.75rem;
+  --line-height-base: 1.6;
+
+  /* Layout tokens for responsive spacing and sizing */
+  --outer-gutter: clamp(24px, 4vw, 64px);
+  --app-max-width: clamp(1180px, 82vw, 1440px);
+  /* Flow mode (sessions view) uses wider layout to reduce side padding */
+  --app-max-width-flow: clamp(1180px, 94vw, 1600px);
+  --sidebar-width-min: 288px;
+  --sidebar-width-preferred: 320px;
+  --sidebar-width-max: 360px;
+  --shell-radius: 36px;
+  --shell-inset: var(--outer-gutter);
+
+  /* Centered conversation lane; message body text keeps its own readable cap. */
+  --conversation-content-max-width: 1120px;
+
+  /* Core palette */
+  --color-bg-page: #f4f7fb;
+  --color-surface-1: #ffffff;
+  --color-surface-muted: rgba(255, 255, 255, 0.92);
+  --color-surface-glass: rgba(255, 255, 255, 0.85);
+  --color-surface-elevated: color-mix(in srgb, var(--color-surface-1) 96%, white 4%);
+  --color-surface-hover: color-mix(in srgb, var(--color-text-primary) 4%, transparent);
+  --color-backdrop: rgba(15, 23, 42, 0.08);
+
+  --color-text-primary: #0f172a;
+  --color-text-secondary: rgba(15, 23, 42, 0.6);
+  --color-text-inverse: #ffffff;
+  --color-text-muted: rgba(30, 41, 59, 0.55);
+
+  --color-border-soft: rgba(226, 232, 240, 0.7);
+  --color-border-subtle: color-mix(in srgb, var(--color-text-primary) 8%, transparent);
+  --color-border-strong: rgba(15, 23, 42, 0.18);
+
+  /* Glass surfaces */
+  --glass-panel-bg: rgba(255, 255, 255, 0.9);
+  --glass-panel-border: rgba(226, 232, 240, 0.85);
+  --glass-panel-shadow: 0 34px 68px rgba(15, 23, 42, 0.2);
+  --glass-panel-blur: 24px;
+  --glass-overlay-blur: 12px;
+
+  --color-brand-indigo: #4f46e5;
+  --color-brand-indigo-soft: rgba(99, 102, 241, 0.18);
+  --color-brand-blue: #2563eb;
+  --color-brand-cyan: #0ea5e9;
+  --color-brand-pink: #db2777;
+
+  --color-success: #10b981;
+  --color-warning: #f97316;
+  --color-danger: #dc2626;
+  --color-info: #22d3ee;
+
+  /* Destructive/danger colors for buttons */
+  --color-destructive: #dc2626;
+  --color-destructive-foreground: #ffffff;
+  --color-destructive-hover: #b91c1c;
+
+  /* Gradients */
+  --gradient-page: radial-gradient(circle at 12% 18%, #eef2ff 0%, #f7f9ff 44%, #ffffff 100%);
+  --gradient-voice-idle: linear-gradient(135deg, #2563eb 0%, #9333ea 100%);
+  --gradient-voice-recording: linear-gradient(135deg, #fb7185 0%, #ef4444 100%);
+
+  /* Spacing scale */
+  --space-0: 0px;
+  --space-1: 4px;
+  --space-2: 8px;
+  --space-3: 12px;
+  --space-4: 16px;
+  --space-5: 20px;
+  --space-6: 24px;
+  --space-7: 28px;
+  --space-8: 32px;
+  --space-9: 40px;
+  --space-10: 48px;
+  --space-11: 56px;
+  --space-12: 64px;
+
+  /* Radii */
+  --radius-xs: 4px;
+  --radius-sm: 6px;
+  --radius-md: 10px;
+  --radius-button: 12px;
+  --radius-lg: 16px;
+  --radius-xl: 24px;
+  --radius-2xl: 32px;
+  --radius-pill: 999px;
+
+  /* Shadows */
+  --shadow-sm: 0 1px 2px color-mix(in srgb, var(--color-text-primary) 6%, transparent), 0 1px 3px color-mix(in srgb, var(--color-text-primary) 4%, transparent);
+  --shadow-soft: 0 10px 24px rgba(15, 23, 42, 0.12);
+  --shadow-medium: 0 24px 48px rgba(15, 23, 42, 0.18);
+  --shadow-hard: 0 44px 94px -40px rgba(15, 23, 42, 0.38);
+
+  /* Elevation */
+  --z-base: 1;
+  --z-shell: 5;
+  --z-overlay: 30;
+  --z-permission-banner: 1000;
+  --z-modal: 1300;
+  --z-toast: 1400;
+  --z-sticky-approvals: 1450; /* Above toasts - approvals require action */
+  --z-approval-preview: 10000; /* Well above sidebar (1450) — ensures preview paints above all sidebar/backdrop stacking contexts */
+
+  /* Motion */
+  --motion-duration-fast: 120ms;
+  --motion-duration-medium: 260ms;
+  --motion-duration-slow: 520ms;
+  --motion-ease-out: cubic-bezier(0.16, 1, 0.3, 1);
+  --motion-ease-in-out: cubic-bezier(0.4, 0, 0.2, 1);
+
+  /* Tool chip colors - light mode (unified neutral scheme) */
+  --chip-files-bg: rgba(100, 116, 139, 0.1);
+  --chip-files-text: #475569;
+  --chip-files-border: rgba(100, 116, 139, 0.2);
+  --chip-shell-bg: rgba(100, 116, 139, 0.1);
+  --chip-shell-text: #475569;
+  --chip-shell-border: rgba(100, 116, 139, 0.2);
+  --chip-network-bg: rgba(100, 116, 139, 0.1);
+  --chip-network-text: #475569;
+  --chip-network-border: rgba(100, 116, 139, 0.2);
+  --chip-planning-bg: rgba(100, 116, 139, 0.1);
+  --chip-planning-text: #475569;
+  --chip-planning-border: rgba(100, 116, 139, 0.2);
+  --chip-default-bg: rgba(100, 116, 139, 0.1);
+  --chip-default-text: #475569;
+  --chip-default-border: rgba(100, 116, 139, 0.2);
+}
+
+/* ─────────────────────────────────────────────────────────────
+   Dark Mode Overrides
+   ───────────────────────────────────────────────────────────── */
+.dark {
+  color-scheme: dark;
+
+  /* Core palette - dark mode */
+  --color-bg-page: #0a0a0e;
+  --color-surface-1: #0d111c;
+  --color-surface-muted: rgba(13, 17, 28, 0.92);
+  --color-surface-glass: rgba(13, 17, 28, 0.85);
+  --color-surface-elevated: color-mix(in srgb, var(--color-surface-1) 94%, white 6%);
+  --color-surface-hover: color-mix(in srgb, var(--color-text-muted) 12%, transparent);
+  --color-backdrop: rgba(0, 0, 0, 0.5);
+
+  --color-text-primary: #f8faff;
+  --color-text-secondary: rgba(203, 213, 225, 0.78);
+  --color-text-inverse: #0f172a;
+  --color-text-muted: rgba(148, 163, 184, 0.7);
+
+  --color-border-soft: rgba(148, 163, 184, 0.18);
+  --color-border-subtle: color-mix(in srgb, var(--color-text-muted) 17%, transparent);
+  --color-border-strong: rgba(148, 163, 184, 0.35);
+
+  /* Glass surfaces - dark mode */
+  --glass-panel-bg: rgba(13, 17, 28, 0.92);
+  --glass-panel-border: rgba(148, 163, 184, 0.18);
+  --glass-panel-shadow: 0 40px 120px rgba(2, 6, 23, 0.6);
+  --glass-panel-blur: 14px;
+  --glass-overlay-blur: 12px;
+
+  /* Shadows - dark mode */
+  --shadow-sm: 0 1px 2px color-mix(in srgb, black 30%, transparent), 0 1px 3px color-mix(in srgb, black 20%, transparent);
+  --shadow-soft: 0 10px 24px rgba(0, 0, 0, 0.35);
+  --shadow-medium: 0 24px 48px rgba(0, 0, 0, 0.45);
+  --shadow-hard: 0 44px 94px -40px rgba(0, 0, 0, 0.6);
+
+  /* Gradients - dark mode */
+  --gradient-page: radial-gradient(circle at 12% 18%, rgba(99, 102, 241, 0.13) 0%, rgba(30, 41, 59, 0.07) 44%, transparent 100%);
+
+  /* Tool chip colors - dark mode (unified neutral scheme) */
+  --chip-files-bg: rgba(148, 163, 184, 0.15);
+  --chip-files-text: rgba(203, 213, 225, 0.9);
+  --chip-files-border: rgba(148, 163, 184, 0.3);
+  --chip-shell-bg: rgba(148, 163, 184, 0.15);
+  --chip-shell-text: rgba(203, 213, 225, 0.9);
+  --chip-shell-border: rgba(148, 163, 184, 0.3);
+  --chip-network-bg: rgba(148, 163, 184, 0.15);
+  --chip-network-text: rgba(203, 213, 225, 0.9);
+  --chip-network-border: rgba(148, 163, 184, 0.3);
+  --chip-planning-bg: rgba(148, 163, 184, 0.15);
+  --chip-planning-text: rgba(203, 213, 225, 0.9);
+  --chip-planning-border: rgba(148, 163, 184, 0.3);
+  --chip-default-bg: rgba(148, 163, 184, 0.15);
+  --chip-default-text: rgba(203, 213, 225, 0.9);
+  --chip-default-border: rgba(148, 163, 184, 0.3);
+}
+
+/* ─────────────────────────────────────────────────────────────
+   Progressive screen breakpoints: Expand app width on big monitors
+   
+   Tier 1: Below 1800px → standard 1440px max (laptops, normal monitors)
+   Tier 2: 1800-2799px  → expand up to 2100px (large monitors, 1440p)
+   Tier 3: 2800px+      → expand up to 2800px with wider content (4K, ultrawides)
+   ───────────────────────────────────────────────────────────── */
+@media (min-width: 1800px) {
+  :root {
+    --app-max-width: clamp(1440px, 88vw, 2100px);
+    --app-max-width-flow: clamp(1440px, 94vw, 2100px);
+    --conversation-content-max-width: 1200px;
+  }
+}
+
+/* Ultrawide / 4K screens: allow even wider layout */
+@media (min-width: 2800px) {
+  :root {
+    --app-max-width: clamp(2100px, 75vw, 2800px);
+    --app-max-width-flow: clamp(2100px, 94vw, 2800px);
+    --conversation-content-max-width: 1280px;
+  }
+}
+
+/* ─────────────────────────────────────────────────────────────
+   Stage 3 — Active-Work Blur Budget
+   FlowPanelsShell sets data-active-work='true' on <body> while the
+   foreground session is busy (selectCurrentSessionIsBusy lens). All
+   chrome surfaces that bind their backdrop-filter to these tokens
+   collapse blur to 0 in lock-step, eliminating the AGXMetal raster
+   fan-out under streaming. The :root selector is mirrored for any
+   rule that happens to scope by :root rather than body.
+   See docs/plans/260508_active_work_cpu_gpu_architectural_rebuild.md.
+   ───────────────────────────────────────────────────────────── */
+body[data-active-work='true'],
+:root[data-active-work='true'] {
+  --glass-panel-blur: 0px;
+  --glass-overlay-blur: 0px;
+}

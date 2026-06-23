@@ -1,0 +1,45 @@
+# Maestro E2E for the direct "Keep mine" conflict-resolution path.
+#
+# Verifies the quick-action escape hatch: tapping "Keep mine" on a conflicting
+# staged file dispatches `resolveConflict(id, 'keep-staged')` (minting a Stage B
+# capability token first); the server drops the staged file and the store
+# broadcast removes the card. The "Keep theirs" path is symmetric (same handler,
+# `keep-incoming`); exercising Keep-mine is sufficient for the smoke test.
+#
+# Entry: the conflict callout is rendered INLINE on the staged-file card in the
+# inbox — `conflict-callout-keep-mine`.
+#
+# Prerequisites: app paired + a seeded staged-file conflict
+#   (POST /__e2e/seed/staged-file-conflict). e2e-mobile.sh seeds this.
+#
+# Run: maestro test mobile/.maestro/conflict_keep_mine_keep_theirs.yaml
+appId: com.mindstone.rebel.mobile
+---
+- launchApp
+- extendedWaitUntil:
+    visible:
+      id: "home-screen"
+    timeout: 30000
+- openLink: "rebel://tasks"
+- extendedWaitUntil:
+    visible:
+      id: "inbox-screen"
+    timeout: 15000
+- extendedWaitUntil:
+    visible:
+      id: "staged-files-section"
+    timeout: 15000
+- extendedWaitUntil:
+    visible:
+      id: "conflict-callout"
+    timeout: 15000
+# Quick-action "Keep mine" — resolves the conflict server-side (keep-staged).
+- tapOn:
+    id: "conflict-callout-keep-mine"
+# The server drops the staged file; the store broadcast removes the conflict
+# callout. (We assert the callout disappears rather than reloading the inbox —
+# the broadcast updates the card in place.)
+- extendedWaitUntil:
+    notVisible:
+      id: "conflict-callout"
+    timeout: 20000

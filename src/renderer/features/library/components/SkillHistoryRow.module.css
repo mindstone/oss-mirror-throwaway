@@ -1,0 +1,161 @@
+.row {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-2);
+  padding: var(--space-2) var(--space-3);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-md);
+  background: var(--color-card);
+  transition:
+    border-color var(--motion-duration-fast) ease,
+    background var(--motion-duration-fast) ease;
+}
+
+.row:hover {
+  border-color: var(--color-primary);
+  background: color-mix(in srgb, var(--color-card) 92%, var(--color-primary) 8%);
+}
+
+.selectableTop {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-1);
+  cursor: pointer;
+  border-radius: var(--radius-sm);
+}
+
+.selectableTop:focus-visible {
+  outline: 2px solid var(--color-ring, #a78bfa);
+  outline-offset: 2px;
+}
+
+.rowSelected {
+  border-color: var(--color-primary);
+  background: color-mix(in srgb, var(--color-card) 88%, var(--color-primary) 12%);
+}
+
+.rowRestorePending {
+  border-color: var(--color-warning);
+  box-shadow: inset 0 0 0 1px color-mix(in srgb, var(--color-warning) 45%, transparent);
+}
+
+.header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--space-2);
+}
+
+.meta {
+  display: inline-flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: var(--space-1);
+  min-width: 0;
+  font-size: 0.75rem;
+  color: var(--color-muted-foreground);
+}
+
+.timestamp {
+  font-weight: 600;
+  color: var(--color-foreground);
+}
+
+.actor {
+  font-weight: 500;
+}
+
+.dot {
+  opacity: 0.7;
+}
+
+.badges {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-2);
+  flex-shrink: 0;
+}
+
+.badge {
+  gap: var(--space-1);
+}
+
+.summaryRow {
+  display: flex;
+  align-items: flex-start;
+  gap: var(--space-2);
+  min-width: 0;
+}
+
+.summaryIcon,
+.pendingIcon {
+  margin-top: 2px;
+  color: var(--color-muted-foreground);
+  flex-shrink: 0;
+}
+
+.summary {
+  font-size: 0.8rem;
+  line-height: 1.45;
+  color: var(--color-muted-foreground);
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+
+.pendingSummary {
+  font-size: 0.8rem;
+  line-height: 1.45;
+  color: var(--color-muted-foreground);
+}
+
+.actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-1);
+  max-height: 0;
+  overflow: hidden;
+  opacity: 0;
+  transition:
+    max-height var(--motion-duration-fast) ease,
+    opacity var(--motion-duration-fast) ease;
+}
+
+.row:hover .actions,
+.rowSelected .actions,
+.rowRestorePending .actions {
+  max-height: 80px;
+  opacity: 1;
+}
+
+.actionButton {
+  justify-content: flex-start;
+  font-size: 0.75rem;
+}
+
+.spinner {
+  animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+  from {
+    transform: rotate(0deg);
+  }
+
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+:global(body.light) .row {
+  background: var(--color-card);
+}
+
+:global(body.light) .row:hover {
+  background: color-mix(in srgb, var(--color-card) 90%, var(--color-primary) 10%);
+}
+
+:global(body.light) .rowSelected {
+  background: color-mix(in srgb, var(--color-card) 88%, var(--color-primary) 12%);
+}

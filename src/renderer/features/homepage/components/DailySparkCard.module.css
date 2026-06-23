@@ -1,0 +1,148 @@
+/*
+ * DailySparkCard — slim local card between PageHeader and HomepageChat.
+ *
+ * Tokens match the chief-designer brief verbatim:
+ *   padding   var(--space-3) var(--space-4)
+ *   radius    var(--radius-md)
+ *   border    1px solid var(--color-border-soft)
+ *   bg        var(--color-card) + ~6% color-mix(var(--color-primary))
+ *   rail      color-mix(in srgb, var(--color-primary) 45%, transparent)
+ *   body      max-width 68ch, 0.9rem, line-height 1.55
+ *   caption   0.68rem, 600 weight, slight letter-spacing, muted
+ */
+
+.card {
+  position: relative;
+  display: flex;
+  align-items: flex-start;
+  gap: var(--space-3);
+  padding: var(--space-3) var(--space-4);
+  border-radius: var(--radius-md);
+  border: 1px solid var(--color-border-soft);
+  background: color-mix(in srgb, var(--color-primary) 6%, var(--color-card));
+  overflow: hidden;
+  /* The homepage layout is a flex-column with overflow:auto; without this the
+     card gets flex-shrunk below its content height and the body text clips. */
+  flex-shrink: 0;
+}
+
+.accentRail {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  width: 2px;
+  background: color-mix(in srgb, var(--color-primary) 45%, transparent);
+  pointer-events: none;
+}
+
+.content {
+  flex: 1 1 auto;
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.caption {
+  font-size: 0.68rem;
+  font-weight: 600;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  color: var(--color-text-muted);
+  margin: 0;
+}
+
+.body {
+  max-width: 68ch;
+  margin: 0;
+  font-size: 0.9rem;
+  line-height: 1.55;
+  color: var(--color-text-primary);
+  white-space: pre-wrap;
+  word-break: break-word;
+}
+
+.menuTrigger {
+  flex-shrink: 0;
+  margin-top: -2px;
+}
+
+/* Inline menu — mirrors the Floating-UI menu styles used by ConversationActionsMenu */
+.menu {
+  z-index: 9999;
+  min-width: 180px;
+  padding: 4px;
+  border-radius: 10px;
+  background: var(--color-popover);
+  border: 1px solid var(--color-border);
+  box-shadow:
+    0 8px 24px rgba(0, 0, 0, 0.1),
+    0 0 0 1px color-mix(in srgb, var(--color-primary) 6%, transparent);
+  visibility: hidden;
+}
+
+.menu[data-positioned='true'] {
+  visibility: visible;
+  animation: dailySparkMenuFadeIn 120ms var(--motion-ease-out, cubic-bezier(0.16, 1, 0.3, 1));
+}
+
+@keyframes dailySparkMenuFadeIn {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .menu[data-positioned='true'] {
+    animation: none;
+  }
+  .menuItem {
+    transition: none;
+  }
+}
+
+.menuItem {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  width: 100%;
+  padding: 8px 10px;
+  border: none;
+  border-radius: 6px;
+  background: transparent;
+  color: var(--color-text-primary);
+  font-size: 0.82rem;
+  font-weight: 500;
+  text-align: left;
+  cursor: pointer;
+  transition: background 0.15s ease, color 0.15s ease;
+}
+
+.menuItem:hover {
+  background: color-mix(in srgb, var(--color-primary) 10%, transparent);
+}
+
+.menuItem:focus-visible {
+  outline: none;
+  background: color-mix(in srgb, var(--color-primary) 14%, transparent);
+  box-shadow: 0 0 0 2px color-mix(in srgb, var(--color-primary) 40%, transparent);
+}
+
+.srOnly {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border: 0;
+}
+
+/* Dark mode parity — color-mix already resolves correctly, but ensure
+   the popover background follows the dark popover token explicitly. */
+:global(body.dark) .menu {
+  background: var(--color-popover, rgba(13, 17, 28, 0.98));
+  border-color: var(--color-border, rgba(148, 163, 184, 0.22));
+}

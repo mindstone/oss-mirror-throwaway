@@ -1,0 +1,360 @@
+.card {
+  overflow: hidden;
+  margin: var(--space-3, 12px) 0;
+  border: 1px solid rgba(148, 163, 184, 0.18);
+  border-radius: var(--radius-lg);
+  background:
+    linear-gradient(180deg, rgba(15, 23, 42, 0.28), rgba(15, 23, 42, 0.16)),
+    rgba(15, 23, 42, 0.18);
+  box-shadow: 0 16px 40px rgba(2, 6, 23, 0.18);
+}
+
+.toolbar {
+  display: flex;
+  align-items: center;
+  gap: var(--space-3, 12px);
+  padding: var(--space-2, 8px) var(--space-3, 12px);
+  border-bottom: 1px solid rgba(148, 163, 184, 0.14);
+  background: rgba(15, 23, 42, 0.22);
+}
+
+.titleGroup {
+  display: inline-flex;
+  flex: 0 0 auto;
+  align-items: center;
+  gap: var(--space-2, 8px);
+  color: rgba(226, 232, 240, 0.86);
+  font-size: 0.8125rem;
+  font-weight: 600;
+  letter-spacing: 0.01em;
+}
+
+.titleGroup svg {
+  color: rgba(167, 139, 250, 0.9);
+}
+
+.tabs {
+  flex: 0 0 auto;
+}
+
+.tabsList {
+  padding: 3px;
+  background: rgba(15, 23, 42, 0.32);
+  border: 1px solid rgba(148, 163, 184, 0.14);
+  border-radius: var(--radius-md, 10px);
+}
+
+.tabTrigger {
+  min-height: 26px;
+  padding: 0 var(--space-2, 8px);
+  color: rgba(203, 213, 225, 0.72);
+  font-size: 0.75rem;
+}
+
+.tabTrigger[data-state='active'] {
+  background: rgba(248, 250, 252, 0.1);
+  color: rgba(248, 250, 255, 0.96);
+  box-shadow: none;
+}
+
+.actions {
+  display: inline-flex;
+  flex: 1 1 auto;
+  align-items: center;
+  justify-content: flex-end;
+  gap: var(--space-2, 8px);
+  min-width: 0;
+}
+
+.actionButton {
+  border-color: rgba(148, 163, 184, 0.18);
+  background: rgba(15, 23, 42, 0.18);
+  color: rgba(226, 232, 240, 0.82);
+}
+
+.actionButton:hover {
+  border-color: rgba(139, 92, 246, 0.32);
+  background: rgba(139, 92, 246, 0.12);
+  color: rgba(248, 250, 255, 0.96);
+}
+
+.body {
+  background: rgba(2, 6, 23, 0.08);
+}
+
+.content {
+  position: relative;
+  overflow: visible;
+}
+
+.content[data-clamped='true'] {
+  max-height: 640px;
+  overflow: hidden;
+}
+
+.fade {
+  position: absolute;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  height: 96px;
+  pointer-events: none;
+  background: linear-gradient(180deg, rgba(9, 13, 24, 0), rgba(9, 13, 24, 0.96));
+}
+
+.rawPre {
+  overflow-x: auto;
+  margin: 0;
+  border-radius: 0;
+  background: rgba(2, 6, 23, 0.28);
+  padding: var(--space-4, 16px);
+  color: rgba(226, 232, 240, 0.82);
+  font-family: var(--font-family-mono);
+  font-size: 0.8125rem;
+  line-height: 1.6;
+  white-space: pre;
+}
+
+.rawPre code {
+  background: transparent;
+  padding: 0;
+  border-radius: 0;
+  color: inherit;
+  font-family: inherit;
+  font-size: inherit;
+}
+
+.expandRow {
+  display: flex;
+  justify-content: center;
+  padding: var(--space-2, 8px) var(--space-3, 12px) var(--space-3, 12px);
+  background: rgba(9, 13, 24, 0.96);
+}
+
+.expandButton {
+  color: rgba(203, 213, 225, 0.76);
+}
+
+.expandButton:hover {
+  color: rgba(248, 250, 255, 0.96);
+}
+
+:global(.document-block-preview) {
+  padding: var(--space-5, 20px);
+  color: rgba(226, 232, 240, 0.76);
+  font-family: var(--font-family-sans);
+  font-size: 15px;
+  line-height: 1.7;
+}
+
+:global(.document-block-preview > :first-child) {
+  margin-top: 0;
+}
+
+:global(.document-block-preview > :last-child) {
+  margin-bottom: 0;
+}
+
+:global(.document-block-preview p) {
+  margin-bottom: var(--space-4, 16px);
+  color: rgba(226, 232, 240, 0.76);
+}
+
+:global(.document-block-preview h1),
+:global(.document-block-preview h2),
+:global(.document-block-preview h3),
+:global(.document-block-preview h4),
+:global(.document-block-preview h5),
+:global(.document-block-preview h6) {
+  margin-top: var(--space-6, 24px);
+  margin-bottom: var(--space-3, 12px);
+  color: rgba(248, 250, 255, 0.96);
+  font-weight: 650;
+  line-height: 1.25;
+}
+
+:global(.document-block-preview h1) {
+  font-size: 1.55rem;
+}
+
+:global(.document-block-preview h2) {
+  font-size: 1.3rem;
+}
+
+:global(.document-block-preview h3) {
+  font-size: 1.1rem;
+}
+
+:global(.document-block-preview ul),
+:global(.document-block-preview ol) {
+  margin: 0 0 var(--space-4, 16px) var(--space-5, 20px);
+  padding: 0;
+}
+
+:global(.document-block-preview ul) {
+  list-style-type: disc;
+}
+
+:global(.document-block-preview ol) {
+  list-style-type: decimal;
+}
+
+:global(.document-block-preview li) {
+  margin-bottom: var(--space-2, 8px);
+  color: rgba(226, 232, 240, 0.78);
+}
+
+:global(.document-block-preview strong) {
+  color: rgba(248, 250, 255, 0.94);
+}
+
+:global(.document-block-preview blockquote) {
+  margin: var(--space-4, 16px) 0;
+  border-left: 3px solid rgba(139, 92, 246, 0.46);
+  padding: var(--space-2, 8px) 0 var(--space-2, 8px) var(--space-4, 16px);
+  color: rgba(226, 232, 240, 0.78);
+  background: rgba(139, 92, 246, 0.08);
+}
+
+:global(.document-block-preview pre) {
+  overflow-x: auto;
+  margin: var(--space-4, 16px) 0;
+  background: rgba(2, 6, 23, 0.32);
+}
+
+:global(.document-block-preview code) {
+  background: rgba(15, 23, 42, 0.34);
+  color: rgba(226, 232, 240, 0.9);
+}
+
+:global(.document-block-preview a) {
+  color: rgba(196, 181, 253, 0.95);
+  text-underline-offset: 4px;
+}
+
+:global(.document-block-preview .markdown-table-wrapper) {
+  margin: var(--space-4, 16px) 0;
+  border-color: rgba(148, 163, 184, 0.18);
+}
+
+:global(body.light) .card {
+  border-color: rgba(100, 116, 139, 0.22);
+  background:
+    linear-gradient(180deg, rgba(255, 255, 255, 0.94), rgba(248, 250, 252, 0.9)),
+    rgba(248, 250, 252, 0.92);
+  box-shadow: 0 14px 36px rgba(15, 23, 42, 0.08);
+}
+
+:global(body.light) .toolbar {
+  border-bottom-color: rgba(100, 116, 139, 0.18);
+  background: rgba(248, 250, 252, 0.78);
+}
+
+:global(body.light) .titleGroup {
+  color: rgba(15, 23, 42, 0.78);
+}
+
+:global(body.light) .titleGroup svg {
+  color: rgba(109, 40, 217, 0.82);
+}
+
+:global(body.light) .tabsList {
+  border-color: rgba(100, 116, 139, 0.16);
+  background: rgba(226, 232, 240, 0.58);
+}
+
+:global(body.light) .tabTrigger {
+  color: rgba(51, 65, 85, 0.72);
+}
+
+:global(body.light) .tabTrigger[data-state='active'] {
+  background: rgba(255, 255, 255, 0.9);
+  color: rgba(15, 23, 42, 0.92);
+  box-shadow: 0 1px 3px rgba(15, 23, 42, 0.1);
+}
+
+:global(body.light) .actionButton {
+  border-color: rgba(100, 116, 139, 0.22);
+  background: rgba(255, 255, 255, 0.74);
+  color: rgba(51, 65, 85, 0.82);
+}
+
+:global(body.light) .actionButton:hover {
+  border-color: rgba(109, 40, 217, 0.28);
+  background: rgba(109, 40, 217, 0.08);
+  color: rgba(15, 23, 42, 0.92);
+}
+
+:global(body.light) .body {
+  background: rgba(255, 255, 255, 0.58);
+}
+
+:global(body.light) .fade {
+  background: linear-gradient(180deg, rgba(255, 255, 255, 0), rgba(255, 255, 255, 0.96));
+}
+
+:global(body.light) .rawPre {
+  background: rgba(241, 245, 249, 0.84);
+  color: rgba(30, 41, 59, 0.86);
+}
+
+:global(body.light) .expandRow {
+  background: rgba(255, 255, 255, 0.96);
+}
+
+:global(body.light) .expandButton {
+  color: rgba(51, 65, 85, 0.74);
+}
+
+:global(body.light) .expandButton:hover {
+  color: rgba(15, 23, 42, 0.94);
+}
+
+:global(body.light) :global(.document-block-preview) {
+  color: rgba(30, 41, 59, 0.78);
+}
+
+:global(body.light) :global(.document-block-preview p),
+:global(body.light) :global(.document-block-preview li) {
+  color: rgba(30, 41, 59, 0.78);
+}
+
+:global(body.light) :global(.document-block-preview h1),
+:global(body.light) :global(.document-block-preview h2),
+:global(body.light) :global(.document-block-preview h3),
+:global(body.light) :global(.document-block-preview h4),
+:global(body.light) :global(.document-block-preview h5),
+:global(body.light) :global(.document-block-preview h6),
+:global(body.light) :global(.document-block-preview strong) {
+  color: rgba(15, 23, 42, 0.94);
+}
+
+:global(body.light) :global(.document-block-preview blockquote) {
+  border-left-color: rgba(109, 40, 217, 0.34);
+  color: rgba(30, 41, 59, 0.78);
+  background: rgba(109, 40, 217, 0.06);
+}
+
+:global(body.light) :global(.document-block-preview pre) {
+  background: rgba(241, 245, 249, 0.9);
+}
+
+:global(body.light) :global(.document-block-preview code) {
+  background: rgba(226, 232, 240, 0.72);
+  color: rgba(30, 41, 59, 0.9);
+}
+
+:global(body.light) :global(.document-block-preview a) {
+  color: rgba(67, 56, 202, 0.95);
+}
+
+@media (max-width: 760px) {
+  .toolbar {
+    flex-wrap: wrap;
+  }
+
+  .actions {
+    flex-basis: 100%;
+    justify-content: flex-start;
+  }
+}

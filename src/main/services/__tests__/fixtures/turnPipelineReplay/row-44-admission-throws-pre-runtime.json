@@ -1,0 +1,171 @@
+{
+  "id": 44,
+  "description": "admission-throws-pre-runtime-failure",
+  "stage": "S1",
+  "addedIn": "round-3",
+  "notes": [
+    "Recorded against the Stage 3 pre-runtime-failure path."
+  ],
+  "input": {
+    "turnId": "<TURN_ID>",
+    "prompt": "hello",
+    "turnOptions": {
+      "sessionId": "<SESSION_ID>"
+    },
+    "mockOverrides": {
+      "admissionThrows": true
+    }
+  },
+  "expected": {
+    "events": [
+      {
+        "sequence": 4,
+        "method": "dispatchAgentEvent",
+        "args": [
+          null,
+          "<TURN_ID>",
+          {
+            "error": "admission threw before runtime",
+            "errorSource": "main",
+            "timestamp": "<TIMESTAMP>",
+            "type": "error"
+          }
+        ]
+      }
+    ],
+    "registry": [
+      {
+        "sequence": 0,
+        "method": "setActiveTurnController",
+        "args": [
+          "<TURN_ID>",
+          {}
+        ]
+      },
+      {
+        "sequence": 7,
+        "method": "cleanupTurn",
+        "args": [
+          "<TURN_ID>"
+        ]
+      }
+    ],
+    "sentry": [],
+    "log": [
+      {
+        "sequence": 1,
+        "method": "warn",
+        "args": [
+          {
+            "err": {}
+          },
+          "Failed to emit pre-turn worker stats snapshot"
+        ]
+      },
+      {
+        "sequence": 2,
+        "method": "debug",
+        "args": [
+          {
+            "attempt": 1,
+            "event": "turnPhase.entry",
+            "phaseName": "admission",
+            "sessionId": "<SESSION_ID>",
+            "turnId": "<TURN_ID>"
+          },
+          "turnPhase.entry"
+        ]
+      },
+      {
+        "sequence": 3,
+        "method": "debug",
+        "args": [
+          {
+            "durationMs": "<DURATION_MS>",
+            "event": "turnPhase.exit",
+            "phaseName": "admission",
+            "status": "failed-terminal",
+            "terminalKind": "pre-runtime-failure",
+            "turnId": "<TURN_ID>"
+          },
+          "turnPhase.exit"
+        ]
+      },
+      {
+        "sequence": 5,
+        "method": "info",
+        "args": [
+          {
+            "reason": "pre-runtime-failure",
+            "sessionLogPath": "/tmp/test-turn.log",
+            "turnId": "<TURN_ID>"
+          },
+          "Agent turn session log finalized"
+        ]
+      },
+      {
+        "sequence": 6,
+        "method": "info",
+        "args": [
+          {
+            "reason": "turn:<TURN_ID>"
+          },
+          "Power save block released (system sleep allowed)"
+        ]
+      }
+    ],
+    "cost": [],
+    "proxy": [],
+    "tracking": [],
+    "cooldown": [],
+    "checkpoint": [],
+    "sleepBlocker": [],
+    "fileChange": [],
+    "dynamicImport": [],
+    "envMutation": [],
+    "settingsMutation": [],
+    "query": [],
+    "timeline": [
+      {
+        "sequence": 0,
+        "surface": "registry",
+        "method": "setActiveTurnController"
+      },
+      {
+        "sequence": 1,
+        "surface": "log",
+        "method": "warn"
+      },
+      {
+        "sequence": 2,
+        "surface": "log",
+        "method": "debug"
+      },
+      {
+        "sequence": 3,
+        "surface": "log",
+        "method": "debug"
+      },
+      {
+        "sequence": 4,
+        "surface": "event",
+        "method": "dispatchAgentEvent"
+      },
+      {
+        "sequence": 5,
+        "surface": "log",
+        "method": "info"
+      },
+      {
+        "sequence": 6,
+        "surface": "log",
+        "method": "info"
+      },
+      {
+        "sequence": 7,
+        "surface": "registry",
+        "method": "cleanupTurn"
+      }
+    ]
+  }
+}

@@ -1,0 +1,34 @@
+{
+  "extends": "../../tsconfig.base.json",
+  "compilerOptions": {
+    "target": "ES2022",
+    "module": "ESNext",
+    "moduleResolution": "Bundler",
+    "lib": ["ES2022", "DOM", "DOM.Iterable"],
+    "jsx": "react-jsx",
+    "strict": true,
+    "noUncheckedIndexedAccess": true,
+    "exactOptionalPropertyTypes": true,
+    "noImplicitOverride": true,
+    "forceConsistentCasingInFileNames": true,
+    "skipLibCheck": true,
+    "noEmit": true,
+    "declaration": false,
+    "types": ["chrome", "vite/client", "vitest/globals"],
+    "paths": {
+      "@rebel/cloud-client": ["../../cloud-client/src"],
+      "@rebel/cloud-client/*": ["../../cloud-client/src/*"],
+      "@rebel/shared": ["../../packages/shared/src"],
+      "@rebel/shared/*": ["../../packages/shared/src/*"],
+      "@core/*": ["../../src/core/*"]
+    }
+  },
+  "include": [
+    "src/**/*.ts",
+    "src/**/*.tsx",
+    "tests/**/*.ts",
+    "tests/**/*.tsx",
+    "vite.config.ts"
+  ],
+  "exclude": ["dist", "node_modules"]
+}

@@ -1,0 +1,7 @@
+{
+  "name": "03_empty-paragraphs-between-content",
+  "description": "Multiple consecutive empty paragraphs between two content paragraphs ('hello\\n\\n\\n\\nworld'). Exercises N-empty-paragraph preservation through markdownToDoc -> docToMarkdown round-trip, locking the H15 contract that empty paragraphs are NOT collapsed.",
+  "input": "hello\n\n\n\nworld",
+  "expectedSanitised": "hello\n\n\n\nworld",
+  "expectedDocShape": ""
+}

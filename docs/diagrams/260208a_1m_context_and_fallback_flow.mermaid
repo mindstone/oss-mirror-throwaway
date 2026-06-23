@@ -1,0 +1,73 @@
+flowchart TD
+    %% Prompt: Simplified 1M context and model/auth fallback flow after removing lazy escalation.
+    %% Key files: agentTurnExecutor.ts, modelNormalization.ts, sdkMessageHandler.ts, agentTurnRegistry.ts
+    %% Context: Lazy 1M escalation removed. Now always requests 1M when setting enabled.
+    %% Anthropic only charges extra above 200K, so no cost penalty for requesting 1M upfront.
+
+    classDef userSetting fill:#7c3aed,stroke:#5b21b6,color:#fff
+    classDef modelConfig fill:#2563eb,stroke:#1d4ed8,color:#fff
+    classDef apiCall fill:#0891b2,stroke:#0e7490,color:#fff
+    classDef success fill:#059669,stroke:#047857,color:#fff
+    classDef fallback fill:#d97706,stroke:#b45309,color:#fff
+    classDef failure fill:#dc2626,stroke:#b91c1c,color:#fff
+    classDef tooltip fill:#6366f1,stroke:#4f46e5,color:#fff
+
+    START(["User sends message"]):::userSetting
+
+    SETTINGS{{"Read settings:<br/>extendedContext, opusPlanMode,<br/>thinkingEffort, authMethod"}}:::userSetting
+
+    EXT_CHECK{"1M context<br/>enabled?"}:::userSetting
+
+    MODEL_1M["resolveModelConfig<br/>Add 1m suffix to model<br/>Set beta header<br/>For opusplan: set both<br/>Opus + Sonnet env vars"]:::modelConfig
+
+    MODEL_200K["resolveModelConfig<br/>Standard model, no suffix<br/>No beta header<br/>For opusplan: Opus env only"]:::modelConfig
+
+    API["Claude API Request"]:::apiCall
+
+    CHECK_1M{"1M unavailable<br/>error?"}:::fallback
+
+    CHECK_OAUTH{"Using OAuth<br/>and has API key?"}:::fallback
+
+    RETRY_APIKEY["Auth Fallback<br/>OAuth to API key<br/>Keep 1M, inject history<br/>TurnFallback: auth"]:::fallback
+
+    CHECK_1M_B{"Still 1M<br/>unavailable?"}:::fallback
+
+    STRIP_1M["Context Fallback<br/>Strip 1m suffix and header<br/>Retry at 200K<br/>TurnFallback: context"]:::fallback
+
+    CHECK_OPUS{"Opus 4.6<br/>unavailable?"}:::fallback
+
+    DOWNGRADE["Model Fallback<br/>Opus 4.6 to 4.5<br/>Strip 1m if present<br/>TurnFallback: model"]:::fallback
+
+    CHECK_RATE{"Rate limit?"}:::fallback
+
+    RATE_FB["Rate Limit Fallback<br/>OAuth to API key<br/>TurnFallback: auth"]:::fallback
+
+    OK["Turn succeeds"]:::success
+
+    TIP["Usage Tooltip shows actual:<br/>Model, Context 1M or 200K,<br/>Thinking, Auth method<br/>Amber dot if fallbacks<br/>Degradation section details"]:::tooltip
+
+    ERR["Unrecoverable error<br/>Display to user"]:::failure
+
+    START --> SETTINGS
+    SETTINGS --> EXT_CHECK
+    EXT_CHECK -- "Yes" --> MODEL_1M
+    EXT_CHECK -- "No" --> MODEL_200K
+    MODEL_1M --> API
+    MODEL_200K --> API
+    API --> CHECK_1M
+    CHECK_1M -- "Yes" --> CHECK_OAUTH
+    CHECK_1M -- "No" --> CHECK_OPUS
+    CHECK_OAUTH -- "Yes" --> RETRY_APIKEY
+    CHECK_OAUTH -- "No key" --> STRIP_1M
+    RETRY_APIKEY --> CHECK_1M_B
+    CHECK_1M_B -- "Yes" --> STRIP_1M
+    CHECK_1M_B -- "No" --> OK
+    STRIP_1M --> API
+    CHECK_OPUS -- "Yes" --> DOWNGRADE
+    CHECK_OPUS -- "No" --> CHECK_RATE
+    DOWNGRADE --> API
+    CHECK_RATE -- "Yes, OAuth" --> RATE_FB
+    CHECK_RATE -- "No" --> OK
+    RATE_FB --> API
+    OK --> TIP
+    CHECK_RATE -- "Fatal" --> ERR

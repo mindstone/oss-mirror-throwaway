@@ -1,0 +1,88 @@
+/**
+ * VersionOutdatedBanner — inline banner below the tab navigation.
+ *
+ * Uses the brand indigo/lilac palette from tokens.css.
+ * Not fixed-position: flows naturally between tabs and content.
+ */
+
+.banner {
+  display: flex;
+  align-items: center;
+  gap: var(--space-3, 12px);
+  padding: var(--space-2, 8px) var(--space-4, 16px);
+  background: var(--color-brand-indigo-soft, rgba(99, 102, 241, 0.18));
+  font-size: 13px;
+  line-height: 1.4;
+  /* Ensure clickable in macOS window drag region */
+  -webkit-app-region: no-drag;
+}
+
+.icon {
+  flex-shrink: 0;
+  color: var(--color-brand-indigo, #4f46e5);
+}
+
+.text {
+  flex: 1;
+  min-width: 0;
+  color: var(--color-text-primary);
+}
+
+.versionTag {
+  opacity: 0.45;
+  font-size: 11px;
+  margin-left: var(--space-1, 4px);
+}
+
+.actions {
+  display: flex;
+  align-items: center;
+  gap: var(--space-3, 12px);
+  flex-shrink: 0;
+}
+
+/* Override <Button size="sm"> defaults for the compact banner context.
+   Double-class selectors (.banner .updateButton) beat single-class utility
+   classes without needing !important. */
+.banner .updateButton {
+  font-size: 12px;
+  font-weight: 600;
+  padding: var(--space-1, 4px) var(--space-3, 12px);
+  background: var(--color-brand-indigo, #4f46e5);
+  color: var(--color-text-inverse, #fff);
+  border: none;
+  border-radius: 8px;
+  height: auto;
+  white-space: nowrap;
+}
+
+.banner .updateButton:hover {
+  opacity: 0.88;
+}
+
+/* Override <Button variant="ghost" size="sm"> for icon-only dismiss */
+.banner .dismissButton {
+  flex-shrink: 0;
+  width: 24px;
+  height: 24px;
+  padding: 0;
+  opacity: 0.5;
+}
+
+.banner .dismissButton:hover {
+  opacity: 0.9;
+}
+
+/* ─────────────────────────────────────────────────────────────
+   Dark Mode — the indigo-soft token adapts automatically,
+   but we fine-tune text and button for contrast.
+   ───────────────────────────────────────────────────────────── */
+
+:global(.dark) .icon {
+  color: var(--color-brand-indigo, #4f46e5);
+}
+
+:global(.dark) .banner .updateButton {
+  background: var(--color-brand-indigo, #4f46e5);
+  color: var(--color-text-inverse, #fff);
+}

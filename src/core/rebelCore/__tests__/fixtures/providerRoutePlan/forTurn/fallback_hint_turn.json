@@ -1,0 +1,32 @@
+{
+  "description": "Fallback route carries closed fallback hint",
+  "input": {
+    "fallbackHint": {
+      "kind": "long-context-profile",
+      "profileId": "long-context-profile"
+    },
+    "model": "claude-sonnet-4-6",
+    "routeScope": "fallback",
+    "settings": {
+      "activeProvider": "anthropic",
+      "models": {
+        "apiKey": "sk-ant-test",
+        "authMethod": "api-key",
+        "model": "claude-sonnet-4-6",
+        "oauthToken": null
+      },
+      "localModel": {
+        "activeProfileId": null,
+        "profiles": []
+      },
+      "openRouter": {
+        "enabled": false,
+        "oauthToken": null,
+        "selectedModel": "anthropic/claude-sonnet-4.6"
+      },
+      "providerKeys": {}
+    },
+    "codexConnectivity": "unknown"
+  },
+  "name": "fallback_hint_turn"
+}

@@ -1,0 +1,490 @@
+/* ------------------------------------------------------------------ */
+/* NarrativeTab — conversation autopsy                                 */
+/* ------------------------------------------------------------------ */
+
+.narrativeTab {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  padding: 4px 0;
+}
+
+.emptyState {
+  padding: 32px 16px;
+  text-align: center;
+  color: var(--color-text-muted);
+  font-size: 0.88rem;
+}
+
+/* ------------------------------------------------------------------ */
+/* Shared section styles                                               */
+/* ------------------------------------------------------------------ */
+
+.section {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.sectionHeaderRow {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.sectionHeading {
+  margin: 0;
+  font-size: 0.82rem;
+  font-weight: 600;
+  color: var(--color-text-secondary);
+  letter-spacing: 0.03em;
+  text-transform: uppercase;
+}
+
+.sectionIcon {
+  color: var(--color-text-muted);
+}
+
+/* ------------------------------------------------------------------ */
+/* AI Analysis — verdict + waste items                                 */
+/* ------------------------------------------------------------------ */
+
+.analysisActions {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.loadingRow {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 12px 14px;
+  border-radius: 10px;
+  border: 1px solid rgba(148, 163, 184, 0.22);
+  background: rgba(248, 250, 252, 0.7);
+  font-size: 0.84rem;
+  color: var(--color-text-muted);
+}
+
+.spinIcon {
+  animation: spin 1s linear infinite;
+  flex-shrink: 0;
+}
+
+@keyframes spin {
+  from { transform: rotate(0deg); }
+  to { transform: rotate(360deg); }
+}
+
+.errorText {
+  font-size: 0.8rem;
+  color: var(--color-destructive, #ef4444);
+}
+
+.verdictCard {
+  display: flex;
+  align-items: flex-start;
+  gap: 14px;
+  padding: 14px 16px;
+  border-radius: 12px;
+  border: 1px solid rgba(148, 163, 184, 0.24);
+  background: rgba(248, 250, 252, 0.74);
+}
+
+.scoreCircle {
+  width: 48px;
+  height: 48px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1rem;
+  font-weight: 700;
+  color: #fff;
+  flex-shrink: 0;
+}
+
+.scoreGreen { background: rgba(34, 197, 94, 0.85); }
+.scoreYellow { background: rgba(234, 179, 8, 0.85); }
+.scoreRed { background: rgba(239, 68, 68, 0.85); }
+
+.verdictBody {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  min-width: 0;
+}
+
+.verdictText {
+  margin: 0;
+  font-size: 0.84rem;
+  font-weight: 600;
+  color: var(--color-text-primary);
+}
+
+.goalText {
+  margin: 0;
+  font-size: 0.78rem;
+  color: var(--color-text-secondary);
+}
+
+.idealRow {
+  display: flex;
+  gap: 14px;
+  flex-wrap: wrap;
+  font-size: 0.74rem;
+  color: var(--color-text-muted);
+}
+
+.idealItem {
+  display: inline-flex;
+  gap: 4px;
+}
+
+.idealLabel {
+  font-weight: 600;
+}
+
+.narrativeText {
+  margin: 0;
+  padding: 10px 14px;
+  border-radius: 10px;
+  border: 1px solid rgba(148, 163, 184, 0.18);
+  background: rgba(248, 250, 252, 0.6);
+  font-size: 0.8rem;
+  line-height: 1.55;
+  color: var(--color-text-primary);
+}
+
+.wasteList {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.wasteItem {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  padding: 10px 14px;
+  border-radius: 10px;
+  border: 1px solid rgba(239, 68, 68, 0.18);
+  background: rgba(239, 68, 68, 0.04);
+}
+
+.wasteHeader {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  flex-wrap: wrap;
+}
+
+.wasteDescription {
+  font-size: 0.8rem;
+  font-weight: 600;
+  color: var(--color-text-primary);
+  flex: 1;
+  min-width: 0;
+}
+
+.wasteMeta {
+  display: flex;
+  gap: 8px;
+  font-size: 0.72rem;
+  color: var(--color-text-muted);
+}
+
+.wasteSuggestion {
+  font-size: 0.76rem;
+  color: var(--color-text-secondary);
+  font-style: italic;
+}
+
+/* ------------------------------------------------------------------ */
+/* Screenplay table                                                    */
+/* ------------------------------------------------------------------ */
+
+.compactionNote {
+  margin: 0;
+  padding: 8px 12px;
+  font-size: 0.76rem;
+  color: var(--color-text-secondary);
+  background: rgba(249, 115, 22, 0.06);
+  border: 1px solid rgba(249, 115, 22, 0.18);
+  border-radius: 8px;
+  line-height: 1.5;
+}
+
+:global(.dark) .compactionNote {
+  background: rgba(249, 115, 22, 0.08);
+  border-color: rgba(249, 115, 22, 0.22);
+}
+
+.screenplayTable {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 0.78rem;
+}
+
+.screenplayTable thead th {
+  text-align: left;
+  font-size: 0.7rem;
+  font-weight: 600;
+  color: var(--color-text-muted);
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+  padding: 6px 8px;
+  border-bottom: 1px solid rgba(148, 163, 184, 0.28);
+}
+
+.screenplayTable tbody tr {
+  border-bottom: 1px solid rgba(148, 163, 184, 0.12);
+  cursor: pointer;
+  transition: background 0.1s ease;
+}
+
+.screenplayTable tbody tr:hover {
+  background: rgba(226, 232, 240, 0.32);
+}
+
+.turnRow {
+  background: rgba(248, 250, 252, 0.5);
+}
+
+.toolRow {
+  background: transparent;
+}
+
+.errorRow {
+  background: rgba(239, 68, 68, 0.04);
+}
+
+.screenplayTable td {
+  padding: 6px 8px;
+  vertical-align: top;
+}
+
+.colNumber {
+  width: 42px;
+  font-weight: 600;
+  color: var(--color-text-secondary);
+  font-variant-numeric: tabular-nums;
+  white-space: nowrap;
+}
+
+.colActor {
+  width: 110px;
+  white-space: nowrap;
+}
+
+.actorCell {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+}
+
+.actorIcon {
+  flex-shrink: 0;
+  color: var(--color-text-muted);
+}
+
+.actorLabel {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  max-width: 90px;
+}
+
+.colDescription {
+  min-width: 0;
+  max-width: 0;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  color: var(--color-text-primary);
+}
+
+.depthIndent {
+  padding-left: 16px;
+}
+
+.colMetrics {
+  width: 120px;
+  font-variant-numeric: tabular-nums;
+  white-space: nowrap;
+  color: var(--color-text-secondary);
+  font-size: 0.74rem;
+}
+
+.colFlags {
+  width: 100px;
+}
+
+.flagList {
+  display: flex;
+  gap: 3px;
+  flex-wrap: wrap;
+}
+
+/* ------------------------------------------------------------------ */
+/* Expanded row content                                                */
+/* ------------------------------------------------------------------ */
+
+.expandedContent {
+  padding: 8px 12px 12px 50px;
+  font-size: 0.76rem;
+}
+
+.expandedPre {
+  margin: 0;
+  padding: 8px 10px;
+  border-radius: 6px;
+  background: rgba(15, 23, 42, 0.06);
+  font-family: var(--font-mono, 'SF Mono', 'Fira Code', monospace);
+  font-size: 0.72rem;
+  line-height: 1.5;
+  color: var(--color-text-primary);
+  white-space: pre-wrap;
+  word-break: break-word;
+  max-height: 250px;
+  overflow-y: auto;
+}
+
+/* Waste banner injected inline after a screenplay row */
+.inlineWasteBanner {
+  background: rgba(239, 68, 68, 0.06);
+  border-bottom: 1px solid rgba(239, 68, 68, 0.15);
+}
+
+.inlineWasteBanner td {
+  padding: 4px 8px 4px 50px;
+  font-size: 0.72rem;
+  color: var(--color-destructive, #ef4444);
+  font-style: italic;
+}
+
+/* ------------------------------------------------------------------ */
+/* Duration timeline (horizontal bars)                                 */
+/* ------------------------------------------------------------------ */
+
+.timelineList {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.timelineRow {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 4px 8px;
+}
+
+.timelineLabel {
+  width: 56px;
+  flex-shrink: 0;
+  font-size: 0.76rem;
+  font-weight: 600;
+  color: var(--color-text-secondary);
+}
+
+.timelineBarTrack {
+  flex: 1;
+  min-width: 80px;
+  height: 16px;
+  border-radius: 6px;
+  background: rgba(226, 232, 240, 0.32);
+  border: 1px solid rgba(148, 163, 184, 0.18);
+  overflow: hidden;
+  display: flex;
+}
+
+.timelineSegment {
+  height: 100%;
+  min-width: 2px;
+  transition: width 0.3s ease;
+}
+
+.segmentTool {
+  background: rgba(99, 102, 241, 0.65);
+}
+
+.segmentError {
+  background: rgba(239, 68, 68, 0.7);
+}
+
+.segmentThink {
+  background: rgba(148, 163, 184, 0.35);
+}
+
+.timelineDuration {
+  width: 52px;
+  flex-shrink: 0;
+  text-align: right;
+  font-size: 0.76rem;
+  font-weight: 600;
+  color: var(--color-text-primary);
+}
+
+/* ------------------------------------------------------------------ */
+/* Dark mode                                                           */
+/* ------------------------------------------------------------------ */
+
+:global(.dark) .narrativeTab {
+  /* Inherits from app dark mode variables */
+}
+
+:global(.dark) .verdictCard {
+  border-color: rgba(148, 163, 184, 0.26);
+  background: rgba(15, 23, 42, 0.78);
+}
+
+:global(.dark) .narrativeText {
+  border-color: rgba(148, 163, 184, 0.22);
+  background: rgba(15, 23, 42, 0.6);
+}
+
+:global(.dark) .wasteItem {
+  border-color: rgba(239, 68, 68, 0.24);
+  background: rgba(239, 68, 68, 0.08);
+}
+
+:global(.dark) .loadingRow {
+  border-color: rgba(148, 163, 184, 0.26);
+  background: rgba(15, 23, 42, 0.7);
+}
+
+:global(.dark) .screenplayTable thead th {
+  border-bottom-color: rgba(148, 163, 184, 0.3);
+}
+
+:global(.dark) .screenplayTable tbody tr {
+  border-bottom-color: rgba(148, 163, 184, 0.16);
+}
+
+:global(.dark) .screenplayTable tbody tr:hover {
+  background: rgba(51, 65, 85, 0.4);
+}
+
+:global(.dark) .turnRow {
+  background: rgba(15, 23, 42, 0.5);
+}
+
+:global(.dark) .errorRow {
+  background: rgba(239, 68, 68, 0.08);
+}
+
+:global(.dark) .expandedPre {
+  background: rgba(0, 0, 0, 0.3);
+}
+
+:global(.dark) .inlineWasteBanner {
+  background: rgba(239, 68, 68, 0.1);
+  border-bottom-color: rgba(239, 68, 68, 0.2);
+}
+
+:global(.dark) .timelineBarTrack {
+  background: rgba(30, 41, 59, 0.64);
+  border-color: rgba(148, 163, 184, 0.26);
+}

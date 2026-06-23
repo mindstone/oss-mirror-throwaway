@@ -1,0 +1,9 @@
+{
+  "boundarySetters": [
+    {
+      "name": "setFooProvider",
+      "decl": "src/core/fooProvider.ts",
+      "nullSentinel": "NULL_FOO"
+    }
+  ]
+}

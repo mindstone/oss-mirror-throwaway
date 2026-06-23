@@ -1,0 +1,6 @@
+{"type":"turn_started","timestamp":1,"turnId":"turn-1"}
+{"type":"tool","timestamp":2,"stage":"start","toolName":"Task","toolUseId":"sa-1","detail":"{\"subagent_type\":\"reviewer-gpt5.5-high\",\"description\":\"Review\"}"}
+{"type":"tool","timestamp":3,"stage":"end","toolName":"Task","toolUseId":"sa-1","detail":"Async agent launched successfully"}
+{"type":"tool","timestamp":4,"stage":"start","toolName":"Task","toolUseId":"sa-2","detail":"{\"subagent_type\":\"implementer\"}"}
+{"type":"tool","timestamp":5,"stage":"end","toolName":"Task","toolUseId":"sa-2","detail":"Complete"}
+{"type":"result","timestamp":6,"text":"Done"}

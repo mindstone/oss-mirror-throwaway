@@ -1,0 +1,25 @@
+.header {
+  margin-bottom: 4px;
+}
+
+.title {
+  margin: 0;
+  font-size: 1.05rem;
+  font-weight: 600;
+  color: rgba(248, 250, 255, 0.95);
+}
+
+.subtitle {
+  margin: 4px 0 0;
+  font-size: 0.78rem;
+  color: rgba(148, 163, 184, 0.85);
+  line-height: 1.4;
+}
+
+:global(body.light) .title {
+  color: var(--color-foreground);
+}
+
+:global(body.light) .subtitle {
+  color: var(--color-muted-foreground);
+}

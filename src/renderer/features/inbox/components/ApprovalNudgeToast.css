@@ -1,0 +1,290 @@
+/* ApprovalNudgeToast — persistent notification when approvals pending and drawer closed.
+   Attention strategy: elevated app card with restrained accents, so it stays
+   noticeable without turning detail requests into approval-style alerts. */
+
+.approval-nudge-toast {
+  position: fixed;
+  top: 56px;
+  right: 16px;
+  z-index: calc(var(--z-sticky-approvals) - 1);
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  min-height: 58px;
+  width: min(360px, calc(100vw - 32px));
+  padding: 6px 8px 6px 6px;
+  border-radius: 16px;
+  background:
+    radial-gradient(
+      circle at 18% 0%,
+      color-mix(in srgb, var(--color-brand-indigo) 16%, transparent),
+      transparent 42%
+    ),
+    color-mix(in srgb, var(--color-card) 92%, transparent);
+  border: 1px solid color-mix(in srgb, var(--color-brand-indigo) 34%, var(--color-border-soft) 66%);
+  box-shadow:
+    var(--shadow-medium),
+    0 0 0 1px color-mix(in srgb, var(--color-brand-indigo) 12%, transparent),
+    0 12px 44px color-mix(in srgb, var(--color-brand-indigo) 18%, transparent),
+    inset 0 1px 0 color-mix(in srgb, var(--color-text-primary) 7%, transparent);
+  backdrop-filter: var(--glass-panel-blur);
+  -webkit-backdrop-filter: var(--glass-panel-blur);
+  animation: nudge-toast-enter var(--motion-duration-medium) var(--motion-ease-out);
+  transition:
+    background var(--motion-duration-fast) var(--motion-ease-out),
+    border-color var(--motion-duration-fast) var(--motion-ease-out),
+    box-shadow var(--motion-duration-fast) var(--motion-ease-out);
+}
+
+.approval-nudge-toast:hover {
+  background:
+    radial-gradient(
+      circle at 18% 0%,
+      color-mix(in srgb, var(--color-brand-indigo) 22%, transparent),
+      transparent 44%
+    ),
+    color-mix(in srgb, var(--color-card) 96%, transparent);
+  border-color: color-mix(in srgb, var(--color-brand-indigo) 46%, var(--color-border-soft) 54%);
+  box-shadow:
+    var(--shadow-medium),
+    0 0 0 1px color-mix(in srgb, var(--color-brand-indigo) 16%, transparent),
+    0 16px 52px color-mix(in srgb, var(--color-brand-indigo) 22%, transparent),
+    inset 0 1px 0 color-mix(in srgb, var(--color-text-primary) 9%, transparent);
+}
+
+.approval-nudge-toast--detail-only {
+  background:
+    linear-gradient(
+      135deg,
+      color-mix(in srgb, var(--color-text-secondary) 10%, transparent),
+      color-mix(in srgb, var(--color-text-secondary) 5%, transparent)
+    ),
+    color-mix(in srgb, var(--color-card) 92%, transparent);
+  border-color: color-mix(in srgb, var(--color-text-secondary) 16%, var(--color-border-soft) 84%);
+  box-shadow:
+    var(--shadow-medium),
+    inset 0 0.5px 0 color-mix(in srgb, var(--color-text-primary) 6%, transparent);
+}
+
+.approval-nudge-toast--detail-only:hover {
+  background:
+    linear-gradient(
+      135deg,
+      color-mix(in srgb, var(--color-text-secondary) 14%, transparent),
+      color-mix(in srgb, var(--color-text-secondary) 7%, transparent)
+    ),
+    color-mix(in srgb, var(--color-card) 96%, transparent);
+  border-color: color-mix(in srgb, var(--color-text-secondary) 22%, var(--color-border-soft) 78%);
+  box-shadow:
+    var(--shadow-medium),
+    inset 0 0.5px 0 color-mix(in srgb, var(--color-text-primary) 8%, transparent);
+}
+
+.approval-nudge-toast__body {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  flex: 1 1 auto;
+  min-width: 0;
+  min-height: 46px;
+  padding: 6px 8px;
+  border: 0;
+  border-radius: 12px;
+  background: transparent;
+  color: inherit;
+  cursor: pointer;
+  text-align: left;
+}
+
+.approval-nudge-toast__body:focus-visible {
+  outline: none;
+  box-shadow: 0 0 0 2px color-mix(in srgb, var(--color-brand-indigo) 42%, transparent);
+}
+
+.approval-nudge-toast__iconShell {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 30px;
+  height: 30px;
+  border-radius: 10px;
+  background: color-mix(in srgb, var(--color-brand-indigo) 20%, transparent);
+  box-shadow:
+    0 0 0 1px color-mix(in srgb, var(--color-brand-indigo) 24%, transparent),
+    0 8px 22px color-mix(in srgb, var(--color-brand-indigo) 16%, transparent);
+  flex-shrink: 0;
+}
+
+.approval-nudge-toast--detail-only .approval-nudge-toast__iconShell {
+  background: color-mix(in srgb, var(--color-text-secondary) 14%, transparent);
+}
+
+.approval-nudge-toast__copy {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  min-width: 0;
+}
+
+.approval-nudge-toast__title {
+  color: var(--color-text-primary);
+  font-size: 0.8125rem;
+  font-weight: 600;
+  line-height: 1.25;
+  white-space: nowrap;
+}
+
+.approval-nudge-toast__meta {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  min-width: 0;
+  color: var(--color-text-secondary);
+  font-size: 0.72rem;
+  font-weight: 600;
+  line-height: 1.2;
+}
+
+.approval-nudge-toast__count {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.approval-nudge-toast__review {
+  color: color-mix(in srgb, var(--color-brand-indigo) 72%, var(--color-text-primary) 28%);
+  flex-shrink: 0;
+  font-weight: 650;
+}
+
+@keyframes nudge-toast-enter {
+  0% {
+    opacity: 0;
+    transform: translate(12px, -2px) scale(0.98);
+  }
+  100% {
+    opacity: 1;
+    transform: translate(0, 0) scale(1);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .approval-nudge-toast {
+    animation: none;
+    transition: none;
+  }
+
+  .approval-nudge-toast__close {
+    transition: none;
+  }
+}
+
+.approval-nudge-toast__icon {
+  flex-shrink: 0;
+  color: var(--color-text-primary);
+  transform-origin: top center;
+}
+
+.approval-nudge-toast--detail-only .approval-nudge-toast__icon {
+  color: var(--color-text-secondary);
+  animation: none;
+}
+
+.approval-nudge-toast__text {
+  font-size: 0.875rem;
+  font-weight: 600;
+  color: var(--color-text-primary);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.approval-nudge-toast__close {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 26px;
+  height: 26px;
+  border: none;
+  border-radius: 8px;
+  background: transparent;
+  color: var(--color-text-secondary);
+  cursor: pointer;
+  flex-shrink: 0;
+  transition:
+    background var(--motion-duration-fast) var(--motion-ease-out),
+    color var(--motion-duration-fast) var(--motion-ease-out);
+}
+
+.approval-nudge-toast__close:hover {
+  background: color-mix(in srgb, var(--color-text-primary) 12%, transparent);
+  color: var(--color-text-primary);
+}
+
+.approval-nudge-toast__close:focus-visible {
+  outline: none;
+  box-shadow: 0 0 0 2px color-mix(in srgb, var(--color-brand-indigo) 35%, transparent);
+}
+
+/* ─────────────────────────────────────────────────────────────
+   Light Mode Overrides
+   Keep the same solid surface treatment, just with a lighter indigo tint.
+   ───────────────────────────────────────────────────────────── */
+
+body.light .approval-nudge-toast {
+  background:
+    radial-gradient(
+      circle at 18% 0%,
+      color-mix(in srgb, var(--color-brand-indigo) 10%, transparent),
+      transparent 42%
+    ),
+    var(--color-surface-1);
+  border-color: color-mix(in srgb, var(--color-brand-indigo) 20%, var(--color-border-soft) 80%);
+  box-shadow:
+    var(--shadow-soft),
+    0 0 20px color-mix(in srgb, var(--color-brand-indigo) 12%, transparent),
+    inset 0 0.5px 0 color-mix(in srgb, var(--color-text-inverse) 8%, transparent);
+}
+
+body.light .approval-nudge-toast:hover {
+  background:
+    radial-gradient(
+      circle at 18% 0%,
+      color-mix(in srgb, var(--color-brand-indigo) 14%, transparent),
+      transparent 44%
+    ),
+    var(--color-surface-1);
+  border-color: color-mix(in srgb, var(--color-brand-indigo) 30%, var(--color-border-soft) 70%);
+  box-shadow:
+    var(--shadow-soft),
+    0 0 28px color-mix(in srgb, var(--color-brand-indigo) 18%, transparent),
+    inset 0 0.5px 0 color-mix(in srgb, var(--color-text-inverse) 10%, transparent);
+}
+
+body.light .approval-nudge-toast--detail-only {
+  background:
+    linear-gradient(
+      135deg,
+      color-mix(in srgb, var(--color-muted-foreground) 8%, transparent),
+      color-mix(in srgb, var(--color-muted-foreground) 4%, transparent)
+    ),
+    var(--color-surface-1);
+  border-color: color-mix(in srgb, var(--color-muted-foreground) 18%, var(--color-border-soft) 82%);
+  box-shadow:
+    var(--shadow-soft),
+    inset 0 0.5px 0 color-mix(in srgb, var(--color-text-inverse) 6%, transparent);
+}
+
+body.light .approval-nudge-toast--detail-only:hover {
+  background:
+    linear-gradient(
+      135deg,
+      color-mix(in srgb, var(--color-muted-foreground) 12%, transparent),
+      color-mix(in srgb, var(--color-muted-foreground) 6%, transparent)
+    ),
+    var(--color-surface-1);
+  border-color: color-mix(in srgb, var(--color-muted-foreground) 24%, var(--color-border-soft) 76%);
+  box-shadow:
+    var(--shadow-soft),
+    inset 0 0.5px 0 color-mix(in srgb, var(--color-text-inverse) 8%, transparent);
+}

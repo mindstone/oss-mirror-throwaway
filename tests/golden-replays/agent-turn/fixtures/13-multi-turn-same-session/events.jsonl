@@ -1,0 +1,6 @@
+{"type":"turn_started","timestamp":1,"turnId":"turn-1"}
+{"type":"assistant","timestamp":2,"text":"One"}
+{"type":"result","timestamp":3,"text":"One"}
+{"type":"turn_started","timestamp":4,"turnId":"turn-2"}
+{"type":"assistant","timestamp":5,"text":"Two"}
+{"type":"result","timestamp":6,"text":"Two"}

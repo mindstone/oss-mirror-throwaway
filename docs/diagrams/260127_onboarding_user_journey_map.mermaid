@@ -1,0 +1,220 @@
+%%{init: {'theme': 'base', 'themeVariables': { 'primaryColor': '#e8e8ff', 'primaryTextColor': '#1a1a2e', 'primaryBorderColor': '#6366f1', 'lineColor': '#64748b', 'secondaryColor': '#fef3c7', 'tertiaryColor': '#dcfce7', 'fontSize': '14px'}}}%%
+
+%% PROMPT TO REPRODUCE THIS DIAGRAM:
+%% Create a user journey map for Mindstone Rebel onboarding showing:
+%% - 6 main stages: Pre-Launch, Setup Wizard, Audio Intro, First Conversation, Tutorial Checklist, Days 2-7
+%% - Each stage shows: main flow steps, problems (red), opportunities (green)
+%% - Color scheme: purple for user actions, blue for app responses, red for problems, green for opportunities
+%% - Based on: docs/project/ux_testing/260127_onboarding_user_journey_map.md
+%% - Personas: Skeptical First-Timer (primary), New Hire, Executive Assistant
+%% Files: ONBOARDING_SETUP_WIZARD.md, THE_SPARK.md, ux_testing/reports/, ux_testing/personas/
+
+flowchart TB
+    %% ===== STAGE 0: PRE-LAUNCH =====
+    subgraph S0["📥 STAGE 0: Pre-Launch"]
+        direction TB
+        S0_A[("👤 User discovers Rebel<br/><i>Marketing, word of mouth</i>")]
+        S0_B["💭 Sets expectations<br/><i>Hopes it works for me</i>"]
+        S0_C["⬇️ Downloads app"]
+        
+        S0_A --> S0_B --> S0_C
+        
+        S0_P1[/"⚠️ PROBLEM: Unrealistic expectations<br/>Marketing shows power workflows,<br/>user expects instant magic"/]
+        S0_O1[/"✨ OPPORTUNITY: Set first-win expectations<br/>Your first win takes 60 seconds<br/>3 things to have ready"/]
+    end
+
+    %% ===== STAGE 1: SETUP WIZARD =====
+    subgraph S1["⚙️ STAGE 1: Setup Wizard (5-10 min)"]
+        direction TB
+        
+        subgraph S1_Steps["Flow"]
+            S1_A["1️⃣ Welcome<br/><i>Preflight checks</i>"]
+            S1_B["2️⃣ Workspace<br/><i>Select folder</i>"]
+            S1_C["3️⃣ Spaces<br/><i>Connect Drive/OneDrive</i>"]
+            S1_D["4️⃣ API Keys<br/><i>Claude key required</i>"]
+            S1_E["5️⃣ Tool Auth<br/><i>Gmail, Calendar, Slack</i>"]
+            S1_F["6️⃣ Permissions<br/><i>File access, Mic</i>"]
+            S1_G["✅ Complete"]
+            
+            S1_A --> S1_B --> S1_C --> S1_D --> S1_E --> S1_F --> S1_G
+        end
+        
+        S1_P1[/"⚠️ PROBLEM: Feels like work<br/>7 steps before any value<br/>User thinking: when can I try it?"/]
+        S1_P2[/"⚠️ PROBLEM: OAuth fatigue<br/>Why does it need all this?<br/>Trust barrier at each step"/]
+        S1_P3[/"⚠️ PROBLEM: $4-6 invisible cost<br/>Use case generation runs<br/>during Permissions step"/]
+        
+        S1_O1[/"✨ OPPORTUNITY: Show progress<br/>In 5 min you will be able to...<br/>Step 3 of 6 complete"/]
+        S1_O2[/"✨ OPPORTUNITY: Explain why<br/>With Gmail I can check your<br/>meetings and draft emails"/]
+    end
+
+    %% ===== STAGE 2: AUDIO INTRO =====
+    subgraph S2["🎤 STAGE 2: Audio Intro (2 min)"]
+        direction TB
+        S2_A["🎬 Video/audio plays<br/><i>Push-to-talk demo</i>"]
+        S2_B["💭 User watches<br/><i>Okay got it...</i>"]
+        S2_C["📱 See conversation shell<br/><i>Blank canvas</i>"]
+        
+        S2_A --> S2_B --> S2_C
+        
+        S2_P1[/"⚠️ PROBLEM: Passive watching<br/>Feels like an ad<br/>Delays actual use"/]
+        
+        S2_O1[/"✨ OPPORTUNITY: Make interactive<br/>Try PTT during intro<br/>Practice before real use"/]
+    end
+
+    %% ===== STAGE 3: FIRST CONVERSATION =====
+    subgraph S3["💬 STAGE 3: First Conversation (Critical!)"]
+        direction TB
+        
+        S3_A["😰 Blank chat + The Spark<br/><i>What do I even ask?</i>"]
+        S3_B["🤔 User types query<br/><i>Uncertain, testing</i>"]
+        S3_C["⏳ Long wait begins<br/><i>5-10 min for complex</i>"]
+        S3_D["🔄 Status messages<br/><i>Tuning the engine...</i>"]
+        S3_E["📝 Response arrives<br/><i>Often overwhelming</i>"]
+        S3_F{{"🎯 DECISION POINT<br/>Trust or abandon?"}}
+        
+        S3_A --> S3_B --> S3_C --> S3_D --> S3_E --> S3_F
+        
+        S3_P1[/"⚠️ PROBLEM: Paralysis of choice<br/>I dont know what to ask<br/>I dont know the right words"/]
+        S3_P2[/"⚠️ PROBLEM: Long wait time<br/>5-10 min for first query<br/>Skeptics abandon here"/]
+        S3_P3[/"⚠️ PROBLEM: No real progress<br/>Artistic messages dont help<br/>How long will this take?"/]
+        S3_P4[/"⚠️ PROBLEM: Overwhelming response<br/>Too much detail<br/>Hard to verify accuracy"/]
+        
+        S3_O1[/"✨ OPPORTUNITY: Suggest first query<br/>Whats on my calendar today?<br/>Pre-built, guaranteed fast"/]
+        S3_O2[/"✨ OPPORTUNITY: 60-sec first win<br/>Force first query to be simple<br/>Show power AFTER trust"/]
+        S3_O3[/"✨ OPPORTUNITY: Real progress<br/>Checking calendar...<br/>Found 3 meetings..."/]
+    end
+
+    %% ===== STAGE 4: TUTORIAL CHECKLIST =====
+    subgraph S4["📋 STAGE 4: Tutorial Checklist"]
+        direction TB
+        
+        S4_A["📍 Checklist in sidebar<br/><i>Getting Started widget</i>"]
+        
+        subgraph S4_Steps["4 Steps (any order)"]
+            S4_S1["1. Use first connector"]
+            S4_S2["2. Execute first skill"]
+            S4_S3["3. Add some memory"]
+            S4_S4["4. Try first use case"]
+        end
+        
+        S4_A --> S4_Steps
+        
+        S4_P1[/"⚠️ PROBLEM: Easy to miss<br/>Buried in sidebar<br/>Competes with conversation"/]
+        S4_P2[/"⚠️ PROBLEM: Weak examples<br/>Show me my last 3 emails<br/>Demonstrates plumbing not value"/]
+        S4_P3[/"⚠️ PROBLEM: Feels like homework<br/>No clear order<br/>Often abandoned"/]
+        
+        S4_O1[/"✨ OPPORTUNITY: Make it hero<br/>Full-screen until complete<br/>Or prominent placement"/]
+        S4_O2[/"✨ OPPORTUNITY: Better examples<br/>What should I know before<br/>my next meeting?"/]
+    end
+
+    %% ===== STAGE 5: THE SPARK (HOME) =====
+    subgraph S5["🏠 STAGE 5: The Spark - Days 1-7"]
+        direction TB
+        
+        subgraph S5_Content["Current Content"]
+            S5_C1["🎯 Goal Header<br/><i>Empty until set</i>"]
+            S5_C2["💡 Coaching Insights<br/><i>Empty first 24h</i>"]
+            S5_C3["⚡ Workflows<br/><i>Generic or missing</i>"]
+            S5_C4["👥 Community<br/><i>Irrelevant yet</i>"]
+            S5_C5["📊 Spaces Synthesis<br/><i>Requires focus setup</i>"]
+        end
+        
+        S5_P1[/"⚠️ PROBLEM: Cold Start<br/>Everything is empty<br/>Designed for returning users"/]
+        S5_P2[/"⚠️ PROBLEM: No coaching yet<br/>Sessions need 1h+ to age<br/>3+ messages required"/]
+        S5_P3[/"⚠️ PROBLEM: Generic workflows<br/>No personalization data<br/>Use case gen disabled"/]
+        
+        S5_O1[/"✨ OPPORTUNITY: Onboarding content<br/>Days 1-7 specific tips<br/>What users like you ask"/]
+        S5_O2[/"✨ OPPORTUNITY: Quick actions<br/>One-click pre-built prompts<br/>Guaranteed fast responses"/]
+        S5_O3[/"✨ OPPORTUNITY: Progress tracker<br/>Youre 2 of 5 steps to mastery<br/>Time saved this week"/]
+    end
+
+    %% ===== STAGE 6: DAYS 2-7 =====
+    subgraph S6["📅 STAGE 6: Days 2-7 (Retention)"]
+        direction TB
+        
+        S6_A["Day 2: Should return"]
+        S6_B["Day 3: Coaching appears?"]
+        S6_C["Day 4-5: Building habit?"]
+        S6_D["Day 7: Weekly milestone"]
+        
+        S6_A --> S6_B --> S6_C --> S6_D
+        
+        S6_P1[/"⚠️ PROBLEM: No triggers<br/>User must self-motivate<br/>No reminders or nudges"/]
+        S6_P2[/"⚠️ PROBLEM: No habit loop<br/>Second use no easier than first<br/>No daily quick wins"/]
+        
+        S6_O1[/"✨ OPPORTUNITY: Re-engagement<br/>Day 2 email with quick win<br/>You saved X time yesterday"/]
+        S6_O2[/"✨ OPPORTUNITY: Daily challenges<br/>Try asking about...<br/>Progressive skill building"/]
+        S6_O3[/"✨ OPPORTUNITY: Aggregate metrics<br/>This week you saved 2 hours<br/>Visible progress"/]
+    end
+
+    %% ===== CONNECTIONS BETWEEN STAGES =====
+    S0 --> S1
+    S1 --> S2
+    S2 --> S3
+    S3 --> S4
+    S4 --> S5
+    S5 --> S6
+
+    %% ===== STYLING =====
+    
+    %% Stage containers
+    style S0 fill:#f8fafc,stroke:#6366f1,stroke-width:2px
+    style S1 fill:#f8fafc,stroke:#6366f1,stroke-width:2px
+    style S2 fill:#f8fafc,stroke:#6366f1,stroke-width:2px
+    style S3 fill:#fef2f2,stroke:#dc2626,stroke-width:3px
+    style S4 fill:#f8fafc,stroke:#6366f1,stroke-width:2px
+    style S5 fill:#fef2f2,stroke:#dc2626,stroke-width:2px
+    style S6 fill:#f8fafc,stroke:#6366f1,stroke-width:2px
+    
+    %% Problem nodes - Red
+    style S0_P1 fill:#fee2e2,stroke:#dc2626,color:#991b1b
+    style S1_P1 fill:#fee2e2,stroke:#dc2626,color:#991b1b
+    style S1_P2 fill:#fee2e2,stroke:#dc2626,color:#991b1b
+    style S1_P3 fill:#fee2e2,stroke:#dc2626,color:#991b1b
+    style S2_P1 fill:#fee2e2,stroke:#dc2626,color:#991b1b
+    style S3_P1 fill:#fee2e2,stroke:#dc2626,color:#991b1b
+    style S3_P2 fill:#fee2e2,stroke:#dc2626,color:#991b1b
+    style S3_P3 fill:#fee2e2,stroke:#dc2626,color:#991b1b
+    style S3_P4 fill:#fee2e2,stroke:#dc2626,color:#991b1b
+    style S4_P1 fill:#fee2e2,stroke:#dc2626,color:#991b1b
+    style S4_P2 fill:#fee2e2,stroke:#dc2626,color:#991b1b
+    style S4_P3 fill:#fee2e2,stroke:#dc2626,color:#991b1b
+    style S5_P1 fill:#fee2e2,stroke:#dc2626,color:#991b1b
+    style S5_P2 fill:#fee2e2,stroke:#dc2626,color:#991b1b
+    style S5_P3 fill:#fee2e2,stroke:#dc2626,color:#991b1b
+    style S6_P1 fill:#fee2e2,stroke:#dc2626,color:#991b1b
+    style S6_P2 fill:#fee2e2,stroke:#dc2626,color:#991b1b
+    
+    %% Opportunity nodes - Green
+    style S0_O1 fill:#dcfce7,stroke:#16a34a,color:#166534
+    style S1_O1 fill:#dcfce7,stroke:#16a34a,color:#166534
+    style S1_O2 fill:#dcfce7,stroke:#16a34a,color:#166534
+    style S2_O1 fill:#dcfce7,stroke:#16a34a,color:#166534
+    style S3_O1 fill:#dcfce7,stroke:#16a34a,color:#166534
+    style S3_O2 fill:#dcfce7,stroke:#16a34a,color:#166534
+    style S3_O3 fill:#dcfce7,stroke:#16a34a,color:#166534
+    style S4_O1 fill:#dcfce7,stroke:#16a34a,color:#166534
+    style S4_O2 fill:#dcfce7,stroke:#16a34a,color:#166534
+    style S5_O1 fill:#dcfce7,stroke:#16a34a,color:#166534
+    style S5_O2 fill:#dcfce7,stroke:#16a34a,color:#166534
+    style S5_O3 fill:#dcfce7,stroke:#16a34a,color:#166534
+    style S6_O1 fill:#dcfce7,stroke:#16a34a,color:#166534
+    style S6_O2 fill:#dcfce7,stroke:#16a34a,color:#166534
+    style S6_O3 fill:#dcfce7,stroke:#16a34a,color:#166534
+    
+    %% Decision point - Yellow
+    style S3_F fill:#fef3c7,stroke:#d97706,stroke-width:3px,color:#92400e
+    
+    %% User action nodes - Purple
+    style S0_A fill:#ede9fe,stroke:#7c3aed,color:#5b21b6
+    style S0_B fill:#ede9fe,stroke:#7c3aed,color:#5b21b6
+    style S0_C fill:#ede9fe,stroke:#7c3aed,color:#5b21b6
+    style S3_A fill:#ede9fe,stroke:#7c3aed,color:#5b21b6
+    style S3_B fill:#ede9fe,stroke:#7c3aed,color:#5b21b6
+    
+    %% App response nodes - Blue
+    style S2_A fill:#dbeafe,stroke:#2563eb,color:#1e40af
+    style S2_C fill:#dbeafe,stroke:#2563eb,color:#1e40af
+    style S3_C fill:#dbeafe,stroke:#2563eb,color:#1e40af
+    style S3_D fill:#dbeafe,stroke:#2563eb,color:#1e40af
+    style S3_E fill:#dbeafe,stroke:#2563eb,color:#1e40af

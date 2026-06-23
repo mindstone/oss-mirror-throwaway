@@ -1,0 +1,35 @@
+{
+  "name": "user-question-rehydration",
+  "input": [
+    {
+      "id": "u9",
+      "turnId": "t9",
+      "role": "user",
+      "text": "User answered the question while reconnecting.",
+      "messageOrigin": "system-continuation",
+      "createdAt": 9001
+    },
+    {
+      "id": "a9",
+      "turnId": "t9",
+      "role": "assistant",
+      "text": "Applying rehydrated answer...",
+      "createdAt": 9002
+    },
+    {
+      "id": "r9",
+      "turnId": "t9",
+      "role": "result",
+      "text": "Follow-up complete.",
+      "createdAt": 9003
+    }
+  ],
+  "expected": {
+    "visibleIds": ["r9"],
+    "messagesByTurnIds": {
+      "t9": ["u9", "a9", "r9"]
+    },
+    "activeTurnId": null,
+    "isBusy": false
+  }
+}

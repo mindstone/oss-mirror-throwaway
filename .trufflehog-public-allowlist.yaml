@@ -1,0 +1,46 @@
+# Public mirror TruffleHog governance allowlist.
+#
+# This is a repo-side governance artifact validated by
+# scripts/check-trufflehog-public-allowlist.ts. It is NOT a TruffleHog
+# detector config and must not be passed to TruffleHog via --config.
+# If TruffleHog ever needs native path exclusions, use a separate
+# .trufflehog-exclude-paths.txt file with newline-delimited paths for
+# --exclude-paths.
+version: 1
+allowlist:
+  - kind: corporate-inbox
+    pattern: hello@mindstone.com
+    reason: Public contact inbox.
+  - kind: corporate-inbox
+    pattern: contact@mindstone.com
+    reason: Public contact inbox.
+  - kind: corporate-inbox
+    pattern: security@mindstone.com
+    reason: Public vulnerability disclosure inbox.
+  - kind: public-test-key
+    pattern: pk_test_
+    reason: Stripe public docs publishable test-key prefix.
+  - kind: public-test-key
+    pattern: sk_test_
+    reason: Stripe public docs secret test-key prefix.
+  - kind: public-test-key
+    pattern: whsec_test_
+    reason: Stripe public docs webhook signing test-secret prefix.
+  - kind: public-fixture
+    pattern: example.com
+    reason: RFC 2606 reserved example domain.
+  - kind: public-fixture
+    pattern: example.org
+    reason: RFC 2606 reserved example domain.
+  - kind: public-fixture
+    pattern: 192.0.2.0/24
+    reason: RFC 5737 documentation IPv4 range.
+  - kind: public-fixture
+    pattern: 198.51.100.0/24
+    reason: RFC 5737 documentation IPv4 range.
+  - kind: public-fixture
+    pattern: 203.0.113.0/24
+    reason: RFC 5737 documentation IPv4 range.
+  - kind: public-fixture
+    pattern: 2001:db8::/32
+    reason: RFC 3849 documentation IPv6 range.

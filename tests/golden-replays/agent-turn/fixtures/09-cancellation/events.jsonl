@@ -1,0 +1,4 @@
+{"type":"turn_started","timestamp":1,"turnId":"turn-1"}
+{"type":"answer_phase_started","timestamp":2}
+{"type":"assistant_delta","timestamp":2,"text":"Partial"}
+{"type":"error","timestamp":3,"error":"Stopped","turnEndReason":"user_stopped"}

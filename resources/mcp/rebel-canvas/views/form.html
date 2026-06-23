@@ -1,0 +1,1328 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Form</title>
+  <style>
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --rc-bg: #ffffff;
+      --rc-fg: #1a1a1a;
+      --rc-muted: #666666;
+      --rc-border: #d8d8d8;
+      --rc-subtle: #f7f7f7;
+      --rc-subtle-strong: #eeeeee;
+      --rc-accent: #6366f1;
+      --rc-accent-contrast: #ffffff;
+      --rc-danger: #b42318;
+      --rc-danger-bg: #fff4f2;
+      --rc-focus: rgba(99, 102, 241, 0.28);
+      --rc-success: #166534;
+      --rc-success-bg: #f0fdf4;
+      --rc-warning: #92400e;
+      --rc-warning-bg: #fffbeb;
+      --rc-status-fs: 12px;
+      --rc-status-lh: 1.4;
+      --rc-status-pad: 8px;
+      --rc-status-gap: 12px;
+      --rc-status-button-gap: 8px;
+    }
+
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+      padding: 24px;
+      background: var(--rc-bg);
+      color: var(--rc-fg);
+      color-scheme: light dark;
+      line-height: 1.5;
+    }
+
+    body.dark {
+      --rc-bg: #1a1a1a;
+      --rc-fg: #f0f0f0;
+      --rc-muted: #aaaaaa;
+      --rc-border: #3a3a3a;
+      --rc-subtle: #242424;
+      --rc-subtle-strong: #303030;
+      --rc-danger: #ffb4ab;
+      --rc-danger-bg: #3b1714;
+      --rc-focus: rgba(129, 140, 248, 0.35);
+      --rc-success: #86efac;
+      --rc-success-bg: #12351f;
+      --rc-warning: #fcd34d;
+      --rc-warning-bg: #392b11;
+    }
+
+    @media (prefers-color-scheme: dark) {
+      body:not(.light) {
+        --rc-bg: #1a1a1a;
+        --rc-fg: #f0f0f0;
+        --rc-muted: #aaaaaa;
+        --rc-border: #3a3a3a;
+        --rc-subtle: #242424;
+        --rc-subtle-strong: #303030;
+        --rc-danger: #ffb4ab;
+        --rc-danger-bg: #3b1714;
+        --rc-focus: rgba(129, 140, 248, 0.35);
+        --rc-success: #86efac;
+        --rc-success-bg: #12351f;
+        --rc-warning: #fcd34d;
+        --rc-warning-bg: #392b11;
+      }
+    }
+
+    h1 {
+      font-size: 18px;
+      font-weight: 650;
+      margin-bottom: 6px;
+    }
+
+    .intro {
+      color: var(--rc-muted);
+      font-size: 14px;
+      margin-bottom: 20px;
+    }
+
+    .error-empty,
+    .render-error {
+      color: var(--rc-muted);
+      font-size: 14px;
+      text-align: center;
+      padding: 40px 0;
+    }
+
+    form {
+      display: flex;
+      flex-direction: column;
+      gap: 18px;
+    }
+
+    .field {
+      display: flex;
+      flex-direction: column;
+      gap: 7px;
+    }
+
+    label,
+    legend {
+      color: var(--rc-fg);
+      font-size: 13px;
+      font-weight: 600;
+    }
+
+    .required {
+      color: var(--rc-danger);
+      margin-left: 3px;
+    }
+
+    .hint,
+    .counter {
+      color: var(--rc-muted);
+      font-size: 12px;
+    }
+
+    input,
+    textarea,
+    select,
+    button {
+      font: inherit;
+    }
+
+    input[type="text"],
+    input[type="email"],
+    input[type="url"],
+    input[type="number"],
+    input[type="date"],
+    input[type="time"],
+    input[type="datetime-local"],
+    textarea,
+    select {
+      width: 100%;
+      border: 1px solid var(--rc-border);
+      border-radius: 8px;
+      background: var(--rc-bg);
+      color: var(--rc-fg);
+      padding: 9px 10px;
+      outline: none;
+    }
+
+    textarea {
+      min-height: 96px;
+      resize: vertical;
+    }
+
+    input:focus,
+    textarea:focus,
+    select:focus,
+    button:focus-visible {
+      border-color: var(--rc-accent);
+      box-shadow: 0 0 0 3px var(--rc-focus);
+      outline: none;
+    }
+
+    [aria-invalid="true"] {
+      border-color: var(--rc-danger) !important;
+    }
+
+    .inline-error {
+      color: var(--rc-danger);
+      font-size: 12px;
+      min-height: 1em;
+    }
+
+    .alert-summary {
+      display: none;
+      border: 1px solid var(--rc-danger);
+      border-radius: 10px;
+      background: var(--rc-danger-bg);
+      color: var(--rc-danger);
+      padding: 12px 14px;
+      font-size: 13px;
+    }
+
+    .alert-summary[data-visible="true"] {
+      display: block;
+    }
+
+    .alert-summary ul {
+      margin: 6px 0 0 18px;
+    }
+
+    fieldset {
+      border: 1px solid var(--rc-border);
+      border-radius: 10px;
+      padding: 12px;
+    }
+
+    fieldset legend {
+      padding: 0 4px;
+    }
+
+    fieldset[data-invalid="true"] {
+      border-color: var(--rc-danger);
+    }
+
+    fieldset[data-invalid="true"] > legend,
+    .field[data-invalid="true"] > label:first-child {
+      color: var(--rc-danger);
+    }
+
+    .choice-list {
+      display: flex;
+      flex-direction: column;
+      gap: 9px;
+      margin-top: 8px;
+    }
+
+    .choice-list-scroll {
+      max-height: 220px;
+      overflow-y: auto;
+      padding-right: 4px;
+    }
+
+    .choice-row {
+      display: flex;
+      align-items: flex-start;
+      gap: 8px;
+      color: var(--rc-fg);
+      font-size: 14px;
+      font-weight: 400;
+      border-radius: 8px;
+      padding: 4px 5px;
+    }
+
+    .choice-row:not(:disabled):hover {
+      background: var(--rc-subtle);
+    }
+
+    .choice-row input {
+      margin-top: 3px;
+      flex: 0 0 auto;
+    }
+
+    .choice-description {
+      color: var(--rc-muted);
+      display: block;
+      font-size: 12px;
+      margin-top: 1px;
+    }
+
+    .slider-row {
+      align-items: center;
+      display: grid;
+      gap: 12px;
+      grid-template-columns: minmax(0, 1fr) auto;
+    }
+
+    .field[data-invalid="true"] .slider-row {
+      border: 1px solid var(--rc-danger);
+      border-radius: 4px;
+      padding: 4px;
+    }
+
+    input[type="range"] {
+      accent-color: var(--rc-accent);
+      width: 100%;
+    }
+
+    output {
+      color: var(--rc-fg);
+      font-size: 13px;
+      font-variant-numeric: tabular-nums;
+      min-width: 64px;
+      text-align: right;
+    }
+
+    .rating-list {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 6px;
+      margin-top: 8px;
+    }
+
+    .rating-option {
+      position: relative;
+    }
+
+    .rating-option input {
+      height: 1px;
+      opacity: 0.01;
+      position: absolute;
+      width: 1px;
+    }
+
+    .rating-option label {
+      align-items: center;
+      background: var(--rc-subtle);
+      border: 1px solid var(--rc-border);
+      border-radius: 999px;
+      cursor: pointer;
+      display: inline-flex;
+      font-size: 13px;
+      font-weight: 600;
+      gap: 4px;
+      min-width: 38px;
+      padding: 6px 9px;
+    }
+
+    .rating-option input:not(:disabled) + label:hover {
+      border-color: var(--rc-accent);
+      background: var(--rc-subtle-strong);
+    }
+
+    .rating-option input:focus-visible + label {
+      border-color: var(--rc-accent);
+      box-shadow: 0 0 0 3px var(--rc-focus);
+    }
+
+    .rating-option input:checked + label {
+      background: var(--rc-accent);
+      border-color: var(--rc-accent);
+      color: var(--rc-accent-contrast);
+    }
+
+    .actions {
+      display: flex;
+      gap: 10px;
+      margin-top: 4px;
+    }
+
+    button {
+      border: 1px solid var(--rc-border);
+      border-radius: 8px;
+      cursor: pointer;
+      padding: 9px 13px;
+    }
+
+    button.primary {
+      background: var(--rc-accent);
+      border-color: var(--rc-accent);
+      color: var(--rc-accent-contrast);
+      font-weight: 600;
+    }
+
+    button.primary:not(:disabled):hover {
+      filter: brightness(0.96);
+    }
+
+    button.secondary,
+    .link-button {
+      background: var(--rc-bg);
+      color: var(--rc-fg);
+    }
+
+    button.secondary:not(:disabled):hover,
+    .link-button:not(:disabled):hover {
+      background: var(--rc-subtle);
+    }
+
+    button:disabled {
+      cursor: not-allowed;
+      opacity: 0.62;
+    }
+
+    .state-card {
+      background: var(--rc-subtle);
+      border: 1px solid var(--rc-border);
+      border-radius: 12px;
+      padding: 18px;
+    }
+
+    .state-card h2 {
+      font-size: 16px;
+      margin-bottom: 6px;
+    }
+
+    .summary-list {
+      display: grid;
+      gap: 8px;
+      margin: 14px 0;
+    }
+
+    .summary-row {
+      border-top: 1px solid var(--rc-border);
+      display: grid;
+      gap: 3px;
+      padding-top: 8px;
+    }
+
+    .summary-row dt {
+      color: var(--rc-muted);
+      font-size: 12px;
+      font-weight: 600;
+    }
+
+    .summary-row dd {
+      color: var(--rc-fg);
+      font-size: 14px;
+      white-space: pre-wrap;
+      word-break: break-word;
+    }
+
+    [data-rebel-canvas-status] {
+      border: 1px solid transparent;
+      border-radius: 8px;
+    }
+
+    [data-rebel-canvas-status-kind="success"] {
+      background: var(--rc-success-bg);
+      color: var(--rc-success);
+    }
+
+    [data-rebel-canvas-status-kind="permission_denied"],
+    [data-rebel-canvas-status-kind="warning"] {
+      background: var(--rc-warning-bg);
+      color: var(--rc-warning);
+    }
+
+    [data-rebel-canvas-status-kind="error"] {
+      background: var(--rc-danger-bg);
+      border-color: var(--rc-danger);
+      color: var(--rc-danger);
+    }
+  </style>
+</head>
+<body>
+  <div id="root"></div>
+
+  <script>
+    var DATA = /*__DATA__*/ null;
+
+    (function () {
+      'use strict';
+
+      try {
+        var ctx = window.__REBEL_HOST_CONTEXT__;
+        if (ctx && ctx.theme === 'dark') {
+          document.body.classList.add('dark');
+        } else if (ctx && ctx.theme === 'light') {
+          document.body.classList.add('light');
+        }
+      } catch (_) { /* fallback to prefers-color-scheme */ }
+
+      var root = document.getElementById('root');
+      var definition = DATA && DATA.definition ? DATA.definition : DATA;
+      var fieldInputs = new Map();
+      var currentValues = {};
+      var defaultValues = {};
+      var lastSubmittedValues = null;
+      var submitButton = null;
+      var cancelButton = null;
+      var submitInFlight = false;
+      var fieldCount = definition && Array.isArray(definition.fields) ? definition.fields.length : 0;
+      var definedFieldIds = new Set((definition && Array.isArray(definition.fields) ? definition.fields : []).map(function (field) { return field.id; }));
+      var oversizeAcknowledged = false;
+
+      if (!definition || !definition.fields || !definition.fields.length) {
+        root.innerHTML = '<p class="error-empty">No form fields available</p>';
+        notifyReady();
+        return;
+      }
+
+      defaultValues = collectDefaultValues();
+      currentValues = cloneValue(defaultValues);
+      renderEditing(currentValues);
+      notifyReady();
+
+      function notifyReady() {
+        var run = function () {
+          if (window.__rebelCanvas) {
+            window.__rebelCanvas.bindActionElements(document.body);
+            window.__rebelCanvas.ready();
+          }
+        };
+        if (document.readyState === 'loading') {
+          document.addEventListener('DOMContentLoaded', run, { once: true });
+        } else {
+          setTimeout(run, 0);
+        }
+      }
+
+      function renderEditing(values) {
+        root.textContent = '';
+        fieldInputs = new Map();
+        submitInFlight = false;
+
+        var heading = document.createElement('h1');
+        heading.textContent = definition.title || 'Form';
+        root.appendChild(heading);
+
+        if (definition.description) {
+          var intro = document.createElement('p');
+          intro.className = 'intro';
+          intro.textContent = definition.description;
+          root.appendChild(intro);
+        }
+
+        var form = document.createElement('form');
+        form.noValidate = true;
+
+        var alert = document.createElement('div');
+        alert.id = 'form-error-summary';
+        alert.className = 'alert-summary';
+        alert.setAttribute('role', 'alert');
+        alert.setAttribute('aria-live', 'assertive');
+        form.appendChild(alert);
+
+        definition.fields.forEach(function (field, index) {
+          form.appendChild(renderField(field, index, values[field.id]));
+        });
+
+        var actions = document.createElement('div');
+        actions.className = 'actions';
+
+        submitButton = document.createElement('button');
+        submitButton.type = 'submit';
+        submitButton.className = 'primary';
+        submitButton.textContent = definition.submitLabel || 'Submit';
+
+        cancelButton = document.createElement('button');
+        cancelButton.type = 'button';
+        cancelButton.className = 'secondary';
+        cancelButton.textContent = definition.cancelLabel || 'Cancel';
+        cancelButton.disabled = submitInFlight;
+        cancelButton.addEventListener('click', function () {
+          markCancelled();
+          clearPendingRetry();
+          currentValues = cloneValue(defaultValues);
+          renderDismissed();
+        });
+
+        actions.appendChild(submitButton);
+        actions.appendChild(cancelButton);
+        form.appendChild(actions);
+
+        form.addEventListener('submit', handleSubmit);
+        form.addEventListener('keydown', handleEnterKey);
+        root.appendChild(form);
+      }
+
+      function renderField(field, index, value) {
+        switch (field.type) {
+          case 'longtext':
+            return renderTextareaField(field, index, value);
+          case 'select':
+            return renderSelectField(field, index, value);
+          case 'multiselect':
+            return renderChoiceGroup(field, index, value, 'checkbox');
+          case 'slider':
+            return renderSliderField(field, index, value);
+          case 'rating':
+            return renderRatingField(field, index, value);
+          case 'checkbox':
+            return renderCheckboxField(field, index, value);
+          case 'radio':
+            return renderChoiceGroup(field, index, value, 'radio');
+          default:
+            return renderInputField(field, index, value);
+        }
+      }
+
+      function renderInputField(field, index, value) {
+        var wrapper = createFieldWrapper(field);
+        var input = document.createElement('input');
+        input.id = inputId(field, index);
+        input.name = field.id;
+        input.type = field.type === 'datetime' ? 'datetime-local' : field.type;
+        input.value = value == null ? '' : String(value);
+        applyRequiredState(input, field);
+        if (field.placeholder) input.placeholder = field.placeholder;
+        if (field.min != null) input.min = String(field.min);
+        if (field.max != null) input.max = String(field.max);
+        if (field.step != null) input.step = String(field.step);
+        if (field.minLength != null) input.minLength = field.minLength;
+        if (field.maxLength != null) input.maxLength = field.maxLength;
+        if (field.pattern) input.pattern = field.pattern;
+        addLabel(wrapper, field, input.id);
+        addHint(wrapper, field);
+        addDescribedBy(input, field);
+        wrapper.appendChild(input);
+        addError(wrapper, field);
+        fieldInputs.set(field.id, [input]);
+        return wrapper;
+      }
+
+      function renderTextareaField(field, index, value) {
+        var wrapper = createFieldWrapper(field);
+        var textarea = document.createElement('textarea');
+        textarea.id = inputId(field, index);
+        textarea.name = field.id;
+        textarea.rows = field.rows || 4;
+        textarea.value = value == null ? '' : String(value);
+        applyRequiredState(textarea, field);
+        if (field.placeholder) textarea.placeholder = field.placeholder;
+        if (field.minLength != null) textarea.minLength = field.minLength;
+        if (field.maxLength != null) textarea.maxLength = field.maxLength;
+        addLabel(wrapper, field, textarea.id);
+        addHint(wrapper, field, 'Longer answers are kept only in this view until you submit.');
+        addDescribedBy(textarea, field, ['counter-' + field.id]);
+        wrapper.appendChild(textarea);
+        var counter = document.createElement('div');
+        counter.className = 'counter';
+        counter.id = 'counter-' + field.id;
+        var updateCounter = function () {
+          var suffix = field.maxLength ? ' / ' + field.maxLength : '';
+          counter.textContent = textarea.value.length + suffix + ' characters';
+        };
+        textarea.addEventListener('input', updateCounter);
+        updateCounter();
+        wrapper.appendChild(counter);
+        addError(wrapper, field);
+        fieldInputs.set(field.id, [textarea]);
+        return wrapper;
+      }
+
+      function renderSelectField(field, index, value) {
+        var wrapper = createFieldWrapper(field);
+        var select = document.createElement('select');
+        select.id = inputId(field, index);
+        select.name = field.id;
+        applyRequiredState(select, field);
+        addLabel(wrapper, field, select.id);
+        addHint(wrapper, field);
+        addDescribedBy(select, field);
+        var blank = document.createElement('option');
+        blank.value = '';
+        blank.textContent = 'Choose…';
+        select.appendChild(blank);
+        (field.options || []).forEach(function (option) {
+          var opt = document.createElement('option');
+          opt.value = option.value;
+          opt.textContent = option.label;
+          select.appendChild(opt);
+        });
+        select.value = value == null ? '' : String(value);
+        wrapper.appendChild(select);
+        addError(wrapper, field);
+        fieldInputs.set(field.id, [select]);
+        return wrapper;
+      }
+
+      function renderChoiceGroup(field, index, value, inputType) {
+        var fieldset = document.createElement('fieldset');
+        fieldset.className = 'field';
+        fieldset.id = containerId(field);
+        if (field.required) fieldset.setAttribute('aria-required', 'true');
+        addLegend(fieldset, field);
+        addHint(fieldset, field);
+
+        var choices = document.createElement('div');
+        choices.className = 'choice-list';
+        if ((field.options || []).length > 8) choices.className += ' choice-list-scroll';
+        var inputs = [];
+        var selected = inputType === 'checkbox' ? (Array.isArray(value) ? value : []) : value;
+        (field.options || []).forEach(function (option, optionIndex) {
+          var input = document.createElement('input');
+          input.id = inputId(field, index) + '-' + optionIndex;
+          input.name = field.id;
+          input.type = inputType;
+          input.value = option.value;
+          applyRequiredState(input, field);
+          input.checked = inputType === 'checkbox'
+            ? selected.indexOf(option.value) !== -1
+            : selected === option.value;
+          addDescribedBy(input, field);
+          var label = document.createElement('label');
+          label.className = 'choice-row';
+          label.htmlFor = input.id;
+          label.appendChild(input);
+          var text = document.createElement('span');
+          text.appendChild(document.createTextNode(option.label));
+          if (option.description) {
+            var desc = document.createElement('span');
+            desc.className = 'choice-description';
+            desc.textContent = option.description;
+            text.appendChild(desc);
+          }
+          label.appendChild(text);
+          choices.appendChild(label);
+          inputs.push(input);
+        });
+        fieldset.appendChild(choices);
+        addError(fieldset, field);
+        fieldInputs.set(field.id, inputs);
+        return fieldset;
+      }
+
+      function renderSliderField(field, index, value) {
+        var wrapper = createFieldWrapper(field);
+        var input = document.createElement('input');
+        input.id = inputId(field, index);
+        input.name = field.id;
+        input.type = 'range';
+        input.min = String(field.min != null ? field.min : 0);
+        input.max = String(field.max != null ? field.max : 100);
+        input.step = String(field.step != null ? field.step : 1);
+        input.value = String(value != null ? value : input.min);
+        applyRequiredState(input, field);
+        addLabel(wrapper, field, input.id);
+        addHint(wrapper, field);
+        var row = document.createElement('div');
+        row.className = 'slider-row';
+        var output = document.createElement('output');
+        output.htmlFor = input.id;
+        output.id = 'output-' + field.id;
+        addDescribedBy(input, field, [output.id]);
+        var updateOutput = function () {
+          snapRangeValue(input);
+          output.value = formatSliderValue(field, input.value);
+          output.textContent = output.value;
+        };
+        input.addEventListener('input', updateOutput);
+        updateOutput();
+        row.appendChild(input);
+        row.appendChild(output);
+        wrapper.appendChild(row);
+        addError(wrapper, field);
+        fieldInputs.set(field.id, [input]);
+        return wrapper;
+      }
+
+      function renderRatingField(field, index, value) {
+        var fieldset = document.createElement('fieldset');
+        fieldset.className = 'field';
+        fieldset.id = containerId(field);
+        if (field.required) fieldset.setAttribute('aria-required', 'true');
+        addLegend(fieldset, field);
+        addHint(fieldset, field);
+        var list = document.createElement('div');
+        list.className = 'rating-list';
+        var inputs = [];
+        var max = clampNumber(field.max || 5, 1, 10);
+        for (var rating = 1; rating <= max; rating += 1) {
+          var item = document.createElement('span');
+          item.className = 'rating-option';
+          var input = document.createElement('input');
+          input.id = inputId(field, index) + '-' + rating;
+          input.name = field.id;
+          input.type = 'radio';
+          input.value = String(rating);
+          applyRequiredState(input, field);
+          input.setAttribute('role', 'radio');
+          input.setAttribute('aria-label', field.label + ': ' + rating + ' of ' + max);
+          input.checked = Number(value) === rating;
+          addDescribedBy(input, field);
+          var label = document.createElement('label');
+          label.htmlFor = input.id;
+          label.textContent = '★ ' + rating;
+          item.appendChild(input);
+          item.appendChild(label);
+          list.appendChild(item);
+          inputs.push(input);
+        }
+        inputs.forEach(function (input) {
+          input.addEventListener('change', function () { syncRatingState(inputs); });
+          input.addEventListener('keydown', function (event) { handleRatingKeydown(event, inputs); });
+        });
+        syncRatingState(inputs);
+        fieldset.appendChild(list);
+        addError(fieldset, field);
+        fieldInputs.set(field.id, inputs);
+        return fieldset;
+      }
+
+      function renderCheckboxField(field, index, value) {
+        var wrapper = createFieldWrapper(field);
+        var input = document.createElement('input');
+        input.id = inputId(field, index);
+        input.name = field.id;
+        input.type = 'checkbox';
+        input.value = 'true';
+        input.checked = Boolean(value);
+        applyRequiredState(input, field);
+        addDescribedBy(input, field);
+        var label = document.createElement('label');
+        label.className = 'choice-row';
+        label.htmlFor = input.id;
+        label.appendChild(input);
+        var text = document.createElement('span');
+        text.textContent = field.label;
+        if (field.required) {
+          var required = document.createElement('span');
+          required.className = 'required';
+          required.textContent = '*';
+          text.appendChild(required);
+        }
+        label.appendChild(text);
+        wrapper.appendChild(label);
+        addHint(wrapper, field);
+        addError(wrapper, field);
+        fieldInputs.set(field.id, [input]);
+        return wrapper;
+      }
+
+      function createFieldWrapper(field) {
+        var wrapper = document.createElement('div');
+        wrapper.className = 'field';
+        wrapper.id = containerId(field);
+        wrapper.dataset.fieldId = field.id;
+        return wrapper;
+      }
+
+      function addLabel(wrapper, field, htmlFor) {
+        var label = document.createElement('label');
+        label.htmlFor = htmlFor;
+        label.textContent = field.label;
+        if (field.required) label.appendChild(requiredMarker());
+        wrapper.appendChild(label);
+      }
+
+      function addLegend(fieldset, field) {
+        var legend = document.createElement('legend');
+        legend.textContent = field.label;
+        if (field.required) legend.appendChild(requiredMarker());
+        fieldset.appendChild(legend);
+      }
+
+      function requiredMarker() {
+        var marker = document.createElement('span');
+        marker.className = 'required';
+        marker.textContent = '*';
+        return marker;
+      }
+
+      function addHint(wrapper, field, extraText) {
+        var text = [field.description, extraText].filter(Boolean).join(' ');
+        if (!text) return;
+        var hint = document.createElement('div');
+        hint.className = 'hint';
+        hint.id = 'hint-' + field.id;
+        hint.textContent = text;
+        wrapper.appendChild(hint);
+      }
+
+      function addError(wrapper, field) {
+        var error = document.createElement('div');
+        error.className = 'inline-error';
+        error.id = errorId(field);
+        error.setAttribute('role', 'alert');
+        wrapper.appendChild(error);
+      }
+
+      function addDescribedBy(input, field, extraIds) {
+        var ids = [];
+        if (field.description) ids.push('hint-' + field.id);
+        if (extraIds) ids = ids.concat(extraIds);
+        ids.push(errorId(field));
+        input.setAttribute('aria-describedby', ids.join(' '));
+        input.setAttribute('aria-invalid', 'false');
+      }
+
+      function applyRequiredState(input, field) {
+        if (field.required) input.setAttribute('aria-required', 'true');
+      }
+
+      function inputId(field, index) {
+        return 'field-' + index + '-' + field.id;
+      }
+
+      function groupId(field, index) {
+        return 'group-' + index + '-' + field.id;
+      }
+
+      function containerId(field) {
+        return 'container-' + field.id;
+      }
+
+      function errorId(field) {
+        return 'error-' + field.id;
+      }
+
+      function collectDefaultValues() {
+        var values = {};
+        definition.fields.forEach(function (field) {
+          if (field.type === 'checkbox') {
+            values[field.id] = Boolean(field.default);
+          } else if (field.type === 'multiselect') {
+            values[field.id] = Array.isArray(field.default) ? field.default.slice() : [];
+          } else if (field.type === 'slider') {
+            values[field.id] = field.default != null ? field.default : (field.min != null ? field.min : 0);
+          } else if (Object.prototype.hasOwnProperty.call(field, 'default')) {
+            values[field.id] = field.default;
+          } else {
+            values[field.id] = '';
+          }
+        });
+        return values;
+      }
+
+      function collectValues() {
+        var values = {};
+        definition.fields.forEach(function (field) {
+          var inputs = fieldInputs.get(field.id) || [];
+          if (field.type === 'checkbox') {
+            values[field.id] = Boolean(inputs[0] && inputs[0].checked);
+          } else if (field.type === 'multiselect') {
+            values[field.id] = inputs.filter(function (input) { return input.checked; }).map(function (input) { return input.value; });
+          } else if (field.type === 'radio') {
+            var selectedRadio = inputs.find(function (input) { return input.checked; });
+            values[field.id] = selectedRadio ? selectedRadio.value : '';
+          } else if (field.type === 'rating') {
+            var selectedRating = inputs.find(function (input) { return input.checked; });
+            values[field.id] = selectedRating ? Number(selectedRating.value) : null;
+          } else if (field.type === 'number' || field.type === 'slider') {
+            values[field.id] = inputs[0] && inputs[0].value !== '' ? Number(inputs[0].value) : null;
+          } else {
+            values[field.id] = inputs[0] ? inputs[0].value : '';
+          }
+        });
+        var unknownKeys = [];
+        Array.prototype.forEach.call(root.querySelectorAll('input[name], textarea[name], select[name]'), function (input) {
+          if (input.name && !definedFieldIds.has(input.name) && unknownKeys.indexOf(input.name) === -1) {
+            unknownKeys.push(input.name);
+          }
+        });
+        if (unknownKeys.length) values.__unknownFieldKeys = unknownKeys;
+        return values;
+      }
+
+      function validateValues(values) {
+        // Client-side defense-in-depth for declarative forms. Stage 5 adds the
+        // host/agent-path server-side validator for the same field constraints.
+        var errors = [];
+        Object.keys(values).forEach(function (key) {
+          if (key !== '__unknownFieldKeys' && !definedFieldIds.has(key)) {
+            errors.push({ message: 'Unknown field "' + key + '" is not part of this form.' });
+          }
+        });
+        if (Array.isArray(values.__unknownFieldKeys) && values.__unknownFieldKeys.length) {
+          errors.push({ message: 'Unknown field "' + values.__unknownFieldKeys[0] + '" is not part of this form.' });
+        }
+        definition.fields.forEach(function (field) {
+          var value = values[field.id];
+          var message = validateField(field, value);
+          setFieldError(field, message);
+          if (message) {
+            errors.push({ field: field, message: message });
+          }
+        });
+        renderAlertSummary(errors);
+        return errors;
+      }
+
+      function validateField(field, value) {
+        var options = optionValues(field);
+        if (field.type === 'multiselect') {
+          if (!Array.isArray(value)) return field.label + ' must be a list of choices.';
+          var count = Array.isArray(value) ? value.length : 0;
+          if (field.required && count === 0) return field.label + ' is required.';
+          if (field.minCount != null && count < field.minCount) return field.label + ' needs at least ' + field.minCount + ' selection' + (field.minCount === 1 ? '' : 's') + '.';
+          if (field.maxCount != null && count > field.maxCount) return field.label + ' allows at most ' + field.maxCount + ' selection' + (field.maxCount === 1 ? '' : 's') + '.';
+          var invalidChoice = value.find(function (item) { return options.indexOf(item) === -1; });
+          if (invalidChoice) return field.label + ' contains an unavailable choice.';
+          return '';
+        }
+        if (field.required && isEmptyValue(field, value)) {
+          return field.label + ' is required.';
+        }
+        if (isEmptyValue(field, value)) return '';
+        if (field.type === 'text' || field.type === 'longtext' || field.type === 'email' || field.type === 'url') {
+          var text = String(value);
+          if (field.minLength != null && text.length < field.minLength) return field.label + ' must be at least ' + field.minLength + ' characters.';
+          if (field.maxLength != null && text.length > field.maxLength) return field.label + ' must be no more than ' + field.maxLength + ' characters.';
+          var pattern = field.pattern;
+          if (!pattern && field.type === 'email') pattern = '^[^\\s@]+@[^\\s@]+\\.[^\\s@]+$';
+          if (!pattern && field.type === 'url') pattern = '^https?://';
+          if (field.type === 'url' && /^javascript:/i.test(text.trim())) return field.label + ' must be a safe web address.';
+          if (pattern) {
+            var regex = safeRegex(pattern, field);
+            if (regex && !regex.test(text)) return field.label + ' does not match the expected format.';
+          }
+        }
+        if (field.type === 'number' || field.type === 'slider') {
+          var number = Number(value);
+          if (!Number.isFinite(number)) return field.label + ' must be a number.';
+          if (field.min != null && number < field.min) return field.label + ' must be at least ' + field.min + '.';
+          if (field.max != null && number > field.max) return field.label + ' must be no more than ' + field.max + '.';
+          if (field.step != null && !matchesStep(number, field.min || 0, field.step)) return field.label + ' must use increments of ' + field.step + '.';
+        }
+        if (field.type === 'date' || field.type === 'time' || field.type === 'datetime') {
+          if (!matchesTemporalPattern(field.type, String(value))) return field.label + ' must use a valid ' + field.type + ' format.';
+          if (field.min && String(value) < field.min) return field.label + ' must be on or after ' + field.min + '.';
+          if (field.max && String(value) > field.max) return field.label + ' must be on or before ' + field.max + '.';
+        }
+        if (field.type === 'select' || field.type === 'radio') {
+          if (options.indexOf(String(value)) === -1) return field.label + ' contains an unavailable choice.';
+        }
+        if (field.type === 'rating') {
+          var rating = Number(value);
+          var maxRating = field.max || 5;
+          if (!Number.isInteger(rating) || rating < 1 || rating > maxRating) return field.label + ' must be between 1 and ' + maxRating + '.';
+        }
+        if (field.type === 'checkbox' && typeof value !== 'boolean') {
+          return field.label + ' must be yes or no.';
+        }
+        return '';
+      }
+
+      function safeRegex(pattern, field) {
+        try {
+          return new RegExp(pattern);
+        } catch (error) {
+          console.warn('[RebelCanvas] Ignoring invalid pattern for field "' + field.id + '".');
+          return null;
+        }
+      }
+
+      function matchesTemporalPattern(type, value) {
+        if (type === 'date') return /^\d{4}-\d{2}-\d{2}$/.test(value);
+        if (type === 'time') return /^\d{2}:\d{2}(?::\d{2})?$/.test(value);
+        return /^\d{4}-\d{2}-\d{2}T\d{2}:\d{2}(?::\d{2}(?:\.\d{1,6})?)?(?:Z|[+-]\d{2}:?\d{2})?$/.test(value);
+      }
+
+      function optionValues(field) {
+        return (field.options || []).map(function (option) { return option.value; });
+      }
+
+      function isEmptyValue(field, value) {
+        if (field.type === 'checkbox') return value !== true;
+        if (field.type === 'multiselect') return !Array.isArray(value) || value.length === 0;
+        if (field.type === 'rating') return value == null || value === '';
+        return value == null || String(value).trim() === '';
+      }
+
+      function setFieldError(field, message) {
+        var error = document.getElementById(errorId(field));
+        if (error) error.textContent = message || '';
+        var container = document.getElementById(containerId(field));
+        if (container) {
+          if (message) container.dataset.invalid = 'true';
+          else container.removeAttribute('data-invalid');
+        }
+        (fieldInputs.get(field.id) || []).forEach(function (input) {
+          input.setAttribute('aria-invalid', message ? 'true' : 'false');
+        });
+      }
+
+      function renderAlertSummary(errors) {
+        var alert = document.getElementById('form-error-summary');
+        if (!alert) return;
+        alert.textContent = '';
+        alert.dataset.visible = errors.length ? 'true' : 'false';
+        if (!errors.length) return;
+        var strong = document.createElement('strong');
+        strong.textContent = 'Please fix ' + errors.length + ' field' + (errors.length === 1 ? '' : 's') + '.';
+        alert.appendChild(strong);
+        var list = document.createElement('ul');
+        errors.forEach(function (entry) {
+          var item = document.createElement('li');
+          item.textContent = entry.message;
+          list.appendChild(item);
+        });
+        alert.appendChild(list);
+      }
+
+      async function handleSubmit(event) {
+        event.preventDefault();
+        await attemptSubmit(event, false);
+      }
+
+      async function attemptSubmit(event, acknowledgedOversize) {
+        currentValues = collectValues();
+        var errors = validateValues(currentValues);
+        if (errors.length) {
+          if (errors[0].field) focusField(errors[0].field);
+          return;
+        }
+        var oversizeFields = findOversizeFields(currentValues);
+        if (oversizeFields.length && !acknowledgedOversize && !oversizeAcknowledged) {
+          renderOversizeWarning(oversizeFields);
+          focusField(oversizeFields[0]);
+          return;
+        }
+        oversizeAcknowledged = false;
+        if (!window.__rebelCanvas || typeof window.__rebelCanvas.submit !== 'function') {
+          renderFormLevelError('Action submits work only inside Rebel.');
+          return;
+        }
+        setSubmitBusy(true);
+        try {
+          var result = await window.__rebelCanvas.submit(
+            event,
+            definition.actionId,
+            'Submitted ' + (definition.title || 'form'),
+            { fields: cloneValue(currentValues) },
+            { sourceElement: submitButton, onRequestStateChange: setSubmitBusy }
+          );
+          if (result && result.success === false) {
+            if (result.rejected === 'cleared' || result.rejected === 'cancelled') return;
+            renderFormLevelError(result.message || (result.error && result.error.message) || 'Form could not be sent. Try again.');
+            return;
+          }
+          lastSubmittedValues = cloneValue(result && result.submittedPayload && result.submittedPayload.fields
+            ? result.submittedPayload.fields
+            : currentValues);
+          renderSubmitted(lastSubmittedValues);
+        } catch (error) {
+          renderFormLevelError(error && error.message ? error.message : 'Form could not be sent. Try again.');
+        } finally {
+          setSubmitBusy(false);
+        }
+      }
+
+      function findOversizeFields(values) {
+        return definition.fields.filter(function (field) {
+          var value = values[field.id];
+          if (typeof value === 'string') return value.length > 4096;
+          if (Array.isArray(value)) return value.some(function (item) { return typeof item === 'string' && item.length > 4096; });
+          return false;
+        });
+      }
+
+      function renderOversizeWarning(fields) {
+        var alert = document.getElementById('form-error-summary');
+        if (!alert) return;
+        alert.textContent = '';
+        alert.dataset.visible = 'true';
+        var strong = document.createElement('strong');
+        strong.textContent = 'This text is over the size limit; please shorten.';
+        alert.appendChild(strong);
+        var list = document.createElement('ul');
+        fields.forEach(function (field) {
+          var item = document.createElement('li');
+          item.textContent = field.label;
+          list.appendChild(item);
+          setFieldError(field, 'This text is over the size limit; please shorten.');
+        });
+        alert.appendChild(list);
+        var proceed = document.createElement('button');
+        proceed.type = 'button';
+        proceed.className = 'secondary';
+        proceed.textContent = 'Submit anyway';
+        proceed.addEventListener('click', function (clickEvent) {
+          oversizeAcknowledged = true;
+          attemptSubmit(clickEvent, true);
+        });
+        alert.appendChild(proceed);
+      }
+
+      function setSubmitBusy(isBusy) {
+        submitInFlight = isBusy;
+        if (!submitButton) return;
+        submitButton.disabled = isBusy;
+        submitButton.textContent = isBusy ? 'Submitting…' : (definition.submitLabel || 'Submit');
+        submitButton.setAttribute('aria-busy', isBusy ? 'true' : 'false');
+        if (cancelButton) cancelButton.disabled = isBusy;
+      }
+
+      function renderFormLevelError(message) {
+        var alert = document.getElementById('form-error-summary');
+        if (!alert) return;
+        alert.textContent = message;
+        alert.dataset.visible = 'true';
+      }
+
+      function focusField(field) {
+        var inputs = fieldInputs.get(field.id) || [];
+        if (inputs[0] && typeof inputs[0].focus === 'function') inputs[0].focus();
+      }
+
+      function handleEnterKey(event) {
+        if (event.key !== 'Enter' || event.shiftKey || event.altKey || event.metaKey || event.ctrlKey) return;
+        var target = event.target;
+        if (target && target.tagName === 'TEXTAREA') return;
+        if (fieldCount === 1) {
+          event.preventDefault();
+          attemptSubmit(event, false);
+          return;
+        }
+        if (target && target.tagName === 'BUTTON') return;
+        event.preventDefault();
+        focusNextFormControl(target);
+      }
+
+      function focusNextFormControl(current) {
+        var controls = Array.prototype.slice.call(root.querySelectorAll('input, textarea, select, button'))
+          .filter(function (el) { return !el.disabled && el.type !== 'hidden'; });
+        var index = controls.indexOf(current);
+        var next = controls[index + 1] || submitButton;
+        if (next && typeof next.focus === 'function') next.focus();
+      }
+
+      function renderSubmitted(values) {
+        renderStateCard('Submitted', 'Sent to the agent. You can reopen it if you need to send a revised version.', values, function () {
+          clearPendingRetry();
+          currentValues = cloneValue(values);
+          renderEditing(currentValues);
+        });
+      }
+
+      function renderDismissed() {
+        renderStateCard('Dismissed', 'Nothing sent.', null, function () {
+          clearPendingRetry();
+          currentValues = cloneValue(defaultValues);
+          renderEditing(currentValues);
+        });
+      }
+
+      function renderStateCard(title, body, values, reopenHandler) {
+        root.textContent = '';
+        var card = document.createElement('section');
+        card.className = 'state-card';
+        card.tabIndex = -1;
+        card.setAttribute('role', 'status');
+        card.setAttribute('aria-live', 'polite');
+        var heading = document.createElement('h2');
+        heading.textContent = title;
+        var paragraph = document.createElement('p');
+        paragraph.textContent = body;
+        card.appendChild(heading);
+        card.appendChild(paragraph);
+        if (values) card.appendChild(renderSummary(values));
+        var reopen = document.createElement('button');
+        reopen.type = 'button';
+        reopen.className = 'link-button';
+        reopen.textContent = 'Reopen';
+        reopen.addEventListener('click', reopenHandler);
+        card.appendChild(reopen);
+        root.appendChild(card);
+        setTimeout(function () { card.focus(); }, 0);
+      }
+
+      function clearPendingRetry() {
+        if (window.__rebelCanvas && typeof window.__rebelCanvas.clearPendingRetry === 'function') {
+          window.__rebelCanvas.clearPendingRetry(definition.actionId);
+        }
+      }
+
+      function markCancelled() {
+        if (window.__rebelCanvas && typeof window.__rebelCanvas.markCancelled === 'function') {
+          window.__rebelCanvas.markCancelled(definition.actionId);
+        }
+      }
+
+      function renderSummary(values) {
+        var list = document.createElement('dl');
+        list.className = 'summary-list';
+        definition.fields.forEach(function (field) {
+          var row = document.createElement('div');
+          row.className = 'summary-row';
+          var term = document.createElement('dt');
+          term.textContent = field.label;
+          var description = document.createElement('dd');
+          description.textContent = summarizeValue(field, values[field.id]);
+          row.appendChild(term);
+          row.appendChild(description);
+          list.appendChild(row);
+        });
+        return list;
+      }
+
+      function summarizeValue(field, value) {
+        if (field.type === 'checkbox') return value ? 'Yes' : 'No';
+        if (field.type === 'select' || field.type === 'radio') return value ? labelForOption(field, value) : '—';
+        if (field.type === 'multiselect') return Array.isArray(value) && value.length
+          ? value.map(function (item) { return labelForOption(field, item); }).join(', ')
+          : '—';
+        if (field.type === 'rating') return value ? String(value) + ' of ' + (field.max || 5) : '—';
+        if (value == null || value === '') return '—';
+        var text = String(value);
+        return isTruncatedValue(text) ? text + ' (truncated)' : text;
+      }
+
+      function labelForOption(field, value) {
+        var match = (field.options || []).find(function (option) { return option.value === value; });
+        return match ? match.label : String(value);
+      }
+
+      function isTruncatedValue(value) {
+        return typeof value === 'string' && value.indexOf('[truncated;') !== -1;
+      }
+
+      function formatSliderValue(field, value) {
+        if (field.valueLabel) return field.valueLabel.replace(/\{value\}/g, String(value));
+        return String(value) + (field.unit || '');
+      }
+
+      function snapRangeValue(input) {
+        var step = Number(input.step || 1);
+        var min = Number(input.min || 0);
+        if (!Number.isFinite(step) || step <= 0) return;
+        var current = Number(input.value);
+        if (!Number.isFinite(current)) return;
+        var snapped = Math.round((current - min) / step) * step + min;
+        var decimals = String(step).split('.')[1];
+        input.value = String(decimals ? Number(snapped.toFixed(decimals.length)) : snapped);
+      }
+
+      function matchesStep(value, min, step) {
+        var quotient = (value - min) / step;
+        return Math.abs(quotient - Math.round(quotient)) < 0.0000001;
+      }
+
+      function clampNumber(value, min, max) {
+        var number = Number(value);
+        if (!Number.isFinite(number)) return min;
+        return Math.max(min, Math.min(max, number));
+      }
+
+      function handleRatingKeydown(event, inputs) {
+        var keys = ['ArrowRight', 'ArrowUp', 'ArrowLeft', 'ArrowDown', ' ', 'Enter'];
+        if (keys.indexOf(event.key) === -1) return;
+        event.preventDefault();
+        var currentIndex = inputs.indexOf(event.target);
+        if (currentIndex < 0) currentIndex = inputs.findIndex(function (input) { return input.checked; });
+        if (currentIndex < 0) currentIndex = 0;
+        var nextIndex = currentIndex;
+        if (event.key === 'ArrowRight' || event.key === 'ArrowUp') nextIndex = Math.min(inputs.length - 1, currentIndex + 1);
+        if (event.key === 'ArrowLeft' || event.key === 'ArrowDown') nextIndex = Math.max(0, currentIndex - 1);
+        inputs[nextIndex].checked = true;
+        inputs[nextIndex].focus();
+        syncRatingState(inputs);
+      }
+
+      function syncRatingState(inputs) {
+        inputs.forEach(function (input) {
+          input.setAttribute('aria-checked', input.checked ? 'true' : 'false');
+        });
+      }
+
+      function cloneValue(value) {
+        return JSON.parse(JSON.stringify(value));
+      }
+    })();
+  </script>
+</body>
+</html>

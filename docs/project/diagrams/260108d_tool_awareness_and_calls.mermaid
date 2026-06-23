@@ -1,0 +1,85 @@
+%% Tool Awareness and Tool Call Flow
+%% Shows how Claude becomes aware of tools and how tool calls are processed
+%% Related files:
+%% - src/main/services/toolUsageStore.ts (frequent tools)
+%% - src/main/services/toolIndexService.ts (semantic search)
+%% - src/main/services/mcpService.ts (connected packages)
+%% - src/main/services/toolSafetyService.ts (safety hooks)
+
+flowchart TB
+    subgraph awareness["🔍 Tool Awareness (Different Injection Points)"]
+        subgraph systemprompt["System Prompt (Nunjucks)"]
+            FT["⭐ Frequent Tools<br/><i>~200 tokens</i><br/><code>getFrequentTools()</code>"]
+        end
+        
+        subgraph userprompt["User Prompt Prelude"]
+            ST["🎯 Semantic Tool Search<br/><i>~300 tokens</i><br/><code>searchTools(query)</code>"]
+            FC["📄 Semantic File Context<br/><i>Relevant workspace files</i>"]
+        end
+        
+        subgraph subagent["SubagentStart Hook"]
+            CP["📦 Connected Packages<br/><i>~400 tokens</i><br/><code>buildConnectedPackages()</code>"]
+        end
+    end
+
+    subgraph decision["🤔 Claude's Tool Decision"]
+        TASK["Analyze user task"]
+        NEED{"Need external<br/>tool?"}
+        
+        TASK --> NEED
+        NEED -->|No| BUILTIN["Use built-in tools<br/><i>Read, Write, Bash, etc.</i>"]
+        NEED -->|Yes| SELECT["Select MCP tool<br/><i>Based on awareness context</i>"]
+    end
+
+    subgraph safety["🛡️ Tool Safety Layer"]
+        SELECT --> HOOK["PreToolUse Hook"]
+        HOOK --> EVAL["Evaluate risk<br/><code>toolSafetyService</code>"]
+        
+        EVAL --> LEVEL{"Safety Level?"}
+        
+        LEVEL -->|Permissive| AUTO["Auto-approve most"]
+        LEVEL -->|Balanced| CHECK{"Is risky?"}
+        LEVEL -->|Cautious| ASK["Always ask"]
+        
+        CHECK -->|No| AUTO
+        CHECK -->|Yes| ASK
+        
+        AUTO --> APPROVE["✅ Approved"]
+        ASK --> USER["Request user approval"]
+        USER -->|Approve| APPROVE
+        USER -->|Deny| DENY["❌ Denied"]
+    end
+
+    subgraph execution["⚡ Tool Execution"]
+        APPROVE --> ROUTE["Route to MCP Server"]
+        
+        ROUTE --> SUPERMCP["Super-MCP HTTP Router<br/><i>Concurrent-safe</i>"]
+        SUPERMCP --> UPSTREAM["Upstream MCP Server<br/><i>Slack, Gmail, etc.</i>"]
+        
+        UPSTREAM --> RESULT["Tool Result"]
+        RESULT --> SDK["Return to Claude SDK"]
+        SDK --> CONTINUE["Continue conversation"]
+        
+        DENY --> REPORT["Report denial to Claude"]
+        REPORT --> CONTINUE
+    end
+
+    subgraph tracking["📊 Usage Tracking"]
+        RESULT --> TRACK["Record tool usage<br/><code>trackToolUsage()</code>"]
+        TRACK --> UPDATE_FT["Update frequent tools<br/><i>For next turn</i>"]
+    end
+
+    SYS_PROMPT --> TASK
+    BUILTIN --> CONTINUE
+
+    classDef awareness fill:#e3f2fd,stroke:#1565c0
+    classDef decision fill:#fff3e0,stroke:#e65100
+    classDef safety fill:#fff8e1,stroke:#f9a825
+    classDef execution fill:#e8f5e9,stroke:#2e7d32
+    classDef tracking fill:#f3e5f5,stroke:#7b1fa2
+
+    class CP,FT,ST,SYS_PROMPT awareness
+    class TASK,NEED,BUILTIN,SELECT decision
+    class HOOK,EVAL,LEVEL,AUTO,CHECK,ASK,APPROVE,DENY,USER safety
+    class ROUTE,SUPERMCP,UPSTREAM,RESULT,SDK,CONTINUE,REPORT execution
+    class TRACK,UPDATE_FT tracking

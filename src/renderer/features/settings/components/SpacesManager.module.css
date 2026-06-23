@@ -1,0 +1,452 @@
+/**
+ * SpacesManager styles
+ *
+ * Clean, compact layout for managing spaces with consistent section styling.
+ */
+
+/* ═══════════════════════════════════════════════════════════════
+   CONTAINER
+   ═══════════════════════════════════════════════════════════════ */
+
+.container {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.loading {
+  color: var(--color-text-secondary);
+  font-style: italic;
+  font-size: 0.85rem;
+}
+
+.error {
+  padding: 10px 14px;
+  background: rgba(239, 68, 68, 0.08);
+  border: 1px solid rgba(239, 68, 68, 0.2);
+  border-radius: 8px;
+  color: rgba(248, 113, 113, 0.95);
+  font-size: 0.82rem;
+}
+
+/* ═══════════════════════════════════════════════════════════════
+   SPACE LIST
+   ═══════════════════════════════════════════════════════════════ */
+
+.spaceList {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+/* Chevron rotation for company subheadings */
+.chevronExpanded {
+  transform: rotate(90deg);
+}
+
+.empty {
+  font-size: 0.8rem;
+  color: rgba(148, 163, 184, 0.5);
+  font-style: italic;
+  padding: 12px 16px;
+  text-align: center;
+}
+
+/* Section description/subtitle */
+.sectionDescription {
+  font-size: 0.78rem;
+  color: rgba(148, 163, 184, 0.6);
+  margin: 0 0 8px 0;
+  line-height: 1.4;
+}
+
+/* ═══════════════════════════════════════════════════════════════
+   ORGANISATION GROUPS - Nested within Work section
+   ═══════════════════════════════════════════════════════════════ */
+
+.organisationGroup {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-2);
+}
+
+.organisationHeader {
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+  gap: var(--space-2);
+  width: 100%;
+  padding: var(--space-2) var(--space-3) !important;
+  margin: 0;
+  color: var(--color-text-secondary) !important;
+  border-radius: var(--radius-sm) !important;
+  transition:
+    background var(--motion-duration-fast) ease,
+    color var(--motion-duration-fast) ease;
+}
+
+.organisationHeader:hover {
+  background: color-mix(in srgb, var(--color-text-secondary) 8%, transparent) !important;
+  color: var(--color-text-primary) !important;
+}
+
+.organisationHeader:focus-visible {
+  outline: 2px solid var(--color-ring);
+  outline-offset: 2px;
+}
+
+.organisationHeader svg:first-child {
+  color: var(--color-text-muted);
+}
+
+.organisationName {
+  font-size: 0.78rem;
+  font-weight: 600;
+  color: inherit;
+}
+
+.organisationCount {
+  font-size: 0.68rem;
+  color: var(--color-text-muted);
+}
+
+.spaceCardWithBackfill {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-2);
+}
+
+.organisationBackfill {
+  display: flex;
+  align-items: center;
+  gap: var(--space-2);
+  padding: 0 var(--space-3) var(--space-1);
+  color: var(--color-text-secondary);
+}
+
+.organisationBackfillText {
+  font-size: 0.72rem;
+  color: var(--color-text-muted);
+}
+
+.organisationInput {
+  max-width: 220px;
+}
+
+/* Cards are left-aligned with no indentation for visual consistency */
+
+/* ═══════════════════════════════════════════════════════════════
+   WARNING BANNERS
+   ═══════════════════════════════════════════════════════════════ */
+
+.nestedWarningBanner {
+  padding: 12px 14px;
+  background: rgba(245, 158, 11, 0.06);
+  border: 1px solid rgba(245, 158, 11, 0.15);
+  border-radius: 10px;
+}
+
+.nestedWarningHeader {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-bottom: 8px;
+}
+
+.nestedWarningIcon {
+  flex-shrink: 0;
+  color: rgba(245, 158, 11, 0.85);
+}
+
+.nestedWarningTitle {
+  font-weight: 600;
+  font-size: 0.85rem;
+  color: rgba(248, 250, 255, 0.95);
+  flex: 1;
+}
+
+.nestedWarningDismiss {
+  padding: 4px !important;
+  color: rgba(148, 163, 184, 0.6) !important;
+}
+
+.nestedWarningDismiss:hover {
+  color: rgba(248, 250, 255, 0.9) !important;
+}
+
+.nestedWarningText {
+  font-size: 0.8rem;
+  color: rgba(148, 163, 184, 0.8);
+  margin: 0 0 8px 0;
+  line-height: 1.4;
+}
+
+.nestedConflictsList {
+  font-size: 0.8rem;
+  color: rgba(148, 163, 184, 0.8);
+  margin-bottom: 8px;
+}
+
+.nestedConflictsList strong {
+  color: rgba(248, 250, 255, 0.9);
+}
+
+.nestedConflictsList ul {
+  margin: 4px 0 0 0;
+  padding-left: 18px;
+}
+
+.nestedConflictsList li {
+  margin-bottom: 4px;
+}
+
+.nestedConflictsList code {
+  font-family: var(--font-mono, monospace);
+  font-size: 0.72rem;
+  background: rgba(148, 163, 184, 0.08);
+  padding: 1px 5px;
+  border-radius: 4px;
+}
+
+.parseWarningDetail {
+  font-size: 0.68rem;
+  color: rgba(148, 163, 184, 0.5);
+  margin-top: 2px;
+  font-family: var(--font-mono, monospace);
+}
+
+.parseWarningEditLink {
+  margin-left: 8px;
+  font-size: 0.72rem;
+  height: auto !important;
+  padding: 2px 8px !important;
+  color: rgba(167, 139, 250, 0.9) !important;
+}
+
+.nestedWarningGuidance {
+  font-size: 0.8rem;
+  color: rgba(148, 163, 184, 0.7);
+  margin: 0;
+  line-height: 1.4;
+}
+
+/* ═══════════════════════════════════════════════════════════════
+   SUGGESTED SPACES
+   ═══════════════════════════════════════════════════════════════ */
+
+.suggestedSection {
+  margin-top: 8px;
+}
+
+.suggestedSectionHeader {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  cursor: pointer;
+  padding: 8px 10px;
+  border-radius: 8px;
+  transition: background 0.15s ease;
+}
+
+.suggestedSectionHeader:hover {
+  background: rgba(148, 163, 184, 0.04);
+}
+
+.suggestedSectionTitle {
+  font-size: 0.78rem;
+  font-weight: 600;
+  color: rgba(148, 163, 184, 0.7);
+}
+
+.suggestedCount {
+  font-size: 0.68rem;
+  color: rgba(148, 163, 184, 0.6);
+  padding: 2px 8px;
+  background: rgba(148, 163, 184, 0.08);
+  border-radius: 999px;
+}
+
+.suggestedBody {
+  padding-left: 16px;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  margin-top: 6px;
+}
+
+.suggestionCard {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  padding: 10px 14px;
+  background: rgba(255, 255, 255, 0.02);
+  border: 1px solid rgba(148, 163, 184, 0.1);
+  border-radius: 8px;
+  gap: 12px;
+  transition: background 0.15s ease;
+}
+
+.suggestionCard:hover {
+  background: rgba(255, 255, 255, 0.04);
+}
+
+.suggestionInfo {
+  flex: 1;
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 3px;
+}
+
+.suggestionName {
+  font-size: 0.85rem;
+  font-weight: 600;
+  color: rgba(248, 250, 255, 0.95);
+}
+
+.suggestionPath {
+  font-size: 0.7rem;
+  color: rgba(148, 163, 184, 0.5);
+  font-family: var(--font-mono, monospace);
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.suggestionDescription {
+  font-size: 0.75rem;
+  color: rgba(148, 163, 184, 0.65);
+  margin-top: 2px;
+}
+
+.suggestionIndicators {
+  font-size: 0.7rem;
+  color: rgba(148, 163, 184, 0.5);
+}
+
+.suggestionHint {
+  font-size: 0.7rem;
+  color: rgba(148, 163, 184, 0.55);
+  font-style: italic;
+  margin-top: 4px;
+}
+
+/* Readiness badges */
+.readyBadge,
+.needsConfigBadge,
+.notConfiguredBadge {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  font-size: 0.68rem;
+  font-weight: 500;
+  padding: 2px 8px;
+  border-radius: 999px;
+  margin-top: 4px;
+}
+
+.readyBadge {
+  color: rgba(34, 197, 94, 0.9);
+  background: rgba(34, 197, 94, 0.1);
+}
+
+.needsConfigBadge {
+  color: rgba(245, 158, 11, 0.9);
+  background: rgba(245, 158, 11, 0.1);
+}
+
+.notConfiguredBadge {
+  color: rgba(148, 163, 184, 0.7);
+  background: rgba(148, 163, 184, 0.08);
+}
+
+.suggestionReassurance {
+  font-size: 0.72rem;
+  color: rgba(148, 163, 184, 0.5);
+  margin-top: 6px;
+  padding: 10px 12px;
+  background: rgba(148, 163, 184, 0.03);
+  border-radius: 6px;
+}
+
+/* ═══════════════════════════════════════════════════════════════
+   LIGHT MODE
+   ═══════════════════════════════════════════════════════════════ */
+
+:global(body.light) .error {
+  background: rgba(239, 68, 68, 0.06);
+  border-color: rgba(239, 68, 68, 0.15);
+  color: rgba(220, 38, 38, 0.9);
+}
+
+:global(body.light) .empty {
+  color: rgba(100, 116, 139, 0.55);
+}
+
+:global(body.light) .sectionDescription {
+  color: rgba(100, 116, 139, 0.65);
+}
+
+:global(body.light) .nestedWarningBanner {
+  background: rgba(245, 158, 11, 0.05);
+  border-color: rgba(245, 158, 11, 0.12);
+}
+
+:global(body.light) .nestedWarningTitle {
+  color: var(--color-foreground);
+}
+
+:global(body.light) .nestedWarningText {
+  color: rgba(71, 85, 105, 0.8);
+}
+
+:global(body.light) .nestedConflictsList {
+  color: rgba(71, 85, 105, 0.8);
+}
+
+:global(body.light) .nestedConflictsList strong {
+  color: var(--color-foreground);
+}
+
+:global(body.light) .nestedConflictsList code {
+  background: rgba(148, 163, 184, 0.1);
+}
+
+:global(body.light) .suggestedSectionHeader:hover {
+  background: rgba(148, 163, 184, 0.06);
+}
+
+:global(body.light) .suggestedSectionTitle {
+  color: rgba(71, 85, 105, 0.8);
+}
+
+:global(body.light) .suggestionCard {
+  background: rgba(255, 255, 255, 0.6);
+  border-color: rgba(148, 163, 184, 0.12);
+}
+
+:global(body.light) .suggestionCard:hover {
+  background: rgba(255, 255, 255, 0.8);
+}
+
+:global(body.light) .suggestionName {
+  color: var(--color-foreground);
+}
+
+:global(body.light) .suggestionPath {
+  color: rgba(100, 116, 139, 0.55);
+}
+
+:global(body.light) .suggestionDescription {
+  color: var(--color-muted-foreground);
+}
+
+:global(body.light) .readyBadge {
+  color: rgba(22, 163, 74, 0.9);
+  background: rgba(22, 163, 74, 0.08);
+}
+
+:global(body.light) .needsConfigBadge {
+  color: rgba(217, 119, 6, 0.9);
+  background: rgba(217, 119, 6, 0.08);
+}

@@ -1,0 +1,14 @@
+commands:
+  install_rebel: cd /Users/you/development/desktop/rebel-app-1 && npm ci
+  build_rebel: cd /Users/you/development/desktop/rebel-app-1 && npm run build
+  test_rebel: cd /Users/you/development/desktop/rebel-app-1 && npm run test
+  lint_rebel: cd /Users/you/development/desktop/rebel-app-1 && npm run lint
+  validate_rebel: cd /Users/you/development/desktop/rebel-app-1 && npm run validate:fast
+  typecheck_rebel: cd /Users/you/development/desktop/rebel-app-1 && npm run lint:ts
+  install_connector: cd /Users/you/development/mcp-servers/connectors/${CONNECTOR} && npm ci
+  build_connector: cd /Users/you/development/mcp-servers/connectors/${CONNECTOR} && npm run build
+  test_connector: cd /Users/you/development/mcp-servers/connectors/${CONNECTOR} && npm test
+  audit_connector: cd /Users/you/development/mcp-servers/connectors/${CONNECTOR} && npm audit --audit-level=high
+  publish_connector: cd /Users/you/development/mcp-servers/connectors/${CONNECTOR} && npm publish --access public
+
+services: {}

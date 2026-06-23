@@ -1,0 +1,9 @@
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <!-- Moonshine Voice SDK 0.0.52 declares minSdkVersion 35, but our app targets 24.
+         The STT module has runtime API level checks, so we override the manifest merger
+         to allow installation on older devices (STT features simply won't activate). -->
+    <uses-sdk tools:overrideLibrary="ai.moonshine.voice" />
+
+</manifest>

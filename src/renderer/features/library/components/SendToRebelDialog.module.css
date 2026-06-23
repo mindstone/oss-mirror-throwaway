@@ -1,0 +1,129 @@
+.body {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.fileInfo {
+  font-size: 0.9rem;
+  color: var(--color-foreground-muted);
+  margin: 0;
+}
+
+.fileInfo strong {
+  color: var(--color-foreground);
+}
+
+.loading {
+  padding: 20px;
+  text-align: center;
+  color: var(--color-foreground-muted);
+  font-size: 0.9rem;
+}
+
+.options {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.option {
+  display: flex;
+  align-items: flex-start;
+  gap: 12px;
+  padding: 12px;
+  border-radius: 8px;
+  background: rgba(30, 41, 59, 0.3);
+  border: 1px solid rgba(148, 163, 184, 0.15);
+  cursor: pointer;
+  transition: all 0.15s ease;
+}
+
+.option:hover {
+  background: rgba(30, 41, 59, 0.5);
+  border-color: rgba(148, 163, 184, 0.25);
+}
+
+.optionSelected {
+  background: rgba(59, 130, 246, 0.1);
+  border-color: rgba(59, 130, 246, 0.4);
+}
+
+.option input[type="radio"] {
+  margin-top: 2px;
+  flex-shrink: 0;
+}
+
+.optionIcon {
+  flex-shrink: 0;
+  width: 32px;
+  height: 32px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 6px;
+  background: rgba(59, 130, 246, 0.15);
+  color: rgba(59, 130, 246, 0.9);
+}
+
+.optionContent {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  flex: 1;
+  min-width: 0;
+}
+
+.optionLabel {
+  font-size: 0.92rem;
+  font-weight: 600;
+  color: var(--color-foreground);
+}
+
+.optionDescription {
+  font-size: 0.82rem;
+  color: var(--color-foreground-muted);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.clearOption {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 8px 0 0;
+  cursor: pointer;
+  user-select: none;
+}
+
+.clearOption input[type="checkbox"] {
+  flex-shrink: 0;
+  accent-color: var(--color-accent, rgba(59, 130, 246, 0.9));
+}
+
+.clearOptionLabel {
+  font-size: 0.85rem;
+  color: var(--color-foreground-muted);
+}
+
+/* Light mode */
+:global(body.light) .option {
+  background: rgba(255, 255, 255, 0.8);
+  border: 1px solid rgba(148, 163, 184, 0.2);
+}
+
+:global(body.light) .option:hover {
+  background: rgba(255, 255, 255, 0.95);
+  border-color: rgba(148, 163, 184, 0.3);
+}
+
+:global(body.light) .optionSelected {
+  background: rgba(99, 102, 241, 0.08);
+  border-color: rgba(99, 102, 241, 0.35);
+}
+
+:global(body.light) .optionIcon {
+  background: rgba(99, 102, 241, 0.1);
+  color: rgba(99, 102, 241, 0.9);
+}

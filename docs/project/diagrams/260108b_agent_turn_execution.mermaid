@@ -1,0 +1,79 @@
+%% Agent Turn Execution Flow
+%% Shows the complete lifecycle of a chat turn from user input to response
+%% Related files:
+%% - src/main/services/agentTurnExecutor.ts
+%% - src/main/services/agentTurnRegistry.ts
+%% - src/main/ipc/agentHandlers.ts
+
+sequenceDiagram
+    participant U as 👤 User (Renderer)
+    participant IPC as 🔌 IPC Bridge
+    participant H as 📋 agentHandlers
+    participant E as ⚡ agentTurnExecutor
+    participant M as 🔧 mcpService
+    participant SDK as 🤖 Rebel Core Agent Runtime
+    participant MCP as 🔗 MCP Servers
+    participant SAFETY as 🛡️ toolSafetyService
+
+    rect rgb(230, 245, 255)
+        Note over U,IPC: User Input Phase
+        U->>IPC: Send message + attachments
+        IPC->>H: agent:turn request
+        H->>H: Generate unique turnId
+        H->>E: executeAgentTurn(turnId, prompt)
+    end
+
+    rect rgb(255, 243, 224)
+        Note over E: Precondition Checks
+        E->>E: Validate auth (API key or Claude Max)
+        E->>E: Check coreDirectory configured
+        alt Chat Mode
+            E->>SDK: Simple completion (no tools)
+            SDK-->>U: Stream response
+        else Agent Mode
+            E->>E: Continue to prompt assembly
+        end
+    end
+
+    rect rgb(243, 229, 245)
+        Note over E,M: Prompt Assembly
+        E->>E: Semantic context injection
+        E->>E: Process attachments
+        E->>M: resolveSystemPrompt()
+        M-->>E: Composite system prompt
+        E->>M: resolveMcpServers()
+        M-->>E: MCP server configs
+    end
+
+    rect rgb(232, 245, 233)
+        Note over E,SDK: SDK Query Execution
+        E->>SDK: query() with options
+        
+        loop Message Stream
+            SDK-->>E: Content chunk
+            E->>U: dispatchAgentEvent(assistant)
+            
+            opt Tool Use Decision
+                SDK->>SAFETY: PreToolUse hook
+                SAFETY-->>SAFETY: Evaluate risk
+                alt Approved
+                    SAFETY-->>SDK: Allow
+                    SDK->>MCP: Execute tool
+                    MCP-->>SDK: Tool result
+                else Needs Approval
+                    SAFETY->>U: Request user approval
+                    U-->>SAFETY: Approve/Deny
+                    SAFETY-->>SDK: Decision
+                end
+            end
+        end
+        
+        SDK-->>E: Turn complete
+    end
+
+    rect rgb(255, 235, 238)
+        Note over E,U: Completion
+        E->>U: dispatchAgentEvent(result)
+        E->>E: Cleanup turn state
+        E->>E: Finalize logger
+    end

@@ -1,0 +1,120 @@
+%%{init: {'theme': 'base', 'themeVariables': { 'primaryColor': '#e8e8ff', 'fontSize': '13px'}}}%%
+
+%% PROMPT TO REPRODUCE THIS DIAGRAM:
+%% User journey map for Rebel onboarding in "swim lane" format
+%% Shows: User actions, App responses, Emotions, Problems, Opportunities
+%% Horizontal timeline from Pre-Launch to Day 7
+%% Based on: docs/project/ux_testing/260127_onboarding_user_journey_map.md
+
+flowchart LR
+    %% ===== TIMELINE =====
+    subgraph Timeline[" "]
+        direction LR
+        T0["Pre-<br/>Launch"]
+        T1["Setup<br/>5-10m"]
+        T2["Audio<br/>2m"]
+        T3["First<br/>Query"]
+        T4["Tutorial<br/>Checklist"]
+        T5["The<br/>Spark"]
+        T6["Days<br/>2-7"]
+        
+        T0 ~~~ T1 ~~~ T2 ~~~ T3 ~~~ T4 ~~~ T5 ~~~ T6
+    end
+
+    %% ===== USER ACTIONS LANE =====
+    subgraph User["👤 USER ACTIONS"]
+        direction LR
+        U0["Discovers<br/>Downloads"]
+        U1["Completes<br/>7 steps"]
+        U2["Watches<br/>intro"]
+        U3["Types first<br/>question"]
+        U4["Tries<br/>checklist?"]
+        U5["Views<br/>home"]
+        U6["Returns?"]
+        
+        U0 --> U1 --> U2 --> U3 --> U4 --> U5 --> U6
+    end
+
+    %% ===== APP RESPONSE LANE =====
+    subgraph App["🤖 APP RESPONSE"]
+        direction LR
+        A0["—"]
+        A1["Wizard<br/>flows"]
+        A2["PTT<br/>demo"]
+        A3["5-10 min<br/>processing"]
+        A4["Sidebar<br/>widget"]
+        A5["Empty<br/>dashboard"]
+        A6["No<br/>triggers"]
+        
+        A0 ~~~ A1 ~~~ A2 ~~~ A3 ~~~ A4 ~~~ A5 ~~~ A6
+    end
+
+    %% ===== EMOTION LANE =====
+    subgraph Emotion["💭 EMOTION"]
+        direction LR
+        E0["Hopeful<br/>😊"]
+        E1["Determined<br/>😤"]
+        E2["Impatient<br/>😐"]
+        E3["Anxious<br/>😰"]
+        E4["Confused<br/>🤔"]
+        E5["Underwhelmed<br/>😕"]
+        E6["Forgotten<br/>👻"]
+        
+        E0 ~~~ E1 ~~~ E2 ~~~ E3 ~~~ E4 ~~~ E5 ~~~ E6
+    end
+
+    %% ===== PROBLEMS LANE =====
+    subgraph Problems["⚠️ PROBLEMS"]
+        direction LR
+        P0["Unrealistic<br/>expectations"]
+        P1["Feels like<br/>work"]
+        P2["Passive<br/>watching"]
+        P3["What do I ask?<br/>Long wait"]
+        P4["Easy to miss<br/>Weak examples"]
+        P5["Cold start<br/>Nothing useful"]
+        P6["No habit loop<br/>No triggers"]
+        
+        P0 ~~~ P1 ~~~ P2 ~~~ P3 ~~~ P4 ~~~ P5 ~~~ P6
+    end
+
+    %% ===== OPPORTUNITIES LANE =====
+    subgraph Opps["✨ OPPORTUNITIES"]
+        direction LR
+        O0["Set 60-sec<br/>win expectation"]
+        O1["Show progress<br/>toward outcome"]
+        O2["Make it<br/>interactive"]
+        O3["Suggest query<br/>Guarantee fast"]
+        O4["Make it hero<br/>Better examples"]
+        O5["Onboarding content<br/>Quick actions"]
+        O6["Re-engagement<br/>Daily challenges"]
+        
+        O0 ~~~ O1 ~~~ O2 ~~~ O3 ~~~ O4 ~~~ O5 ~~~ O6
+    end
+
+    %% ===== CRITICAL PATH MARKER =====
+    subgraph Critical["🎯 CRITICAL MOMENT"]
+        direction LR
+        C0[" "]
+        C1[" "]
+        C2[" "]
+        C3["⭐ DECISION:<br/>Trust or abandon"]
+        C4[" "]
+        C5[" "]
+        C6[" "]
+        
+        C0 ~~~ C1 ~~~ C2 ~~~ C3 ~~~ C4 ~~~ C5 ~~~ C6
+    end
+
+    %% ===== STYLING =====
+    style Timeline fill:#f1f5f9,stroke:#64748b
+    style User fill:#ede9fe,stroke:#7c3aed
+    style App fill:#dbeafe,stroke:#2563eb
+    style Emotion fill:#fef3c7,stroke:#d97706
+    style Problems fill:#fee2e2,stroke:#dc2626
+    style Opps fill:#dcfce7,stroke:#16a34a
+    style Critical fill:#fef9c3,stroke:#ca8a04,stroke-width:2px
+    
+    style C3 fill:#fef08a,stroke:#ca8a04,stroke-width:3px,color:#854d0e
+    style E3 fill:#fecaca,stroke:#dc2626
+    style P3 fill:#fca5a5,stroke:#dc2626,stroke-width:2px
+    style O3 fill:#86efac,stroke:#16a34a,stroke-width:2px

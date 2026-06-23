@@ -1,0 +1,216 @@
+.dialogContent {
+  max-width: 700px !important;
+  max-height: 80vh;
+}
+
+.dialogContentWide {
+  max-width: 1200px !important;
+  width: 90vw;
+  max-height: 85vh;
+  display: flex;
+  flex-direction: column;
+}
+
+.iconContainer {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 36px;
+  height: 36px;
+  border-radius: 8px;
+  background: rgba(139, 92, 246, 0.15);
+  flex-shrink: 0;
+}
+
+.icon {
+  color: #8B5CF6;
+}
+
+.authorLine {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  margin-top: 6px;
+  font-size: 0.85rem;
+  color: var(--color-foreground, #e5e5e5);
+}
+
+.authorLine strong {
+  color: var(--color-foreground, #e5e5e5);
+}
+
+.destination {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 4px;
+  margin-top: 4px;
+  font-size: 0.82rem;
+  color: var(--color-muted-foreground, #a1a1aa);
+}
+
+.filename {
+  color: var(--color-foreground, #e5e5e5);
+  opacity: 0.9;
+}
+
+.headerRow {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+}
+
+.viewToggle {
+  display: flex;
+  gap: 4px;
+  padding: 2px;
+  border-radius: 6px;
+  background: rgba(148, 163, 184, 0.1);
+  flex-shrink: 0;
+}
+
+.toggleButton {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  padding: 4px 10px;
+  border: none;
+  border-radius: 4px;
+  background: transparent;
+  color: var(--color-muted-foreground, #a1a1aa);
+  font-size: 0.8rem;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.15s ease;
+}
+
+.toggleButton:hover {
+  color: var(--color-foreground, #e5e5e5);
+  background: rgba(148, 163, 184, 0.15);
+}
+
+.toggleButton.active {
+  color: var(--color-foreground, #e5e5e5);
+  background: rgba(99, 102, 241, 0.2);
+}
+
+.body {
+  display: flex;
+  flex-direction: column;
+  padding: 0 !important;
+  flex: 1;
+  min-height: 0;
+  overflow: hidden;
+}
+
+.summary {
+  padding: 12px 20px;
+  font-size: 0.85rem;
+  color: var(--color-muted-foreground, #a1a1aa);
+  border-bottom: 1px solid var(--color-border, rgba(255, 255, 255, 0.1));
+  background: var(--color-muted, rgba(0, 0, 0, 0.2));
+}
+
+.contentContainer {
+  flex: 1;
+  overflow-y: auto;
+  min-height: 200px;
+  max-height: 55vh;
+}
+
+.contentPadded {
+  padding: 16px 20px;
+}
+
+.diffWrapper {
+  font-size: 13px;
+  min-height: 200px;
+}
+
+.diffWrapper table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+.diffWrapper > div {
+  min-height: 200px;
+}
+
+.content {
+  margin: 0;
+  font-family: var(--font-family-mono, 'SF Mono', monospace);
+  font-size: 0.8rem;
+  line-height: 1.5;
+  color: var(--color-foreground, #e5e5e5);
+  white-space: pre-wrap;
+  word-break: break-word;
+}
+
+.markdownContent {
+  font-size: 0.9rem;
+  line-height: 1.6;
+  color: var(--color-foreground, #e5e5e5);
+}
+
+.loading {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  height: 200px;
+  color: var(--color-muted-foreground, #a1a1aa);
+  font-size: 0.85rem;
+}
+
+.error {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 12px;
+  height: 200px;
+  padding: 0 24px;
+  text-align: center;
+  color: #EF4444;
+  font-size: 0.9rem;
+}
+
+.spinner {
+  animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+  from { transform: rotate(0deg); }
+  to { transform: rotate(360deg); }
+}
+
+.spacer {
+  flex: 1;
+}
+
+/* Light mode */
+:global(body.light) .iconContainer {
+  background: rgba(124, 58, 237, 0.1);
+}
+
+:global(body.light) .icon {
+  color: #7C3AED;
+}
+
+:global(body.light) .viewToggle {
+  background: rgba(148, 163, 184, 0.08);
+}
+
+:global(body.light) .toggleButton:hover {
+  background: rgba(148, 163, 184, 0.12);
+}
+
+:global(body.light) .toggleButton.active {
+  background: rgba(79, 70, 229, 0.15);
+}
+
+:global(body.light) .summary {
+  background: var(--color-muted, rgba(0, 0, 0, 0.03));
+}

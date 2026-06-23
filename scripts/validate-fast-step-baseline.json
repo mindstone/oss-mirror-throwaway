@@ -1,0 +1,872 @@
+[
+  {
+    "kind": "script",
+    "name": "check-core-bare",
+    "script": "scripts/check-core-bare.ts"
+  },
+  {
+    "kind": "script",
+    "name": "check-husky-hooks-path",
+    "script": "scripts/check-husky-hooks-path.ts"
+  },
+  {
+    "kind": "script",
+    "name": "validate:anti-rot-source-checks",
+    "script": "scripts/groups/anti-rot-source-checks.ts"
+  },
+  {
+    "kind": "group-member",
+    "group": "validate:anti-rot-source-checks",
+    "member": "check-husky-pre-push-fast-tier"
+  },
+  {
+    "kind": "group-member",
+    "group": "validate:anti-rot-source-checks",
+    "member": "check-oauth-setup-guidance"
+  },
+  {
+    "kind": "group-member",
+    "group": "validate:anti-rot-source-checks",
+    "member": "check-renderer-oauth-setup-guidance"
+  },
+  {
+    "kind": "group-member",
+    "group": "validate:anti-rot-source-checks",
+    "member": "check-no-legacy-eval-tokens"
+  },
+  {
+    "kind": "group-member",
+    "group": "validate:anti-rot-source-checks",
+    "member": "validate:escape-hatches"
+  },
+  {
+    "kind": "group-member",
+    "group": "validate:anti-rot-source-checks",
+    "member": "validate:direct-session-puts"
+  },
+  {
+    "kind": "group-member",
+    "group": "validate:anti-rot-source-checks",
+    "member": "validate:agent-error-emit-callers"
+  },
+  {
+    "kind": "group-member",
+    "group": "validate:anti-rot-source-checks",
+    "member": "check-no-raw-ipc-invoke"
+  },
+  {
+    "kind": "group-member",
+    "group": "validate:anti-rot-source-checks",
+    "member": "validate:r2-manifest-guard"
+  },
+  {
+    "kind": "group-member",
+    "group": "validate:anti-rot-source-checks",
+    "member": "check-commit-marker-detection"
+  },
+  {
+    "kind": "script",
+    "name": "check-better-sqlite3-not-runtime",
+    "script": "scripts/check-better-sqlite3-not-runtime.ts"
+  },
+  {
+    "kind": "script",
+    "name": "check-integration-test-provider-gates",
+    "script": "scripts/check-integration-test-provider-gates.ts"
+  },
+  {
+    "kind": "script",
+    "name": "check-auth-teardown-coverage",
+    "script": "scripts/check-auth-teardown-coverage.ts"
+  },
+  {
+    "kind": "script",
+    "name": "check-native-teardown-coverage",
+    "script": "scripts/check-native-teardown-coverage.ts"
+  },
+  {
+    "kind": "script",
+    "name": "check-commercial-capability-parity",
+    "script": "scripts/check-commercial-capability-parity.ts"
+  },
+  {
+    "kind": "script",
+    "name": "check-connector-smoke-readonly",
+    "script": "scripts/check-connector-smoke-readonly.ts"
+  },
+  {
+    "kind": "script",
+    "name": "check-no-routing-model-forge",
+    "script": "scripts/check-no-routing-model-forge.ts"
+  },
+  {
+    "kind": "script",
+    "name": "check-no-legacy-resolver",
+    "script": "scripts/check-no-legacy-resolver.ts"
+  },
+  {
+    "kind": "script",
+    "name": "check-chat-completions-chokepoint",
+    "script": "scripts/check-chat-completions-chokepoint.ts"
+  },
+  {
+    "kind": "script",
+    "name": "check-direct-anthropic-route-chokepoint",
+    "script": "scripts/check-direct-anthropic-route-chokepoint.ts"
+  },
+  {
+    "kind": "script",
+    "name": "check-codex-servable-route-chokepoint",
+    "script": "scripts/check-codex-servable-route-chokepoint.ts"
+  },
+  {
+    "kind": "script",
+    "name": "check-model-id-inference-clone",
+    "script": "scripts/check-model-id-inference-clone.ts"
+  },
+  {
+    "kind": "script",
+    "name": "validate:source-policy-chokepoints",
+    "script": "scripts/groups/source-policy-chokepoints.ts"
+  },
+  {
+    "kind": "group-member",
+    "group": "validate:source-policy-chokepoints",
+    "member": "check-role-resolution-chokepoint"
+  },
+  {
+    "kind": "group-member",
+    "group": "validate:source-policy-chokepoints",
+    "member": "check-app-exit-chokepoint"
+  },
+  {
+    "kind": "group-member",
+    "group": "validate:source-policy-chokepoints",
+    "member": "check-fsevents-containment"
+  },
+  {
+    "kind": "group-member",
+    "group": "validate:source-policy-chokepoints",
+    "member": "check-capability-resolution-dispatch-seam"
+  },
+  {
+    "kind": "group-member",
+    "group": "validate:source-policy-chokepoints",
+    "member": "check-will-quit-preventdefault-chokepoint"
+  },
+  {
+    "kind": "group-member",
+    "group": "validate:source-policy-chokepoints",
+    "member": "check-agent-tool-body-model-source"
+  },
+  {
+    "kind": "group-member",
+    "group": "validate:source-policy-chokepoints",
+    "member": "check-agent-turn-dispatch-chokepoint"
+  },
+  {
+    "kind": "group-member",
+    "group": "validate:source-policy-chokepoints",
+    "member": "check-safety-dir-call-sites"
+  },
+  {
+    "kind": "group-member",
+    "group": "validate:source-policy-chokepoints",
+    "member": "check-trusted-tool-write-normalization"
+  },
+  {
+    "kind": "group-member",
+    "group": "validate:source-policy-chokepoints",
+    "member": "check-failopen-scope-readers"
+  },
+  {
+    "kind": "group-member",
+    "group": "validate:source-policy-chokepoints",
+    "member": "check-pathroot-startswith-containment"
+  },
+  {
+    "kind": "group-member",
+    "group": "validate:source-policy-chokepoints",
+    "member": "check-safety-eval-retry-transience"
+  },
+  {
+    "kind": "script",
+    "name": "check-supermcp-restart-awaiters",
+    "script": "scripts/check-supermcp-restart-awaiters.ts"
+  },
+  {
+    "kind": "script",
+    "name": "check-supermcp-single-startup-path",
+    "script": "scripts/check-supermcp-single-startup-path.ts"
+  },
+  {
+    "kind": "script",
+    "name": "check-executor-service-imports",
+    "script": "scripts/check-executor-service-imports.ts"
+  },
+  {
+    "kind": "script",
+    "name": "check-real-boot-no-provider-mock",
+    "script": "scripts/check-real-boot-no-provider-mock.ts"
+  },
+  {
+    "kind": "script",
+    "name": "check-sk-test-token-drift",
+    "script": "scripts/check-sk-test-token-drift.ts"
+  },
+  {
+    "kind": "script",
+    "name": "check:oss-surface",
+    "script": "mirror/check-oss-surface-leaks.ts"
+  },
+  {
+    "kind": "script",
+    "name": "validate:recall-sdk-parity",
+    "script": "mirror/check-recall-sdk-parity.ts"
+  },
+  {
+    "kind": "script",
+    "name": "validate:mirror-exclusion-list-parity",
+    "script": "mirror/check-mirror-exclusion-list-parity.ts"
+  },
+  {
+    "kind": "script",
+    "name": "validate:trufflehog-public-allowlist",
+    "script": "scripts/check-trufflehog-public-allowlist.ts"
+  },
+  {
+    "kind": "script",
+    "name": "validate:r1-r2-overlap",
+    "script": "scripts/check-r1-r2-overlap.ts"
+  },
+  {
+    "kind": "script",
+    "name": "validate:test-coverage-delta",
+    "script": "scripts/check-test-coverage-delta.ts"
+  },
+  {
+    "kind": "script",
+    "name": "validate:workflow-checkout-depth",
+    "script": "scripts/check-workflow-validation-checkout-depth.ts"
+  },
+  {
+    "kind": "script",
+    "name": "validate:workflow-powershell-syntax",
+    "script": "scripts/check-workflow-powershell-syntax.ts"
+  },
+  {
+    "kind": "script",
+    "name": "validate:eslint-preflight-r1-rule",
+    "script": "scripts/check-eslint-preflight-r1-rule.ts"
+  },
+  {
+    "kind": "command",
+    "name": "lint",
+    "command": "npm run lint"
+  },
+  {
+    "kind": "script",
+    "name": "validate:bts-prefix-decoder-rule",
+    "script": "scripts/check-bts-prefix-decoder-rule.ts"
+  },
+  {
+    "kind": "script",
+    "name": "validate:bts-transport-symmetry",
+    "script": "scripts/check-bts-transport-symmetry.ts"
+  },
+  {
+    "kind": "script",
+    "name": "validate:proxy-auth-translator-centralization",
+    "script": "scripts/check-proxy-auth-translator-centralization.ts"
+  },
+  {
+    "kind": "script",
+    "name": "validate:provider-proxy-retry-stacking",
+    "script": "scripts/check-provider-proxy-retry-stacking.ts"
+  },
+  {
+    "kind": "script",
+    "name": "validate:codex-connectivity-probe-funnel",
+    "script": "scripts/check-codex-connectivity-probe-funnel.ts"
+  },
+  {
+    "kind": "script",
+    "name": "validate:eslint-warnings",
+    "script": "scripts/check-eslint-warnings.ts"
+  },
+  {
+    "kind": "script",
+    "name": "validate:eslint-new-warnings",
+    "script": "scripts/check-eslint-new-warnings.ts"
+  },
+  {
+    "kind": "script",
+    "name": "validate:conflict-matcher-consumer-guard",
+    "script": "scripts/check-conflict-matcher-consumer-guard.ts"
+  },
+  {
+    "kind": "script",
+    "name": "validate:cloud-writer-authority-guard",
+    "script": "scripts/check-cloud-writer-authority-guard.ts"
+  },
+  {
+    "kind": "script",
+    "name": "validate:cloud-push-allowlist",
+    "script": "scripts/check-cloud-push-allowlist-coverage.ts"
+  },
+  {
+    "kind": "script",
+    "name": "validate:testing-guards",
+    "script": "scripts/check-testing-guards.ts"
+  },
+  {
+    "kind": "group-member",
+    "group": "validate:testing-guards",
+    "member": "orphaned-tests"
+  },
+  {
+    "kind": "group-member",
+    "group": "validate:testing-guards",
+    "member": "mock-contracts"
+  },
+  {
+    "kind": "script",
+    "name": "check-no-new-slack-mention-poll-emission",
+    "script": "scripts/check-no-new-slack-mention-poll-emission.ts"
+  },
+  {
+    "kind": "script",
+    "name": "validate:meeting-emit-eslint-scope",
+    "script": "scripts/check-meeting-emit-eslint-scope.ts"
+  },
+  {
+    "kind": "script",
+    "name": "validate:meeting-emit-callers",
+    "script": "scripts/check-meeting-emit-callers.ts"
+  },
+  {
+    "kind": "script",
+    "name": "validate:ipc",
+    "script": "scripts/validate-ipc.ts"
+  },
+  {
+    "kind": "script",
+    "name": "validate:registry-parity",
+    "script": "scripts/groups/registry-parity.ts"
+  },
+  {
+    "kind": "group-member",
+    "group": "validate:registry-parity",
+    "member": "validate:ipc-schema-strictness"
+  },
+  {
+    "kind": "group-member",
+    "group": "validate:registry-parity",
+    "member": "validate:startup-ipc-ordering"
+  },
+  {
+    "kind": "group-member",
+    "group": "validate:registry-parity",
+    "member": "validate:ipc-handler-parity"
+  },
+  {
+    "kind": "group-member",
+    "group": "validate:registry-parity",
+    "member": "validate:ipc-bridge-exposure-parity"
+  },
+  {
+    "kind": "group-member",
+    "group": "validate:registry-parity",
+    "member": "validate:cloud-channel-parity"
+  },
+  {
+    "kind": "script",
+    "name": "validate:boundary-forbidden-terms",
+    "script": "scripts/check-boundary-forbidden-terms.ts"
+  },
+  {
+    "kind": "script",
+    "name": "validate:boundary-contract-coverage",
+    "script": "scripts/check-boundary-contract-coverage.ts"
+  },
+  {
+    "kind": "script",
+    "name": "validate:boundary-registry-paths",
+    "script": "scripts/check-boundary-registry-paths.ts"
+  },
+  {
+    "kind": "script",
+    "name": "validate:model-pricing",
+    "script": "scripts/check-model-pricing.ts"
+  },
+  {
+    "kind": "script",
+    "name": "validate:model-registry-consistency",
+    "script": "scripts/check-model-registry-consistency.ts"
+  },
+  {
+    "kind": "script",
+    "name": "validate:model-routing-notes",
+    "script": "scripts/check-model-routing-notes.ts"
+  },
+  {
+    "kind": "script",
+    "name": "validate:eval-canonical-panel",
+    "script": "scripts/check-eval-canonical-panel-drift.ts"
+  },
+  {
+    "kind": "script",
+    "name": "validate:eval-canonical-fixtures",
+    "script": "scripts/check-knowledge-work-canonical-fixtures.ts"
+  },
+  {
+    "kind": "script",
+    "name": "validate:bts-eval-binding",
+    "script": "scripts/check-bound-bts-eval-contracts.ts"
+  },
+  {
+    "kind": "script",
+    "name": "validate:store-versions",
+    "script": "scripts/check-store-versions.ts"
+  },
+  {
+    "kind": "script",
+    "name": "validate:session-hydration-boundary",
+    "script": "scripts/check-session-hydration-boundary.ts"
+  },
+  {
+    "kind": "script",
+    "name": "validate:migration-classification",
+    "script": "scripts/check-migration-classification.ts"
+  },
+  {
+    "kind": "script",
+    "name": "validate:translators",
+    "script": "scripts/check-translator-schema-vs-consumer.ts"
+  },
+  {
+    "kind": "script",
+    "name": "validate:e2e-testids",
+    "script": "scripts/check-e2e-testids.ts"
+  },
+  {
+    "kind": "script",
+    "name": "validate:doc-frontmatter",
+    "script": "scripts/check-doc-frontmatter.ts"
+  },
+  {
+    "kind": "script",
+    "name": "validate-mcp-bundles",
+    "script": "scripts/validate-mcp-bundles.ts"
+  },
+  {
+    "kind": "script",
+    "name": "validate-cloud-dockerfile",
+    "script": "scripts/validate-cloud-dockerfile.ts"
+  },
+  {
+    "kind": "script",
+    "name": "check-mobile-test-runner",
+    "script": "scripts/check-mobile-test-runner.ts"
+  },
+  {
+    "kind": "script",
+    "name": "check-mobile-barrel-imports",
+    "script": "scripts/check-mobile-barrel-imports.ts"
+  },
+  {
+    "kind": "script",
+    "name": "check-mobile-core-rn-safety",
+    "script": "scripts/check-mobile-core-rn-safety.ts"
+  },
+  {
+    "kind": "script",
+    "name": "check-renderer-core-rn-safety",
+    "script": "scripts/check-renderer-core-rn-safety.ts"
+  },
+  {
+    "kind": "script",
+    "name": "validate-new-postmortems",
+    "script": "scripts/validate-new-postmortems.ts"
+  },
+  {
+    "kind": "script",
+    "name": "validate-new-augmentations",
+    "script": "scripts/validate-new-augmentations.ts"
+  },
+  {
+    "kind": "script",
+    "name": "check-mcp-lockfiles",
+    "script": "scripts/check-mcp-lockfiles.ts"
+  },
+  {
+    "kind": "script",
+    "name": "check-cloud-service-lockfile-parity",
+    "script": "scripts/check-cloud-service-lockfile-parity.ts"
+  },
+  {
+    "kind": "script",
+    "name": "check-e2e-timeout-budget",
+    "script": "scripts/check-e2e-timeout-budget.ts"
+  },
+  {
+    "kind": "script",
+    "name": "check-e2e-startup-safety-budget",
+    "script": "scripts/check-e2e-startup-safety-budget.ts"
+  },
+  {
+    "kind": "script",
+    "name": "check-mcp-config-drift",
+    "script": "scripts/check-mcp-config-drift.ts"
+  },
+  {
+    "kind": "script",
+    "name": "check-orphaned-mcp-fixture-refs",
+    "script": "scripts/check-orphaned-mcp-fixture-refs.ts"
+  },
+  {
+    "kind": "script",
+    "name": "check-hubspot-telemetry-salt",
+    "script": "scripts/check-hubspot-telemetry-salt.ts"
+  },
+  {
+    "kind": "script",
+    "name": "check-mcp-cohort-parity",
+    "script": "scripts/check-mcp-cohort-parity.ts"
+  },
+  {
+    "kind": "script",
+    "name": "check-release-mapping-completeness",
+    "script": "scripts/check-release-mapping-completeness.ts"
+  },
+  {
+    "kind": "script",
+    "name": "validate:mcp-release-security-policy",
+    "script": "scripts/validate-mcp-release-security-policy.ts"
+  },
+  {
+    "kind": "script",
+    "name": "check-skip-capable-gate-strictness",
+    "script": "scripts/check-skip-capable-gate-strictness.ts"
+  },
+  {
+    "kind": "script",
+    "name": "validate:typecheck-coverage",
+    "script": "scripts/check-typecheck-coverage.ts"
+  },
+  {
+    "kind": "script",
+    "name": "validate:super-mcp-version-codegen",
+    "script": "scripts/generate-super-mcp-version.ts"
+  },
+  {
+    "kind": "script",
+    "name": "validate:super-mcp-gitsha-parity",
+    "script": "scripts/check-super-mcp-gitsha-parity.ts"
+  },
+  {
+    "kind": "script",
+    "name": "validate:submodule-pin-ancestry",
+    "script": "scripts/check-submodule-pin-ancestry.ts"
+  },
+  {
+    "kind": "script",
+    "name": "check-bridge-state-readers",
+    "script": "scripts/check-bridge-state-readers.ts"
+  },
+  {
+    "kind": "command",
+    "name": "validate:parity",
+    "command": "npx vitest run tests/parity"
+  },
+  {
+    "kind": "command",
+    "name": "validate:tiebreaker",
+    "command": "npx vitest run tests/parity/__tests__/tiebreakerScenarios.test.ts src/core/services/__tests__/conflictDetector.tiebreaker.test.ts"
+  },
+  {
+    "kind": "script",
+    "name": "check-conversation-state-parity",
+    "script": "scripts/check-conversation-state-parity.ts"
+  },
+  {
+    "kind": "script",
+    "name": "validate:event-envelope-codegen",
+    "script": "scripts/generate-event-envelope-validator.ts"
+  },
+  {
+    "kind": "script",
+    "name": "check-office-package-version",
+    "script": "scripts/check-office-package-version.ts"
+  },
+  {
+    "kind": "script",
+    "name": "check-persona-eligibility",
+    "script": "scripts/check-persona-eligibility.ts"
+  },
+  {
+    "kind": "script",
+    "name": "validate:operator-field-precedence",
+    "script": "scripts/check-operator-field-precedence-consumers.ts"
+  },
+  {
+    "kind": "script",
+    "name": "validate:botqa-privacy-prompt-sync",
+    "script": "scripts/check-botqa-transcript-privacy-prompt-sync.ts"
+  },
+  {
+    "kind": "script",
+    "name": "validate:botqa-privacy-ci-gate",
+    "script": "scripts/check-botqa-privacy-ci-gate.ts"
+  },
+  {
+    "kind": "script",
+    "name": "check-autopilot-no-mcp",
+    "script": "scripts/check-autopilot-no-mcp.ts"
+  },
+  {
+    "kind": "script",
+    "name": "validate:circular-deps",
+    "script": "scripts/check-circular-deps.ts"
+  },
+  {
+    "kind": "script",
+    "name": "validate:core-imports",
+    "script": "scripts/check-core-imports.ts"
+  },
+  {
+    "kind": "script",
+    "name": "validate:transitive-electron-deps",
+    "script": "scripts/check-transitive-electron-deps.ts"
+  },
+  {
+    "kind": "script",
+    "name": "validate:cross-surface-imports",
+    "script": "scripts/check-cross-surface-imports.ts"
+  },
+  {
+    "kind": "script",
+    "name": "validate:cross-surface-parity-gap",
+    "script": "scripts/check-cross-surface-parity-gap.ts"
+  },
+  {
+    "kind": "script",
+    "name": "check-no-prod-test-imports",
+    "script": "scripts/check-no-prod-test-imports.ts"
+  },
+  {
+    "kind": "script",
+    "name": "check-index-removal-coordinator",
+    "script": "scripts/check-index-removal-coordinator.ts"
+  },
+  {
+    "kind": "script",
+    "name": "check-cloud-readlink-only",
+    "script": "scripts/check-cloud-readlink-only.ts"
+  },
+  {
+    "kind": "script",
+    "name": "check-workspace-fs-boundary",
+    "script": "scripts/check-workspace-fs-boundary.ts"
+  },
+  {
+    "kind": "script",
+    "name": "validate:git-exec-maxbuffer",
+    "script": "scripts/check-git-exec-maxbuffer.ts"
+  },
+  {
+    "kind": "script",
+    "name": "validate:cross-surface-registration-parity",
+    "script": "scripts/check-cross-surface-registration-parity.ts"
+  },
+  {
+    "kind": "script",
+    "name": "validate:macos-clt-shim-guard",
+    "script": "scripts/check-macos-clt-shim-guard.ts"
+  },
+  {
+    "kind": "script",
+    "name": "validate:forge-heap-prefix",
+    "script": "scripts/check-forge-heap-prefix.ts"
+  },
+  {
+    "kind": "script",
+    "name": "validate:sentry-breadcrumb-scrub",
+    "script": "scripts/check-sentry-breadcrumb-scrub.ts"
+  },
+  {
+    "kind": "command",
+    "name": "validate:log-filter-allowlist-parity",
+    "command": "npx vitest run src/shared/utils/__tests__/logFilterSync.test.ts"
+  },
+  {
+    "kind": "script",
+    "name": "validate:cloud-bootstrap-policy",
+    "script": "scripts/check-cloud-bootstrap-policy.ts"
+  },
+  {
+    "kind": "script",
+    "name": "validate:core-bootstrap-policy",
+    "script": "scripts/check-core-bootstrap-policy.ts"
+  },
+  {
+    "kind": "script",
+    "name": "validate:lancedb-predicates",
+    "script": "scripts/check-lancedb-predicates.ts"
+  },
+  {
+    "kind": "script",
+    "name": "validate:settings-bootstrap",
+    "script": "scripts/check-settings-store-bootstrap.ts"
+  },
+  {
+    "kind": "script",
+    "name": "validate:settings-search",
+    "script": "scripts/check-settings-search-index.ts"
+  },
+  {
+    "kind": "script",
+    "name": "validate:alias-integrity",
+    "script": "scripts/check-alias-integrity.ts"
+  },
+  {
+    "kind": "script",
+    "name": "validate:renderer-bundle-singletons",
+    "script": "scripts/check-renderer-bundle-singletons.ts"
+  },
+  {
+    "kind": "script",
+    "name": "validate:worker-build-smoke",
+    "script": "scripts/check-worker-build-smoke.ts"
+  },
+  {
+    "kind": "script",
+    "name": "validate:plugin-permissions",
+    "script": "scripts/check-plugin-permission-sync.ts"
+  },
+  {
+    "kind": "script",
+    "name": "validate:app-bridge-registry",
+    "script": "scripts/check-app-bridge-tool-registry.ts"
+  },
+  {
+    "kind": "script",
+    "name": "validate:extend-skill-allowlist",
+    "script": "scripts/check-extend-skill-bundled-allowlist.ts"
+  },
+  {
+    "kind": "script",
+    "name": "validate:no-guarded-transform-reexports",
+    "script": "scripts/check-no-cross-file-guarded-transform-reexports.ts"
+  },
+  {
+    "kind": "script",
+    "name": "validate:r2-consumer-disposition",
+    "script": "scripts/validate-consumer-disposition.ts"
+  },
+  {
+    "kind": "script",
+    "name": "validate:blur-budget",
+    "script": "scripts/check-blur-budget.ts"
+  },
+  {
+    "kind": "script",
+    "name": "validate:diagnostic-events",
+    "script": "scripts/check-diagnostic-event-kinds.ts"
+  },
+  {
+    "kind": "script",
+    "name": "validate:daily-spark-no-leak",
+    "script": "scripts/check-daily-spark-no-leak.ts"
+  },
+  {
+    "kind": "script",
+    "name": "validate:prompt-registry-contract",
+    "script": "scripts/check-prompt-registry-contract.ts"
+  },
+  {
+    "kind": "script",
+    "name": "validate:known-conditions",
+    "script": "scripts/check-known-conditions.ts"
+  },
+  {
+    "kind": "script",
+    "name": "validate:postmortem-recommendations",
+    "script": "scripts/check-postmortem-recommendations-parity.ts"
+  },
+  {
+    "kind": "script",
+    "name": "validate:credential-writes",
+    "script": "scripts/audit-credential-write-sites.ts"
+  },
+  {
+    "kind": "script",
+    "name": "validate:atomic-helper-equivalence",
+    "script": "scripts/check-atomic-helper-equivalence.ts"
+  },
+  {
+    "kind": "script",
+    "name": "validate:connector-auth-wiring",
+    "script": "scripts/check-connector-auth-wiring.ts"
+  },
+  {
+    "kind": "script",
+    "name": "validate:connector-catalog-provider-keys",
+    "script": "scripts/check-connector-catalog-provider-keys.ts"
+  },
+  {
+    "kind": "script",
+    "name": "validate:connector-catalog-schema",
+    "script": "scripts/check-connector-catalog-schema.ts"
+  },
+  {
+    "kind": "script",
+    "name": "validate:mcp-release-parity",
+    "script": "scripts/__tests__/mcp-release-parity.test.ts"
+  },
+  {
+    "kind": "command",
+    "name": "packages/browser-extension build",
+    "command": "npm --prefix packages/browser-extension run build"
+  },
+  {
+    "kind": "script",
+    "name": "validate:extension-dist",
+    "script": "scripts/check-extension-dist-bundled.ts"
+  },
+  {
+    "kind": "script",
+    "name": "validate:host-tool-contracts",
+    "script": "scripts/check-host-tool-contracts.ts"
+  },
+  {
+    "kind": "script",
+    "name": "validate:pointer-comments",
+    "script": "scripts/check-pointer-comments.ts"
+  },
+  {
+    "kind": "script",
+    "name": "validate:ts-ratchet",
+    "script": "scripts/check-typescript-errors.ts"
+  },
+  {
+    "kind": "script",
+    "name": "validate:bounded-walkers",
+    "script": "scripts/check-bounded-walker-recursion.ts"
+  },
+  {
+    "kind": "script",
+    "name": "validate:feature-gate-budget",
+    "script": "scripts/check-feature-gate-budget.ts"
+  },
+  {
+    "kind": "command",
+    "name": "validate:super-mcp-build",
+    "command": "npm run validate:super-mcp-build"
+  },
+  {
+    "kind": "script",
+    "name": "validate:step-registry",
+    "script": "scripts/run-validate-fast.ts"
+  }
+]

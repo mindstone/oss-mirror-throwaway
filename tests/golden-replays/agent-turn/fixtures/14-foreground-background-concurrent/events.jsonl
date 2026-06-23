@@ -1,0 +1,6 @@
+{"type":"turn_started","timestamp":1,"turnId":"turn-1"}
+{"type":"tool","timestamp":2,"stage":"start","toolName":"Task","toolUseId":"bg-1","detail":"{\"subagent_type\":\"background\"}"}
+{"type":"tool","timestamp":3,"stage":"end","toolName":"Task","toolUseId":"bg-1","detail":"working in the background"}
+{"type":"answer_phase_started","timestamp":4}
+{"type":"assistant_delta","timestamp":4,"text":"Still here"}
+{"type":"result","timestamp":5,"text":"Still here"}

@@ -1,0 +1,7 @@
+{
+  "name": "10_chip-with-trailing-content",
+  "description": "The canonical bug-trigger case from the planning doc: '@CHIEF_DESIGNER hello world'. A command-kind mention chip followed immediately by content. tokenForMention({kind:'command'}) emits '@CHIEF_DESIGNER ' (trailing space included), so the round-trip must preserve exactly one space between the chip's serialisation and the following text — no doubling, no '&nbsp;', no swallowed space.",
+  "input": "@CHIEF_DESIGNER hello world",
+  "expectedSanitised": "@CHIEF_DESIGNER hello world",
+  "expectedDocShape": ""
+}

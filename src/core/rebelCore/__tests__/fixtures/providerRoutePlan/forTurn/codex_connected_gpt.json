@@ -1,0 +1,27 @@
+{
+  "description": "Codex active and connected uses Codex proxy",
+  "input": {
+    "codexConnectivity": "connected",
+    "model": "gpt-5.5",
+    "settings": {
+      "activeProvider": "codex",
+      "models": {
+        "apiKey": "sk-ant-linger",
+        "authMethod": "api-key",
+        "model": "claude-sonnet-4-6",
+        "oauthToken": null
+      },
+      "localModel": {
+        "activeProfileId": null,
+        "profiles": []
+      },
+      "openRouter": {
+        "enabled": false,
+        "oauthToken": null,
+        "selectedModel": "anthropic/claude-sonnet-4.6"
+      },
+      "providerKeys": {}
+    }
+  },
+  "name": "codex_connected_gpt"
+}

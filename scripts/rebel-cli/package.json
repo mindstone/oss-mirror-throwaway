@@ -1,0 +1,26 @@
+{
+  "name": "@mindstone/rebel-cli",
+  "version": "0.4.49",
+  "description": "Standalone Rebel CLI for running the Rebel agent runtime from a terminal.",
+  "type": "module",
+  "bin": {
+    "rebel": "./dist/rebel.js"
+  },
+  "engines": {
+    "node": ">=20"
+  },
+  "files": [
+    "dist/**",
+    "README.md",
+    "LICENSE"
+  ],
+  "scripts": {
+    "build": "node build.mjs",
+    "prepack": "node build.mjs"
+  },
+  "license": "UNLICENSED",
+  "publishConfig": {
+    "provenance": true,
+    "access": "public"
+  }
+}

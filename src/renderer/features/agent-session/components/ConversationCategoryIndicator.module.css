@@ -1,0 +1,74 @@
+/* Conversation Category Indicator - Shows Starred/Done status */
+
+.container {
+  position: absolute;
+  top: 90px; /* Below 3-dots + diagnostics buttons (12px + 32px + 6px + 32px + 8px) */
+  right: 20px;
+  z-index: 19; /* Below the menu */
+  transition: top 0.2s ease;
+}
+
+.containerBelowToolbar {
+  top: 126px; /* Below toolbar-shifted buttons (48px + 32px + 6px + 32px + 8px) */
+}
+
+.indicator {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 28px;
+  height: 28px;
+  border-radius: 6px;
+  transition: color 0.18s ease;
+}
+
+/* Screen-reader only text */
+.srOnly {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border: 0;
+}
+
+/* Starred - subtle gold/amber star (class name kept internal-only) */
+.favourites {
+  color: rgba(251, 191, 36, 0.7); /* amber-400 at 70% */
+}
+
+.favourites:hover {
+  color: rgba(251, 191, 36, 0.9);
+}
+
+/* Done - muted/dim appearance */
+.done {
+  color: rgba(148, 163, 184, 0.5); /* slate-400 at 50% */
+}
+
+.done:hover {
+  color: rgba(148, 163, 184, 0.7);
+}
+
+/* ─────────────────────────────────────────────────────────────
+   Light Mode Overrides
+   ───────────────────────────────────────────────────────────── */
+
+:global(body.light) .favourites {
+  color: rgba(217, 119, 6, 0.7); /* amber-600 at 70% */
+}
+
+:global(body.light) .favourites:hover {
+  color: rgba(217, 119, 6, 0.9);
+}
+
+:global(body.light) .done {
+  color: rgba(100, 116, 139, 0.5); /* slate-500 at 50% */
+}
+
+:global(body.light) .done:hover {
+  color: rgba(100, 116, 139, 0.7);
+}

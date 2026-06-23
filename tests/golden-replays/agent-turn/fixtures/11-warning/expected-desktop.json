@@ -1,0 +1,99 @@
+{
+  "fixture": "11-warning",
+  "steps": [
+    {
+      "index": 0,
+      "eventType": "turn_started",
+      "state": {
+        "messages": [],
+        "activeTurnId": "turn-1",
+        "isBusy": true,
+        "lastError": null,
+        "runtime": {
+          "activeTurnId": "turn-1",
+          "terminated": false
+        }
+      }
+    },
+    {
+      "index": 1,
+      "eventType": "warning",
+      "state": {
+        "messages": [
+          {
+            "turnId": "<warning>",
+            "role": "assistant",
+            "text": "Careful",
+            "isWarning": true,
+            "isHidden": false
+          }
+        ],
+        "activeTurnId": "turn-1",
+        "isBusy": true,
+        "lastError": null,
+        "runtime": {
+          "activeTurnId": "turn-1",
+          "terminated": false
+        }
+      }
+    },
+    {
+      "index": 2,
+      "eventType": "assistant",
+      "state": {
+        "messages": [
+          {
+            "turnId": "<warning>",
+            "role": "assistant",
+            "text": "Careful",
+            "isWarning": true,
+            "isHidden": false
+          },
+          {
+            "turnId": "turn-1",
+            "role": "assistant",
+            "text": "OK",
+            "isWarning": false,
+            "isHidden": false
+          }
+        ],
+        "activeTurnId": "turn-1",
+        "isBusy": true,
+        "lastError": null,
+        "runtime": {
+          "activeTurnId": "turn-1",
+          "terminated": false
+        }
+      }
+    },
+    {
+      "index": 3,
+      "eventType": "result",
+      "state": {
+        "messages": [
+          {
+            "turnId": "<warning>",
+            "role": "assistant",
+            "text": "Careful",
+            "isWarning": true,
+            "isHidden": false
+          },
+          {
+            "turnId": "turn-1",
+            "role": "result",
+            "text": "OK",
+            "isWarning": false,
+            "isHidden": false
+          }
+        ],
+        "activeTurnId": null,
+        "isBusy": false,
+        "lastError": null,
+        "runtime": {
+          "activeTurnId": null,
+          "terminated": true
+        }
+      }
+    }
+  ]
+}

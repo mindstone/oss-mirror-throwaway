@@ -1,0 +1,133 @@
+.providerGroup {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-2);
+  padding: var(--space-2);
+  border-radius: var(--radius-sm);
+  border: 1px solid var(--color-border-soft);
+  background-color: color-mix(in srgb, var(--color-card) 72%, transparent);
+}
+
+.summaryButton {
+  width: 100%;
+  min-height: auto;
+  height: auto;
+  justify-content: space-between;
+  align-items: center;
+  gap: var(--space-3);
+  padding: var(--space-2) var(--space-2);
+  border-radius: var(--radius-sm);
+  color: var(--color-text-primary);
+  text-align: left;
+}
+
+.summaryButton:hover {
+  background-color: color-mix(in srgb, var(--color-accent) 8%, transparent);
+  color: var(--color-text-primary);
+}
+
+.summaryContent {
+  display: flex;
+  flex-direction: column;
+  gap: 3px;
+  min-width: 0;
+  flex: 1;
+}
+
+.summaryTopLine {
+  display: flex;
+  align-items: center;
+  gap: var(--space-2);
+  min-width: 0;
+  flex-wrap: wrap;
+}
+
+.providerName {
+  margin: 0;
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--color-text-primary);
+}
+
+.activeRoleBadge {
+  white-space: nowrap;
+}
+
+.summarySecondaryLine {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  min-width: 0;
+  font-size: 12px;
+  font-weight: 400;
+  color: var(--color-text-muted);
+}
+
+.representativeNames {
+  min-width: 0;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.chevron,
+.chevronExpanded {
+  flex-shrink: 0;
+  color: var(--color-text-muted);
+  transition: transform 160ms ease;
+}
+
+.chevronExpanded {
+  transform: rotate(180deg);
+}
+
+.panelOuter {
+  display: grid;
+  grid-template-rows: 1fr;
+  overflow: hidden;
+  transition: grid-template-rows 160ms ease, opacity 160ms ease;
+}
+
+.catalogRows {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  min-height: 0;
+}
+
+.subGroupHeader {
+  margin: var(--space-2) 0 2px;
+  font-size: 11px;
+  font-weight: 600;
+  line-height: 1.2;
+  text-transform: uppercase;
+  letter-spacing: 0.12em;
+  color: var(--color-text-muted);
+}
+
+.subGroupHeader:first-child {
+  margin-top: 0;
+}
+
+.capabilityBadge {
+  gap: 4px;
+  opacity: 0.78;
+}
+
+.capabilityBadge:hover {
+  opacity: 1;
+}
+
+.advancedButton {
+  align-self: flex-start;
+  margin-top: var(--space-2);
+  color: var(--color-text-secondary);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .chevron,
+  .chevronExpanded,
+  .panelOuter {
+    transition: none;
+  }
+}

@@ -1,0 +1,37 @@
+{
+  "description": "BTS Google profile represented as profile ref dialect",
+  "input": {
+    "model": "profile:gemini-profile",
+    "settings": {
+      "activeProvider": "anthropic",
+      "models": {
+        "apiKey": "sk-ant-test",
+        "authMethod": "api-key",
+        "model": "claude-sonnet-4-6",
+        "oauthToken": null
+      },
+      "localModel": {
+        "activeProfileId": null,
+        "profiles": [
+          {
+            "apiKey": "sk-google",
+            "createdAt": 0,
+            "id": "gemini-profile",
+            "model": "gemini-2.5-pro",
+            "name": "Gemini Profile",
+            "providerType": "google",
+            "serverUrl": "https://generativelanguage.googleapis.com/v1beta/openai"
+          }
+        ]
+      },
+      "openRouter": {
+        "enabled": false,
+        "oauthToken": null,
+        "selectedModel": "anthropic/claude-sonnet-4.6"
+      },
+      "providerKeys": {}
+    },
+    "codexConnectivity": "unknown"
+  },
+  "name": "bts_google_profile"
+}

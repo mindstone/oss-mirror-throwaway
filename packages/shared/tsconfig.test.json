@@ -1,0 +1,24 @@
+{
+  "extends": "./tsconfig.json",
+  "compilerOptions": {
+    "types": ["vitest/globals", "node"],
+    "paths": {
+      "@rebel/cloud-client": ["../../cloud-client/src"],
+      "@rebel/cloud-client/*": ["../../cloud-client/src/*"],
+      "@rebel/shared": ["./src"],
+      "@rebel/shared/*": ["./src/*"],
+      "@core/*": ["../../src/core/*"],
+      "@shared/*": ["../../src/shared/*"]
+    }
+  },
+  "files": ["src/diff-ambient.d.ts"],
+  "include": [
+    "src/**/__tests__/**/*.ts",
+    "src/**/__tests__/**/*.tsx",
+    "src/**/*.test.ts",
+    "src/**/*.test.tsx",
+    "src/**/*.spec.ts",
+    "src/**/*.spec.tsx"
+  ],
+  "exclude": []
+}

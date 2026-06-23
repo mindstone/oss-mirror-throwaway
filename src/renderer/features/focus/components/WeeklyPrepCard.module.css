@@ -1,0 +1,462 @@
+/**
+ * WeeklyPrepCard — Glass card with two visual states:
+ *   1. Generating: glass bg + pulse + rotating quip
+ *   2. Complete: glass card with preview (3-line clamp) + prominent CTA
+ *
+ * Uses glass panel design tokens. Entrance animation: fade-up.
+ *
+ * @see docs/plans/260407_focus_design_rework.md — Stage 5
+ */
+
+/* ─────────────────────────────────────────────────────────────
+   Section heading — above the card
+   ───────────────────────────────────────────────────────────── */
+
+.sectionHeading {
+  font-size: 0.68rem;
+  font-weight: 500;
+  color: var(--color-muted-foreground);
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  margin: 0 0 2px;
+  opacity: 0.7;
+}
+
+/* ─────────────────────────────────────────────────────────────
+   Shared card shell — glass treatment
+   ───────────────────────────────────────────────────────────── */
+
+.card {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  padding: 16px 20px;
+  border-radius: var(--radius-lg, 16px);
+  width: 100%;
+  font-family: inherit;
+  text-align: left;
+  transition: background var(--motion-duration-medium, 260ms) var(--motion-ease-out),
+              border-color var(--motion-duration-medium, 260ms) var(--motion-ease-out),
+              box-shadow var(--motion-duration-medium, 260ms) var(--motion-ease-out);
+  animation: cardFadeUp var(--motion-duration-medium, 260ms) var(--motion-ease-out, cubic-bezier(0.16, 1, 0.3, 1)) both;
+}
+
+@keyframes cardFadeUp {
+  from { opacity: 0; transform: translateY(8px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+/* ─────────────────────────────────────────────────────────────
+   Complete state — clickable glass card
+   ───────────────────────────────────────────────────────────── */
+
+.card[data-state='complete'] {
+  background: var(--glass-panel-bg);
+  border: 1px solid var(--glass-panel-border);
+  box-shadow: var(--shadow-soft);
+  backdrop-filter: blur(var(--glass-panel-blur));
+}
+
+.card[data-state='failed'] {
+  background: var(--glass-panel-bg);
+  border: 1px solid var(--glass-panel-border);
+  box-shadow: var(--shadow-soft);
+  backdrop-filter: blur(var(--glass-panel-blur));
+}
+
+.card[data-state='empty'] {
+  background: var(--glass-panel-bg);
+  border: 1px solid var(--glass-panel-border);
+  backdrop-filter: blur(var(--glass-panel-blur));
+}
+
+/* ─────────────────────────────────────────────────────────────
+   Generating state — glass bg with ambient pulse
+   ───────────────────────────────────────────────────────────── */
+
+.card[data-state='generating'] {
+  background: var(--glass-panel-bg);
+  border: 1px solid var(--glass-panel-border);
+  backdrop-filter: blur(var(--glass-panel-blur));
+  animation: cardFadeUp var(--motion-duration-medium, 260ms) var(--motion-ease-out) both,
+             prepPulse 3s ease-in-out infinite;
+}
+
+@keyframes prepPulse {
+  0%, 100% {
+    box-shadow: 0 0 0 0 rgba(99, 102, 241, 0);
+  }
+  50% {
+    box-shadow: 0 0 24px rgba(99, 102, 241, 0.08);
+  }
+}
+
+/* ─────────────────────────────────────────────────────────────
+   Header row
+   ───────────────────────────────────────────────────────────── */
+
+.header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.label {
+  font-size: 0.72rem;
+  font-weight: 600;
+  color: var(--color-text-primary);
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+}
+
+.headerRight {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.time {
+  font-size: 0.68rem;
+  color: var(--color-muted-foreground);
+}
+
+.reBriefButton {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 18px;
+  height: 18px;
+  padding: 0;
+  border: none;
+  border-radius: 4px;
+  background: transparent;
+  color: var(--color-muted-foreground);
+  opacity: 0;
+  cursor: pointer;
+  transition: opacity 0.15s ease, color 0.15s ease, background 0.15s ease;
+}
+
+.card:hover .reBriefButton {
+  opacity: 0.4;
+}
+
+.reBriefButton:hover {
+  opacity: 1 !important;
+  color: var(--color-text-primary);
+  background: var(--color-muted);
+}
+
+.navArrows {
+  display: flex;
+  gap: 2px;
+}
+
+.navArrow {
+  all: unset;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 20px;
+  height: 20px;
+  border-radius: 4px;
+  font-size: 0.9rem;
+  color: var(--color-muted-foreground);
+  cursor: pointer;
+  transition: background 0.15s ease, color 0.15s ease;
+}
+
+.navArrow:hover:not(:disabled) {
+  background: rgba(148, 163, 184, 0.1);
+  color: var(--color-text-primary);
+}
+
+.navArrow:disabled {
+  opacity: 0.25;
+  cursor: default;
+}
+
+/* ─────────────────────────────────────────────────────────────
+   Status dot — breathing indicator during generation
+   ───────────────────────────────────────────────────────────── */
+
+.statusDot {
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: var(--color-brand-indigo, #6366f1);
+  animation: dotBreathe 2s ease-in-out infinite;
+}
+
+@keyframes dotBreathe {
+  0%, 100% { opacity: 0.4; transform: scale(1); }
+  50% { opacity: 1; transform: scale(1.2); }
+}
+
+/* ─────────────────────────────────────────────────────────────
+   Quip — rotating Rebel voice line
+   ───────────────────────────────────────────────────────────── */
+
+.quip {
+  font-size: 0.82rem;
+  font-style: italic;
+  color: var(--color-text-secondary);
+  line-height: 1.5;
+  margin: 4px 0 0;
+  min-height: 1.5em;
+  animation: quipFadeIn 0.4s ease-out;
+}
+
+@keyframes quipFadeIn {
+  from { opacity: 0; transform: translateY(2px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+/* ─────────────────────────────────────────────────────────────
+   Status hint — subtle "Rebel is reading your week" text
+   ───────────────────────────────────────────────────────────── */
+
+.statusHint {
+  font-size: 0.68rem;
+  color: var(--color-muted-foreground);
+  opacity: 0.6;
+  margin: 2px 0 0;
+}
+
+.errorText {
+  font-size: 0.78rem;
+  font-style: italic;
+  color: var(--color-muted-foreground);
+  line-height: 1.5;
+  margin: 4px 0 0;
+}
+
+.retryButton {
+  all: unset;
+  align-self: flex-start;
+  margin-top: 6px;
+  padding: 6px 12px;
+  border-radius: 999px;
+  border: 1px solid rgba(99, 102, 241, 0.16);
+  background: rgba(99, 102, 241, 0.08);
+  color: var(--color-brand-indigo, #6366f1);
+  cursor: pointer;
+  font-size: 0.74rem;
+  font-weight: 600;
+  letter-spacing: 0.01em;
+  transition: background var(--motion-duration-fast, 150ms) var(--motion-ease-out),
+              border-color var(--motion-duration-fast, 150ms) var(--motion-ease-out),
+              opacity var(--motion-duration-fast, 150ms) var(--motion-ease-out);
+}
+
+.retryButton:hover {
+  background: rgba(99, 102, 241, 0.12);
+  border-color: rgba(99, 102, 241, 0.24);
+}
+
+/* ─────────────────────────────────────────────────────────────
+   Briefing text — expandable with "read more"
+   ───────────────────────────────────────────────────────────── */
+
+.briefingWrapper {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.preview {
+  font-size: 0.84rem;
+  color: var(--color-text-secondary);
+  line-height: 1.6;
+  margin: 0;
+}
+
+.previewClamped {
+  overflow: hidden;
+  display: -webkit-box;
+  -webkit-line-clamp: 10;
+  -webkit-box-orient: vertical;
+}
+
+.briefingMarkdown {
+  font-size: inherit;
+  color: inherit;
+  line-height: inherit;
+}
+
+.briefingMarkdown p {
+  margin: 0 0 0.5em;
+}
+
+.briefingMarkdown p:last-child {
+  margin-bottom: 0;
+}
+
+.briefingMarkdown strong {
+  color: var(--color-text-primary);
+  font-weight: 600;
+}
+
+.briefingMarkdown ul,
+.briefingMarkdown ol {
+  margin: 0.3em 0;
+  padding-left: 1.4em;
+}
+
+.briefingMarkdown li {
+  margin-bottom: 0.2em;
+}
+
+.briefingMarkdown h1,
+.briefingMarkdown h2,
+.briefingMarkdown h3 {
+  font-size: 0.88rem;
+  font-weight: 600;
+  color: var(--color-text-primary);
+  margin: 0.6em 0 0.3em;
+}
+
+.briefingMarkdown h1:first-child,
+.briefingMarkdown h2:first-child,
+.briefingMarkdown h3:first-child {
+  margin-top: 0;
+}
+
+.readMore {
+  all: unset;
+  font-size: 0.78rem;
+  font-weight: 500;
+  color: var(--color-brand-indigo, #6366f1);
+  cursor: pointer;
+  align-self: flex-start;
+  padding: 2px 0;
+  transition: opacity 0.15s ease;
+}
+
+.readMore:hover {
+  opacity: 0.8;
+}
+
+/* ─────────────────────────────────────────────────────────────
+   Prompt chips — inline conversation starters below briefing
+   ───────────────────────────────────────────────────────────── */
+
+.promptChips {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 5px;
+  margin: 4px 0 2px;
+}
+
+.chip {
+  padding: 4px 10px;
+  border-radius: 6px;
+  border: 1px solid var(--color-border);
+  background: var(--color-surface-secondary, rgba(148, 163, 184, 0.06));
+  color: var(--color-text-primary);
+  font-size: 0.72rem;
+  font-weight: 450;
+  cursor: pointer;
+  transition: background var(--motion-duration-medium, 260ms) var(--motion-ease-out),
+              border-color var(--motion-duration-medium, 260ms) var(--motion-ease-out),
+              box-shadow var(--motion-duration-medium, 260ms) var(--motion-ease-out);
+  line-height: 1.3;
+}
+
+.chip:hover {
+  background: rgba(148, 163, 184, 0.12);
+  border-color: rgba(148, 163, 184, 0.2);
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.06);
+}
+
+.chip:active {
+  background: rgba(148, 163, 184, 0.18);
+}
+
+/* ─────────────────────────────────────────────────────────────
+   Continue conversation — inline input + send
+   ───────────────────────────────────────────────────────────── */
+
+.continueForm {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  margin: 8px 0 0;
+  padding: 6px 10px;
+  border-radius: 8px;
+  border: 1px solid var(--color-border);
+  background: var(--color-surface-secondary, rgba(148, 163, 184, 0.04));
+  transition: border-color var(--motion-duration-fast, 150ms) var(--motion-ease-out),
+              box-shadow var(--motion-duration-fast, 150ms) var(--motion-ease-out);
+}
+
+.continueForm:focus-within {
+  border-color: var(--color-brand-indigo, #6366f1);
+  box-shadow: 0 0 0 2px rgba(99, 102, 241, 0.12);
+}
+
+.continueInput {
+  all: unset;
+  flex: 1;
+  font-size: 0.8rem;
+  color: var(--color-text-primary);
+  line-height: 1.4;
+  min-width: 0;
+}
+
+.continueInput::placeholder {
+  color: var(--color-muted-foreground);
+  opacity: 0.6;
+}
+
+.continueSend {
+  all: unset;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 24px;
+  height: 24px;
+  border-radius: 6px;
+  color: var(--color-brand-indigo, #6366f1);
+  font-size: 0.82rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background var(--motion-duration-fast, 150ms) var(--motion-ease-out);
+  flex-shrink: 0;
+}
+
+.continueSend:hover {
+  background: rgba(99, 102, 241, 0.1);
+}
+
+/* ─────────────────────────────────────────────────────────────
+   Light theme overrides
+   ───────────────────────────────────────────────────────────── */
+
+:global(body.light) .chip {
+  background: rgba(241, 245, 249, 0.6);
+}
+
+:global(body.light) .chip:hover {
+  background: rgba(226, 232, 240, 0.7);
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.04);
+}
+
+:global(body.light) .card[data-state='complete'] {
+  background: var(--glass-panel-bg);
+  border-color: var(--glass-panel-border);
+}
+
+:global(body.light) .card[data-state='generating'] {
+  background: var(--glass-panel-bg);
+  border-color: var(--glass-panel-border);
+}
+
+:global(body.light) .card[data-state='failed'] {
+  background: var(--glass-panel-bg);
+  border-color: var(--glass-panel-border);
+}
+
+:global(body.light) .card[data-state='empty'] {
+  background: var(--glass-panel-bg);
+  border-color: var(--glass-panel-border);
+}

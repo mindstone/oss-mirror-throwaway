@@ -1,0 +1,267 @@
+.notice {
+  display: grid;
+  align-items: center;
+  grid-template-columns: auto minmax(0, 1fr) auto auto;
+  gap: var(--space-3);
+  position: relative;
+  overflow: hidden;
+  width: 100%;
+  /* Default padding is the standard density. `densityCompact` overrides; placement does not. */
+  padding: var(--space-3) var(--space-4);
+  background: var(--color-info-surface);
+  border: 1px solid var(--color-info-border);
+  border-radius: var(--radius-md);
+  box-shadow:
+    inset 0 1px 0 color-mix(in srgb, var(--color-white) 6%, transparent),
+    0 10px 24px color-mix(in srgb, var(--color-black) 10%, transparent);
+  color: var(--color-text-primary);
+  transition: background var(--motion-duration-fast) var(--motion-ease-out),
+    border-color var(--motion-duration-fast) var(--motion-ease-out);
+}
+
+.notice::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  background:
+    radial-gradient(
+      circle at 0 0,
+      color-mix(in srgb, var(--color-info-icon) 18%, transparent),
+      transparent 42%
+    ),
+    linear-gradient(
+      135deg,
+      color-mix(in srgb, var(--color-white) 5%, transparent),
+      transparent 36%
+    );
+  opacity: 0.72;
+}
+
+.notice[data-has-title='true'] {
+  align-items: flex-start;
+}
+
+.icon {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+  z-index: 1;
+  color: var(--color-info-icon);
+  line-height: 1;
+}
+
+.notice[data-has-title='true'] .icon {
+  margin-top: 0.05rem;
+}
+
+.icon svg {
+  display: block;
+}
+
+.body {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-1);
+  flex: 1 1 auto;
+  position: relative;
+  z-index: 1;
+  min-width: 0;
+}
+
+.title {
+  margin: 0;
+  font-size: 0.875rem;
+  font-weight: 600;
+  color: var(--color-text-primary);
+  line-height: 1.4;
+}
+
+.description {
+  margin: 0;
+  font-size: 0.875rem;
+  color: var(--color-text-secondary);
+  line-height: 1.5;
+}
+
+.description > :first-child {
+  margin-top: 0;
+}
+
+.description > :last-child {
+  margin-bottom: 0;
+}
+
+.description ul {
+  margin: var(--space-2) 0 0;
+  padding-left: var(--space-5);
+}
+
+.description a {
+  color: var(--color-accent);
+  text-decoration: underline;
+  text-underline-offset: 0.12em;
+}
+
+.actions {
+  display: flex;
+  flex-wrap: wrap;
+  align-self: center;
+  align-items: center;
+  justify-content: flex-end;
+  gap: var(--space-2);
+  position: relative;
+  z-index: 1;
+  max-width: 100%;
+}
+
+.notice[data-action-count='2'] .actions {
+  flex-direction: column;
+  align-items: stretch;
+}
+
+.dismiss {
+  margin-left: var(--space-1);
+  align-self: flex-start;
+  position: relative;
+  z-index: 1;
+}
+
+/* Tone — info (default) */
+.toneInfo {
+  background: var(--color-info-surface);
+  border-color: var(--color-info-border);
+}
+.toneInfo .icon {
+  color: var(--color-info-icon);
+}
+.toneInfo::after {
+  background:
+    radial-gradient(
+      circle at 0 0,
+      color-mix(in srgb, var(--color-info-icon) 18%, transparent),
+      transparent 42%
+    ),
+    linear-gradient(
+      135deg,
+      color-mix(in srgb, var(--color-white) 5%, transparent),
+      transparent 36%
+    );
+}
+
+/* Tone — warning */
+.toneWarning {
+  background: var(--color-warning-surface);
+  border-color: var(--color-warning-border);
+}
+.toneWarning .icon {
+  color: var(--color-warning-icon);
+}
+.toneWarning::after {
+  background:
+    radial-gradient(
+      circle at 0 0,
+      color-mix(in srgb, var(--color-warning-icon) 18%, transparent),
+      transparent 42%
+    ),
+    linear-gradient(
+      135deg,
+      color-mix(in srgb, var(--color-white) 5%, transparent),
+      transparent 36%
+    );
+}
+
+/* Tone — error (uses destructive token family) */
+.toneError {
+  background: var(--color-destructive-surface);
+  border-color: var(--color-destructive-border);
+}
+.toneError .icon {
+  color: var(--color-destructive-icon);
+}
+.toneError::after {
+  background:
+    radial-gradient(
+      circle at 0 0,
+      color-mix(in srgb, var(--color-destructive-icon) 18%, transparent),
+      transparent 42%
+    ),
+    linear-gradient(
+      135deg,
+      color-mix(in srgb, var(--color-white) 5%, transparent),
+      transparent 36%
+    );
+}
+
+/* Tone — success */
+.toneSuccess {
+  background: var(--color-success-surface);
+  border-color: var(--color-success-border);
+}
+.toneSuccess .icon {
+  color: var(--color-success-icon);
+}
+.toneSuccess::after {
+  background:
+    radial-gradient(
+      circle at 0 0,
+      color-mix(in srgb, var(--color-success-icon) 18%, transparent),
+      transparent 42%
+    ),
+    linear-gradient(
+      135deg,
+      color-mix(in srgb, var(--color-white) 5%, transparent),
+      transparent 36%
+    );
+}
+
+/* Placement — section: stronger surface + border tokens. */
+.placementSection {
+  border-radius: var(--radius-md);
+}
+.placementSection.toneInfo {
+  background: var(--color-info-surface-strong);
+  border-color: var(--color-info-border-strong);
+}
+.placementSection.toneWarning {
+  background: var(--color-warning-surface-strong);
+  border-color: var(--color-warning-border-strong);
+}
+.placementSection.toneError {
+  background: var(--color-destructive-surface-strong);
+  border-color: var(--color-destructive-border-strong);
+}
+.placementSection.toneSuccess {
+  background: var(--color-success-surface-strong);
+  border-color: var(--color-success-border-strong);
+}
+
+/* Placement — inline: standard tinted surface, mid-section weight. */
+.placementInline {
+  border-radius: var(--radius-md);
+}
+
+/* Placement — embedded: subordinate to host. Owns radius + gap; padding still comes from density. */
+.placementEmbedded {
+  border-radius: var(--radius-sm);
+  gap: var(--space-2);
+}
+.placementEmbedded .description {
+  font-size: 0.8125rem;
+}
+
+/* Density — compact: tighter padding and smaller body type. */
+.densityCompact {
+  padding: var(--space-2) var(--space-3);
+  gap: var(--space-2);
+}
+.densityCompact[data-has-title='true'] .icon {
+  margin-top: 0.1125rem;
+}
+.densityCompact .description {
+  font-size: 0.8125rem;
+}
+.densityCompact .actions {
+  align-self: center;
+}

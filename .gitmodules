@@ -1,0 +1,8 @@
+[submodule "rebel-system"]
+	path = rebel-system
+	url = https://github.com/mindstone/rebel-system.git
+	branch = main
+[submodule "super-mcp"]
+	path = super-mcp
+	url = https://github.com/mindstone/Super-MCP.git
+	branch = main

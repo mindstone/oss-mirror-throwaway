@@ -1,0 +1,50 @@
+{
+  "name": "three-way-race-no-desktop",
+  "input": [
+    {
+      "id": "u11",
+      "turnId": "t11",
+      "role": "user",
+      "text": "No desktop writer present; continue merge flow.",
+      "createdAt": 11001
+    },
+    {
+      "id": "a11",
+      "turnId": "t11",
+      "role": "assistant",
+      "text": "Applying fallback ordering.",
+      "createdAt": 11002
+    }
+  ],
+  "expected": {
+    "visibleIds": ["u11", "a11"],
+    "messagesByTurnIds": {
+      "t11": ["u11", "a11"]
+    },
+    "activeTurnId": "t11",
+    "isBusy": true
+  },
+  "tiebreaker": {
+    "scenario": "three-way-race-no-desktop",
+    "writes": [
+      {
+        "surface": "mobile",
+        "field": "title",
+        "value": "mobile-value",
+        "changedAt": 1700000000000
+      },
+      {
+        "surface": "cloud",
+        "field": "title",
+        "value": "cloud-value",
+        "changedAt": 1700000000150
+      }
+    ],
+    "now": 1700000000150,
+    "expected": {
+      "winnerSurface": "cloud",
+      "winnerValue": "cloud-value",
+      "reason": "outside-race-window"
+    }
+  }
+}

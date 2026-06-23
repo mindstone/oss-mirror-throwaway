@@ -1,0 +1,412 @@
+# ============================================================================
+# Per-phase timing instrumentation (260422)
+# ============================================================================
+# Emits structured markers to stderr so scripts/git-safe-sync.ts can parse
+# them and record each phase as a child span in the JSON timing log.
+# Protocol:
+#   PREPUSH_TIMING\tv=1\tphase=<name>\tevent=<start|end>\tsec=<epoch>
+# If a phase fails, `sh -e` exits before the `end` marker; the parser treats
+# that as an incomplete span (status=err) and clamps its end to push-exit
+# wall time. No `|| true` around measured commands — fail-closed preserved.
+# The helper itself is defensive (|| true) so a rare printf/date failure
+# cannot bring down the hook.
+# Allowlisted phase names (must match PREPUSH_TIMING_PHASES in scripts/lib/prepush-timing-parser.ts):
+#   merge-integrity, submodule-availability, gate-nonce, validate-fast,
+#   certified-promote-check, knip-health-fast, vitest-related, tier3-full-suite,
+#   tier3-perf-suite, realboot-suite
+# ============================================================================
+_timing_emit() {
+  printf 'PREPUSH_TIMING\tv=1\tphase=%s\tevent=%s\tsec=%s\n' \
+    "$1" "$2" "$(date +%s)" >&2 2>/dev/null || true
+}
+
+# Git streams pre-push ref tuples on stdin. Capture and drain them before any
+# noisy work so git cannot SIGPIPE on large pushes; the captured main tuple also
+# feeds certified-promote detection below. Hand-run hooks have a TTY on stdin, so
+# do not `cat` there or the hook would wait for interactive input forever.
+if [ -t 0 ]; then
+  prepush_stdin=""
+else
+  prepush_stdin=$(cat)
+fi
+
+push_touches_main=0
+main_local_oid=""
+main_remote_oid=""
+# `[ -f ]` guards the source: a missing helper file (broken checkout) must fall through to the
+# production-tier fallback below, NOT abort the hook under `sh -e` (which would block ALL pushes).
+if [ -f scripts/lib/parse-pushed-main-ref.sh ] && . scripts/lib/parse-pushed-main-ref.sh 2>/dev/null && command -v parse_pushed_main_ref >/dev/null 2>&1; then
+  if parsed=$(printf '%s\n' "$prepush_stdin" | parse_pushed_main_ref); then
+    push_touches_main=$(printf '%s' "$parsed" | cut -d' ' -f1)
+    main_local_oid=$(printf '%s' "$parsed" | cut -d' ' -f2)
+    main_remote_oid=$(printf '%s' "$parsed" | cut -d' ' -f3)
+    case "$push_touches_main" in
+      0|1) ;;
+      *)
+        echo "pre-push: WARN parse-pushed-main-ref returned malformed output — assuming production tier (full suite)."
+        push_touches_main=1
+        main_local_oid=""
+        main_remote_oid=""
+        ;;
+    esac
+  else
+    # FAIL-SAFE: parse error -> assume production so the FULL suite runs (never skip).
+    echo "pre-push: WARN parse-pushed-main-ref failed — assuming production tier (full suite)."
+    push_touches_main=1
+    main_local_oid=""
+    main_remote_oid=""
+  fi
+else
+  # FAIL-SAFE: can't parse -> assume production so the FULL suite runs (never skip).
+  echo "pre-push: WARN parse-pushed-main-ref helper unavailable — assuming production tier (full suite)."
+  push_touches_main=1
+fi
+
+# Scan outgoing merge commits for integrity (detect dropped changes)
+# Only runs if there are merge commits in the outgoing range
+if git rev-parse --abbrev-ref @{upstream} > /dev/null 2>&1; then
+  _timing_emit merge-integrity start
+  npx tsx scripts/verify-merge-integrity.ts --range "$(git merge-base HEAD @{upstream})..HEAD" 2>/dev/null
+  _timing_emit merge-integrity end
+fi
+
+# Verify submodule commits are available on remotes before pushing
+_timing_emit submodule-availability start
+bash scripts/ci/verify-submodule-availability.sh
+_timing_emit submodule-availability end
+
+# ---------------------------------------------------------------------------
+# Tier derivation (moved up from the vitest section so the fast-path below can
+# reuse it). is_beta / is_production / skip_tests + a numeric required_tier.
+# ---------------------------------------------------------------------------
+current_branch=$(git rev-parse --abbrev-ref HEAD 2>/dev/null || true)
+# Marker detection reads the SUBJECT line only (--pretty=%s), NOT the full body
+# (%B). A prose mention of "[deploy-beta]"/"[skip-tests]" in the commit BODY (e.g.
+# documenting the flag, or — as happened — describing this very gate) must not
+# trigger the behaviour; only an intentional marker in the subject, which is the
+# convention (`<type>(scope): … [deploy-beta]`). NOTE: CI's beta-deploy-trigger.yml
+# applies the same subject-only match for the same reason — keep them consistent.
+commit_subject=$(git log -1 --pretty=%s 2>/dev/null || true)
+
+is_beta=0
+is_production=0
+skip_tests=0
+
+case "$commit_subject" in *"[deploy-beta]"*) is_beta=1 ;; esac
+case "$commit_subject" in *"[skip-tests]"*) skip_tests=1 ;; esac
+[ "$current_branch" = "main" ] && is_production=1
+[ "$push_touches_main" = "1" ] && is_production=1
+
+required_tier=1
+[ "$is_beta" -eq 1 ] && required_tier=2
+[ "$is_production" -eq 1 ] && required_tier=3
+
+is_certified_promote=0
+if [ "$is_production" -eq 1 ] && [ -n "$REBEL_CERTIFIED_PROMOTE_SHA" ]; then
+  remote_name="${1:-origin}"
+
+  _timing_emit certified-promote-check start
+  if npx tsx scripts/check-certified-promote.ts \
+    --is-production \
+    --pushed-oid "$main_local_oid" \
+    --prev-oid "$main_remote_oid" \
+    --remote "$remote_name"; then
+    is_certified_promote=1
+  fi
+  _timing_emit certified-promote-check end
+fi
+
+# ---------------------------------------------------------------------------
+# Pre-push fast-path (260607) — SHELVED / DORMANT. See the big note in
+# scripts/lib/gate-nonce.ts and docs/project/PREPUSH_GATE_AND_RECEIPTS.md.
+#
+# This block ONLY runs when $REBEL_PREPUSH_GATE_OK is set. Nothing sets it
+# today (git-safe-sync does NOT mint a nonce — the pre-validate-then-fast-push
+# idea does NOT shrink the push-race window, because validation of the exact
+# merged tree is irreducibly inside the fetch→push window; verified by
+# Arbitrator, docs/plans/260607_prepush-receipt-gate). So on every normal push
+# the `[ -n ... ]` guard is false and we skip straight to the full gate with
+# ZERO added cost (no tsx spawn). The verified nonce machinery is retained
+# in-tree as the verification primitive a future merge-queue would use; if/when
+# a queue sets the env var, this fast-paths the already-proven tree. Any
+# mismatch / dirty tree / absent-or-expired nonce ⇒ full gate (fail-safe).
+if [ -n "$REBEL_PREPUSH_GATE_OK" ] && [ "$skip_tests" -eq 0 ]; then
+  _timing_emit gate-nonce start
+  if npx tsx scripts/check-gate-nonce.ts "$required_tier"; then
+    _timing_emit gate-nonce end
+    exit 0
+  fi
+  _timing_emit gate-nonce end
+fi
+
+_timing_emit validate-fast start
+# git-env scrub (same as the vitest steps below): git invokes this hook with
+# GIT_DIR/GIT_INDEX_FILE/etc. set in the environment. Any git test-fixture spawned
+# by a validate:fast step (e.g. the `npx vitest run` parity/tiebreaker steps) that
+# doesn't isolate its own GIT_DIR would otherwise inherit the REAL repo's GIT_DIR
+# and write to the SHARED .git/config — the observed `core.bare=true` corruption
+# that breaks work-tree ops across every worktree on the machine (see
+# scripts/check-core-bare.ts). validate:fast is git-discoverable from cwd, so
+# scrubbing these is safe (it already runs without them in a plain shell / CI).
+env \
+  -u GIT_DIR -u GIT_INDEX_FILE -u GIT_WORK_TREE -u GIT_OBJECT_DIRECTORY \
+  -u GIT_COMMON_DIR -u GIT_CEILING_DIRECTORIES -u GIT_PREFIX -u GIT_NAMESPACE \
+  -u GIT_CONFIG_PARAMETERS \
+  npm run validate:fast
+_timing_emit validate-fast end
+
+# ============================================================================
+# Tiered related-tests execution (260421)
+# ============================================================================
+#
+# Three tiers, chosen automatically based on branch + commit-message flags:
+#
+#   Tier 1 — "Quick" (default for any push)
+#     vitest related --run on OWN COMMITS ONLY
+#     (git log --first-parent --no-merges — excludes files merged in from
+#     upstream; those were the single biggest cost on heavy merges).
+#     Catches: stale mocks for files you edited directly.
+#     Misses: upstream-introduced mock drift (CI catches those).
+#
+#   Tier 2 — "Beta" ([deploy-beta] in commit message)
+#     Tier 1 scope + vitest related --run on UPSTREAM-MERGED files too.
+#     Catches: stale mocks introduced by anything on your branch, including
+#     files brought in by merges from other agents (the 260410/12/17 incident
+#     pattern).
+#
+#   Tier 3 — "Production" (branch is `main` — reserved for hotfixes)
+#     Tier 2 scope + the full fast-tier test suite (`npm run test:fast`).
+#     The most thorough gate. Takes a few minutes.
+#
+#   Escape hatch — [skip-tests] in commit message
+#     Skips the related-tests + full-suite steps entirely. The always-on
+#     gates above (merge integrity, submodule availability, validate:fast)
+#     still run. Intended for genuine hotfix-in-a-hurry situations; CI will
+#     still run the full suite so you'll find out eventually.
+#
+# History:
+#   - Originally [deploy-beta]-only (opt-in).
+#   - Extended to all dev pushes + upstream-merged files after 3 mock-drift
+#     CI incidents in 9 days (260410/260412/260417).
+#   - Split into tiers on 260421 because the blanket extension made pre-push
+#     take minutes on every merge. Tier 2 behavior matches the post-260410
+#     scope; Tier 3 adds full-suite beyond it.
+#
+# See: docs-private/postmortems/260410_recurring_ci_test_mock_staleness_postmortem.md
+# ============================================================================
+
+# (Tier vars current_branch / commit_subject / is_beta / is_production / skip_tests
+# and required_tier are derived earlier, right after submodule-availability, so
+# the pre-push fast-path can reuse them. Don't re-derive here.)
+
+if [ "$skip_tests" -eq 1 ]; then
+  echo ""
+  echo "⚠️  [skip-tests] flag detected — skipping pre-push test execution."
+  echo "   Use sparingly. CI will still run the full suite on the remote."
+  exit 0
+fi
+
+# Bail early if no upstream — nothing to compute a range against.
+if ! git rev-parse --abbrev-ref @{upstream} > /dev/null 2>&1; then
+  exit 0
+fi
+
+range="$(git merge-base HEAD @{upstream})..HEAD"
+if [ -z "$range" ]; then
+  exit 0
+fi
+
+# ---------------------------------------------------------------------------
+# Collect file lists
+# ---------------------------------------------------------------------------
+# own_files      — files touched by commits on YOUR branch's first-parent line,
+#                  excluding merge commits themselves. This is "what you wrote".
+# upstream_files — files brought in by merges from other branches/agents.
+#                  Only computed for Tier 2 / Tier 3.
+# ---------------------------------------------------------------------------
+
+own_files=$(
+  git log --first-parent --no-merges --format=%H "$range" 2>/dev/null \
+    | while read -r sha; do
+        git show --name-only --format= "$sha" -- '*.ts' '*.tsx' 2>/dev/null || true
+      done \
+    | grep -vE '\.(test|spec)\.(ts|tsx)$' \
+    | sort -u \
+    | sed '/^$/d'
+)
+
+upstream_files=""
+if [ "$is_beta" -eq 1 ] || [ "$is_production" -eq 1 ]; then
+  merged_raw=""
+  for merge_hash in $(git log --merges --format='%H' "$range" 2>/dev/null); do
+    merged_raw="$merged_raw
+$(git diff --name-only "${merge_hash}^1" "$merge_hash" -- '*.ts' '*.tsx' 2>/dev/null || true)"
+  done
+  upstream_files=$(
+    printf '%s\n' "$merged_raw" \
+      | grep -vE '\.(test|spec)\.(ts|tsx)$' \
+      | sort -u \
+      | sed '/^$/d'
+  )
+fi
+
+# ---------------------------------------------------------------------------
+# Select tier and scope
+# ---------------------------------------------------------------------------
+
+if [ "$is_production" -eq 1 ]; then
+  tier_label="Tier 3 — Production (main): own + upstream files + full fast-tier suite"
+  scope=$(printf '%s\n%s\n' "$own_files" "$upstream_files" | sort -u | sed '/^$/d')
+elif [ "$is_beta" -eq 1 ]; then
+  tier_label="Tier 2 — Beta ([deploy-beta]): own + upstream files"
+  scope=$(printf '%s\n%s\n' "$own_files" "$upstream_files" | sort -u | sed '/^$/d')
+else
+  tier_label="Tier 1 — Quick: own commits only (use [deploy-beta] for broader coverage)"
+  scope="$own_files"
+fi
+
+# ---------------------------------------------------------------------------
+# Knip dead-code gate (fast leg) — launched HERE to run CONCURRENTLY with the
+# vitest phase below, then joined right after it. Rationale:
+#   * ~0 added wall-clock on a typical push: the fast leg (~17-21s, absolute
+#     ratchets only via --no-diff-guard) overlaps the vitest phase, the gate's
+#     trailing step; the heavy validate:fast phase has already finished. (When the
+#     vitest scope is small, knip can become the trailing pole and add up to ~its
+#     own runtime — still concurrent, never serial.)
+#   * RAM-conscious: deliberately overlapped with the LIGHT vitest phase, NOT the
+#     tsc-heavy validate:fast phase. knip peaks ~3.8GB (whole-repo TS import graph);
+#     validate:fast's parallel-tsc peak already exceeds vitest+knip, so overlapping
+#     vitest does not raise the gate's peak RAM on low-RAM machines — whereas
+#     overlapping validate:fast would. (A lower knip heap cap was measured NOT to
+#     reduce that peak, so the SLOT is the lever — see check-knip-health.ts.)
+#   * The expensive diff-guard (base-worktree spawn + extra knip runs, minutes)
+#     stays in CI dev-checks; the HEAD absolute ratchets here catch the unused-
+#     export/file count regressions that recur on dev.
+# Path-filtered: knip counts can only move if the push touched *.ts/*.tsx, knip.json,
+# or package.json — so a docs-only push skips it entirely (pays $0).
+# Skipped by [skip-tests] (that exits above) like the test tiers — CI dev-checks
+# is the backstop. Fail-closed: a non-zero knip exit fails the push (joined below).
+# git-env scrub matches the other steps (prevents shared-.git fixture corruption).
+# ---------------------------------------------------------------------------
+knip_relevant=$(git diff --name-only "$range" -- '*.ts' '*.tsx' 'knip.json' 'package.json' 2>/dev/null | head -1)
+knip_health_pid=""
+if [ -n "$knip_relevant" ]; then
+  knip_health_log="${TMPDIR:-/tmp}/prepush-knip-health-$$.log"
+  _timing_emit knip-health-fast start
+  env \
+    -u GIT_DIR -u GIT_INDEX_FILE -u GIT_WORK_TREE -u GIT_OBJECT_DIRECTORY \
+    -u GIT_COMMON_DIR -u GIT_CEILING_DIRECTORIES -u GIT_PREFIX -u GIT_NAMESPACE \
+    -u GIT_CONFIG_PARAMETERS \
+    npm run validate:knip-health:fast > "$knip_health_log" 2>&1 &
+  knip_health_pid=$!
+  # If the hook exits before the join below (e.g. vitest fails under sh -e), reap
+  # the background knip process + its temp log rather than leaking ~3.8GB and a
+  # tmpfile. Cleared (trap - EXIT) after a successful join. Idempotent: killing a
+  # reaped pid / rm'ing a gone file are both harmless no-ops.
+  trap 'kill "$knip_health_pid" 2>/dev/null; rm -f "$knip_health_log" 2>/dev/null' EXIT
+fi
+
+# ---------------------------------------------------------------------------
+# Run vitest related on the chosen scope
+# ---------------------------------------------------------------------------
+
+if [ -n "$scope" ]; then
+  echo ""
+  echo "🧪 $tier_label"
+  _timing_emit vitest-related start
+  # Fast-tier pre-push must exclude **/*.integration.*.
+  # vitest.config.ts only applies that filter when VITEST_FAST=1.
+  # git-env scrub prevents fixture corruption of the real repo.
+  printf '%s\n' "$scope" | tr '\n' '\0' | xargs -0 env \
+    -u GIT_DIR -u GIT_INDEX_FILE -u GIT_WORK_TREE -u GIT_OBJECT_DIRECTORY \
+    -u GIT_COMMON_DIR -u GIT_CEILING_DIRECTORIES -u GIT_PREFIX -u GIT_NAMESPACE \
+    -u GIT_CONFIG_PARAMETERS \
+    VITEST_FAST=1 npx vitest related --run
+  _timing_emit vitest-related end
+else
+  echo ""
+  echo "🧪 $tier_label — no source files in scope, skipping vitest related."
+fi
+
+# Join the knip dead-code gate launched before the vitest phase (skipped when the
+# path-filter found no TS/config changes — knip_health_pid is empty then). `if !
+# wait` keeps `sh -e` from aborting before we can surface knip's output + guidance.
+if [ -n "$knip_health_pid" ]; then
+  if ! wait "$knip_health_pid"; then
+    echo ""
+    echo "✘ Knip dead-code gate failed (ran concurrently with vitest):"
+    cat "$knip_health_log" 2>/dev/null || true
+    rm -f "$knip_health_log"
+    echo ""
+    echo "pre-push: an unused export/file regressed over baseline. Fix the offending symbol by"
+    echo "  removing it, or hatch it: /** @internal */ (test-only seam) ·"
+    echo "  /** @public */ (API used outside the project glob) · knip.json ignore (whole file)."
+    echo "  The exact findings are printed above. See docs/project/DEAD_CODE_DETECTION_AND_REMOVAL.md."
+    exit 1
+  fi
+  rm -f "$knip_health_log"
+  trap - EXIT
+  _timing_emit knip-health-fast end
+  echo ""
+  echo "✔ Knip dead-code gate passed (ran concurrently with vitest)."
+fi
+
+# ---------------------------------------------------------------------------
+# Tier 3 extra: full fast-tier test suite (production-bound hotfixes)
+# ---------------------------------------------------------------------------
+
+if [ "$is_production" -eq 1 ]; then
+  if [ "$is_certified_promote" -eq 1 ]; then
+    echo ""
+    echo "✅ Certified promote verified (REBEL_CERTIFIED_PROMOTE_SHA matches the pushed main OID, fast-forward of current main, reachable from fresh origin/dev) — skipping redundant local test:fast + test:perf (stable CI re-runs both and gates publish). Keeping validate:fast + realboot."
+  else
+    echo ""
+    echo "🧪 Tier 3 extra — running full fast-tier suite (VITEST_FAST=1 npm run test:fast)..."
+    echo "   (use [skip-tests] in commit message to bypass when fixing a hotfix in a hurry)"
+    _timing_emit tier3-full-suite start
+    # git-env scrub prevents fixture corruption of the real repo.
+    env \
+      -u GIT_DIR -u GIT_INDEX_FILE -u GIT_WORK_TREE -u GIT_OBJECT_DIRECTORY \
+      -u GIT_COMMON_DIR -u GIT_CEILING_DIRECTORIES -u GIT_PREFIX -u GIT_NAMESPACE \
+      -u GIT_CONFIG_PARAMETERS \
+      npm run test:fast
+    _timing_emit tier3-full-suite end
+
+    echo ""
+    echo "🧪 Tier 3 extra — running single-threaded perf-budget suite (npm run test:perf)..."
+    _timing_emit tier3-perf-suite start
+    # git-env scrub prevents fixture corruption of the real repo.
+    env \
+      -u GIT_DIR -u GIT_INDEX_FILE -u GIT_WORK_TREE -u GIT_OBJECT_DIRECTORY \
+      -u GIT_COMMON_DIR -u GIT_CEILING_DIRECTORIES -u GIT_PREFIX -u GIT_NAMESPACE \
+      -u GIT_CONFIG_PARAMETERS \
+      npm run test:perf
+    _timing_emit tier3-perf-suite end
+  fi
+fi
+
+# ---------------------------------------------------------------------------
+# Beta+ extra: real-boot agent-turn suite (BLOCKING from Tier 2 up)
+# ---------------------------------------------------------------------------
+# `bootRealAgentServices()` boots the REAL agent-turn service graph and stubs ONLY
+# the provider HTTP boundary, catching executor↔service contract drift the
+# mock-heavy unit tests are structurally blind to. It is a per-process-singleton
+# cold boot — too heavy / flake-prone for Tier 1 (every push), so it is opt-in
+# (RUN_REALBOOT_TESTS + *.integration.test.ts) and gated HERE from Tier 2 (beta)
+# upward, where a slightly slower, blocking run is the right trade. Soaked 50/50
+# green before promotion to a blocking gate. Bypassable only by the same deliberate
+# overrides as all pre-push test gating ([skip-tests]; or a workflow_dispatch beta
+# that never invokes this local hook).
+if [ "$is_beta" -eq 1 ] || [ "$is_production" -eq 1 ]; then
+  echo ""
+  echo "🧪 Beta+ extra — running real-boot agent-turn suite (npm run test:realboot)..."
+  echo "   (use [skip-tests] in commit message to bypass when deliberately needed)"
+  _timing_emit realboot-suite start
+  # git-env scrub prevents fixture corruption of the real repo (same as the steps above).
+  env \
+    -u GIT_DIR -u GIT_INDEX_FILE -u GIT_WORK_TREE -u GIT_OBJECT_DIRECTORY \
+    -u GIT_COMMON_DIR -u GIT_CEILING_DIRECTORIES -u GIT_PREFIX -u GIT_NAMESPACE \
+    -u GIT_CONFIG_PARAMETERS \
+    npm run test:realboot
+  _timing_emit realboot-suite end
+fi

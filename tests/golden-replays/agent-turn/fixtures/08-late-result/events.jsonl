@@ -1,0 +1,6 @@
+{"type":"turn_started","timestamp":1,"turnId":"turn-1"}
+{"type":"assistant","timestamp":2,"text":"Old"}
+{"type":"turn_started","timestamp":3,"turnId":"turn-2"}
+{"type":"result","timestamp":4,"turnId":"turn-1","text":"Old"}
+{"type":"answer_phase_started","timestamp":5}
+{"type":"assistant_delta","timestamp":5,"text":"New"}

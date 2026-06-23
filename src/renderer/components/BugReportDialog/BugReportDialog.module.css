@@ -1,0 +1,449 @@
+/* Dialog content - constrain height */
+.dialogContent {
+  max-height: calc(100vh - 80px);
+  display: flex;
+  flex-direction: column;
+}
+
+/* Header icon styling */
+.headerIcon {
+  color: var(--color-brand-indigo, #4f46e5);
+}
+
+:global(.dark) .headerIcon {
+  color: #a5b4fc;
+}
+
+/* Dialog body with scroll */
+.dialogBody {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-3, 12px);
+  overflow-y: auto;
+  flex: 1;
+  min-height: 0;
+}
+
+/* Form row for side-by-side fields */
+.formRow {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: var(--space-4, 16px);
+}
+
+/* Form group */
+.formGroup {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-1, 4px);
+}
+
+/* Optional label styling */
+.optionalLabel {
+  font-size: 0.75rem;
+  font-weight: normal;
+  color: var(--color-text-secondary, rgba(15, 23, 42, 0.5));
+}
+
+:global(.dark) .optionalLabel {
+  color: var(--color-muted-foreground, rgba(241, 245, 249, 0.5));
+}
+
+.textarea {
+  width: 100%;
+  min-height: 60px;
+}
+
+.charCount {
+  display: flex;
+  justify-content: flex-end;
+  margin-top: var(--space-1, 4px);
+  font-size: 0.75rem;
+  color: var(--color-text-secondary, rgba(15, 23, 42, 0.5));
+}
+
+:global(.dark) .charCount {
+  color: var(--color-muted-foreground, rgba(241, 245, 249, 0.5));
+}
+
+.charCountWarning {
+  color: var(--color-warning, #f59e0b);
+}
+
+/* Options section */
+.optionsSection {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-2, 8px);
+  padding: var(--space-3, 12px);
+  background: var(--color-background-subtle, rgba(241, 245, 249, 0.5));
+  border: 1px solid var(--color-border-soft, rgba(226, 232, 240, 0.8));
+  border-radius: var(--radius-md, 10px);
+}
+
+:global(.dark) .optionsSection {
+  background: rgba(30, 41, 59, 0.5);
+  border-color: rgba(148, 163, 184, 0.12);
+}
+
+/* Checkbox label styling */
+.checkboxLabel {
+  display: flex;
+  align-items: center;
+  gap: var(--space-2, 8px);
+  font-size: 0.875rem;
+  color: var(--color-text-primary, #0f172a);
+  cursor: pointer;
+  user-select: none;
+}
+
+:global(.dark) .checkboxLabel {
+  color: var(--color-foreground, #f1f5f9);
+}
+
+.checkboxLabel:hover {
+  color: var(--color-brand-indigo, #4f46e5);
+}
+
+:global(.dark) .checkboxLabel:hover {
+  color: #a5b4fc;
+}
+
+.checkboxSubLabel {
+  display: flex;
+  align-items: center;
+  gap: var(--space-2, 8px);
+  font-size: 0.875rem;
+  color: var(--color-text-primary, #0f172a);
+  cursor: pointer;
+  user-select: none;
+  margin-left: calc(16px + var(--space-2, 8px));
+}
+
+:global(.dark) .checkboxSubLabel {
+  color: var(--color-foreground, #f1f5f9);
+}
+
+.checkboxSubLabel:hover {
+  color: var(--color-brand-indigo, #4f46e5);
+}
+
+:global(.dark) .checkboxSubLabel:hover {
+  color: #a5b4fc;
+}
+
+.checkbox {
+  width: 16px;
+  height: 16px;
+  accent-color: var(--color-brand-indigo, #4f46e5);
+  cursor: pointer;
+}
+
+.checkbox:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+.checkboxIcon {
+  flex-shrink: 0;
+  color: var(--color-text-secondary, rgba(15, 23, 42, 0.5));
+}
+
+:global(.dark) .checkboxIcon {
+  color: var(--color-muted-foreground, rgba(241, 245, 249, 0.5));
+}
+
+.sectionToggleList {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-2, 8px);
+  padding-top: var(--space-2, 8px);
+  border-top: 1px solid var(--color-border-soft, rgba(226, 232, 240, 0.8));
+}
+
+:global(.dark) .sectionToggleList {
+  border-top-color: rgba(148, 163, 184, 0.12);
+}
+
+.sectionToggleHeader {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--space-2, 8px);
+  font-size: 0.875rem;
+}
+
+.sectionToggleRow {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--space-3, 12px);
+  cursor: pointer;
+}
+
+.sectionToggleCopy {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  min-width: 0;
+}
+
+.sectionToggleTitle {
+  font-size: 0.8125rem;
+  font-weight: 600;
+  color: var(--color-text-primary, #0f172a);
+}
+
+:global(.dark) .sectionToggleTitle {
+  color: var(--color-foreground, #f1f5f9);
+}
+
+.sectionToggleDescription {
+  font-size: 0.75rem;
+  line-height: 1.35;
+  color: var(--color-text-secondary, rgba(15, 23, 42, 0.6));
+}
+
+:global(.dark) .sectionToggleDescription {
+  color: var(--color-muted-foreground, rgba(241, 245, 249, 0.6));
+}
+
+/* Replay hint text */
+.replayHint {
+  margin-left: calc(16px + var(--space-2, 8px) + 16px + var(--space-2, 8px));
+  font-size: 0.75rem;
+  color: var(--color-text-secondary, rgba(15, 23, 42, 0.6));
+  line-height: 1.4;
+}
+
+:global(.dark) .replayHint {
+  color: var(--color-muted-foreground, rgba(241, 245, 249, 0.6));
+}
+
+/* Screenshot preview */
+.screenshotPreview {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-1, 4px);
+}
+
+.screenshotContainer {
+  position: relative;
+  display: inline-block;
+  max-width: 180px;
+  border-radius: var(--radius-sm, 6px);
+  overflow: hidden;
+  border: 1px solid var(--color-border-soft, rgba(226, 232, 240, 0.8));
+}
+
+:global(.dark) .screenshotContainer {
+  border-color: rgba(148, 163, 184, 0.2);
+}
+
+.screenshotImage {
+  display: block;
+  width: 100%;
+  height: auto;
+  max-height: 120px;
+  object-fit: contain;
+  background: var(--color-background-subtle, rgba(241, 245, 249, 0.5));
+}
+
+:global(.dark) .screenshotImage {
+  background: rgba(30, 41, 59, 0.5);
+}
+
+.removeScreenshotButton {
+  position: absolute;
+  top: 4px;
+  right: 4px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 22px;
+  height: 22px;
+  padding: 0;
+  border: none;
+  border-radius: 50%;
+  background: rgba(0, 0, 0, 0.7);
+  color: white;
+  cursor: pointer;
+  transition: background 0.15s ease;
+}
+
+.removeScreenshotButton:hover {
+  background: rgba(220, 38, 38, 0.9);
+}
+
+.removeScreenshotButton:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+.screenshotInfo {
+  font-size: 0.7rem;
+  color: var(--color-text-secondary, rgba(15, 23, 42, 0.5));
+}
+
+:global(.dark) .screenshotInfo {
+  color: var(--color-muted-foreground, rgba(241, 245, 249, 0.5));
+}
+
+/* Screenshot error */
+.screenshotError {
+  display: flex;
+  align-items: flex-start;
+  gap: var(--space-2, 8px);
+  padding: var(--space-2, 8px) var(--space-3, 12px);
+  margin-top: var(--space-2, 8px);
+  font-size: 0.8rem;
+  color: var(--color-text-secondary, rgba(15, 23, 42, 0.7));
+  background: var(--color-background-subtle, rgba(241, 245, 249, 0.5));
+  border-radius: var(--radius-sm, 6px);
+}
+
+:global(.dark) .screenshotError {
+  color: var(--color-muted-foreground, rgba(241, 245, 249, 0.7));
+  background: rgba(30, 41, 59, 0.5);
+}
+
+.screenshotErrorIcon {
+  flex-shrink: 0;
+  margin-top: 2px;
+}
+
+/* Attachment section */
+.attachmentSection {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-2, 8px);
+}
+
+/* Upload area */
+.uploadArea {
+  display: flex;
+  align-items: center;
+  gap: var(--space-3, 12px);
+  padding: var(--space-3, 12px);
+  background: var(--color-background-subtle, rgba(241, 245, 249, 0.5));
+  border: 1px dashed var(--color-border-soft, rgba(226, 232, 240, 0.8));
+  border-radius: var(--radius-md, 10px);
+}
+
+:global(.dark) .uploadArea {
+  background: rgba(30, 41, 59, 0.3);
+  border-color: rgba(148, 163, 184, 0.2);
+}
+
+.hiddenInput {
+  display: none;
+}
+
+.uploadButton {
+  display: flex;
+  align-items: center;
+  gap: var(--space-2, 8px);
+  padding: var(--space-2, 8px) var(--space-3, 12px);
+  font-size: 0.875rem;
+  font-weight: 500;
+  color: var(--color-brand-indigo, #4f46e5);
+  background: var(--color-background, #ffffff);
+  border: 1px solid var(--color-border-soft, rgba(226, 232, 240, 0.8));
+  border-radius: var(--radius-md, 10px);
+  cursor: pointer;
+  transition: all 0.15s ease;
+}
+
+.uploadButton:hover {
+  background: var(--color-brand-indigo, #4f46e5);
+  color: white;
+  border-color: var(--color-brand-indigo, #4f46e5);
+}
+
+.uploadButton:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+:global(.dark) .uploadButton {
+  color: #a5b4fc;
+  background: rgba(30, 41, 59, 0.5);
+  border-color: rgba(148, 163, 184, 0.2);
+}
+
+:global(.dark) .uploadButton:hover {
+  background: #4f46e5;
+  color: white;
+  border-color: #4f46e5;
+}
+
+.uploadHint {
+  font-size: 0.75rem;
+  color: var(--color-text-secondary, rgba(15, 23, 42, 0.5));
+}
+
+:global(.dark) .uploadHint {
+  color: var(--color-muted-foreground, rgba(241, 245, 249, 0.5));
+}
+
+/* Privacy warning */
+.privacyWarning {
+  display: flex;
+  align-items: center;
+  gap: var(--space-2, 8px);
+  padding: var(--space-2, 8px) var(--space-3, 12px);
+  font-size: 0.8rem;
+  color: var(--color-warning, #f59e0b);
+  background: rgba(245, 158, 11, 0.1);
+  border-radius: var(--radius-sm, 6px);
+}
+
+:global(.dark) .privacyWarning {
+  color: #fbbf24;
+  background: rgba(251, 191, 36, 0.1);
+}
+
+.warningIcon {
+  flex-shrink: 0;
+}
+
+/* System info display */
+.systemInfo {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: var(--space-2, 8px);
+  padding: var(--space-2, 8px);
+  font-size: 0.75rem;
+  color: var(--color-text-secondary, rgba(15, 23, 42, 0.5));
+  border-top: 1px solid var(--color-border-soft, rgba(226, 232, 240, 0.8));
+}
+
+:global(.dark) .systemInfo {
+  color: var(--color-muted-foreground, rgba(241, 245, 249, 0.5));
+  border-color: rgba(148, 163, 184, 0.12);
+}
+
+.separator {
+  color: var(--color-text-tertiary, rgba(15, 23, 42, 0.3));
+}
+
+:global(.dark) .separator {
+  color: rgba(241, 245, 249, 0.3);
+}
+
+/* Error message */
+.errorMessage {
+  padding: var(--space-3, 12px);
+  font-size: 0.875rem;
+  color: var(--color-destructive, #ef4444);
+  background: rgba(239, 68, 68, 0.1);
+  border: 1px solid rgba(239, 68, 68, 0.2);
+  border-radius: var(--radius-md, 10px);
+}
+
+:global(.dark) .errorMessage {
+  color: #f87171;
+  background: rgba(248, 113, 113, 0.1);
+  border-color: rgba(248, 113, 113, 0.2);
+}

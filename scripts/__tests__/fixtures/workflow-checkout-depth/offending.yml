@@ -1,0 +1,12 @@
+name: Workflow Checkout Depth Offending
+
+on:
+  push:
+
+jobs:
+  validate:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Validate
+        run: npm run validate:fast

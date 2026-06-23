@@ -1,0 +1,209 @@
+.toolsTab {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  padding: 4px 0;
+}
+
+/* ------------------------------------------------------------------ */
+/* Section containers                                                  */
+/* ------------------------------------------------------------------ */
+
+.section {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.sectionHeading {
+  margin: 0;
+  font-size: 0.82rem;
+  font-weight: 600;
+  color: var(--color-text-secondary);
+  letter-spacing: 0.03em;
+  text-transform: uppercase;
+}
+
+/* ------------------------------------------------------------------ */
+/* Empty / provenance                                                  */
+/* ------------------------------------------------------------------ */
+
+.emptyState {
+  padding: 32px 16px;
+  text-align: center;
+  color: var(--color-text-muted);
+  font-size: 0.88rem;
+}
+
+.provenanceNote {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 0.72rem;
+  color: var(--color-text-muted);
+  cursor: help;
+}
+
+.infoDot {
+  font-size: 0.72rem;
+  color: var(--color-text-muted);
+  cursor: help;
+}
+
+/* ------------------------------------------------------------------ */
+/* Summary table                                                       */
+/* ------------------------------------------------------------------ */
+
+.tableWrap {
+  border: 1px solid rgba(148, 163, 184, 0.24);
+  border-radius: 12px;
+  background: rgba(248, 250, 252, 0.74);
+  overflow: auto;
+}
+
+.table {
+  width: 100%;
+  min-width: 620px;
+  border-collapse: collapse;
+}
+
+.table th,
+.table td {
+  padding: 8px 10px;
+  border-bottom: 1px solid rgba(148, 163, 184, 0.16);
+  font-size: 0.76rem;
+  text-align: left;
+  color: var(--color-text-primary);
+  white-space: nowrap;
+}
+
+.table thead th {
+  color: var(--color-text-secondary);
+  font-size: 0.72rem;
+  text-transform: uppercase;
+  letter-spacing: 0.03em;
+}
+
+.table tbody th {
+  color: var(--color-text-secondary);
+  font-weight: 600;
+}
+
+.sortableHeader {
+  cursor: pointer;
+  user-select: none;
+  transition: color 0.15s ease;
+}
+
+.sortableHeader:hover {
+  color: var(--color-text-primary);
+}
+
+.sortIndicator {
+  display: inline-block;
+  margin-left: 4px;
+  font-size: 0.68rem;
+  opacity: 0.7;
+}
+
+/* ------------------------------------------------------------------ */
+/* Expandable row                                                      */
+/* ------------------------------------------------------------------ */
+
+.toolRow {
+  cursor: pointer;
+  transition: background 0.15s ease;
+}
+
+.toolRow:hover {
+  background: rgba(248, 250, 252, 0.92);
+}
+
+.toolRow:focus-visible {
+  outline: 2px solid rgba(99, 102, 241, 0.55);
+  outline-offset: -2px;
+}
+
+.toolRowExpanded {
+  background: rgba(248, 250, 252, 0.64);
+}
+
+.toolNameCell {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.expandIcon {
+  flex-shrink: 0;
+  font-size: 0.72rem;
+  color: var(--color-text-muted);
+  transition: transform 0.15s ease;
+}
+
+.expandIconOpen {
+  transform: rotate(90deg);
+}
+
+.subAgentBadge {
+  margin-left: 4px;
+}
+
+/* ------------------------------------------------------------------ */
+/* Invocation detail rows                                              */
+/* ------------------------------------------------------------------ */
+
+.invocationRow {
+  background: rgba(248, 250, 252, 0.52);
+}
+
+.invocationRow td {
+  font-size: 0.74rem;
+  color: var(--color-text-secondary);
+}
+
+.snippetText {
+  display: inline-block;
+  max-width: 200px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  font-family: monospace;
+  font-size: 0.72rem;
+}
+
+.compactedNote {
+  font-style: italic;
+  color: var(--color-text-muted);
+  font-size: 0.72rem;
+}
+
+/* ------------------------------------------------------------------ */
+/* Dark mode                                                           */
+/* ------------------------------------------------------------------ */
+
+:global(.dark) .tableWrap {
+  border-color: rgba(148, 163, 184, 0.26);
+  background: rgba(15, 23, 42, 0.78);
+}
+
+:global(.dark) .table th,
+:global(.dark) .table td {
+  border-bottom-color: rgba(148, 163, 184, 0.2);
+}
+
+:global(.dark) .sortableHeader:hover {
+  color: rgba(226, 232, 240, 0.95);
+}
+
+:global(.dark) .toolRow:hover {
+  background: rgba(15, 23, 42, 0.92);
+}
+
+:global(.dark) .toolRowExpanded {
+  background: rgba(15, 23, 42, 0.68);
+}
+
+:global(.dark) .invocationRow {
+  background: rgba(2, 6, 23, 0.52);
+}

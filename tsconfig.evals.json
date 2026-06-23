@@ -1,0 +1,40 @@
+{
+  "extends": "./tsconfig.base.json",
+  "compilerOptions": {
+    "noEmit": true,
+    "module": "ESNext",
+    "target": "ES2022",
+    "moduleResolution": "Bundler",
+    "allowSyntheticDefaultImports": true,
+    "esModuleInterop": true,
+    "jsx": "react-jsx",
+    "lib": ["ES2022", "DOM", "DOM.Iterable"],
+    "types": ["node", "vitest/globals"],
+    "strict": true,
+    "paths": {
+      "@/*": ["./src/renderer/*"],
+      "@core/*": ["./src/core/*"],
+      "@main/*": ["./src/main/*"],
+      "@renderer/*": ["./src/renderer/*"],
+      "@shared/*": ["./src/shared/*"],
+      "@rebel/shared": ["./packages/shared/src"],
+      "@rebel/shared/*": ["./packages/shared/src/*"],
+      "@rebel/cloud-client": ["./cloud-client/src"],
+      "@rebel/cloud-client/*": ["./cloud-client/src/*"]
+    }
+  },
+  "include": [
+    "evals/**/*.ts",
+    "packages/shared/src/diff-ambient.d.ts",
+    "src/renderer/env.d.ts",
+    "src/shared/types/**/*.d.ts"
+  ],
+  "exclude": [
+    "evals/__pycache__/**",
+    "evals/.workspace-snapshot/**",
+    "evals/results/**",
+    "evals/fixtures/**",
+    "evals/gui/**",
+    "evals/spikes/**"
+  ]
+}

@@ -1,0 +1,177 @@
+.container {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  min-width: 180px;
+  max-width: 280px;
+  text-align: left;
+}
+
+.title {
+  font-weight: 600;
+  font-size: 0.85rem;
+  line-height: 1.3;
+  color: inherit;
+  padding-bottom: 4px;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.12);
+}
+
+.section {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.modelRow {
+  display: flex;
+  flex-direction: column;
+  gap: 1px;
+}
+
+.sectionLabel {
+  font-size: 0.7rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.03em;
+  opacity: 0.55;
+  margin-bottom: 2px;
+}
+
+.row {
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+  gap: 12px;
+}
+
+.label {
+  font-size: 0.78rem;
+  opacity: 0.8;
+}
+
+.value {
+  font-size: 0.78rem;
+  font-weight: 500;
+  font-variant-numeric: tabular-nums;
+}
+
+.billingIndicator {
+  opacity: 0.6;
+  font-weight: 400;
+}
+
+.modelMeta {
+  font-size: 0.72rem;
+  opacity: 0.6;
+  font-variant-numeric: tabular-nums;
+  line-height: 1.25;
+}
+
+.modelAgentLabel {
+  font-size: 0.78rem;
+  opacity: 0.9;
+}
+
+.modelAgentProvider {
+  font-size: 0.74rem;
+  opacity: 0.72;
+}
+
+.hint {
+  font-size: 0.7rem;
+  font-style: italic;
+  opacity: 0.5;
+  margin-top: 2px;
+}
+
+.cost {
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+  padding-top: 6px;
+  border-top: 1px solid rgba(255, 255, 255, 0.12);
+}
+
+.costLabel {
+  font-size: 0.78rem;
+  opacity: 0.8;
+}
+
+.costValue {
+  font-size: 0.85rem;
+  font-weight: 600;
+  font-variant-numeric: tabular-nums;
+}
+
+.contextBar {
+  height: 4px;
+  border-radius: 2px;
+  background: rgba(255, 255, 255, 0.1);
+  overflow: hidden;
+  margin-top: 2px;
+}
+
+.contextBarFill {
+  height: 100%;
+  border-radius: 2px;
+  background: rgba(129, 140, 248, 0.7);
+  transition: width 0.3s ease;
+}
+
+.badge {
+  font-size: 0.68rem;
+  font-weight: 500;
+  padding: 1px 5px;
+  border-radius: 3px;
+  background: rgba(255, 255, 255, 0.08);
+}
+
+.fallbackRow {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 0.75rem;
+}
+
+.fallbackIcon {
+  flex-shrink: 0;
+  color: rgba(251, 191, 36, 0.9);
+}
+
+.fallbackText {
+  color: rgba(251, 191, 36, 0.9);
+  font-size: 0.72rem;
+}
+
+.driftSection {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  padding-top: 6px;
+  border-top: 1px solid rgba(255, 255, 255, 0.12);
+}
+
+.driftRow {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  font-size: 0.72rem;
+}
+
+.driftField {
+  opacity: 0.7;
+}
+
+.driftOld {
+  text-decoration: line-through;
+  opacity: 0.5;
+}
+
+.driftArrow {
+  opacity: 0.4;
+  flex-shrink: 0;
+}
+
+.driftNew {
+  font-weight: 500;
+}

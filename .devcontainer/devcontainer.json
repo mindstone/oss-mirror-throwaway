@@ -1,0 +1,5 @@
+{
+  "name": "rebel-app",
+  "image": "mcr.microsoft.com/devcontainers/javascript-node:22",
+  "postCreateCommand": "if [ -n \"$GITHUB_TOKEN\" ]; then git config --global url.\"https://${GITHUB_TOKEN}@github.com/\".insteadOf \"[external-email]:\"; fi && git submodule update --init --recursive && npm ci"
+}

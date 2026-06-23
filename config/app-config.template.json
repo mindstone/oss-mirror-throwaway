@@ -1,0 +1,12 @@
+{
+  "analytics": {
+    "rudderstack": {
+      "writeKey": "{{ env.RUDDERSTACK_WRITE_KEY }}",
+      "dataPlaneUrl": "{{ env.RUDDERSTACK_DATA_PLANE_URL }}"
+    }
+  },
+  "voice": {
+    "sttTimeoutMs": 15000,
+    "ttsTimeoutMs": 15000
+  }
+}

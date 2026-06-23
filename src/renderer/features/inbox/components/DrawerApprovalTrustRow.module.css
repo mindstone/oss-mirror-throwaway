@@ -1,0 +1,47 @@
+.row {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: var(--space-1) var(--space-2);
+  min-width: 0;
+  margin: 0 0 var(--space-3);
+}
+
+.segment {
+  display: inline-flex;
+  align-items: center;
+  min-width: 0;
+}
+
+.separator {
+  color: var(--color-text-muted);
+  font-size: 0.72rem;
+  line-height: 1;
+}
+
+.fileLocationBadge {
+  max-width: 100%;
+  font-size: 0.72rem;
+}
+
+.sharingBadge {
+  min-height: 18px;
+}
+
+.destinationText,
+.audienceText,
+.reversibility,
+.riskCue {
+  font-size: 0.72rem;
+  line-height: 1.35;
+}
+
+.destinationText,
+.audienceText,
+.reversibility {
+  color: var(--color-text-secondary);
+}
+
+.riskCue {
+  color: var(--color-text-muted);
+}

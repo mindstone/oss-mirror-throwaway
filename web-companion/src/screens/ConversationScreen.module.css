@@ -1,0 +1,929 @@
+/* ConversationScreen.module.css */
+
+.container {
+  display: flex;
+  flex-direction: column;
+  height: calc(100vh - var(--header-height, 53px) - var(--nav-height, 56px));
+  height: calc(100dvh - var(--header-height, 53px) - var(--nav-height, 56px));
+  margin: 0 calc(-1 * var(--space-lg)); /* full-bleed within layout */
+  position: relative;
+}
+
+/* Top bar */
+.topBar {
+  display: flex;
+  align-items: center;
+  gap: var(--space-sm);
+  padding: var(--space-sm) var(--space-md);
+  border-bottom: 1px solid var(--color-border);
+  background: var(--color-bg-elevated);
+  flex-shrink: 0;
+}
+
+.backButton {
+  background: none;
+  border: none;
+  color: var(--color-accent);
+  font-size: 0.9375rem;
+  font-weight: 600;
+  font-family: var(--font-sans);
+  cursor: pointer;
+  padding: var(--space-xs) var(--space-sm);
+  border-radius: var(--radius-sm);
+  transition: opacity var(--transition-fast);
+}
+
+.backButton:hover {
+  opacity: 0.7;
+}
+
+.topTitle {
+  font-size: 1rem;
+  font-weight: 600;
+  color: var(--color-text-primary);
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  flex: 1;
+}
+
+.shareButton {
+  width: 32px;
+  height: 32px;
+  border-radius: 999px;
+  border: 1px solid var(--color-border);
+  background: var(--color-surface);
+  color: var(--color-text-secondary);
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: color var(--transition-fast), border-color var(--transition-fast), background var(--transition-fast);
+  flex-shrink: 0;
+}
+
+.shareButton:hover:not(:disabled) {
+  color: var(--color-accent);
+  border-color: var(--color-accent);
+  background: color-mix(in srgb, var(--color-accent) 8%, var(--color-surface));
+}
+
+.shareButton:disabled {
+  cursor: not-allowed;
+  opacity: 0.75;
+}
+
+.shareButtonCopied {
+  color: var(--color-success);
+  border-color: color-mix(in srgb, var(--color-success) 45%, var(--color-border));
+}
+
+.shareLoadingIcon {
+  animation: spin 1s linear infinite;
+}
+
+/* Messages area */
+.messages {
+  flex: 1;
+  overflow-y: auto;
+  overscroll-behavior: contain;
+  padding: var(--space-md);
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-sm);
+}
+
+.messageWithToolActivity {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+/* Message bubbles */
+.messageRow {
+  display: flex;
+  flex-direction: column;
+  max-width: 85%;
+}
+
+.userRow {
+  align-self: flex-end;
+  align-items: flex-end;
+}
+
+.assistantRow {
+  align-self: flex-start;
+  align-items: flex-start;
+}
+
+.bubble {
+  border-radius: var(--radius-lg);
+  padding: 12px 16px;
+  word-break: break-word;
+  user-select: text;
+  -webkit-user-select: text;
+}
+
+.userBubble {
+  background: var(--color-accent);
+  color: #fff;
+}
+
+.assistantBubble {
+  background: var(--color-surface);
+  color: var(--color-text-primary);
+}
+
+.bubbleText {
+  font-size: 0.9375rem;
+  line-height: 1.5;
+  margin: 0;
+  white-space: pre-wrap;
+}
+
+.messageTime {
+  font-size: 0.6875rem;
+  color: var(--color-text-tertiary);
+  margin-top: 2px;
+  padding: 0 4px;
+}
+
+/* Markdown inside assistant bubbles */
+.markdown {
+  font-size: 0.9375rem;
+  line-height: 1.6;
+}
+
+.markdown p {
+  margin: 0 0 0.5em;
+}
+
+.markdown p:last-child {
+  margin-bottom: 0;
+}
+
+.markdown pre {
+  background: var(--color-bg);
+  border-radius: var(--radius-sm);
+  padding: var(--space-sm) var(--space-md);
+  overflow-x: auto;
+  font-family: var(--font-mono);
+  font-size: 0.8125rem;
+  margin: 0.5em 0;
+}
+
+.markdown code {
+  font-family: var(--font-mono);
+  font-size: 0.875em;
+  background: var(--color-bg);
+  padding: 1px 4px;
+  border-radius: 3px;
+}
+
+.markdown pre code {
+  background: none;
+  padding: 0;
+}
+
+.markdown ul,
+.markdown ol {
+  margin: 0.5em 0;
+  padding-left: 1.5em;
+}
+
+.markdown li {
+  margin: 0.25em 0;
+}
+
+.markdown blockquote {
+  border-left: 3px solid var(--color-border);
+  padding-left: var(--space-md);
+  margin: 0.5em 0;
+  color: var(--color-text-secondary);
+}
+
+.markdown h1,
+.markdown h2,
+.markdown h3,
+.markdown h4 {
+  margin: 0.75em 0 0.25em;
+  color: var(--color-text-primary);
+}
+
+.markdown a {
+  color: var(--color-accent);
+  text-decoration: underline;
+}
+
+.markdown table {
+  border-collapse: collapse;
+  margin: 0.5em 0;
+  width: 100%;
+}
+
+.markdown th,
+.markdown td {
+  border: 1px solid var(--color-border);
+  padding: 6px 10px;
+  text-align: left;
+  font-size: 0.875rem;
+}
+
+.markdown th {
+  background: var(--color-bg);
+  font-weight: 600;
+}
+
+/* Status bubble */
+.statusBubble {
+  display: flex;
+  align-items: center;
+  gap: var(--space-sm);
+  padding: 10px 14px;
+  background: var(--color-surface);
+  border-radius: var(--radius-lg);
+  align-self: flex-start;
+  max-width: 85%;
+}
+
+.statusText {
+  font-size: 0.8125rem;
+  font-style: italic;
+  color: var(--color-text-secondary);
+}
+
+.statusDot {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: var(--color-accent);
+  animation: pulse 1.2s ease-in-out infinite;
+}
+
+@keyframes pulse {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0.3; }
+}
+
+/* Streaming cursor — 3-dot typing indicator (CSS-only, staggered) */
+.streamingCursor {
+  display: inline-block;
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: var(--color-text-tertiary);
+  margin-left: 8px;
+  margin-right: 20px;
+  vertical-align: middle;
+  position: relative;
+  animation: typingDot 1.4s ease-in-out infinite;
+}
+
+.streamingCursor::before,
+.streamingCursor::after {
+  content: '';
+  position: absolute;
+  top: 0;
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: var(--color-text-tertiary);
+}
+
+.streamingCursor::before {
+  left: 10px;
+  animation: typingDot 1.4s ease-in-out 0.2s infinite;
+}
+
+.streamingCursor::after {
+  left: 20px;
+  animation: typingDot 1.4s ease-in-out 0.4s infinite;
+}
+
+@keyframes typingDot {
+  0%, 60%, 100% { opacity: 0.3; }
+  30% { opacity: 1; }
+}
+
+/* Scroll-to-bottom FAB */
+.scrollToBottom {
+  position: absolute;
+  bottom: 120px;
+  right: var(--space-md);
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  background: var(--color-surface);
+  border: 1px solid var(--color-border);
+  color: var(--color-text-secondary);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  box-shadow: var(--shadow-sm);
+  transition: opacity var(--transition-fast);
+  z-index: 10;
+}
+
+.scrollToBottom:hover {
+  color: var(--color-text-primary);
+}
+
+.approvalBannerWrap {
+  flex-shrink: 0;
+}
+
+/* ---------------------------------------------------------------------------
+   Drag-and-drop overlay
+   --------------------------------------------------------------------------- */
+
+.dragOverlay {
+  position: absolute;
+  inset: 0;
+  z-index: 50;
+  background: rgba(99, 102, 241, 0.08);
+  border: 2px dashed var(--color-accent);
+  border-radius: var(--radius-md);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  pointer-events: none;
+}
+
+.dragContent {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: var(--space-sm);
+  color: var(--color-accent);
+  font-size: 1rem;
+  font-weight: 600;
+}
+
+/* ---------------------------------------------------------------------------
+   Status banner (voice/attachment errors, transcribing)
+   --------------------------------------------------------------------------- */
+
+.statusBanner {
+  padding: var(--space-xs) var(--space-md);
+  background: var(--color-surface);
+  border-top: 1px solid var(--color-border);
+  font-size: 0.8125rem;
+  color: var(--color-text-secondary);
+  text-align: center;
+  flex-shrink: 0;
+  animation: fadeIn var(--transition-normal);
+}
+
+.statusBannerError {
+  color: var(--color-error);
+  background: var(--color-error-bg);
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(4px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+/* ---------------------------------------------------------------------------
+   Attachment thumbnail strip
+   --------------------------------------------------------------------------- */
+
+.attachmentStrip {
+  display: flex;
+  gap: var(--space-sm);
+  padding: var(--space-sm) var(--space-md) 0;
+  overflow-x: auto;
+  flex-shrink: 0;
+  -webkit-overflow-scrolling: touch;
+}
+
+.thumbnail {
+  position: relative;
+  width: 56px;
+  height: 56px;
+  border-radius: var(--radius-sm);
+  overflow: hidden;
+  flex-shrink: 0;
+  background: var(--color-surface);
+  border: 1px solid var(--color-border);
+}
+
+.thumbnailImage {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.thumbnailFile {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  height: 100%;
+  color: var(--color-text-secondary);
+  gap: 2px;
+}
+
+.thumbnailLabel {
+  font-size: 0.5625rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.03em;
+  color: var(--color-text-tertiary);
+}
+
+.thumbnailRemove {
+  position: absolute;
+  top: 2px;
+  right: 2px;
+  width: 18px;
+  height: 18px;
+  border-radius: 50%;
+  background: var(--color-bg);
+  border: 1px solid var(--color-border);
+  color: var(--color-text-secondary);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  padding: 0;
+  opacity: 0;
+  transition: opacity var(--transition-fast);
+}
+
+.thumbnail:hover .thumbnailRemove {
+  opacity: 1;
+}
+
+/* Always show remove button on touch devices */
+@media (hover: none) {
+  .thumbnailRemove {
+    opacity: 1;
+  }
+}
+
+/* ---------------------------------------------------------------------------
+   Council review bar
+   --------------------------------------------------------------------------- */
+
+.councilReviewBar {
+  display: flex;
+  justify-content: center;
+  padding: 0 var(--space-md) var(--space-xs);
+}
+
+.councilReviewButton {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  height: 28px;
+  padding: 0 12px;
+  border: 1px solid var(--color-border);
+  border-radius: 14px;
+  background: var(--color-surface);
+  color: var(--color-text-secondary);
+  font-size: 12px;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.15s ease;
+}
+
+.councilReviewButton:hover {
+  color: var(--color-accent);
+  border-color: var(--color-accent);
+  background: color-mix(in srgb, var(--color-accent) 8%, var(--color-surface));
+}
+
+.councilReviewButton:active {
+  transform: scale(0.96);
+}
+
+/* ---------------------------------------------------------------------------
+   Input bar
+   --------------------------------------------------------------------------- */
+
+.inputBar {
+  display: flex;
+  align-items: flex-end;
+  gap: var(--space-xs);
+  padding: var(--space-sm) var(--space-md);
+  border-top: 1px solid var(--color-border);
+  background: var(--color-bg);
+  flex-shrink: 0;
+}
+
+.hiddenFileInput {
+  position: absolute;
+  width: 0;
+  height: 0;
+  overflow: hidden;
+  opacity: 0;
+  pointer-events: none;
+}
+
+.attachButton {
+  background: none;
+  border: none;
+  color: var(--color-text-secondary);
+  cursor: pointer;
+  padding: 10px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: color var(--transition-fast), background var(--transition-fast);
+  flex-shrink: 0;
+  /* Min touch target */
+  min-width: 44px;
+  min-height: 44px;
+}
+
+.attachButton:hover:not(:disabled) {
+  color: var(--color-text-primary);
+  background: var(--color-surface);
+}
+
+.attachButton:disabled {
+  opacity: 0.3;
+  cursor: not-allowed;
+}
+
+.chatInput {
+  flex: 1;
+  background: var(--color-surface);
+  border: 1px solid var(--color-border);
+  border-radius: 22px;
+  padding: 10px 16px;
+  font-size: 1rem;
+  color: var(--color-text-primary);
+  font-family: var(--font-sans);
+  resize: none;
+  min-height: 44px;
+  max-height: 120px;
+  outline: none;
+  transition: border-color var(--transition-fast);
+}
+
+.chatInput::placeholder {
+  color: var(--color-text-tertiary);
+}
+
+.chatInput:focus {
+  border-color: var(--color-accent);
+}
+
+.chatSendButton {
+  background: var(--color-accent);
+  color: #fff;
+  border: none;
+  border-radius: 50%;
+  width: 44px;
+  height: 44px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: background var(--transition-fast), opacity var(--transition-fast);
+  flex-shrink: 0;
+}
+
+.chatSendButton:hover:not(:disabled) {
+  background: var(--color-accent-hover);
+}
+
+.chatSendButton:disabled {
+  opacity: 0.4;
+  cursor: not-allowed;
+}
+
+.stopButton {
+  background: var(--color-error);
+  color: #fff;
+  border: none;
+  border-radius: 50%;
+  width: 44px;
+  height: 44px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: opacity var(--transition-fast);
+  flex-shrink: 0;
+}
+
+.stopButton:hover {
+  opacity: 0.85;
+}
+
+/* ---------------------------------------------------------------------------
+   Mic button + recording animation
+   --------------------------------------------------------------------------- */
+
+.micButton {
+  background: none;
+  border: 2px solid var(--color-accent);
+  color: var(--color-accent);
+  border-radius: 50%;
+  width: 44px;
+  height: 44px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: background var(--transition-fast), color var(--transition-fast), border-color var(--transition-fast);
+  flex-shrink: 0;
+  position: relative;
+}
+
+.micButton:hover {
+  background: rgba(99, 102, 241, 0.1);
+}
+
+/* Recording state — pulsing ring */
+.micButton[data-recording="true"] {
+  background: var(--color-error);
+  border-color: var(--color-error);
+  color: #fff;
+  animation: micPulse 1.5s ease-in-out infinite;
+}
+
+.micButton[data-recording="true"]::before {
+  content: '';
+  position: absolute;
+  inset: -4px;
+  border-radius: 50%;
+  border: 2px solid var(--color-error);
+  opacity: calc(0.2 + var(--audio-level, 0) * 0.6);
+  transform: scale(calc(1 + var(--audio-level, 0) * 0.4));
+  transition: transform 100ms ease-out, opacity 100ms ease-out;
+  pointer-events: none;
+}
+
+.micButton[data-recording="true"]::after {
+  content: '';
+  position: absolute;
+  inset: -8px;
+  border-radius: 50%;
+  border: 1px solid var(--color-error);
+  opacity: calc(0.1 + var(--audio-level, 0) * 0.3);
+  transform: scale(calc(1 + var(--audio-level, 0) * 0.3));
+  transition: transform 150ms ease-out, opacity 150ms ease-out;
+  pointer-events: none;
+}
+
+@keyframes micPulse {
+  0%, 100% { box-shadow: 0 0 0 0 rgba(239, 68, 68, 0.3); }
+  50% { box-shadow: 0 0 0 6px rgba(239, 68, 68, 0); }
+}
+
+/* Transcribing indicator (spinner in mic button position) */
+.transcribingIndicator {
+  width: 44px;
+  height: 44px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+}
+
+/* Focus-visible for icon-only buttons */
+.backButton:focus-visible,
+.shareButton:focus-visible,
+.scrollToBottom:focus-visible,
+.stopButton:focus-visible,
+.chatSendButton:focus-visible,
+.micButton:focus-visible,
+.attachButton:focus-visible,
+.voiceMicLarge:focus-visible,
+.voiceStopButton:focus-visible,
+.keyboardToggle:focus-visible {
+  outline: 2px solid var(--color-accent);
+  outline-offset: 2px;
+}
+
+/* States */
+.centered {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  flex: 1;
+  padding: var(--space-xl);
+  text-align: center;
+}
+
+.emptyText {
+  font-size: 0.9375rem;
+  color: var(--color-text-secondary);
+}
+
+.errorText {
+  font-size: 0.9375rem;
+  color: var(--color-error);
+  margin-bottom: var(--space-md);
+}
+
+.retryButton {
+  background: var(--color-accent);
+  color: #fff;
+  border: none;
+  border-radius: var(--radius-sm);
+  padding: 10px 20px;
+  font-size: 0.9375rem;
+  font-weight: 600;
+  font-family: var(--font-sans);
+  cursor: pointer;
+}
+
+.retryButton:hover {
+  background: var(--color-accent-hover);
+}
+
+/* Toast notification */
+.toast {
+  position: fixed;
+  bottom: calc(var(--nav-height, 56px) + var(--space-lg));
+  left: 50%;
+  transform: translateX(-50%);
+  background: var(--color-text-primary);
+  color: var(--color-bg);
+  padding: 10px 20px;
+  border-radius: var(--radius-md);
+  font-size: 0.875rem;
+  font-weight: 600;
+  z-index: 200;
+  animation: toastIn 0.2s ease-out;
+}
+
+@keyframes toastIn {
+  from {
+    opacity: 0;
+    transform: translateX(-50%) translateY(8px);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(-50%) translateY(0);
+  }
+}
+
+/* ---------------------------------------------------------------------------
+   Voice-first input bar
+   --------------------------------------------------------------------------- */
+
+.voiceFirstBar {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: var(--space-sm);
+  padding: var(--space-md) var(--space-md) var(--space-lg);
+  border-top: 1px solid var(--color-border);
+  background: var(--color-bg);
+  flex-shrink: 0;
+}
+
+.voiceMicLarge {
+  width: 64px;
+  height: 64px;
+  border-radius: 50%;
+  background: var(--color-accent);
+  color: #fff;
+  border: none;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  position: relative;
+  transition: background var(--transition-fast), transform 0.15s ease;
+}
+
+.voiceMicLarge:hover {
+  transform: scale(1.05);
+}
+
+.voiceMicLarge:active {
+  transform: scale(0.95);
+}
+
+.voiceMicLargeRecording {
+  background: var(--color-error);
+  animation: micPulse 1.5s ease-in-out infinite;
+}
+
+.voiceMicLargeRecording::before {
+  content: '';
+  position: absolute;
+  inset: -6px;
+  border-radius: 50%;
+  border: 2px solid var(--color-error);
+  opacity: calc(0.2 + var(--audio-level, 0) * 0.6);
+  transform: scale(calc(1 + var(--audio-level, 0) * 0.4));
+  transition: transform 100ms ease-out, opacity 100ms ease-out;
+  pointer-events: none;
+}
+
+.voiceMicLargeRecording::after {
+  content: '';
+  position: absolute;
+  inset: -12px;
+  border-radius: 50%;
+  border: 1px solid var(--color-error);
+  opacity: calc(0.1 + var(--audio-level, 0) * 0.3);
+  transform: scale(calc(1 + var(--audio-level, 0) * 0.3));
+  transition: transform 150ms ease-out, opacity 150ms ease-out;
+  pointer-events: none;
+}
+
+.voiceHint {
+  font-size: 0.8125rem;
+  color: var(--color-text-tertiary);
+}
+
+.voiceHintRecording {
+  font-size: 0.8125rem;
+  color: var(--color-error);
+  font-weight: 600;
+}
+
+.keyboardToggle {
+  background: none;
+  border: none;
+  color: var(--color-text-tertiary);
+  cursor: pointer;
+  padding: var(--space-sm);
+  border-radius: var(--radius-sm);
+  transition: color var(--transition-fast);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.keyboardToggle:hover {
+  color: var(--color-text-secondary);
+}
+
+.voiceStopButton {
+  width: 64px;
+  height: 64px;
+  border-radius: 50%;
+  background: var(--color-error);
+  color: #fff;
+  border: none;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: opacity var(--transition-fast);
+}
+
+.voiceStopButton:hover {
+  opacity: 0.85;
+}
+
+.voiceTranscribingState {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: var(--space-sm);
+  padding: var(--space-md) 0;
+  color: var(--color-text-secondary);
+  font-size: 0.8125rem;
+}
+
+/* Reduced motion — disable all animations */
+@media (prefers-reduced-motion: reduce) {
+  .micButton[data-recording="true"] {
+    animation: none;
+  }
+  .micButton[data-recording="true"]::before,
+  .micButton[data-recording="true"]::after {
+    transition: none;
+  }
+  .voiceMicLargeRecording {
+    animation: none;
+  }
+  .voiceMicLargeRecording::before,
+  .voiceMicLargeRecording::after {
+    transition: none;
+  }
+  .statusBanner {
+    animation: none;
+  }
+
+  .shareLoadingIcon {
+    animation: none;
+  }
+}
+
+@media (min-width: 1025px) {
+  .toast {
+    bottom: var(--space-xl);
+  }
+}
+
+@keyframes spin {
+  to {
+    transform: rotate(360deg);
+  }
+}

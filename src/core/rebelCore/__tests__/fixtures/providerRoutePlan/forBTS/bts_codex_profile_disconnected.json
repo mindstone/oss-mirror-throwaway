@@ -1,0 +1,39 @@
+{
+  "description": "BTS Codex profile disconnected fail-closed terminal",
+  "input": {
+    "codexConnectivity": "disconnected",
+    "model": "profile:codex-working",
+    "settings": {
+      "activeProvider": "anthropic",
+      "models": {
+        "apiKey": "sk-ant-test",
+        "authMethod": "api-key",
+        "model": "claude-sonnet-4-6",
+        "oauthToken": null
+      },
+      "localModel": {
+        "activeProfileId": null,
+        "profiles": [
+          {
+            "authSource": "codex-subscription",
+            "createdAt": 0,
+            "id": "codex-working",
+            "model": "gpt-5.5",
+            "name": "Codex Working",
+            "providerType": "openai",
+            "serverUrl": "https://api.openai.com/v1"
+          }
+        ]
+      },
+      "openRouter": {
+        "enabled": false,
+        "oauthToken": null,
+        "selectedModel": "anthropic/claude-sonnet-4.6"
+      },
+      "providerKeys": {
+        "openai": "sk-openai-linger"
+      }
+    }
+  },
+  "name": "bts_codex_profile_disconnected"
+}

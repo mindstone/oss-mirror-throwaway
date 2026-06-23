@@ -1,0 +1,95 @@
+.gallery {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin-top: 6px;
+  max-width: min(420px, 100%);
+}
+
+.thumbnailButton {
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-md);
+  background: var(--color-surface);
+  padding: 0;
+  overflow: hidden;
+  cursor: zoom-in;
+  max-width: min(220px, 100%);
+}
+
+.thumbnailButton:hover {
+  border-color: var(--color-accent);
+}
+
+.thumbnailImage {
+  display: block;
+  width: 100%;
+  height: auto;
+  max-width: 220px;
+  max-height: 200px;
+  object-fit: contain;
+  background: var(--color-bg);
+}
+
+.statusTile {
+  width: min(220px, 100%);
+  min-height: 120px;
+  border-radius: var(--radius-md);
+  border: 1px dashed var(--color-border);
+  background: var(--color-bg-elevated);
+  color: var(--color-text-tertiary);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  font-size: 12px;
+  padding: var(--space-sm);
+}
+
+.statusTileLoading {
+  color: var(--color-text-secondary);
+}
+
+.statusTileFailed {
+  color: var(--color-error);
+}
+
+.overlay {
+  position: fixed;
+  inset: 0;
+  z-index: 400;
+  background: rgba(0, 0, 0, 0.86);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: var(--space-xl);
+}
+
+.expandedImage {
+  width: auto;
+  height: auto;
+  max-width: min(100%, 980px);
+  max-height: calc(100vh - 80px);
+  border-radius: var(--radius-md);
+  object-fit: contain;
+  background: #000;
+}
+
+.closeButton {
+  position: absolute;
+  top: var(--space-lg);
+  right: var(--space-lg);
+  width: 36px;
+  height: 36px;
+  border: 1px solid rgba(255, 255, 255, 0.25);
+  border-radius: 999px;
+  background: rgba(0, 0, 0, 0.45);
+  color: #fff;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+}
+
+.closeButton:hover {
+  background: rgba(0, 0, 0, 0.6);
+}
